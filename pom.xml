@@ -101,7 +101,14 @@
         <type>zip</type>
     </dependency>
     
+    <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>5.1.22</version>
+    </dependency>
     
+    
+    <!-- Eliminar si cambia la version de Grails -->
 
 	<dependency>
 		<groupId>com.googlecode.concurrentlinkedhashmap</groupId>
