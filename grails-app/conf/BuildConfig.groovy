@@ -56,6 +56,7 @@ grails.project.dependency.resolution = {
         compile ":scaffolding:2.0.0"
         compile ':cache:1.1.1'
 	compile ":google-visualization:0.6.2"
+	compile ":csv:0.3.1"
 
         // plugins needed at runtime but not for compilation
         runtime ":hibernate:3.6.10.1" // or ":hibernate4:4.1.11.1"

@@ -2,6 +2,8 @@ package ar.com.mmingrone.estadisticasDerechosAutor
 
 class ImportarController {
 
+    def importarService
+
     def index() { }
 
 	def upload() {
@@ -12,17 +14,7 @@ class ImportarController {
 		return
 	    }
 
-StringBuffer tirar = new StringBuffer();
-
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(f.getInputStream()));
-	    String linea = reader.readLine();
-
-	    while(linea != null){
-		tirar.append(linea);
-		linea = reader.readLine();
-	    }
-
-	    //f.transferTo(new File('/some/local/dir/myfile.txt')) 
-	    render(view: 'exito', model:['tirar':tirar.toString()]) 
+	    String resultado = importarService.importarArchivo(f.getInputStream()) 
+	    render(view: 'exito', model:['tirar':resultado]) 
     }
 }

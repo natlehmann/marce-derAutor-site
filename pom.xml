@@ -175,6 +175,14 @@
         <scope>compile</scope>
         <type>zip</type>
     </dependency>
+
+    <dependency>
+        <groupId>org.grails.plugins</groupId>
+        <artifactId>csv</artifactId>
+        <version>0.3.1</version>
+        <scope>compile</scope>
+        <type>zip</type>
+    </dependency>
     
 
     </dependencies>
