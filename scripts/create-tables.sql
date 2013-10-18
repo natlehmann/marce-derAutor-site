@@ -1,6 +1,14 @@
 create table usuario(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre varchar(255),
-	password varchar(255),
+	nombre varchar(255) not null,
+	password varchar(255) not null,
+	version bigint
+)  TYPE=innodb;
+
+CREATE UNIQUE INDEX UK_usuario_nombre ON usuario(nombre);
+
+create table autor(
+	id BIGINT NOT NULL PRIMARY KEY,
+	nombre varchar(255) not null,
 	version bigint
 )  TYPE=innodb;
