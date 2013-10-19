@@ -19,6 +19,18 @@ public class UnidadesVendidasPorAutor extends Entidad {
 	
 	@ManyToOne
 	private Autor autor;
+	
+	public UnidadesVendidasPorAutor(){}
+
+	public UnidadesVendidasPorAutor(Autor autor, Pais pais, Integer anio, Integer trimestre, 
+			long cantidadUnidades) {
+		super();
+		this.autor = autor;
+		this.pais = pais;
+		this.anio = anio;
+		this.trimestre = trimestre;
+		this.cantidadUnidades = cantidadUnidades;
+	}
 
 	public Long getCantidadUnidades() {
 		return cantidadUnidades;
