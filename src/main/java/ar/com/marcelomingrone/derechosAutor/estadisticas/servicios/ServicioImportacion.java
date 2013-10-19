@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import au.com.bytecode.opencsv.CSVReader;
 
 @Service
@@ -21,6 +23,9 @@ public class ServicioImportacion {
 	
 	@Autowired
 	private AutorDao autorDao;
+	
+	@Autowired
+	private PaisDao paisDao;
 
 	private static final int COMPANY_ID_INDEX = 0;
 	private static final int COUNTRY_ID_INDEX = 1;
@@ -64,11 +69,17 @@ public class ServicioImportacion {
 				} else {
 					
                     try {
-                    		Long idAutor = parsearIdAutor(linea[ARTIST_ID_INDEX], contadorLineas);
+                    		Long idAutor = parsearLong(linea[ARTIST_ID_INDEX], contadorLineas, "id de autor");
                             String nombreAutor = linea[ARTIST_NAME_INDEX];
 
                             Autor autor = new Autor(idAutor, nombreAutor);
                             autorDao.guardar(autor);
+                            
+                            Long idPais = parsearLong(linea[COUNTRY_ID_INDEX], contadorLineas, "id de pais");
+                            String nombrePais = linea[COUNTRY_NAME_INDEX];
+                            
+                            Pais pais = new Pais(idPais, nombrePais);
+                            paisDao.guardar(pais);
                             
                     } catch (ImportacionException e) {
                             resultado.append(e.getMessage()).append(SEPARADOR_LINEAS);
@@ -99,18 +110,19 @@ public class ServicioImportacion {
 	}
 
 
-	private Long parsearIdAutor(String idAutor, long contadorLineas) throws ImportacionException {
+	private Long parsearLong(String idStr, long contadorLineas, String nombreCampo) 
+			throws ImportacionException {
 		
 		Long id = null;
 		
-		if (!StringUtils.isEmpty(idAutor)) {
+		if (!StringUtils.isEmpty(idStr)) {
 			
 			try {
-				id = Long.parseLong(idAutor);
+				id = Long.parseLong(idStr);
 				
 			} catch (NumberFormatException e) {
 				throw new ImportacionException("Error en linea " + contadorLineas + 
-						": El id de autor no es un entero válido");
+						": El " + nombreCampo + " no es un entero válido");
 			}
 		}
 		
