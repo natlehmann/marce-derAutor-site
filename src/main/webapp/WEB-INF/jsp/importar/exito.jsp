@@ -1,1 +1,1 @@
-esto es un exito
+${resultado}

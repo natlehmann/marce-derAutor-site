@@ -25,4 +25,12 @@ public class AutorDao {
 		return autores;
 	}
 
+	@Transactional
+	public Autor guardar(Autor autor) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(autor);
+		
+		return autor;
+	}
+
 }
