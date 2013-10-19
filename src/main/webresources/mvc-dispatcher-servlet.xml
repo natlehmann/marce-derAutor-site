@@ -11,6 +11,7 @@
 
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.controllers" />
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.dao" />
+	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.validadores" />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -20,6 +21,15 @@
 		<property name="suffix">
 			<value>.jsp</value>
 		</property>
+	</bean>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="2048000"/>
+	</bean>
+	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
