@@ -21,5 +21,12 @@ public class PaisDao {
 		
 		return pais;
 	}
+	
+	@Transactional
+	public void borrarTodo() {
+		
+		Session session = sessionFactory.getCurrentSession();		
+		session.createSQLQuery("delete from Pais").executeUpdate();		
+	}
 
 }

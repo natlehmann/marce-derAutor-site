@@ -33,4 +33,11 @@ public class UnidadesVendidasPorAutorDao {
 		}
 	}
 
+	@Transactional
+	public void borrarTodo() {
+		
+		Session session = sessionFactory.getCurrentSession();		
+		session.createSQLQuery("delete from UnidadesVendidasPorAutor").executeUpdate();	
+	}
+
 }

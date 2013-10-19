@@ -75,7 +75,7 @@ public class ServicioImportacion {
 	
 	public String importarDatos(InputStream inputStream) {
 		
-		// TODO: PRIMERO BORRAR TODO !!!!
+		eliminarTodo();
 		
 		StringBuffer resultado = new StringBuffer();
 		
@@ -151,6 +151,15 @@ public class ServicioImportacion {
 		}
 		
 		return resultado.toString();
+	}
+
+
+	private void eliminarTodo() {
+		
+		unidadesVendidasPorAutorDao.borrarTodo();
+		paisDao.borrarTodo();
+		autorDao.borrarTodo();
+		
 	}
 
 

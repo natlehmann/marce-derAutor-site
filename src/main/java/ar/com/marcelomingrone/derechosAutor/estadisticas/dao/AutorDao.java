@@ -32,5 +32,12 @@ public class AutorDao {
 		
 		return autor;
 	}
+	
+	@Transactional
+	public void borrarTodo() {
+		
+		Session session = sessionFactory.getCurrentSession();		
+		session.createSQLQuery("delete from Autor").executeUpdate();		
+	}
 
 }
