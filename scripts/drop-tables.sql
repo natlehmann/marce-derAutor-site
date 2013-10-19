@@ -1,0 +1,2 @@
+DROP TABLE Usuario;
+DROP TABLE Autor;
