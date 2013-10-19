@@ -117,7 +117,7 @@ public class ServicioImportacion {
                             
                             long unidades = parsearLong(linea[UNITS_INDEX], contadorLineas, "unidades");
                             long externalCode = parsearLong(linea[EXTERNAL_CODE_INDEX], contadorLineas, "externalCode");
-                            double copyrightShares = parsearMoneda(linea[COPYRIGHT_SHARE_INDEX], contadorLineas, "copyrightShares");
+                            double copyrightShares = parsearValorConComas(linea[COPYRIGHT_SHARE_INDEX], contadorLineas, "copyrightShares");
                             
                             long cantidadUnidades = (long) Math.floor(unidades * externalCode * (copyrightShares/100));
                             
@@ -233,7 +233,7 @@ public class ServicioImportacion {
 	}
 
 
-	private int getTrimestre(Date fecha) {
+	int getTrimestre(Date fecha) {
 		
 		int trimestre = -1;
 		
@@ -311,15 +311,15 @@ public class ServicioImportacion {
 	}
 
 
-	private double parsearMoneda(String valor, long contadorLineas,
+	double parsearValorConComas(String valor, long contadorLineas,
 			String nombreCampo) throws ImportacionException {
 		
-		double moneda = -1;
+		double valorConvertido = 0;
 		
 		if (!StringUtils.isEmpty(valor)) {
 			
 			try {
-				moneda = formateadorDecimales.parse(valor).doubleValue();
+				valorConvertido = formateadorDecimales.parse(valor).doubleValue();
 				
 			} catch (ParseException e) {
 				throw new ImportacionException("Error en linea " + contadorLineas + 
@@ -327,11 +327,11 @@ public class ServicioImportacion {
 			}
 		}
 		
-		return moneda;
+		return valorConvertido;
 	}
 
 
-	private long parsearLong(String idStr, long contadorLineas, String nombreCampo) 
+	long parsearLong(String idStr, long contadorLineas, String nombreCampo) 
 			throws ImportacionException {
 		
 		long id = -1;
@@ -345,6 +345,10 @@ public class ServicioImportacion {
 				throw new ImportacionException("Error en linea " + contadorLineas + 
 						": El " + nombreCampo + " no es un entero válido");
 			}
+			
+		} else {
+			throw new ImportacionException("Error en linea " + contadorLineas 
+					+ ": El campo " + nombreCampo + " no puede estar vacio.");
 		}
 		
 		return id;
