@@ -33,13 +33,11 @@
 		<property name="basename" value="messages" />
 	</bean>
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://${db.host}:3306/${db.schema}" />
 		<property name="username" value="${db.user}" />
 		<property name="password" value="${db.password}" />
-		<property name="validationQuery" value="SELECT 1" />
 	</bean>
 
 	<!-- Hibernate Session Factory -->
