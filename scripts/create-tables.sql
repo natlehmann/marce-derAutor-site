@@ -6,6 +6,21 @@ create table Usuario(
 
 CREATE UNIQUE INDEX UK_usuario_nombre ON Usuario(nombre);
 
+create table Rol(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(255) not null
+)  ENGINE=InnoDB;
+
+CREATE UNIQUE INDEX UK_rol_nombre ON Rol(nombre);
+
+create table Usuario_Rol(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	usuario_id BIGINT NOT NULL,
+	rol_id BIGINT NOT NULL,
+	FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
+	FOREIGN KEY (rol_id) REFERENCES Rol(id)
+)  ENGINE=InnoDB;
+
 create table Autor(
 	id BIGINT NOT NULL PRIMARY KEY,
 	nombre varchar(255) not null
