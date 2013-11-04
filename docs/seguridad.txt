@@ -1,0 +1,11 @@
+*******************************************************************************************
+PARA GENERAR PASSWORDS
+*******************************************************************************************
+
+1) Si no está disponible, instalar scala: sudo apt-get install scala
+
+2) scala -cp /home/administrator/.m2/repository/org/springframework/security/spring-security-core/3.1.4.RELEASE/spring-security-core-3.1.4.RELEASE.jar
+
+3) val encoder = new org.springframework.security.crypto.password.StandardPasswordEncoder
+
+4) encoder.encode("la-password")
