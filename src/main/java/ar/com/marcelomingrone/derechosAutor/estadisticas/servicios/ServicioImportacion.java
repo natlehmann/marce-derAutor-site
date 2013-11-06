@@ -51,12 +51,15 @@ public class ServicioImportacion {
 	private static final int WORK_NAME_INDEX = 6;
 	private static final int ARTIST_ID_INDEX = 7;
 	private static final int ARTIST_NAME_INDEX = 8;
-	private static final int SOURCE_NAME_INDEX = 9;
-	private static final int COPYRIGHT_SHARE_INDEX = 10;
-	private static final int UNITS_INDEX = 11;
-	private static final int EXTERNAL_CODE_INDEX = 12;
+	private static final int SOURCE_ID_INDEX = 9;
+	private static final int SOURCE_NAME_INDEX = 10;
+	private static final int COPYRIGHT_SHARE_INDEX = 11;
+	private static final int UNITS_INDEX = 12;
+	private static final int EXTERNAL_CODE_INDEX = 13;
+	private static final int CURRENCY_FACTOR_INDEX = 14;
+	private static final int LOCAL_CURRENCY_INDEX = 15;
 
-	private static final int CANTIDAD_CAMPOS = 13;
+	private static final int CANTIDAD_CAMPOS = 16;
 
 	private static final String SEPARADOR_LINEAS = "<br/>";
 	
