@@ -45,3 +45,14 @@ create table UnidadesVendidasPorAutor(
 	FOREIGN KEY (autor_id) REFERENCES Autor(id)
 )  ENGINE=InnoDB;
 
+create table PercibidoPorAutor(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	monto DECIMAL(10,2) default 0,
+	anio int not null,
+	trimestre int not null,
+	pais_id BIGINT NOT NULL,
+	autor_id BIGINT NOT NULL,
+	FOREIGN KEY (pais_id) REFERENCES Pais(id),
+	FOREIGN KEY (autor_id) REFERENCES Autor(id)
+)  ENGINE=InnoDB;
+

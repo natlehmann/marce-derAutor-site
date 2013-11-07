@@ -22,9 +22,11 @@ import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PercibidoPorAutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.UnidadesVendidasPorAutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PercibidoPorAutor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.UnidadesVendidasPorAutor;
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -41,6 +43,9 @@ public class ServicioImportacion {
 	
 	@Autowired
 	private UnidadesVendidasPorAutorDao unidadesVendidasPorAutorDao;
+	
+	@Autowired
+	private PercibidoPorAutorDao percibidoPorAutorDao;
 
 	private static final int COMPANY_ID_INDEX = 0;
 	private static final int COUNTRY_ID_INDEX = 1;
@@ -88,6 +93,7 @@ public class ServicioImportacion {
 			long contadorLineas = 1;
 			
 			Map<Integer, Map<Integer, Map<Pais, Map<Autor, Long>>>> acumuladorUnidades = new HashMap<>();
+			Map<Integer, Map<Integer, Map<Pais, Map<Autor, Double>>>> acumuladorMonto = new HashMap<>();
 		
 			String[] linea = csvReader.readNext();
 			while (linea != null) {
@@ -126,6 +132,13 @@ public class ServicioImportacion {
                             
                             acumularCantidadUnidades(acumuladorUnidades, anio, trimestre, pais, autor, cantidadUnidades);
                             
+                            double currencyFactor = parsearValorConComas(linea[CURRENCY_FACTOR_INDEX], contadorLineas, "currencyFactor");
+                            double localCurrency = parsearValorConComas(linea[LOCAL_CURRENCY_INDEX], contadorLineas, "localCurrency");
+                            
+                            double monto = currencyFactor * localCurrency * (copyrightShares/100);
+                            
+                            acumularMonto(acumuladorMonto, anio, trimestre, pais, autor, monto);
+                            
                     } catch (ImportacionException e) {
                             resultado.append(e.getMessage()).append(SEPARADOR_LINEAS);
                     }
@@ -135,7 +148,7 @@ public class ServicioImportacion {
 				contadorLineas++;
 			}
 			
-			persistirAcumuladores(acumuladorUnidades);
+			persistirAcumuladores(acumuladorUnidades, acumuladorMonto);
 			
 			if (resultado.toString().equals("")) {
 				resultado.append("El archivo se ha importado correctamente.");
@@ -157,9 +170,49 @@ public class ServicioImportacion {
 	}
 
 
+	private void acumularMonto(
+			Map<Integer, Map<Integer, Map<Pais, Map<Autor, Double>>>> acumuladorMonto,
+			int anio, int trimestre, Pais pais, Autor autor, double monto) {
+		
+		Map<Integer, Map<Pais, Map<Autor, Double>>> valoresPorAnio = acumuladorMonto.get(Integer.valueOf(anio));
+		
+		if (valoresPorAnio == null) {
+			valoresPorAnio = new HashMap<>();
+			acumuladorMonto.put(Integer.valueOf(anio), valoresPorAnio);
+		}
+		
+		Map<Pais, Map<Autor, Double>> valoresPorTrimestre = valoresPorAnio.get(Integer.valueOf(trimestre));
+		
+		if (valoresPorTrimestre == null) {
+			valoresPorTrimestre = new HashMap<>();
+			valoresPorAnio.put(Integer.valueOf(trimestre), valoresPorTrimestre);
+		}
+		
+		Map<Autor, Double> valoresPorPais = valoresPorTrimestre.get(pais);
+		
+		if (valoresPorPais == null) {
+			valoresPorPais = new HashMap<>();
+			valoresPorTrimestre.put(pais, valoresPorPais);
+		}
+		
+		Double montoPorAutor = valoresPorPais.get(autor);
+		
+		if (montoPorAutor == null) {
+			montoPorAutor = new Double(monto);
+			
+		} else {
+			montoPorAutor = new Double(montoPorAutor.doubleValue() + monto);
+		}
+		
+		valoresPorPais.put(autor, montoPorAutor);
+		
+	}
+
+
 	private void eliminarTodo() {
 		
 		unidadesVendidasPorAutorDao.borrarTodo();
+		percibidoPorAutorDao.borrarTodo();
 		paisDao.borrarTodo();
 		autorDao.borrarTodo();
 		
@@ -167,7 +220,8 @@ public class ServicioImportacion {
 
 
 	private void persistirAcumuladores(
-			Map<Integer, Map<Integer, Map<Pais, Map<Autor, Long>>>> acumuladorUnidades) {
+			Map<Integer, Map<Integer, Map<Pais, Map<Autor, Long>>>> acumuladorUnidades,
+			Map<Integer, Map<Integer, Map<Pais, Map<Autor, Double>>>> acumuladorMonto) {
 		
 		List<UnidadesVendidasPorAutor> unidades = new LinkedList<>();
 		
@@ -193,6 +247,32 @@ public class ServicioImportacion {
 		}
 		
 		unidadesVendidasPorAutorDao.guardar(unidades);
+		
+		
+		List<PercibidoPorAutor> montosPercibidos = new LinkedList<>();
+		
+		for (Integer anio : acumuladorMonto.keySet()) {
+			
+			Map<Integer, Map<Pais, Map<Autor, Double>>> porTrimestre = acumuladorMonto.get(anio);
+			for (Integer trimestre : porTrimestre.keySet()) {
+				
+				Map<Pais, Map<Autor, Double>> porPais = porTrimestre.get(trimestre);
+				for (Pais pais : porPais.keySet()) {
+					
+					Map<Autor, Double> porAutor = porPais.get(pais);
+					for (Autor autor : porAutor.keySet()) {
+						
+						Double monto = porAutor.get(autor);
+						PercibidoPorAutor percibido = new PercibidoPorAutor(
+								autor, pais, anio, trimestre, monto);
+						
+						montosPercibidos.add(percibido);
+					}
+				}
+			}
+		}
+		
+		percibidoPorAutorDao.guardar(montosPercibidos);
 		
 	}
 

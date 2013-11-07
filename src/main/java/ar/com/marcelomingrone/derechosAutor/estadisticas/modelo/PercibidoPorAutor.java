@@ -5,11 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class UnidadesVendidasPorAutor extends Entidad {
+public class PercibidoPorAutor extends Entidad {
+	
+	private static final long serialVersionUID = -2953162102484559154L;
 
-	private static final long serialVersionUID = 6732625702256780282L;
-
-	private long cantidadUnidades;
+	private Double monto;
 	
 	@Column(nullable=false)
 	private Integer anio;
@@ -23,24 +23,24 @@ public class UnidadesVendidasPorAutor extends Entidad {
 	@ManyToOne(optional=false)
 	private Autor autor;
 	
-	public UnidadesVendidasPorAutor(){}
+	public PercibidoPorAutor() {}
 
-	public UnidadesVendidasPorAutor(Autor autor, Pais pais, Integer anio, Integer trimestre, 
-			long cantidadUnidades) {
-		super();
+	public PercibidoPorAutor(Autor autor, Pais pais, Integer anio,
+			Integer trimestre, Double monto) {
+		
 		this.autor = autor;
 		this.pais = pais;
 		this.anio = anio;
 		this.trimestre = trimestre;
-		this.cantidadUnidades = cantidadUnidades;
+		this.monto = monto;
 	}
 
-	public Long getCantidadUnidades() {
-		return cantidadUnidades;
+	public Double getMonto() {
+		return monto;
 	}
 
-	public void setCantidadUnidades(Long cantidadUnidades) {
-		this.cantidadUnidades = cantidadUnidades;
+	public void setMonto(Double monto) {
+		this.monto = monto;
 	}
 
 	public Integer getAnio() {
@@ -75,5 +75,5 @@ public class UnidadesVendidasPorAutor extends Entidad {
 		this.autor = autor;
 	}
 	
-	
+
 }
