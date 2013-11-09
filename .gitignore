@@ -7,3 +7,5 @@
 /target
 /scripts/passwords.txt
 settings.xml
+src/test/resources/importacion.csv
+
