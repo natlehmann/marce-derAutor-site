@@ -1,38 +1,49 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Cancion;
 
 @Repository
-public class PaisDao {
+public class CancionDao {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Transactional
-	public Pais guardar(Pais pais) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(pais);
+	public List<Cancion> getTodos() {
 		
-		return pais;
+		Session session = sessionFactory.getCurrentSession();
+		List canciones = session.createQuery("from Cancion").list();
+		return canciones;
+	}
+
+	@Transactional
+	public Cancion guardar(Cancion cancion) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(cancion);
+		
+		return cancion;
 	}
 	
 	@Transactional
 	public void borrarTodo() {
 		
 		Session session = sessionFactory.getCurrentSession();		
-		session.createSQLQuery("delete from Pais").executeUpdate();		
+		session.createSQLQuery("delete from Cancion").executeUpdate();		
 	}
 	
 	@Transactional
-	public Pais buscar(Long id) {
+	public Cancion buscar(Long id) {
 		Session session = sessionFactory.getCurrentSession();
-		return (Pais) session.get(Pais.class, id);
+		return (Cancion) session.get(Cancion.class, id);
 	}
 
 }

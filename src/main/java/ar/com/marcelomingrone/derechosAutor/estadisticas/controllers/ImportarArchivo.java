@@ -1,61 +1,82 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.async.DeferredResult;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ArchivoImportacion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ServicioImportacion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.validadores.ValidadorArchivoImportacion;
 
 @Controller
 @RequestMapping("/admin")
 public class ImportarArchivo {
 	
+	private static final String RUTA_IMPORTACION = "../importacion/";
+
 	private static Log log = LogFactory.getLog(ImportarArchivo.class);
 	
-	@Autowired
-	private ValidadorArchivoImportacion validador;
+	
+//	@Autowired
+//	private ServicioImportacion servicioImportacion;
 	
 	@Autowired
-	private ServicioImportacion servicioImportacion;
+	private JobLauncher jobLauncher;
+	
+	@Autowired
+	@Qualifier("importacionJob")
+	private Job importacionJob;
 
 	@RequestMapping("/importar")
-	public String armarFormulario(@ModelAttribute("archivo") ArchivoImportacion archivo) {
+	public String armarFormulario(ModelMap model) {
+		
+		File file = new File(RUTA_IMPORTACION);
+		model.addAttribute("archivos", file.list());
+		
 		return "importar/form";
 	}
 	
-	@RequestMapping("/upload")
-	public String upload(@ModelAttribute("archivo") ArchivoImportacion archivo, 
-			BindingResult bindingResult, Model model) {
+	@RequestMapping("/iniciar_importacion")
+	@ResponseBody
+	public DeferredResult<String> iniciarImportacion(@RequestParam("archivo")String archivo, Model model) {
 		
-		MultipartFile file = archivo.getFile();  
-		validador.validate(archivo, bindingResult); 
+		DeferredResult<String> deferredResult = new DeferredResult<>();
+		ejecutarImportacion(archivo, deferredResult);
 		
-		if (bindingResult.hasErrors()) {  
-			return "importar/form";  
-			
-		} else {
-			
-			try {
-				String resultado = servicioImportacion.importarDatos(file.getInputStream());
-				model.addAttribute("resultado", resultado);
-				
-			} catch (IOException e) {
-				model.addAttribute("resultado", "Se produjo un error procesando el archivo a importar.");
-				log.error("Se produjo un error procesando el archivo a importar.", e);
-			}
+		return deferredResult;
+		
+//		return "importar/exito";
+		
+	}
+
+	
+	private void ejecutarImportacion(String nombreArchivo,
+			DeferredResult<String> deferredResult) {
+
+		try {
+			// TODO: PASAR NOMBRE DE ARCHIVO COMO PARAMETRO ????
+			// RESOLVER RELACIONES ENTIDADES !!!!!!!!!!
+			JobExecution execution = jobLauncher.run(importacionJob, new JobParameters());
+			deferredResult.setResult("Exit Status : " + execution.getStatus());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			deferredResult.setResult("error");
 		}
-		
-		return "importar/exito";
-		
+
 	}
 }

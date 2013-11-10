@@ -1,7 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.servicios;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -17,6 +16,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +24,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PercibidoPorAutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.UnidadesVendidasPorAutorDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ArchivoImportacion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PercibidoPorAutor;
@@ -81,13 +82,16 @@ public class ServicioImportacion {
 	}
 	
 	
-	public String importarDatos(InputStream inputStream) {
+	@Async
+	public String importarDatos(ArchivoImportacion archivoImportacion) {
+		
+		archivoImportacion.setInicio(new Date());
 		
 		eliminarTodo();
 		
 		StringBuffer resultado = new StringBuffer();
 		
-		CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream));
+		CSVReader csvReader = new CSVReader(new InputStreamReader(archivoImportacion.getInputStream()));
 		
 		try {
 			long contadorLineas = 1;
@@ -97,6 +101,8 @@ public class ServicioImportacion {
 		
 			String[] linea = csvReader.readNext();
 			while (linea != null) {
+				
+				archivoImportacion.setLineaProcesada(contadorLineas);
 				
 				if(linea.length < CANTIDAD_CAMPOS) {
                     resultado.append("La linea ").append(contadorLineas)
@@ -165,6 +171,8 @@ public class ServicioImportacion {
 				log.error(e.getMessage(), e);
 			}
 		}
+		
+		archivoImportacion.setFin(new Date());
 		
 		return resultado.toString();
 	}

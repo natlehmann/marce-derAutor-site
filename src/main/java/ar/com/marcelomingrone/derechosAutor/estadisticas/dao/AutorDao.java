@@ -40,4 +40,10 @@ public class AutorDao {
 		session.createSQLQuery("delete from Autor").executeUpdate();		
 	}
 
+	@Transactional
+	public Autor buscar(Long id) {
+		Session session = sessionFactory.getCurrentSession();
+		return (Autor) session.get(Autor.class, id);
+	}
+
 }

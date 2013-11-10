@@ -3,14 +3,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
-	<form:form method="POST" modelAttribute="archivo" enctype="multipart/form-data"
-		action="upload">
+	<form:form method="POST" action="iniciar_importacion">
  
 		<form:errors path="*" cssClass="errorblock" element="div" />
- 
-		Please select a file to upload : <input type="file" name="file" />
-		<input type="submit" value="upload" />
-		<span><form:errors path="file" cssClass="error" />
-		</span>
+		
+		<label>Seleccione un archivo para importar:</label>
+		
+		<select name="archivo">
+			<c:forEach items="${archivos}" var="archivo">
+				<option value="${archivo}">${archivo}</option>
+			</c:forEach>
+		</select>
+		
+		<input type="submit" value="Aceptar" />
  
 	</form:form>
