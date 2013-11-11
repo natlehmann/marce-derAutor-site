@@ -15,6 +15,7 @@
 				<db.schema></db.schema>
 				<db.user></db.user>
 				<db.password></db.password>
+				<tomcat.home></tomcat.home>
 			</properties>
 		</profile>
 	</profiles>

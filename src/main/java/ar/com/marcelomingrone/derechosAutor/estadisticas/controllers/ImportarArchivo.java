@@ -3,12 +3,16 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
+import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -68,10 +72,13 @@ public class ImportarArchivo {
 			DeferredResult<String> deferredResult) {
 
 		try {
-			// TODO: PASAR NOMBRE DE ARCHIVO COMO PARAMETRO ????
 			// COMO PRIMER PASO BORRAR TODO -> VER TASKLET QUE BORRABA DIRECTORIO
 			// PROGRESS BAR ???
-			JobExecution execution = jobLauncher.run(importacionJob, new JobParameters());
+			
+			JobParametersBuilder builder = new JobParametersBuilder()
+				.addString("nombreArchivo", nombreArchivo);
+			
+			JobExecution execution = jobLauncher.run(importacionJob, builder.toJobParameters());
 			deferredResult.setResult("Exit Status : " + execution.getStatus());
 
 		} catch (Exception e) {
