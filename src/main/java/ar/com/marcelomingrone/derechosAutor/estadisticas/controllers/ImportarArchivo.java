@@ -69,7 +69,8 @@ public class ImportarArchivo {
 
 		try {
 			// TODO: PASAR NOMBRE DE ARCHIVO COMO PARAMETRO ????
-			// RESOLVER RELACIONES ENTIDADES !!!!!!!!!!
+			// COMO PRIMER PASO BORRAR TODO -> VER TASKLET QUE BORRABA DIRECTORIO
+			// PROGRESS BAR ???
 			JobExecution execution = jobLauncher.run(importacionJob, new JobParameters());
 			deferredResult.setResult("Exit Status : " + execution.getStatus());
 

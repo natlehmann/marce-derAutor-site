@@ -32,25 +32,25 @@ public class DatosCancionProcessor implements ItemProcessor<DatosCancion, DatosC
 		
 		Autor autor = autorDao.buscar(datos.getAutor().getId());
 		if (autor == null) {
-			autor = autorDao.guardar(autor);
+			autor = autorDao.guardar(datos.getAutor());
 		}		
 		datos.setAutor(autor);
 		
 		Pais pais = paisDao.buscar(datos.getPais().getId());
 		if (pais == null) {
-			pais = paisDao.guardar(pais);
+			pais = paisDao.guardar(datos.getPais());
 		}		
 		datos.setPais(pais);
 		
 		Cancion cancion = cancionDao.buscar(datos.getCancion().getId());
 		if (cancion == null) {
-			cancion = cancionDao.guardar(cancion);
+			cancion = cancionDao.guardar(datos.getCancion());
 		}
 		datos.setCancion(cancion);
 		
 		Fuente fuente = fuenteDao.buscar(datos.getFuente().getId());
 		if (fuente == null) {
-			fuente = fuenteDao.guardar(fuente);
+			fuente = fuenteDao.guardar(datos.getFuente());
 		}
 		datos.setFuente(fuente);
 		

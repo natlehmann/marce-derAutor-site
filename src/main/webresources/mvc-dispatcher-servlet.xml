@@ -72,8 +72,8 @@
 	<!-- Batch jobs -->
 
 	<jdbc:initialize-database data-source="dataSource">
-		<jdbc:script location="org/springframework/batch/core/schema-drop-mysql.sql" />
-		<jdbc:script location="org/springframework/batch/core/schema-mysql.sql" />
+		<jdbc:script location="classpath:org/springframework/batch/core/schema-drop-mysql.sql" />
+		<jdbc:script location="classpath:org/springframework/batch/core/schema-mysql.sql" />
 	</jdbc:initialize-database>
 	
 	<bean id="jobRepository"
@@ -90,8 +90,14 @@
 
 	<bean id="datosCancion" scope="prototype"
 		class="ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion" />
+		
 	<bean id="datosCancionProcessor"
 		class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.DatosCancionProcessor" />
+		
+	<bean id="datosCancionDao"
+		class="ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao">
+		<beans:property name="sessionFactory" ref="sessionFactory" />	
+	</bean>
 
 	<batch:job id="importacionJob">
 		<batch:step id="step1">
@@ -106,7 +112,7 @@
 
 	<bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
 
-		<property name="resource" value="../importacion/importacion.csv" />
+		<property name="resource" value="classpath:importacion.csv" />
 
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
@@ -118,8 +124,7 @@
 					</bean>
 				</property>
 				<property name="fieldSetMapper">
-					<bean
-						class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.DatosCancionMapper" />
+					<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.DatosCancionMapper" />
 				</property>
 			</bean>
 		</property>
@@ -127,21 +132,9 @@
 	</bean>
 
 
-	<bean id="mysqlItemWriter"
-		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
-		<property name="dataSource" ref="dataSource" />
-		<property name="sql">
-			<value>
-            <![CDATA[        
-            	insert into DatosCancion(companyId,trimestre,anio,formatId,cantidadUnidades,montoPercibido) 
-				values (:companyId,:trimestre,:anio,:formatId,:cantidadUnidades,:montoPercibido)
-            ]]>
-			</value>
-		</property>
-		<!-- It will take care matching between object property and sql name parameter -->
-		<property name="itemSqlParameterSourceProvider">
-			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
-		</property>
+	<bean id="mysqlItemWriter" class="org.springframework.batch.item.adapter.ItemWriterAdapter">
+	    <property name="targetObject" ref="datosCancionDao" />
+	    <property name="targetMethod" value="guardar" />
 	</bean>
 	
 </beans>

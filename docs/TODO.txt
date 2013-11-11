@@ -1,0 +1,2 @@
+- Verificar que los ids de Cancion, Autor, Pais, Fuente no cambien. Si cambian hay que borrar todas estas
+tablas al comenzar la importación.

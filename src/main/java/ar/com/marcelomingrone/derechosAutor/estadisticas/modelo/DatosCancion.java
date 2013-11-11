@@ -1,13 +1,16 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
-public class DatosCancion implements Serializable {
+@Entity
+public class DatosCancion extends Entidad {
 	
 	private static final long serialVersionUID = 918845849093099784L;
 
 	private Long companyId;
 	
+	@ManyToOne
 	private Pais pais;
 	
 	private int trimestre;
@@ -16,10 +19,13 @@ public class DatosCancion implements Serializable {
 	
 	private int formatId;
 	
+	@ManyToOne
 	private Autor autor;
 	
+	@ManyToOne
 	private Cancion cancion;
 	
+	@ManyToOne
 	private Fuente fuente;
 	
 	private long cantidadUnidades;
