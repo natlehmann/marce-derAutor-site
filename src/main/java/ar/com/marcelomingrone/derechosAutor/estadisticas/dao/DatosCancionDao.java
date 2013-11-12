@@ -24,6 +24,13 @@ public class DatosCancionDao {
 		return datos;
 	}
 	
+	@Transactional
+	public void borrarTodo() {
+		
+		Session session = sessionFactory.getCurrentSession();		
+		session.createSQLQuery("delete from DatosCancion").executeUpdate();		
+	}
+	
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
