@@ -1,5 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -10,7 +11,7 @@ public class DatosCancion extends Entidad {
 
 	private Long companyId;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	private Pais pais;
 	
 	private int trimestre;
@@ -19,13 +20,13 @@ public class DatosCancion extends Entidad {
 	
 	private int formatId;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	private Autor autor;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	private Cancion cancion;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	private Fuente fuente;
 	
 	private long cantidadUnidades;

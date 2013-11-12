@@ -19,7 +19,7 @@ public class DatosCancionDao {
 	@Transactional
 	public DatosCancion guardar(DatosCancion datos) {
 		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(datos);
+		datos = (DatosCancion) session.merge(datos);
 		
 		return datos;
 	}
