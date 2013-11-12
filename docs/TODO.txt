@@ -1,2 +1,6 @@
 - Verificar que los ids de Cancion, Autor, Pais, Fuente no cambien. Si cambian hay que borrar todas estas
 tablas al comenzar la importación.
+
+- Que pasa si se inicia el batch dos veces? Como lo ejecutamos dos veces con el mismo nombre de archivo?
+
+- Boton para frenar el proceso

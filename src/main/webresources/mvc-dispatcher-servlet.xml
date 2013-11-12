@@ -12,6 +12,10 @@
     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 
 	<mvc:annotation-driven />
+	
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/images/" mapping="/images/**"/>
 
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.controllers" />
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.dao" />
