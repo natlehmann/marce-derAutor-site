@@ -10,34 +10,8 @@ $(function() {
 });
 
 function confirmarImportacion() {
+	$("#archivoAImportar").val( $("#nombreArchivo").val() );
 	$("#dialog-confirmacion").dialog("open");
-}
-
-function iniciarImportacion() {
-
-	cerrarDialog('dialog-confirmacion');
-	$("#statusImportacion").show();
-
-	$.ajax({
-		type : "POST",
-		url : $("#contexto").val() + "admin/iniciar_importacion",
-		async : false,
-		data : {
-			'archivo' : $("#nombreArchivo").val()
-		},
-		dataType : 'html',
-		success : function(data) {
-			
-			if (data != '') {
-				// se produjo un error
-				$("#resultadoImportacion").html(data);
-				
-			} else {
-				iniciarConsultaStatus();
-			}
-		}
-	});
-	
 }
 
 function iniciarConsultaStatus() {

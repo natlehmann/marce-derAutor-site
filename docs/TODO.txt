@@ -7,6 +7,4 @@ tablas al comenzar la importación.
 
 - Eliminar ServicioImportacion y pasar los tests a otro lado
 
-- Hacer que el boton Aceptar no sea mas por ajax y que no se pueda volver a apretar sin recargar la pag
 
--OJO: si no se ejecuta el js de getStatus nunca se guarda el historial

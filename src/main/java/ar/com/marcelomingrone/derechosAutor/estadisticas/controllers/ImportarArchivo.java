@@ -64,15 +64,18 @@ public class ImportarArchivo {
 	
 
 	@RequestMapping("/iniciar_importacion")
-	@ResponseBody
-	public String iniciarImportacion(@RequestParam("archivo")String archivo, HttpSession session) {
+	public String iniciarImportacion(@RequestParam("archivo")String archivo, 
+			HttpSession session, ModelMap model) {
 		
 		if ( !ejecutarImportacion(archivo, session) ) {
-			return "Se produjo un error importando el archivo. "
-					+ "Por favor consulte al administrador del sistema.";
+			model.addAttribute("errorImportacion", "Se produjo un error importando el archivo. "
+					+ "Por favor consulte al administrador del sistema.");
+			
+		} else {
+			model.addAttribute("enProceso", true);
 		}
 		
-		return "";
+		return "importar/form";
 	}
 	
 	

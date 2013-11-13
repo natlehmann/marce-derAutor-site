@@ -6,35 +6,56 @@
 
 <script type="text/javascript" src='<c:url value="/js/importar.js" />' ></script>	
 
-	<label>Seleccione un archivo para importar:</label>
+<c:if test="${enProceso and not errorImportacion}">
+<script type="text/javascript">
+$(function() {
+	iniciarConsultaStatus();
+});
+</script>
+</c:if>
+
+	<c:if test="${not enProceso}">
 	
-	<select name="archivo" id="nombreArchivo">
-		<c:forEach items="${archivos}" var="archivo">
-			<option value="${archivo}">${archivo}</option>
-		</c:forEach>
-	</select>
+		<label>Seleccione un archivo para importar:</label>
+		
+		<select name="archivo" id="nombreArchivo">
+			<c:forEach items="${archivos}" var="archivo">
+				<option value="${archivo}">${archivo}</option>
+			</c:forEach>
+		</select>
+		
+		<input type="button" value="Aceptar" onclick="confirmarImportacion()"/>
+		
+		<div id="dialog-confirmacion" style="display: none;" title="Está seguro?">
+			<form action='<c:url value="/admin/iniciar_importacion" />' method="post">
+				<p>
+				¿Está seguro que desea iniciar la importación?
+				Esto eliminará los datos actuales de la base.
+				</p>
+				
+				<input type="hidden" name="archivo" id="archivoAImportar">
+				<input type="submit" value="Aceptar">
+				<input type="button" value="Cancelar" onclick="cerrarDialog('dialog-confirmacion')" />
+			</form>
+		</div>
+		
+	</c:if>
 	
-	<input type="button" value="Aceptar" onclick="confirmarImportacion()"/>
 	
+	<c:if test="${enProceso}">
 	
-	<div id="dialog-confirmacion" style="display: none;" title="Está seguro?">
-		<p>
-		¿Está seguro que desea iniciar la importación?
-		Esto eliminará los datos actuales de la base.
-		</p>
-		<input type="button" value="Aceptar" onclick="iniciarImportacion()">
-		<input type="button" value="Cancelar" onclick="cerrarDialog('dialog-confirmacion')" />
-	</div>
-	
-	
-	<div id="statusImportacion" style="display: none;">
-		Se ha iniciado el proceso de importación. Esto puede llevar varios minutos. Por favor espere
-		hasta que le notifiquemos que el proceso ha finalizado.
-	</div>
-	
-	<div id="progressBar"></div>
-	
-	<div id="resultadoImportacion"></div>
+		<div id="statusImportacion">
+			Se ha iniciado el proceso de importación. Esto puede llevar varios minutos. Por favor espere
+			hasta que le notifiquemos que el proceso ha finalizado.
+		</div>
+		
+		<div id="progressBar"></div>
+		
+		<div id="resultadoImportacion">
+			<c:if test="${errorImportacion != null}">${errorImportacion}</c:if>
+		</div>
+		
+	</c:if>
  
  
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
