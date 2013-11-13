@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.HistorialImportacionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImportacion;
+
 @Controller
 @RequestMapping("/admin")
 public class ImportarArchivo {
@@ -32,6 +35,8 @@ public class ImportarArchivo {
 	
 	private static final String RUTA_IMPORTACION = "/importacion/";
 
+	@Autowired
+	private HistorialImportacionDao historialImportacionDao;
 	
 	
 	
@@ -73,13 +78,14 @@ public class ImportarArchivo {
 	@ResponseBody
 	public String statusImportacion(HttpSession session) {
 		
-		JobExecution execution = (JobExecution) session.getAttribute("jobExecution"); 
+		JobExecution execution = (JobExecution) session.getAttribute("jobExecution");
+		HistorialImportacion historial = (HistorialImportacion) session.getAttribute("historial");
 		
 		String msg = null;
 		
 		if (execution != null) {
 			if (execution.isRunning()) {
-				msg = "no termino";
+				msg = calcularProgreso(historial);
 				
 			} else {
 				
@@ -100,7 +106,16 @@ public class ImportarArchivo {
 						msg = "El proceso no finalizó correctamente. Por favor consulte al administrador del sistema.";
 				}
 				
+				historial.setFin(execution.getEndTime());
+				historial.setResultado(status.toString());
+				historial.setDuracion(historial.getFin().getTime() - historial.getInicio().getTime());
+				historial.setDuracionEstimada1024bytes(
+						1024 * historial.getDuracion() / historial.getTamanioArchivo());
+				
+				historialImportacionDao.guardar(historial);
+				
 				session.setAttribute("jobExecution", null);
+				session.setAttribute("historial", null);
 			}
 				
 		}
@@ -109,6 +124,21 @@ public class ImportarArchivo {
 	}
 
 	
+
+	private String calcularProgreso(HistorialImportacion historial) {
+		
+		if (historial.getDuracionEstimada() == 0) {
+			return "0";
+		}
+		
+		Date ahora = new Date();
+		long tiempoTranscurrido = ahora.getTime() - historial.getInicio().getTime();
+		
+		long progreso = tiempoTranscurrido * 100 / historial.getDuracionEstimada();
+		
+		return String.valueOf(progreso);
+	}
+
 	private boolean ejecutarImportacion(String nombreArchivo, HttpSession session) {
 		
 		JobExecution execution = null;
@@ -120,7 +150,11 @@ public class ImportarArchivo {
 				.addDate("fechaEjecucion", new Date());
 			
 			execution = jobLauncher.run(importacionJob, builder.toJobParameters());
+			
+			HistorialImportacion historial = crearHistorial(nombreArchivo);
+			
 			session.setAttribute("jobExecution", execution);
+			session.setAttribute("historial", historial);
 
 		} catch (Exception e) {
 			
@@ -131,5 +165,21 @@ public class ImportarArchivo {
 		
 		return true;
 
+	}
+
+	private HistorialImportacion crearHistorial(String nombreArchivo) {
+		
+		HistorialImportacion historial = new HistorialImportacion();
+		historial.setNombreArchivo(nombreArchivo);
+		historial.setInicio(new Date());
+		
+		File archivo = new File(TOMCAT_HOME + RUTA_IMPORTACION + nombreArchivo);
+		historial.setTamanioArchivo(archivo.length());
+		
+		long duracion1024bytes = historialImportacionDao.getPromedioDuracionEstimadaPara1Kb();
+		historial.setDuracionEstimada(historial.getTamanioArchivo() * duracion1024bytes / 1024);
+		
+		return historial;
+		
 	}
 }

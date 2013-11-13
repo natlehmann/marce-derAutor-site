@@ -84,3 +84,15 @@ create table DatosCancion(
 	FOREIGN KEY (fuente_id) REFERENCES Fuente(id)
 )  ENGINE=InnoDB;
 
+
+create table HistorialImportacion(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombreArchivo varchar(255),
+	inicio datetime,
+	fin datetime,
+	duracion BIGINT,	
+	tamanioArchivo BIGINT,
+	duracionEstimada1024bytes BIGINT,
+	resultado varchar(255)
+)  ENGINE=InnoDB;
+
