@@ -1,4 +1,4 @@
-package ar.com.marcelomingrone.derechosAutor.estadisticas.servicios;
+package ar.com.marcelomingrone.derechosAutor.estadisticas.batch;
 
 import static org.junit.Assert.*;
 
@@ -6,9 +6,9 @@ import java.util.Calendar;
 
 import org.junit.Test;
 
-public class ServicioImportacionTest {
+public class DatosCancionMapperTest {
 	
-	private ServicioImportacion servicio = new ServicioImportacion();
+	private DatosCancionMapper mapper = new DatosCancionMapper();
 
 	@Test
 	public void getTrimestre1() {
@@ -21,7 +21,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
-		assertEquals(1, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(1, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -35,7 +35,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 59);
 		calendar.set(Calendar.MILLISECOND, 999);
 		
-		assertEquals(1, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(1, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
-		assertEquals(2, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(2, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 59);
 		calendar.set(Calendar.MILLISECOND, 999);
 		
-		assertEquals(2, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(2, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -73,7 +73,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
 		calendar.set(Calendar.MONTH, 6);
 		
-		assertEquals(3, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(3, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 59);
 		calendar.set(Calendar.MILLISECOND, 999);
 		
-		assertEquals(3, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(3, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -101,7 +101,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		
-		assertEquals(4, servicio.getTrimestre(calendar.getTime()));
+		assertEquals(4, mapper.getTrimestre(calendar.getTime()));
 	}
 	
 	@Test
@@ -115,57 +115,7 @@ public class ServicioImportacionTest {
 		calendar.set(Calendar.SECOND, 59);
 		calendar.set(Calendar.MILLISECOND, 999);
 		
-		assertEquals(4, servicio.getTrimestre(calendar.getTime()));
-	}
-	
-	@Test(expected=ImportacionException.class)
-	public void parsearLongVacio() throws ImportacionException {
-		servicio.parsearLong("  ", 0, "nombreCampo");
-	}
-	
-	@Test(expected=ImportacionException.class)
-	public void parsearLongNulo() throws ImportacionException {
-		servicio.parsearLong(null, 0, "nombreCampo");
-	}
-	
-	@Test(expected=ImportacionException.class)
-	public void parsearLongInvalido() throws ImportacionException {
-		servicio.parsearLong("234e4r", 0, "nombreCampo");
-	}
-	
-	@Test
-	public void parsearLongOk() throws ImportacionException {
-		assertEquals(1234, servicio.parsearLong("1234", 0, "nombreCampo"));
-	}
-	
-	@Test
-	public void parsearValorConComasVacio() throws ImportacionException {
-		assertEquals(0.0, servicio.parsearValorConComas("", 0, "nombreCampo"), 0);
-	}
-	
-	@Test
-	public void parsearValorConComasNulo() throws ImportacionException {
-		assertEquals(0.0, servicio.parsearValorConComas(null, 0, "nombreCampo"), 0);
-	}
-	
-	@Test(expected=ImportacionException.class)
-	public void parsearValorConComasInvalido() throws ImportacionException {
-		servicio.parsearValorConComas("f23ee23r", 0, "nombreCampo");
-	}
-	
-	@Test
-	public void parsearValorConComasValido() throws ImportacionException {
-		assertEquals(12555.43, servicio.parsearValorConComas("12,555.43", 0, "nombreCampo"), 0);
-	}
-	
-	@Test
-	public void parsearValorConComasValido2() throws ImportacionException {
-		assertEquals(1912555.43, servicio.parsearValorConComas("1,912,555.43", 0, "nombreCampo"), 0);
-	}
-	
-	@Test
-	public void parsearValorConComasValido3() throws ImportacionException {
-		assertEquals(191255543.00, servicio.parsearValorConComas("1,912,555,43", 0, "nombreCampo"), 0);
+		assertEquals(4, mapper.getTrimestre(calendar.getTime()));
 	}
 
 }
