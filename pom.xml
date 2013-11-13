@@ -8,6 +8,7 @@
 	<name>Sitio de estadisticas sobre derechos de autor</name>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.2.4.RELEASE</spring.version>
 		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 		<spring.batch.version>2.2.1.RELEASE</spring.batch.version>
@@ -15,6 +16,14 @@
 
 	<build>
 		<finalName>derechosAutor</finalName>
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

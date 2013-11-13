@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
@@ -6,8 +6,6 @@
 
 <script type="text/javascript" src='<c:url value="/js/importar.js" />' ></script>	
 
-	<input type="hidden" id="urlImportacion" value='<c:url value="/admin/iniciar_importacion" />' />
- 
 	<label>Seleccione un archivo para importar:</label>
 	
 	<select name="archivo" id="nombreArchivo">
@@ -19,10 +17,10 @@
 	<input type="button" value="Aceptar" onclick="confirmarImportacion()"/>
 	
 	
-	<div id="dialog-confirmacion" style="display: none;" title="Está seguro?">
+	<div id="dialog-confirmacion" style="display: none;" title="EstÃ¡ seguro?">
 		<p>
-		¿Está seguro que desea iniciar la importación?
-		Esto eliminará los datos actuales de la base.
+		Â¿EstÃ¡ seguro que desea iniciar la importaciÃ³n?
+		Esto eliminarÃ¡ los datos actuales de la base.
 		</p>
 		<input type="button" value="Aceptar" onclick="iniciarImportacion()">
 		<input type="button" value="Cancelar" onclick="cerrarDialog('dialog-confirmacion')" />
@@ -30,9 +28,11 @@
 	
 	
 	<div id="statusImportacion" style="display: none;">
-		Se ha iniciado el proceso de importación. Esto puede llevar varios minutos. Por favor espere
+		Se ha iniciado el proceso de importaciÃ³n. Esto puede llevar varios minutos. Por favor espere
 		hasta que le notifiquemos que el proceso ha finalizado.
 	</div>
+	
+	<div id="progressBar"></div>
 	
 	<div id="resultadoImportacion"></div>
  
