@@ -56,11 +56,13 @@ public class ImportarArchivo {
 		File file = new File(TOMCAT_HOME + RUTA_IMPORTACION);
 		model.addAttribute("archivos", file.list());
 		
-		session.setAttribute("jobExecution", null);
+		limpiarSesion(session);
 		
 		return "importar/form";
 	}
 	
+	
+
 	@RequestMapping("/iniciar_importacion")
 	@ResponseBody
 	public String iniciarImportacion(@RequestParam("archivo")String archivo, HttpSession session) {
@@ -80,6 +82,14 @@ public class ImportarArchivo {
 		
 		JobExecution execution = (JobExecution) session.getAttribute("jobExecution");
 		HistorialImportacion historial = (HistorialImportacion) session.getAttribute("historial");
+		
+		if (historial == null) {
+			historial = historialImportacionDao.buscarPorNombreYFecha(
+					(String)session.getAttribute("nombreArchivo"),
+					(Date)session.getAttribute("fechaEjecucion"));
+			
+			session.setAttribute("historial", historial);
+		}
 		
 		String msg = null;
 		
@@ -106,16 +116,7 @@ public class ImportarArchivo {
 						msg = "El proceso no finalizó correctamente. Por favor consulte al administrador del sistema.";
 				}
 				
-				historial.setFin(execution.getEndTime());
-				historial.setResultado(status.toString());
-				historial.setDuracion(historial.getFin().getTime() - historial.getInicio().getTime());
-				historial.setDuracionEstimada1024bytes(
-						1024 * historial.getDuracion() / historial.getTamanioArchivo());
-				
-				historialImportacionDao.guardar(historial);
-				
-				session.setAttribute("jobExecution", null);
-				session.setAttribute("historial", null);
+				limpiarSesion(session);
 			}
 				
 		}
@@ -145,41 +146,39 @@ public class ImportarArchivo {
 
 		try {
 			
+			File archivo = new File(TOMCAT_HOME + RUTA_IMPORTACION + nombreArchivo);
+			Date fechaEjecucion = new Date();
+			
 			JobParametersBuilder builder = new JobParametersBuilder()
 				.addString("nombreArchivo", nombreArchivo)
-				.addDate("fechaEjecucion", new Date());
+				.addDate("fechaEjecucion", fechaEjecucion)
+				.addLong("tamanioArchivo", archivo.length());
 			
 			execution = jobLauncher.run(importacionJob, builder.toJobParameters());
 			
-			HistorialImportacion historial = crearHistorial(nombreArchivo);
-			
 			session.setAttribute("jobExecution", execution);
-			session.setAttribute("historial", historial);
+			session.setAttribute("nombreArchivo", nombreArchivo);
+			session.setAttribute("fechaEjecucion", fechaEjecucion);
 
 		} catch (Exception e) {
 			
 			log.error("Se produjo un error importando el archivo " + nombreArchivo, e);
-			session.setAttribute("jobExecution", null);
+			limpiarSesion(session);
 			return false;
 		}
 		
 		return true;
 
 	}
-
-	private HistorialImportacion crearHistorial(String nombreArchivo) {
+	
+	
+	private void limpiarSesion(HttpSession session) {
 		
-		HistorialImportacion historial = new HistorialImportacion();
-		historial.setNombreArchivo(nombreArchivo);
-		historial.setInicio(new Date());
-		
-		File archivo = new File(TOMCAT_HOME + RUTA_IMPORTACION + nombreArchivo);
-		historial.setTamanioArchivo(archivo.length());
-		
-		long duracion1024bytes = historialImportacionDao.getPromedioDuracionEstimadaPara1Kb();
-		historial.setDuracionEstimada(historial.getTamanioArchivo() * duracion1024bytes / 1024);
-		
-		return historial;
+		session.setAttribute("jobExecution", null);
+		session.setAttribute("historial", null);
+		session.setAttribute("nombreArchivo", null);
+		session.setAttribute("fechaEjecucion", null);
 		
 	}
+
 }

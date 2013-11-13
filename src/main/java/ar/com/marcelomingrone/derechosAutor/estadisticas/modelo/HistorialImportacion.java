@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 @Entity
 public class HistorialImportacion extends Entidad {
@@ -35,9 +34,6 @@ public class HistorialImportacion extends Entidad {
 	 */
 	private Long duracionEstimada1024bytes;
 	
-	private String resultado;
-	
-	@Transient
 	private Long duracionEstimada;
 
 	public Date getInicio() {
@@ -78,14 +74,6 @@ public class HistorialImportacion extends Entidad {
 
 	public void setDuracionEstimada1024bytes(Long duracionEstimada1024bytes) {
 		this.duracionEstimada1024bytes = duracionEstimada1024bytes;
-	}
-
-	public String getResultado() {
-		return resultado;
-	}
-
-	public void setResultado(String resultado) {
-		this.resultado = resultado;
 	}
 	
 	public Long getDuracionEstimada() {

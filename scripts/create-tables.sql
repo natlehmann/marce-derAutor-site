@@ -93,6 +93,6 @@ create table HistorialImportacion(
 	duracion BIGINT,	
 	tamanioArchivo BIGINT,
 	duracionEstimada1024bytes BIGINT,
-	resultado varchar(255)
+	duracionEstimada BIGINT
 )  ENGINE=InnoDB;
 

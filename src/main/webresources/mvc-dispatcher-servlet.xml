@@ -105,6 +105,12 @@
 	</bean>
 
 	<batch:job id="importacionJob">
+		<batch:step id="inicializarHistorial" next="borrarDatosAnteriores">
+			<batch:tasklet>
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.InicializarHistorial" scope="step">
+				</bean>
+			</batch:tasklet>
+		</batch:step>
 		<batch:step id="borrarDatosAnteriores" next="importarNuevosDatos">
 			<batch:tasklet>
 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.BorrarDatosPrevioImportacion">
@@ -112,10 +118,16 @@
 				</bean>
 			</batch:tasklet>
 		</batch:step>
-		<batch:step id="importarNuevosDatos">
+		<batch:step id="importarNuevosDatos" next="cerrarHistorial">
 			<batch:tasklet>
 				<batch:chunk reader="cvsFileItemReader" writer="mysqlItemWriter" commit-interval="100">
 				</batch:chunk>
+			</batch:tasklet>
+		</batch:step>
+		<batch:step id="cerrarHistorial">
+			<batch:tasklet>
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.CerrarHistorial" scope="step">
+				</bean>
 			</batch:tasklet>
 		</batch:step>
 	</batch:job>
