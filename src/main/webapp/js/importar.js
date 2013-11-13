@@ -29,6 +29,7 @@ function iniciarImportacion() {
 		success : function(data) {
 			
 			if (data != '') {
+				// se produjo un error
 				$("#resultadoImportacion").html(data);
 				
 			} else {
@@ -40,6 +41,12 @@ function iniciarImportacion() {
 }
 
 function iniciarConsultaStatus() {
+	
+	$( "#progressBar" ).progressbar({
+		max: 100,
+		value: 0
+	});
+	
 	chequearStatus = setInterval(consultarStatus, 1000);
 }
 
@@ -54,11 +61,23 @@ function consultarStatus() {
 		async : true,
 		dataType : 'html',
 		success : function(data) {
-			$("#progressBar").append(data);
+			
+			if ( isNumber(data) ) {
+				$( "#progressBar" ).progressbar( "option", "value",  parseInt(data) );
+			
+			} else {
+				$("#progressBar").hide();
+				$("#resultadoImportacion").html(data);
+				frenarConsultaStatus();
+			}
 		}
 	});
 }
 
 function cerrarDialog(idDialog) {
 	$("#" + idDialog).dialog("close");
+}
+
+function isNumber(n) {
+	return !isNaN(parseFloat(n)) && isFinite(n);
 }

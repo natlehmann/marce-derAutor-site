@@ -1,6 +1,12 @@
 - Verificar que los ids de Cancion, Autor, Pais, Fuente no cambien. Si cambian hay que borrar todas estas
 tablas al comenzar la importación.
 
-- Que pasa si se inicia el batch dos veces? Como lo ejecutamos dos veces con el mismo nombre de archivo?
+- Que pasa si se inicia el batch dos veces? 
 
 - Boton para frenar el proceso
+
+- Eliminar ServicioImportacion y pasar los tests a otro lado
+
+- Hacer que el boton Aceptar no sea mas por ajax y que no se pueda volver a apretar sin recargar la pag
+
+-OJO: si no se ejecuta el js de getStatus nunca se guarda el historial
