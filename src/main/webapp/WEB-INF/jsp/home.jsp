@@ -4,6 +4,8 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
+<script type="text/javascript" src='<c:url value="/js/home.js" />' ></script>
+
 <form action='<c:url value="/home/filtrar" />' method="post">
 	
 	<select name="pais">
@@ -32,7 +34,24 @@
 </form>
 
 
-${lista }
+<table class="datatable">
+	<thead>
+	  <tr>
+	    <th>Número</th>
+	    <th>Artista</th>
+	    <th>Unidades</th>
+	  </tr>
+  </thead>
+  <tbody>
+  		<c:forEach items="${autoresMasEjecutados}" var="dato" varStatus="indice">
+		  <tr>
+		  	<td>${indice.count}</td>
+		    <td>${dato.nombreAutor}</td>
+		    <td>${dato.cantidadUnidades}</td>
+		  </tr>
+  		</c:forEach>
+  </tbody>
+</table>
 
 
 

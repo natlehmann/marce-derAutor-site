@@ -38,7 +38,7 @@ public class HomeController {
 		model.addAttribute("anioSeleccionado", anio);
 		model.addAttribute("trimestreSeleccionado", trimestre);
 		
-		model.addAttribute("lista", datosCancionDao.getAutoresMasEjecutados(
+		model.addAttribute("autoresMasEjecutados", datosCancionDao.getAutoresMasEjecutados(
 				idPais, anio, trimestre, 10));
 		
 		return "home";
