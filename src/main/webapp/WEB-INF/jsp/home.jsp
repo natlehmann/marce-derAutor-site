@@ -1,16 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Marcelo Mingrone</title>
-</head>
+<jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
-<body>
-<h2>Hello World!</h2>
+<form action='<c:url value="/home/filtrar" />' method="post">
+	
+	<select name="pais">
+		<option value="">TODOS</option>
+		<c:forEach items="${paises}" var="pais">
+			<option value="${pais.id}" ${paisSeleccionado eq pais.id ? "selected='selected'" : ""}>${pais.nombre}</option>
+		</c:forEach>
+	</select>
+	
+	<select name="anio">
+		<option value="">TODOS</option>
+		<c:forEach items="${anios}" var="anio">
+			<option value="${anio}" ${anioSeleccionado eq anio ? "selected='selected'" : ""}>${anio}</option>
+		</c:forEach>
+	</select>
+	
+	<select name="trimestre">
+		<option value="">TODOS</option>
+		<option value="1" ${trimestreSeleccionado eq 1 ? "selected='selected'" : ""}>1</option>
+		<option value="2" ${trimestreSeleccionado eq 2 ? "selected='selected'" : ""}>2</option>
+		<option value="3" ${trimestreSeleccionado eq 3 ? "selected='selected'" : ""}>3</option>
+		<option value="4" ${trimestreSeleccionado eq 4 ? "selected='selected'" : ""}>4</option>
+	</select>
+	
+	<input type="submit" value="Buscar" />
+</form>
+
 
 ${lista }
 
-</body>
-</html>
+
+
+<jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

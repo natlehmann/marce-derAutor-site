@@ -1,5 +1,7 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,14 @@ public class PaisDao {
 	public Pais buscar(Long id) {
 		Session session = sessionFactory.getCurrentSession();
 		return (Pais) session.get(Pais.class, id);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Pais> getTodos() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("select p from Pais p order by p.nombre").list();
 	}
 
 }

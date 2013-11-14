@@ -1,39 +1,23 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
-@Entity
-public class UnidadesVendidasPorAutor extends Entidad {
+public class UnidadesVendidasPorAutor implements Serializable { 
 
 	private static final long serialVersionUID = 6732625702256780282L;
 
 	private long cantidadUnidades;
 	
-	@Column(nullable=false)
-	private Integer anio;
+	private String nombreAutor;
 	
-	@Column(nullable=false)
-	private Integer trimestre;
+	public UnidadesVendidasPorAutor() {}
 	
-	@ManyToOne(optional=false)
-	private Pais pais;
-	
-	@ManyToOne(optional=false)
-	private Autor autor;
-	
-	public UnidadesVendidasPorAutor(){}
-
-	public UnidadesVendidasPorAutor(Autor autor, Pais pais, Integer anio, Integer trimestre, 
-			long cantidadUnidades) {
+	public UnidadesVendidasPorAutor(String nombreAutor, long cantidadUnidades) {
 		super();
-		this.autor = autor;
-		this.pais = pais;
-		this.anio = anio;
-		this.trimestre = trimestre;
 		this.cantidadUnidades = cantidadUnidades;
+		this.nombreAutor = nombreAutor;
 	}
+
 
 	public Long getCantidadUnidades() {
 		return cantidadUnidades;
@@ -43,37 +27,16 @@ public class UnidadesVendidasPorAutor extends Entidad {
 		this.cantidadUnidades = cantidadUnidades;
 	}
 
-	public Integer getAnio() {
-		return anio;
-	}
-
-	public void setAnio(Integer anio) {
-		this.anio = anio;
-	}
-
-	public Integer getTrimestre() {
-		return trimestre;
-	}
-
-	public void setTrimestre(Integer trimestre) {
-		this.trimestre = trimestre;
-	}
-
-	public Pais getPais() {
-		return pais;
-	}
-
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
-
-	public Autor getAutor() {
-		return autor;
-	}
-
-	public void setAutor(Autor autor) {
-		this.autor = autor;
+	public String getNombreAutor() {
+		return nombreAutor;
 	}
 	
+	public void setNombreAutor(String nombreAutor) {
+		this.nombreAutor = nombreAutor;
+	}
 	
+	@Override
+	public String toString() {
+		return this.nombreAutor + " " + this.cantidadUnidades;
+	}
 }

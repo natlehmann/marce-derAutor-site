@@ -3,8 +3,6 @@ tablas al comenzar la importación.
 
 - Que pasa si se inicia el batch dos veces? 
 
-- Boton para frenar el proceso
-
-- Eliminar ServicioImportacion y pasar los tests a otro lado
+- Boton para frenar el proceso de importacion
 
 
