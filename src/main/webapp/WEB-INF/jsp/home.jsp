@@ -54,5 +54,25 @@
 </table>
 
 
+<table class="datatable">
+	<thead>
+	  <tr>
+	    <th>Número</th>
+	    <th>Artista</th>
+	    <th>Monto</th>
+	  </tr>
+  </thead>
+  <tbody>
+  		<c:forEach items="${autoresMasCobrados}" var="dato" varStatus="indice">
+		  <tr>
+		  	<td>${indice.count}</td>
+		    <td>${dato.nombreAutor}</td>
+		    <td>${dato.monto}</td>
+		  </tr>
+  		</c:forEach>
+  </tbody>
+</table>
+
+
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

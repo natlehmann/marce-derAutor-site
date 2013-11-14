@@ -1,39 +1,23 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
-@Entity
-public class PercibidoPorAutor extends Entidad {
+public class PercibidoPorAutor implements Serializable {
 	
 	private static final long serialVersionUID = -2953162102484559154L;
 
 	private Double monto;
 	
-	@Column(nullable=false)
-	private Integer anio;
-	
-	@Column(nullable=false)
-	private Integer trimestre;
-	
-	@ManyToOne(optional=false)
-	private Pais pais;
-	
-	@ManyToOne(optional=false)
-	private Autor autor;
+	private String nombreAutor;
 	
 	public PercibidoPorAutor() {}
 
-	public PercibidoPorAutor(Autor autor, Pais pais, Integer anio,
-			Integer trimestre, Double monto) {
-		
-		this.autor = autor;
-		this.pais = pais;
-		this.anio = anio;
-		this.trimestre = trimestre;
+	public PercibidoPorAutor(String nombreAutor, Double monto) {
+		super();
+		this.nombreAutor = nombreAutor;
 		this.monto = monto;
 	}
+
 
 	public Double getMonto() {
 		return monto;
@@ -43,36 +27,17 @@ public class PercibidoPorAutor extends Entidad {
 		this.monto = monto;
 	}
 
-	public Integer getAnio() {
-		return anio;
+	public String getNombreAutor() {
+		return nombreAutor;
 	}
-
-	public void setAnio(Integer anio) {
-		this.anio = anio;
+	
+	public void setNombreAutor(String nombreAutor) {
+		this.nombreAutor = nombreAutor;
 	}
-
-	public Integer getTrimestre() {
-		return trimestre;
-	}
-
-	public void setTrimestre(Integer trimestre) {
-		this.trimestre = trimestre;
-	}
-
-	public Pais getPais() {
-		return pais;
-	}
-
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
-
-	public Autor getAutor() {
-		return autor;
-	}
-
-	public void setAutor(Autor autor) {
-		this.autor = autor;
+	
+	@Override
+	public String toString() {
+		return this.nombreAutor + " " + this.monto;
 	}
 	
 

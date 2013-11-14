@@ -41,6 +41,9 @@ public class HomeController {
 		model.addAttribute("autoresMasEjecutados", datosCancionDao.getAutoresMasEjecutados(
 				idPais, anio, trimestre, 10));
 		
+		model.addAttribute("autoresMasCobrados", datosCancionDao.getAutoresMasCobrados(
+				idPais, anio, trimestre, 10));
+		
 		return "home";
 		
 	}
