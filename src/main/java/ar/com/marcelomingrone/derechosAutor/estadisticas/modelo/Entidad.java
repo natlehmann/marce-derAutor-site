@@ -64,7 +64,8 @@ public class Entidad implements Serializable {
 
 	@Transient
 	public String getLinksModificarEliminar() {
-		return "<a href='modificar?id=" + this.id + "'>Modificar</a>";
+		return "<a href='modificar?id=" + this.id 
+				+ "'>Modificar</a> <a href='#' onclick='confirmarEliminar(" + this.id + ")'>Eliminar</a>";
 	}
 	
 }

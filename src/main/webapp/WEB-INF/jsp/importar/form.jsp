@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
 <script type="text/javascript" src='<c:url value="/js/importar.js" />' ></script>	
 

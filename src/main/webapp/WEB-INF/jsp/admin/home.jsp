@@ -5,19 +5,7 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
-<script type="text/javascript" src='<c:url value="/js/fechaDestacada.js" />' ></script>
 
-<table class="datatable">
-	<thead>
-		<tr>
-			<th>Fecha</th>
-			<th>Descripción evento</th>
-			<th>Acciones</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
-
+Por favor seleccione una opción del menu.
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
