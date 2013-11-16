@@ -1,9 +1,11 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +20,8 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 @Controller
 public class HomeController {
 	
+	private static Log log = LogFactory.getLog(HomeController.class);
+	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
 	
@@ -26,6 +30,9 @@ public class HomeController {
 	
 	@Autowired
 	private FechaDestacadaDao fechaDestacadaDao;
+	
+	private SimpleDateFormat formateadorFechas = new SimpleDateFormat("dd/MM/yyyy");
+	
 	
 	@RequestMapping("/home")
 	public String home(ModelMap model) {
@@ -55,16 +62,17 @@ public class HomeController {
 		
 		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getTodos();
 		
-		List<Date> diasDestacados = new LinkedList<>();
+		List<String> diasDestacados = new LinkedList<>();
 		List<String> textoDiasDestacados = new LinkedList<>();
 		
 		for (FechaDestacada fecha : fechasDestacadas) {
-			diasDestacados.add(fecha.getFecha());
-			textoDiasDestacados.add(fecha.getDescripcion());
+			diasDestacados.add(formateadorFechas.format(fecha.getFecha()));
+			textoDiasDestacados.add("'" + fecha.getDescripcion() + "'");
 		}
 		
 		model.addAttribute("diasDestacados", diasDestacados);
 		model.addAttribute("textoDiasDestacados", textoDiasDestacados);
+			
 		
 		return "home";
 		
