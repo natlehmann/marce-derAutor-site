@@ -15,15 +15,6 @@
 		</tr>
 	</thead>
 	<tbody>
-<%-- 		<c:forEach items="${listado}" var="fechaDestacada"> --%>
-		
-<!-- 			<tr> -->
-<%-- 				<td>${fechaDestacada.fecha}</td> --%>
-<%-- 				<td>${fechaDestacada.descripcion}</td> --%>
-<!-- 				<td>Modificar Eliminar</td> -->
-<!-- 			</tr> -->
-			
-<%-- 		</c:forEach> --%>
 	</tbody>
 </table>
 
