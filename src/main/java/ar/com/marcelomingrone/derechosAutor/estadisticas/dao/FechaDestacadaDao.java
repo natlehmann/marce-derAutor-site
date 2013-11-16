@@ -4,21 +4,23 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 
 @Repository
-public class FuenteDao extends EntidadDao<Fuente> {
+public class FechaDestacadaDao extends EntidadDao<FechaDestacada> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	public FuenteDao() {
-		super(Fuente.class);
+	public FechaDestacadaDao() {
+		super(FechaDestacada.class);
 	}
 
 	@Override
 	protected SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
+
+
 
 }

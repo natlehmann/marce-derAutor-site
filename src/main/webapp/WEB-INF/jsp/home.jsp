@@ -74,5 +74,10 @@
 </table>
 
 
+<div id="calendar"></div>
+
+<input type="hidden" id="calendar_dates" value="${diasDestacados}" />
+<input type="hidden" id="calendar_tooltips" value="${textoDiasDestacados}" />
+
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

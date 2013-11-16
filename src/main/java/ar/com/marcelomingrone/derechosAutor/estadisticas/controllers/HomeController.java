@@ -1,5 +1,9 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -7,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 
 @Controller
 public class HomeController {
@@ -17,6 +23,9 @@ public class HomeController {
 	
 	@Autowired
 	private PaisDao paisDao;
+	
+	@Autowired
+	private FechaDestacadaDao fechaDestacadaDao;
 	
 	@RequestMapping("/home")
 	public String home(ModelMap model) {
@@ -43,6 +52,19 @@ public class HomeController {
 		
 		model.addAttribute("autoresMasCobrados", datosCancionDao.getAutoresMasCobrados(
 				idPais, anio, trimestre, 10));
+		
+		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getTodos();
+		
+		List<Date> diasDestacados = new LinkedList<>();
+		List<String> textoDiasDestacados = new LinkedList<>();
+		
+		for (FechaDestacada fecha : fechasDestacadas) {
+			diasDestacados.add(fecha.getFecha());
+			textoDiasDestacados.add(fecha.getDescripcion());
+		}
+		
+		model.addAttribute("diasDestacados", diasDestacados);
+		model.addAttribute("textoDiasDestacados", textoDiasDestacados);
 		
 		return "home";
 		

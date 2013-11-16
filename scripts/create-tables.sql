@@ -96,3 +96,8 @@ create table HistorialImportacion(
 	duracionEstimada BIGINT
 )  ENGINE=InnoDB;
 
+create table FechaDestacada(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fecha datetime not null,
+	descripcion varchar(255) not null
+)  ENGINE=InnoDB;

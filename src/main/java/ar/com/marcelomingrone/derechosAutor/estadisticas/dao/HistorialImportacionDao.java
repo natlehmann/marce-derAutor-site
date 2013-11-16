@@ -12,18 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImportacion;
 
 @Repository
-public class HistorialImportacionDao {
+public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	@Transactional
-	public HistorialImportacion guardar(HistorialImportacion historial) {
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(historial);
-		
-		return historial;
+	
+	public HistorialImportacionDao() {
+		super(HistorialImportacion.class);
 	}
+
 
 	@Transactional
 	public long getPromedioDuracionEstimadaPara1Kb() {
@@ -55,5 +52,10 @@ public class HistorialImportacionDao {
 		}
 		
 		return resultados.get(0);
+	}
+
+	@Override
+	protected SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
 }
