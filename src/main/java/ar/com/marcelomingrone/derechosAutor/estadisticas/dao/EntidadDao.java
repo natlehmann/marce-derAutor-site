@@ -98,6 +98,14 @@ public abstract class EntidadDao<T> {
 		return resultado != null ? resultado.longValue() : 0;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public void eliminar(Long id) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		T entidad = (T) session.get(claseEntidad, id);
+		session.delete(entidad);		
+	}
 	
 	protected abstract SessionFactory getSessionFactory();
 }

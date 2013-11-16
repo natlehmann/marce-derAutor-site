@@ -73,5 +73,4 @@ public class FechaDestacadaDao extends EntidadDao<FechaDestacada> {
 	}
 
 
-
 }

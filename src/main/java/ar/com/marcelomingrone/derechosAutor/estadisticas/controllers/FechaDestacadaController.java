@@ -96,7 +96,7 @@ public class FechaDestacadaController {
 		return "admin/fechaDestacada_editar";
 	}
 	
-	@RequestMapping(value="aceptarEdicion", method={RequestMethod.POST})
+	@RequestMapping(value="/aceptarEdicion", method={RequestMethod.POST})
 	public String aceptarEdicion(@Valid FechaDestacada fechaDestacada, 
 			BindingResult result, ModelMap model){
 		
@@ -116,6 +116,21 @@ public class FechaDestacadaController {
 		}
 		
 		return prepararFormulario(fechaDestacada, model);
+	}
+	
+	@RequestMapping(value="/eliminar", method={RequestMethod.POST})
+	public String eliminar(@RequestParam("id") Long id, ModelMap model) {
+		
+		try {
+			fechaDestacadaDao.eliminar(id);
+			model.addAttribute("msg", "La fecha se ha eliminado con éxito.");
+			
+		} catch (Exception e) {
+			log.error("Error al eliminar fecha destacada.", e);
+			model.addAttribute("msg", "No se ha podido eliminar la fecha. " 
+					+ "Si el problema persiste consulte al administrador del sistema.");
+		}
+		return listar(model);
 	}
 
 }
