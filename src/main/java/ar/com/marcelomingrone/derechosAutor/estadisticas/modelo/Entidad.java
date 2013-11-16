@@ -1,10 +1,13 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 @MappedSuperclass
 public class Entidad implements Serializable {
@@ -52,6 +55,16 @@ public class Entidad implements Serializable {
 	@Override
 	public String toString() {
 		return this.getClass().getName() + "(id:" + this.id + ")";
+	}
+
+	@Transient
+	public List<String> getCamposAsList() {
+		return new LinkedList<String>();
+	}
+
+	@Transient
+	public String getLinksModificarEliminar() {
+		return "<a href='modificar?id=" + this.id + "'>Modificar</a>";
 	}
 	
 }

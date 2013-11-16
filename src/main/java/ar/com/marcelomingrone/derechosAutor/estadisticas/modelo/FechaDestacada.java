@@ -1,6 +1,8 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Entity;
 
@@ -27,6 +29,17 @@ public class FechaDestacada extends Entidad {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	
+	@Override
+	public List<String> getCamposAsList() {
+		
+		List<String> resultado = new LinkedList<>();
+		resultado.add(this.fecha.toString());
+		resultado.add(this.descripcion);
+		resultado.add(super.getLinksModificarEliminar());
+		
+		return resultado;
 	}
 
 }
