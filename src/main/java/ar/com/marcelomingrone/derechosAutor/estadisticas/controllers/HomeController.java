@@ -55,10 +55,10 @@ public class HomeController {
 		model.addAttribute("trimestreSeleccionado", trimestre);
 		
 		model.addAttribute("autoresMasEjecutados", datosCancionDao.getAutoresMasEjecutados(
-				idPais, anio, trimestre, 10));
+				idPais, anio, trimestre, 1, 10, null));
 		
 		model.addAttribute("autoresMasCobrados", datosCancionDao.getAutoresMasCobrados(
-				idPais, anio, trimestre, 10));
+				idPais, anio, trimestre, 1, 10, null));
 		
 		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getTodos();
 		

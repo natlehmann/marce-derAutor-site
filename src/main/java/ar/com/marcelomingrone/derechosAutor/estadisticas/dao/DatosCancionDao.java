@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PercibidoPorAutor;
@@ -21,10 +22,11 @@ public class DatosCancionDao {
 		this.sessionFactory = sessionFactory;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<UnidadesVendidasPorAutor> getAutoresMasEjecutados(
-			Long idPais, Integer anio, Integer trimestre, int cantidadResultados) {
+	public List<UnidadesVendidasPorAutor> getAutoresMasEjecutados(Long idPais, Integer anio, 
+			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -33,21 +35,22 @@ public class DatosCancionDao {
 			.append("dc.autor.nombre as nombreAutor, SUM(dc.cantidadUnidades) as cantidadUnidades) ")
 			.append("FROM DatosCancion dc ");
 		
-		buffer.append(getWhereClause(trimestre, anio, idPais));
+		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
 		
 		buffer.append("GROUP BY dc.autor.id ORDER BY cantidadUnidades desc");
 		
 		Query query = session.createQuery(buffer.toString());
 		
-		setearParametros(query, idPais, anio, trimestre);
+		setearParametros(query, idPais, anio, trimestre, filtro);
 		
+		query.setFirstResult(primerResultado);
 		query.setMaxResults(cantidadResultados);
 		
 		return query.list();
 	}
 
 	private void setearParametros(Query query, Long idPais, Integer anio,
-			Integer trimestre) {
+			Integer trimestre, String filtro) {
 		
 		if (trimestre != null) {
 			query.setParameter("trimestre", trimestre);
@@ -60,32 +63,43 @@ public class DatosCancionDao {
 		if (idPais != null) {
 			query.setParameter("idPais", idPais);
 		}
+		
+		if (!StringUtils.isEmpty(filtro)) {
+			query.setParameter("filtro", "%" + filtro + "%");
+		}
 	}
 	
-	private String getWhereClause(Integer trimestre, Integer anio, Long idPais) {
+	private String getWhereClause(Integer trimestre, Integer anio, Long idPais, String filtro) {
 		
 		StringBuffer buffer = new StringBuffer("");
 		
-		if (trimestre != null || anio != null || idPais != null) {
+		if (trimestre != null || anio != null || idPais != null || !StringUtils.isEmpty(filtro)) {
 			buffer.append("WHERE ");
 		}
 		
 		if (trimestre != null) {
 			buffer.append("dc.trimestre = :trimestre ");
-			if (anio != null || idPais != null) {
+			if (anio != null || idPais != null || !StringUtils.isEmpty(filtro)) {
 				buffer.append("AND ");
 			}
 		}
 		
 		if (anio != null) {
 			buffer.append("dc.anio = :anio ");
-			if (idPais != null) {
+			if (idPais != null || !StringUtils.isEmpty(filtro)) {
 				buffer.append("AND ");
 			}
 		}
 		
 		if (idPais != null) {
 			buffer.append("dc.pais.id = :idPais ");
+			if (!StringUtils.isEmpty(filtro)) {
+				buffer.append("AND ");
+			}
+		}
+		
+		if (!StringUtils.isEmpty(filtro)) {
+			buffer.append("dc.autor.nombre like :filtro ");
 		}
 		
 		return buffer.toString();
@@ -133,7 +147,7 @@ public class DatosCancionDao {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<PercibidoPorAutor> getAutoresMasCobrados(Long idPais, Integer anio,
-			Integer trimestre, int cantidadResultados) {
+			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
@@ -142,17 +156,41 @@ public class DatosCancionDao {
 			.append("dc.autor.nombre as nombreAutor, SUM(dc.montoPercibido) as monto) ")
 			.append("FROM DatosCancion dc ");
 		
-		buffer.append(getWhereClause(trimestre, anio, idPais));
+		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
 		
 		buffer.append("GROUP BY dc.autor.id ORDER BY monto desc");
 		
 		Query query = session.createQuery(buffer.toString());
 		
-		setearParametros(query, idPais, anio, trimestre);
+		setearParametros(query, idPais, anio, trimestre, filtro);
 		
+		query.setFirstResult(primerResultado);
 		query.setMaxResults(cantidadResultados);
 		
 		return query.list();
+	}
+
+	
+	@Transactional
+	public long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
+			Integer trimestre, String filtro) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT COUNT(dc) FROM DatosCancion dc ");
+		
+		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
+		
+		buffer.append("GROUP BY dc.autor.id");
+		
+		Query query = session.createQuery(buffer.toString());
+		
+		setearParametros(query, idPais, anio, trimestre, filtro);
+		
+		Long resultado = (Long) query.uniqueResult();
+		
+		return resultado != null ? resultado : 0;
 	}
 
 }

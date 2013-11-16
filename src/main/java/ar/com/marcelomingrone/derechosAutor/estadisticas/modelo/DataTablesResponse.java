@@ -21,7 +21,7 @@ public class DataTablesResponse {
 	
 	public DataTablesResponse() {}
 	
-	public DataTablesResponse(List<? extends Entidad> lista, String sEcho, long cantidadTotal) {
+	public DataTablesResponse(List<? extends Listable> lista, String sEcho, long cantidadTotal) {
 		
 		if (!StringUtils.isEmpty(sEcho)) {
 			try {
@@ -39,7 +39,7 @@ public class DataTablesResponse {
 		this.iTotalDisplayRecords = cantidadTotal;
 		
 		this.aaData = new LinkedList<>();
-		for (Entidad entidad : lista) {
+		for (Listable entidad : lista) {
 			aaData.add(entidad.getCamposAsList());
 		}
 		

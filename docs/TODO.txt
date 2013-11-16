@@ -6,4 +6,9 @@ tablas al comenzar la importación.
 - Boton para frenar el proceso de importacion
 
 
+- Esta mal el count de artistas mas ejecutados
+
+- Falta agregarle un campo mas a UnidadesVendidasPorAutor (el campo monto) y resolver filtros de busqueda
+
+
 

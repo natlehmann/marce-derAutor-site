@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 @MappedSuperclass
-public class Entidad implements Serializable {
+public class Entidad implements Serializable, Listable {
 	
 	private static final long serialVersionUID = -8982130090046767829L;
 	
