@@ -5,6 +5,5 @@ tablas al comenzar la importación.
 
 - Boton para frenar el proceso de importacion
 
-- Revisar queries, TODOS no parece ser la suma de trimestres 
 
 
