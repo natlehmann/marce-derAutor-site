@@ -4,6 +4,9 @@ $(document).ready(function() {
         "bServerSide": true,
         "sAjaxSource": $("#contexto").val() + "admin/fechaDestacada/listar_ajax",
         "bJQueryUI": true,
-        "sPaginationType": "full_numbers" 
+        "sPaginationType": "full_numbers",
+        "oLanguage": {
+            "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
+        }
     } );
 } );
