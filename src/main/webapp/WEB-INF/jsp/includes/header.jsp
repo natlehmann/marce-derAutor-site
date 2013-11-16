@@ -13,7 +13,7 @@
 		<script type="text/javascript" src='<c:url value="/js/jquery.ui.datepicker-es.js" />' ></script>
 		
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />'>	
-		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery.dataTables_themeroller.css" />'>	
+		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery.dataTables.css" />'>	
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/master.css" />'>	
 	</head>
 	
