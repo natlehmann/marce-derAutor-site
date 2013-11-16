@@ -5,7 +5,11 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
-<script type="text/javascript" src='<c:url value="/js/fechaDestacada.js" />' ></script>
+<script type="text/javascript" src='<c:url value="/js/fechaDestacada_listar.js" />' ></script>
+
+<div class="msg">${msg}</div>
+
+<button type="button" onclick="ir('crear')">Nueva fecha</button>
 
 <table class="datatable">
 	<thead>

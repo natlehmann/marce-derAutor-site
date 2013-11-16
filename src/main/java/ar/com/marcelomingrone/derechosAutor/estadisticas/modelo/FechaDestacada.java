@@ -7,6 +7,10 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 public class FechaDestacada extends Entidad {
@@ -15,8 +19,10 @@ public class FechaDestacada extends Entidad {
 	
 	private static transient SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
+	@NotNull
 	private Date fecha;
 	
+	@NotNull @Size(max=255) @NotBlank
 	private String descripcion;
 
 	public Date getFecha() {
