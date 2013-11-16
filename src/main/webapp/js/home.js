@@ -17,13 +17,14 @@ $(document).ready(function() {
 		beforeShowDay : highlightDays
 	});
 	
-	$( '#calendar' ).tooltip();
+	$( '#calendar .ui-datepicker-calendar tbody' ).tooltip();
 
 	function highlightDays(date) {
+
 		for (var i = 0; i < fechas.length; i++) {
-			if ( fechas[i] == $.datepicker.formatDate('dd/mm/yy', date) ) {
+			if ( $.trim(fechas[i]) == $.trim($.datepicker.formatDate('dd/mm/yy', date)) ) {
 				return [ true, 'destacada', descripciones[i].replace(/\'/g, "") ];
-			}
+			} 
 		}
 		return [ true, '' ];
 	}
