@@ -7,6 +7,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 
 public class BorrarDatosPrevioImportacion implements Tasklet {
@@ -15,6 +16,9 @@ public class BorrarDatosPrevioImportacion implements Tasklet {
 	
 	@Autowired
 	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
+	
+	@Autowired
+	private RankingArtistasMasCobradosDao rankingArtistasMasCobradosDao;
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution,
@@ -22,6 +26,7 @@ public class BorrarDatosPrevioImportacion implements Tasklet {
 		
 		datosCancionDao.borrarTodo();
 		rankingArtistasMasEjecutadosDao.borrarTodo();
+		rankingArtistasMasCobradosDao.borrarTodo();
 		
 		return RepeatStatus.FINISHED;
 	}

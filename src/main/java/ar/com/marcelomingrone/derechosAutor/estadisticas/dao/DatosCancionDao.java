@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PercibidoPorAutor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasCobrados;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
 
 public class DatosCancionDao {
@@ -97,19 +97,17 @@ public class DatosCancionDao {
 
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<PercibidoPorAutor> getAutoresMasCobrados(Long idPais, Integer anio,
+	public List<RankingArtistasMasCobrados> getAutoresMasCobrados(Long idPais, Integer anio,
 			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PercibidoPorAutor( ")
-			.append("dc.autor.nombre as nombreAutor, SUM(dc.montoPercibido) as monto) ")
-			.append("FROM DatosCancion dc ");
+		buffer.append("SELECT dc FROM RankingArtistasMasCobrados dc ");
 		
-		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro));
+		buffer.append(DaoUtils.getWhereClauseOrNull(trimestre, anio, idPais, filtro));
 		
-		buffer.append("GROUP BY dc.autor.id ORDER BY monto desc");
+		buffer.append("ORDER BY dc.ranking");
 		
 		Query query = session.createQuery(buffer.toString());
 		
@@ -126,10 +124,26 @@ public class DatosCancionDao {
 	public long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
 			Integer trimestre, String filtro) {
 		
+		return getCantidadAutoresMasEjecutados(
+				idPais, anio, trimestre, filtro, "RankingArtistasMasEjecutados");
+	}
+	
+	@Transactional
+	public long getCantidadAutoresMasCobrados(Long idPais, Integer anio, 
+			Integer trimestre, String filtro) {
+		
+		return getCantidadAutoresMasEjecutados(
+				idPais, anio, trimestre, filtro, "RankingArtistasMasCobrados");
+	}
+	
+	@Transactional
+	private long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
+			Integer trimestre, String filtro, String nombreEntidad) {
+		
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT COUNT(DISTINCT dc.autor.id) FROM RankingArtistasMasEjecutados dc ");
+		buffer.append("SELECT COUNT(DISTINCT dc.autor.id) FROM " + nombreEntidad + " dc ");
 		
 		buffer.append(DaoUtils.getWhereClauseOrNull(trimestre, anio, idPais, filtro));
 		

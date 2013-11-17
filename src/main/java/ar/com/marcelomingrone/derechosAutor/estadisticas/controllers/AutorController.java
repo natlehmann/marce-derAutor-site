@@ -18,6 +18,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Sessi
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasCobrados;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
 
 @Controller
@@ -76,6 +77,64 @@ public class AutorController {
 				(String)params.get(Params.FILTRO));
 		
 		long total = datosCancionDao.getCantidadAutoresMasEjecutados(null, null, null, null);
+		
+		DataTablesResponse resultado = new DataTablesResponse(
+				listado, request.getParameter("sEcho"), total, totalFiltrados);
+		
+		return resultado;
+	}
+	
+	
+	
+	
+	@RequestMapping("/autoresMasCobrados")
+	public String autoresMasCobrados(ModelMap model, HttpSession session) {
+		
+		return filtrarMasCobrados( (Long)session.getAttribute(SessionParam.PAIS.toString()), 
+				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
+				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()), 
+				model, session);
+	}
+	
+	@RequestMapping("/autoresMasCobrados/filtrar")
+	public String filtrarMasCobrados(
+			@RequestParam(value="pais", required=false, defaultValue="") Long idPais,
+			@RequestParam(value="anio", required=false, defaultValue="") Integer anio,
+			@RequestParam(value="trimestre", required=false, defaultValue="") Integer trimestre,
+			ModelMap model, HttpSession session) {
+		
+		session.setAttribute(SessionParam.PAIS.toString(), idPais);
+		session.setAttribute(SessionParam.ANIO.toString(), anio);
+		session.setAttribute(SessionParam.TRIMESTRE.toString(), trimestre);
+		
+		model.addAttribute("paises", paisDao.getTodos());
+		model.addAttribute("anios", datosCancionDao.getAnios());
+		
+		return "autores_mas_cobrados";
+	}
+	
+	
+	@RequestMapping("autoresMasCobrados_ajax")
+	@ResponseBody
+	public DataTablesResponse autoresMasCobradosAjax(HttpServletRequest request, HttpSession session) {		
+		
+		Map<Params, Object> params = Utils.getParametrosDatatables(request);
+		
+		List<RankingArtistasMasCobrados> listado = datosCancionDao.getAutoresMasCobrados(
+				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
+				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
+				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
+				(int)params.get(Params.INICIO),
+				(int)params.get(Params.CANTIDAD_RESULTADOS),
+				(String)params.get(Params.FILTRO));
+		
+		long totalFiltrados = datosCancionDao.getCantidadAutoresMasCobrados(
+				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
+				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
+				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
+				(String)params.get(Params.FILTRO));
+		
+		long total = datosCancionDao.getCantidadAutoresMasCobrados(null, null, null, null);
 		
 		DataTablesResponse resultado = new DataTablesResponse(
 				listado, request.getParameter("sEcho"), total, totalFiltrados);

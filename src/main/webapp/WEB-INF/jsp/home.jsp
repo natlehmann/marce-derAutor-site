@@ -35,6 +35,10 @@
 </table>
 
 
+<div class="titulo">
+	<a href='<c:url value="/autoresMasCobrados"/>'>Top artistas más cobrados</a>
+</div>
+
 <table class="datatable">
 	<thead>
 	  <tr>
@@ -47,8 +51,8 @@
   		<c:forEach items="${autoresMasCobrados}" var="dato" varStatus="indice">
 		  <tr>
 		  	<td>${indice.count}</td>
-		    <td>${dato.nombreAutor}</td>
-		    <td>${dato.monto}</td>
+		    <td>${dato.autor.nombre}</td>
+		    <td>${dato.montoPercibido}</td>
 		  </tr>
   		</c:forEach>
   </tbody>

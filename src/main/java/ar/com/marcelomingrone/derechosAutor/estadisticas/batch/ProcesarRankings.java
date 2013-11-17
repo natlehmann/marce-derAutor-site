@@ -9,12 +9,16 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 
 public class ProcesarRankings implements Tasklet {
 	
 	@Autowired
 	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
+	
+	@Autowired
+	private RankingArtistasMasCobradosDao rankingArtistasMasCobradosDao;
 	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
@@ -25,6 +29,7 @@ public class ProcesarRankings implements Tasklet {
 		
 		// sin filtros
 		rankingArtistasMasEjecutadosDao.importarDatosCanciones(null, null, null);
+		rankingArtistasMasCobradosDao.importarDatosCanciones(null, null, null);
 		
 		List<Long> idsPaises = datosCancionDao.getIdsPaises();
 		List<Integer> anios = datosCancionDao.getAnios();
@@ -33,14 +38,17 @@ public class ProcesarRankings implements Tasklet {
 		for (Long id : idsPaises) {
 			// solo por pais
 			rankingArtistasMasEjecutadosDao.importarDatosCanciones(id, null, null);
+			rankingArtistasMasCobradosDao.importarDatosCanciones(id, null, null);
 			
 			// pais y anio
 			for (Integer anio : anios) {
 				rankingArtistasMasEjecutadosDao.importarDatosCanciones(id, anio, null);
+				rankingArtistasMasCobradosDao.importarDatosCanciones(id, anio, null);
 				
 				// pais, anio y trimestre
 				for (int i = 1; i <=4; i++) {
 					rankingArtistasMasEjecutadosDao.importarDatosCanciones(id, anio, i);
+					rankingArtistasMasCobradosDao.importarDatosCanciones(id, anio, i);
 				}
 			}
 		}
@@ -48,16 +56,19 @@ public class ProcesarRankings implements Tasklet {
 		// solo por anio
 		for (Integer anio : anios) {
 			rankingArtistasMasEjecutadosDao.importarDatosCanciones(null, anio, null);
+			rankingArtistasMasCobradosDao.importarDatosCanciones(null, anio, null);
 			
 			// anio y trimestre
 			for (int i = 1; i <=4; i++) {
 				rankingArtistasMasEjecutadosDao.importarDatosCanciones(null, anio, i);
+				rankingArtistasMasCobradosDao.importarDatosCanciones(null, anio, i);
 			}
 		}
 		
 		// solo por trimestre
 		for (int i = 1; i <=4; i++) {
 			rankingArtistasMasEjecutadosDao.importarDatosCanciones(null, null, i);
+			rankingArtistasMasCobradosDao.importarDatosCanciones(null, null, i);
 		}
 		
 		return RepeatStatus.FINISHED;

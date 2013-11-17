@@ -117,4 +117,14 @@ public class DaoUtils {
 		
 		return buffer.toString();
 	}
+	
+	
+	public static String getSelectClause(Integer trimestre, Integer anio, Long idPais) {
+		
+		String valorTrimestre = StringUtils.isEmpty(trimestre) ? "null" : String.valueOf(trimestre);
+		String valorAnio = StringUtils.isEmpty(anio) ? "null" : String.valueOf(anio);
+		String valorPais = StringUtils.isEmpty(idPais) ? "null" : String.valueOf(idPais);
+		
+		return valorPais + " as pais_id, " + valorTrimestre + " as trimestre, " + valorAnio + " as anio, ";
+	}
 }
