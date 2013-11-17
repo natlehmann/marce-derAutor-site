@@ -7,7 +7,7 @@
 <script type="text/javascript" src='<c:url value="/js/autores_mas_ejecutados.js" />' ></script>
 
 <jsp:include page="/WEB-INF/jsp/filtros_busqueda.jsp">
-	<jsp:param value="/home/filtrar" name="action"/>
+	<jsp:param value="/autoresMasEjecutados/filtrar" name="action"/>
 </jsp:include>
 
 

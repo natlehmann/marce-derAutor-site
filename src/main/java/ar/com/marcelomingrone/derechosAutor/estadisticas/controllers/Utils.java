@@ -20,6 +20,28 @@ public class Utils {
 		DIRECCION_ORDENAMIENTO;
 	}
 	
+	public static enum SessionParam {
+		
+		PAIS	("paisSeleccionado"),
+		ANIO	("anioSeleccionado"),
+		TRIMESTRE	("trimestreSeleccionado");
+		
+		private String valor;
+		
+		private SessionParam(String valor) {
+			this.valor = valor;
+		}
+		
+		public String getValor() {
+			return valor;
+		}
+		
+		@Override
+		public String toString() {
+			return valor;
+		}
+	}
+	
 	public static int getInt(String valor, int valorDefault) {
 		
 		int resultado = valorDefault;

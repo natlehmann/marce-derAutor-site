@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
@@ -35,30 +38,33 @@ public class HomeController {
 	
 	
 	@RequestMapping("/home")
-	public String home(ModelMap model) {
+	public String home(ModelMap model, HttpSession session) {
 		
-		return filtrar(null, null, null, model);
+		return filtrar( (Long)session.getAttribute(SessionParam.PAIS.toString()), 
+				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
+				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()), 
+				model, session);
 	}
 	
 	@RequestMapping("/home/filtrar")
 	public String filtrar(@RequestParam(value="pais", required=false, defaultValue="") Long idPais,
 			@RequestParam(value="anio", required=false, defaultValue="") Integer anio,
 			@RequestParam(value="trimestre", required=false, defaultValue="") Integer trimestre,
-			ModelMap model) {
+			ModelMap model, HttpSession session) {
 		
 		
 		model.addAttribute("paises", paisDao.getTodos());
 		model.addAttribute("anios", datosCancionDao.getAnios());
 		
-		model.addAttribute("paisSeleccionado", idPais);
-		model.addAttribute("anioSeleccionado", anio);
-		model.addAttribute("trimestreSeleccionado", trimestre);
+		session.setAttribute(SessionParam.PAIS.toString(), idPais);
+		session.setAttribute(SessionParam.ANIO.toString(), anio);
+		session.setAttribute(SessionParam.TRIMESTRE.toString(), trimestre);
 		
 		model.addAttribute("autoresMasEjecutados", datosCancionDao.getAutoresMasEjecutados(
-				idPais, anio, trimestre, 1, 10, null));
+				idPais, anio, trimestre, 0, 10, null));
 		
 		model.addAttribute("autoresMasCobrados", datosCancionDao.getAutoresMasCobrados(
-				idPais, anio, trimestre, 1, 10, null));
+				idPais, anio, trimestre, 0, 10, null));
 		
 		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getTodos();
 		
