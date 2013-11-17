@@ -27,7 +27,7 @@
   		<c:forEach items="${autoresMasEjecutados}" var="dato" varStatus="indice">
 		  <tr>
 		  	<td>${indice.count}</td>
-		    <td>${dato.nombreAutor}</td>
+		    <td>${dato.autor.nombre}</td>
 		    <td>${dato.cantidadUnidades}</td>
 		  </tr>
   		</c:forEach>

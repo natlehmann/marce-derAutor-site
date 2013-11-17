@@ -1,5 +1,8 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -14,9 +17,9 @@ public class RankingArtistasMasEjecutados extends Entidad {
 	@ManyToOne(cascade=CascadeType.MERGE)
 	private Pais pais;
 	
-	private int trimestre;
+	private Integer trimestre;
 	
-	private int anio;
+	private Integer anio;
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
 	private Autor autor;
@@ -41,19 +44,19 @@ public class RankingArtistasMasEjecutados extends Entidad {
 		this.pais = pais;
 	}
 
-	public int getTrimestre() {
+	public Integer getTrimestre() {
 		return trimestre;
 	}
 
-	public void setTrimestre(int trimestre) {
+	public void setTrimestre(Integer trimestre) {
 		this.trimestre = trimestre;
 	}
 
-	public int getAnio() {
+	public Integer getAnio() {
 		return anio;
 	}
 
-	public void setAnio(int anio) {
+	public void setAnio(Integer anio) {
 		this.anio = anio;
 	}
 
@@ -81,6 +84,17 @@ public class RankingArtistasMasEjecutados extends Entidad {
 		this.montoPercibido = montoPercibido;
 	}
 	
+	@Override
+	public List<String> getCamposAsList() {
+		
+		List<String> campos = new LinkedList<>();
+		campos.add(this.ranking + ". ");
+		campos.add(this.autor.getNombre());
+		campos.add(String.valueOf(cantidadUnidades));
+		campos.add("$ " + this.montoPercibido);
+		
+		return campos;
+	}
 	
 
 }

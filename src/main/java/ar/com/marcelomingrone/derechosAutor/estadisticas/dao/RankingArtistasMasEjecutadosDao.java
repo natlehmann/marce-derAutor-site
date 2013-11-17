@@ -61,7 +61,7 @@ public class RankingArtistasMasEjecutadosDao extends EntidadDao<RankingArtistasM
 			.append("GROUP BY dc.autor_id ")
 			.append("ORDER BY cantidadUnidades desc, dc.autor_id asc ) as tmp ")
 			.append("CROSS JOIN (SELECT @rank\\:=0) b");
-		
+
 		Query query = session.createSQLQuery(queryStr.toString());
 		
 		DaoUtils.setearParametros(query, idPais, anio, trimestre, null);

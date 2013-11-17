@@ -18,7 +18,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Sessi
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.UnidadesVendidasPorAutor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
 
 @Controller
 public class AutorController {
@@ -61,14 +61,13 @@ public class AutorController {
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
 		
-		List<UnidadesVendidasPorAutor> listado = datosCancionDao.getAutoresMasEjecutados(
+		List<RankingArtistasMasEjecutados> listado = datosCancionDao.getAutoresMasEjecutados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
 				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
 				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
 				(int)params.get(Params.INICIO),
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
-				(String)params.get(Params.FILTRO),
-				true);
+				(String)params.get(Params.FILTRO));
 		
 		long totalFiltrados = datosCancionDao.getCantidadAutoresMasEjecutados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 

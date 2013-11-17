@@ -36,7 +36,7 @@ public class DaoUtils {
 		if (idPais != null) {
 			
 			if (sqlSyntax) {
-				buffer.append("dc.autor_id = :idPais ");
+				buffer.append("dc.pais_id = :idPais ");
 				
 			} else {
 				buffer.append("dc.pais.id = :idPais ");
@@ -78,5 +78,43 @@ public class DaoUtils {
 		if (!StringUtils.isEmpty(filtro)) {
 			query.setParameter("filtro", "%" + filtro + "%");
 		}
+	}
+
+
+	public static String getWhereClauseOrNull(Integer trimestre, Integer anio,
+			Long idPais, String filtro) {
+		
+		StringBuffer buffer = new StringBuffer("WHERE ");
+		
+		if (trimestre != null) {
+			buffer.append("dc.trimestre = :trimestre ");
+		
+		} else {
+			buffer.append("dc.trimestre is null ");
+		}
+		
+		buffer.append("AND ");
+		
+		if (anio != null) {
+			buffer.append("dc.anio = :anio ");
+		
+		} else {
+			buffer.append("dc.anio is null ");
+		}
+		
+		buffer.append("AND ");
+		
+		if (idPais != null) {
+			buffer.append("dc.pais.id = :idPais ");
+			
+		} else {
+			buffer.append("dc.pais.id is null ");
+		}
+			
+		if (!StringUtils.isEmpty(filtro)) {
+			buffer.append("AND dc.autor.nombre like :filtro ");
+		}
+		
+		return buffer.toString();
 	}
 }
