@@ -6,7 +6,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PercibidoPorAutor;
@@ -38,13 +37,13 @@ public class DatosCancionDao {
 			.append("SUM(dc.montoPercibido) as monto) ")
 			.append("FROM DatosCancion dc ");
 		
-		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
+		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro));
 		
 		buffer.append("GROUP BY dc.autor.id ORDER BY cantidadUnidades desc, idAutor asc");
 		
 		Query query = session.createQuery(buffer.toString());
 		
-		setearParametros(query, idPais, anio, trimestre, filtro);
+		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
 		
 		query.setFirstResult(primerResultado);
 		query.setMaxResults(cantidadResultados);
@@ -74,7 +73,7 @@ public class DatosCancionDao {
 				.append("SELECT dc.autor.id ")
 				.append("FROM DatosCancion dc ");
 			
-			buffer.append(getWhereClause(trimestre, anio, idPais, null));
+			buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, null));
 			
 			buffer.append("GROUP BY dc.autor.id ")
 				.append("HAVING (SUM(dc.cantidadUnidades) > :cantidad) ")
@@ -85,7 +84,7 @@ public class DatosCancionDao {
 			query.setParameter("cantidad", unidad.getCantidadUnidades());
 			query.setParameter("autorId", unidad.getIdAutor());
 			
-			setearParametros(query, idPais, anio, trimestre, null);
+			DaoUtils.setearParametros(query, idPais, anio, trimestre, null);
 			
 			Long ranking = (Long) query.uniqueResult();
 			
@@ -95,61 +94,6 @@ public class DatosCancionDao {
 		
 	}
 
-	private void setearParametros(Query query, Long idPais, Integer anio,
-			Integer trimestre, String filtro) {
-		
-		if (trimestre != null) {
-			query.setParameter("trimestre", trimestre);
-		}
-		
-		if (anio != null) {
-			query.setParameter("anio", anio);
-		}
-		
-		if (idPais != null) {
-			query.setParameter("idPais", idPais);
-		}
-		
-		if (!StringUtils.isEmpty(filtro)) {
-			query.setParameter("filtro", "%" + filtro + "%");
-		}
-	}
-	
-	private String getWhereClause(Integer trimestre, Integer anio, Long idPais, String filtro) {
-		
-		StringBuffer buffer = new StringBuffer("");
-		
-		if (trimestre != null || anio != null || idPais != null || !StringUtils.isEmpty(filtro)) {
-			buffer.append("WHERE ");
-		}
-		
-		if (trimestre != null) {
-			buffer.append("dc.trimestre = :trimestre ");
-			if (anio != null || idPais != null || !StringUtils.isEmpty(filtro)) {
-				buffer.append("AND ");
-			}
-		}
-		
-		if (anio != null) {
-			buffer.append("dc.anio = :anio ");
-			if (idPais != null || !StringUtils.isEmpty(filtro)) {
-				buffer.append("AND ");
-			}
-		}
-		
-		if (idPais != null) {
-			buffer.append("dc.pais.id = :idPais ");
-			if (!StringUtils.isEmpty(filtro)) {
-				buffer.append("AND ");
-			}
-		}
-		
-		if (!StringUtils.isEmpty(filtro)) {
-			buffer.append("dc.autor.nombre like :filtro ");
-		}
-		
-		return buffer.toString();
-	}
 
 	@Transactional
 	public DatosCancion guardar(DatosCancion datos) {
@@ -189,6 +133,15 @@ public class DatosCancionDao {
 		return session.createQuery(
 				"select DISTINCT(dc.anio) from DatosCancion dc order by dc.anio desc").list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Long> getIdsPaises() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery(
+				"select DISTINCT(dc.pais.id) from DatosCancion dc order by dc.pais.nombre asc").list();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -202,13 +155,13 @@ public class DatosCancionDao {
 			.append("dc.autor.nombre as nombreAutor, SUM(dc.montoPercibido) as monto) ")
 			.append("FROM DatosCancion dc ");
 		
-		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
+		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro));
 		
 		buffer.append("GROUP BY dc.autor.id ORDER BY monto desc");
 		
 		Query query = session.createQuery(buffer.toString());
 		
-		setearParametros(query, idPais, anio, trimestre, filtro);
+		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
 		
 		query.setFirstResult(primerResultado);
 		query.setMaxResults(cantidadResultados);
@@ -226,11 +179,11 @@ public class DatosCancionDao {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT COUNT(DISTINCT dc.autor.id) FROM DatosCancion dc ");
 		
-		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
+		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro));
 		
 		Query query = session.createQuery(buffer.toString());
 		
-		setearParametros(query, idPais, anio, trimestre, filtro);
+		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
 		
 		Long resultado = (Long) query.uniqueResult();
 		

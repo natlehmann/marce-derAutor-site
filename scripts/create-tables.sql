@@ -44,28 +44,6 @@ create table Pais(
 
 CREATE UNIQUE INDEX UK_Pais_nombre ON Pais(nombre);
 
-create table UnidadesVendidasPorAutor(
-	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	cantidadUnidades BIGINT default 0,
-	anio int not null,
-	trimestre int not null,
-	pais_id BIGINT NOT NULL,
-	autor_id BIGINT NOT NULL,
-	FOREIGN KEY (pais_id) REFERENCES Pais(id),
-	FOREIGN KEY (autor_id) REFERENCES Autor(id)
-)  ENGINE=InnoDB;
-
-create table PercibidoPorAutor(
-	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	monto DECIMAL(10,2) default 0,
-	anio int not null,
-	trimestre int not null,
-	pais_id BIGINT NOT NULL,
-	autor_id BIGINT NOT NULL,
-	FOREIGN KEY (pais_id) REFERENCES Pais(id),
-	FOREIGN KEY (autor_id) REFERENCES Autor(id)
-)  ENGINE=InnoDB;
-
 create table DatosCancion(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	companyId BIGINT,
@@ -100,4 +78,17 @@ create table FechaDestacada(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	fecha datetime not null,
 	descripcion varchar(255) not null
+)  ENGINE=InnoDB;
+
+create table RankingArtistasMasEjecutados(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	ranking BIGINT,
+	pais_id BIGINT,
+	trimestre int,
+	anio int,
+	autor_id BIGINT NULL,
+	cantidadUnidades BIGINT default 0,
+	montoPercibido DECIMAL(10,2) default 0,
+	FOREIGN KEY (pais_id) REFERENCES Pais(id),
+	FOREIGN KEY (autor_id) REFERENCES Autor(id)
 )  ENGINE=InnoDB;
