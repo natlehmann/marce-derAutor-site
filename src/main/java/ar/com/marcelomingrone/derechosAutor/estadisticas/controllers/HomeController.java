@@ -61,7 +61,7 @@ public class HomeController {
 		session.setAttribute(SessionParam.TRIMESTRE.toString(), trimestre);
 		
 		model.addAttribute("autoresMasEjecutados", datosCancionDao.getAutoresMasEjecutados(
-				idPais, anio, trimestre, 0, 10, null));
+				idPais, anio, trimestre, 0, 10, null, false));
 		
 		model.addAttribute("autoresMasCobrados", datosCancionDao.getAutoresMasCobrados(
 				idPais, anio, trimestre, 0, 10, null));

@@ -14,6 +14,7 @@
 <table class="datatable">
 	<thead>
 		<tr>
+			<th>Ranking</th>
 			<th>Artista</th>
 			<th>Cantidad unidades</th>
 			<th>Monto percibido</th>

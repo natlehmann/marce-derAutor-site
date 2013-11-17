@@ -10,21 +10,26 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 
 	private long cantidadUnidades;
 	
+	private Long idAutor;
+	
 	private String nombreAutor;
 	
 	private double monto;
 	
+	private long ranking;
+	
 	public UnidadesVendidasPorAutor() {}
 	
-	public UnidadesVendidasPorAutor(String nombreAutor, long cantidadUnidades) {
+	public UnidadesVendidasPorAutor(Long idAutor, String nombreAutor, long cantidadUnidades) {
 		super();
+		this.idAutor = idAutor;
 		this.cantidadUnidades = cantidadUnidades;
 		this.nombreAutor = nombreAutor;
 	}
 
-	public UnidadesVendidasPorAutor(String nombreAutor, long cantidadUnidades,
+	public UnidadesVendidasPorAutor(Long idAutor, String nombreAutor, long cantidadUnidades,
 			double monto) {
-		this(nombreAutor, cantidadUnidades);
+		this(idAutor, nombreAutor, cantidadUnidades);
 		this.monto = monto;
 	}
 
@@ -52,6 +57,22 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 		this.monto = monto;
 	}
 	
+	public long getRanking() {
+		return ranking;
+	}
+	
+	public void setRanking(long ranking) {
+		this.ranking = ranking;
+	}
+	
+	public Long getIdAutor() {
+		return idAutor;
+	}
+	
+	public void setIdAutor(Long idAutor) {
+		this.idAutor = idAutor;
+	}
+	
 	@Override
 	public String toString() {
 		return this.nombreAutor + " " + this.cantidadUnidades;
@@ -61,6 +82,7 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 	public List<String> getCamposAsList() {
 		
 		List<String> campos = new LinkedList<>();
+		campos.add(this.ranking + ". ");
 		campos.add(nombreAutor);
 		campos.add(String.valueOf(cantidadUnidades));
 		campos.add("$ " + this.monto);

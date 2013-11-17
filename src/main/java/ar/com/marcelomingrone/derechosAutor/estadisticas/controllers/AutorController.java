@@ -67,7 +67,8 @@ public class AutorController {
 				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
 				(int)params.get(Params.INICIO),
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
-				(String)params.get(Params.FILTRO));
+				(String)params.get(Params.FILTRO),
+				true);
 		
 		long totalFiltrados = datosCancionDao.getCantidadAutoresMasEjecutados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 

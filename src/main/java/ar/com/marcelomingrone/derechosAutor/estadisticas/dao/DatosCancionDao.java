@@ -26,19 +26,21 @@ public class DatosCancionDao {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<UnidadesVendidasPorAutor> getAutoresMasEjecutados(Long idPais, Integer anio, 
-			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
+			Integer trimestre, int primerResultado, int cantidadResultados, String filtro,
+			boolean calcularRanking) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.UnidadesVendidasPorAutor( ")
-			.append("dc.autor.nombre as nombreAutor, SUM(dc.cantidadUnidades) as cantidadUnidades, ")
+			.append("dc.autor.id as idAutor, dc.autor.nombre as nombreAutor, ")
+			.append("SUM(dc.cantidadUnidades) as cantidadUnidades, ")
 			.append("SUM(dc.montoPercibido) as monto) ")
 			.append("FROM DatosCancion dc ");
 		
 		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
 		
-		buffer.append("GROUP BY dc.autor.id ORDER BY cantidadUnidades desc");
+		buffer.append("GROUP BY dc.autor.id ORDER BY cantidadUnidades desc, idAutor asc");
 		
 		Query query = session.createQuery(buffer.toString());
 		
@@ -47,7 +49,50 @@ public class DatosCancionDao {
 		query.setFirstResult(primerResultado);
 		query.setMaxResults(cantidadResultados);
 		
-		return query.list();
+		List<UnidadesVendidasPorAutor> resultado = query.list();
+		
+		if (calcularRanking) {
+//			calcularRankingMasEjecutados(resultado, idPais, anio, trimestre);
+		}
+		
+		return resultado;
+	}
+
+	@Transactional
+	private void calcularRankingMasEjecutados(
+			List<UnidadesVendidasPorAutor> resultado, Long idPais,
+			Integer anio, Integer trimestre) {
+		
+		for (UnidadesVendidasPorAutor unidad : resultado) {
+			
+			Session session = sessionFactory.getCurrentSession();
+			
+			StringBuffer buffer = new StringBuffer();
+			buffer.append("select count(DISTINCT dc2.autor.id) ")
+				.append("FROM DatosCancion dc2 ")
+				.append("WHERE dc2.autor.id IN ( ")
+				.append("SELECT dc.autor.id ")
+				.append("FROM DatosCancion dc ");
+			
+			buffer.append(getWhereClause(trimestre, anio, idPais, null));
+			
+			buffer.append("GROUP BY dc.autor.id ")
+				.append("HAVING (SUM(dc.cantidadUnidades) > :cantidad) ")
+				.append("OR (SUM(dc.cantidadUnidades) = :cantidad and dc.autor.id < :autorId) ")
+				.append("ORDER BY SUM(dc.cantidadUnidades) desc, dc.autor.id asc )");
+			
+			Query query = session.createQuery(buffer.toString());
+			query.setParameter("cantidad", unidad.getCantidadUnidades());
+			query.setParameter("autorId", unidad.getIdAutor());
+			
+			setearParametros(query, idPais, anio, trimestre, null);
+			
+			Long ranking = (Long) query.uniqueResult();
+			
+			unidad.setRanking(ranking != null ? ranking.longValue() + 1 : 1);
+			
+		}
+		
 	}
 
 	private void setearParametros(Query query, Long idPais, Integer anio,
