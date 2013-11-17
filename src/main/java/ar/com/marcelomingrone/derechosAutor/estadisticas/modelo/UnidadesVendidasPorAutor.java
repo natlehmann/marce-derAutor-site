@@ -12,6 +12,8 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 	
 	private String nombreAutor;
 	
+	private double monto;
+	
 	public UnidadesVendidasPorAutor() {}
 	
 	public UnidadesVendidasPorAutor(String nombreAutor, long cantidadUnidades) {
@@ -20,6 +22,11 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 		this.nombreAutor = nombreAutor;
 	}
 
+	public UnidadesVendidasPorAutor(String nombreAutor, long cantidadUnidades,
+			double monto) {
+		this(nombreAutor, cantidadUnidades);
+		this.monto = monto;
+	}
 
 	public Long getCantidadUnidades() {
 		return cantidadUnidades;
@@ -37,6 +44,14 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 		this.nombreAutor = nombreAutor;
 	}
 	
+	public double getMonto() {
+		return monto;
+	}
+	
+	public void setMonto(double monto) {
+		this.monto = monto;
+	}
+	
 	@Override
 	public String toString() {
 		return this.nombreAutor + " " + this.cantidadUnidades;
@@ -48,6 +63,7 @@ public class UnidadesVendidasPorAutor implements Serializable, Listable {
 		List<String> campos = new LinkedList<>();
 		campos.add(nombreAutor);
 		campos.add(String.valueOf(cantidadUnidades));
+		campos.add("$ " + this.monto);
 		
 		return campos;
 	}

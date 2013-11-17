@@ -32,7 +32,8 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.UnidadesVendidasPorAutor( ")
-			.append("dc.autor.nombre as nombreAutor, SUM(dc.cantidadUnidades) as cantidadUnidades) ")
+			.append("dc.autor.nombre as nombreAutor, SUM(dc.cantidadUnidades) as cantidadUnidades, ")
+			.append("SUM(dc.montoPercibido) as monto) ")
 			.append("FROM DatosCancion dc ");
 		
 		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
