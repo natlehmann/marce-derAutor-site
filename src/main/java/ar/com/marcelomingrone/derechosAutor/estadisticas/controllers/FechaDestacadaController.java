@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -67,11 +68,16 @@ public class FechaDestacadaController {
 				campoOrdenamiento,
 				(String)params.get(Params.DIRECCION_ORDENAMIENTO));
 		
-		Long total = fechaDestacadaDao.getCantidadResultados(
+		long totalFiltrados = fechaDestacadaDao.getCantidadResultados(
 				(String)params.get(Params.FILTRO));
 		
+		long total = totalFiltrados;
+		if (!StringUtils.isEmpty((String)params.get(Params.FILTRO))) {
+			total = fechaDestacadaDao.getCantidadResultados(null);
+		}
+		
 		DataTablesResponse resultado = new DataTablesResponse(
-				fechas, request.getParameter("sEcho"), total);
+				fechas, request.getParameter("sEcho"), total, totalFiltrados);
 		
 		return resultado;
 	}

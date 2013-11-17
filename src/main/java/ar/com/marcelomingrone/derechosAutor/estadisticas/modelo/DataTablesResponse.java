@@ -21,7 +21,8 @@ public class DataTablesResponse {
 	
 	public DataTablesResponse() {}
 	
-	public DataTablesResponse(List<? extends Listable> lista, String sEcho, long cantidadTotal) {
+	public DataTablesResponse(List<? extends Listable> lista, String sEcho, long cantidadTotal,
+			long cantidadFiltrada) {
 		
 		if (!StringUtils.isEmpty(sEcho)) {
 			try {
@@ -36,7 +37,7 @@ public class DataTablesResponse {
 		}
 		
 		this.iTotalRecords = cantidadTotal;
-		this.iTotalDisplayRecords = cantidadTotal;
+		this.iTotalDisplayRecords = cantidadFiltrada;
 		
 		this.aaData = new LinkedList<>();
 		for (Listable entidad : lista) {

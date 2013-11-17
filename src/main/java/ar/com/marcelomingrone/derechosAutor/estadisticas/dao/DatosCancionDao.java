@@ -178,11 +178,9 @@ public class DatosCancionDao {
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT COUNT(dc) FROM DatosCancion dc ");
+		buffer.append("SELECT COUNT(DISTINCT dc.autor.id) FROM DatosCancion dc ");
 		
 		buffer.append(getWhereClause(trimestre, anio, idPais, filtro));
-		
-		buffer.append("GROUP BY dc.autor.id");
 		
 		Query query = session.createQuery(buffer.toString());
 		

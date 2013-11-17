@@ -41,14 +41,16 @@ public class AutorController {
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
 				(String)params.get(Params.FILTRO));
 		
-		Long total = datosCancionDao.getCantidadAutoresMasEjecutados(
+		long totalFiltrados = datosCancionDao.getCantidadAutoresMasEjecutados(
 				null, //TODO: pais
 				null, // TODO: anio
 				null, //TODO: trimestre
 				(String)params.get(Params.FILTRO));
 		
+		long total = datosCancionDao.getCantidadAutoresMasEjecutados(null, null, null, null);
+		
 		DataTablesResponse resultado = new DataTablesResponse(
-				listado, request.getParameter("sEcho"), total);
+				listado, request.getParameter("sEcho"), total, totalFiltrados);
 		
 		return resultado;
 	}

@@ -4,7 +4,7 @@
 	"sZeroRecords": "No se han encontrado resultados.",
 	"sInfo": "Mostrando _START_ a _END_ de _TOTAL_ resultados",
 	"sInfoEmpty": "0 resultados",
-	"sInfoFiltered": "(filtrando de _MAX_ resultados)",
+	"sInfoFiltered": "(filtrando de _MAX_ resultados totales)",
 	"sInfoPostFix": "",
 	"sSearch": "Buscar",
 	"sUrl": "",
