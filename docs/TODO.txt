@@ -5,7 +5,9 @@ tablas al comenzar la importación.
 
 - Boton para frenar el proceso de importacion
 
-
 - Ancho columnas de los datatables
+
+- Refactoring: - Autores != Artistas mas cobrados/ejecutados
+				- Llevar metodos de DatosCancionDao a cada uno de los DAOs correspondientes
 
 
