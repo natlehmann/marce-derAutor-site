@@ -92,3 +92,16 @@ create table RankingArtistasMasEjecutados(
 	FOREIGN KEY (pais_id) REFERENCES Pais(id),
 	FOREIGN KEY (autor_id) REFERENCES Autor(id)
 )  ENGINE=InnoDB;
+
+create table RankingArtistasMasCobrados(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	ranking BIGINT,
+	pais_id BIGINT,
+	trimestre int,
+	anio int,
+	autor_id BIGINT NULL,
+	cantidadUnidades BIGINT default 0,
+	montoPercibido DECIMAL(10,2) default 0,
+	FOREIGN KEY (pais_id) REFERENCES Pais(id),
+	FOREIGN KEY (autor_id) REFERENCES Autor(id)
+)  ENGINE=InnoDB;
