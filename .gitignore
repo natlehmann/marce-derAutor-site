@@ -9,3 +9,4 @@
 settings.xml
 src/test/resources/importacion.csv
 src/test/resources/importacion10000.csv
+src/test/resources/importacion*.csv
