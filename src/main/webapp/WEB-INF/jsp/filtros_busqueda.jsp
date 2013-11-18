@@ -6,6 +6,9 @@
 	if (action == null) {
 		action = "/home/filtrar";
 	}
+	
+	boolean mostrarAutores = request.getParameter("mostrarAutores") != null 
+			&& request.getParameter("mostrarAutores").equalsIgnoreCase("true");
 %>
 
 <c:set var="url" value="<%= action %>" />
@@ -33,6 +36,16 @@
 		<option value="3" ${trimestreSeleccionado eq 3 ? "selected='selected'" : ""}>3</option>
 		<option value="4" ${trimestreSeleccionado eq 4 ? "selected='selected'" : ""}>4</option>
 	</select>
+	
+	<c:if test="<%=mostrarAutores %>">
+	
+		<select name="autor">
+			<option value="">TODOS</option>
+			<c:forEach items="${autores}" var="autor">
+				<option value="${autor.id}" ${autorSeleccionado eq autor.id ? "selected='selected'" : ""}>${autor.nombre}</option>
+			</c:forEach>
+		</select>
+	</c:if>
 	
 	<input type="submit" value="Buscar" />
 </form>

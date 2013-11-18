@@ -3,7 +3,6 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
@@ -14,14 +13,14 @@ public class Ranking extends Entidad {
 
 	private Long ranking;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne
 	private Pais pais;
 	
 	private Integer trimestre;
 	
 	private Integer anio;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
+	@ManyToOne
 	private Autor autor;
 	
 	private Long cantidadUnidades;
@@ -89,7 +88,7 @@ public class Ranking extends Entidad {
 		
 		List<String> campos = new LinkedList<>();
 		campos.add(this.ranking + ". ");
-		campos.add(this.autor.getNombre());
+		campos.add("<a href='#' onclick='irAbsoluto(\"canciones/" + this.autor.getId() + "\")'>" + this.autor.getNombre() + "</a>");
 		campos.add(String.valueOf(cantidadUnidades));
 		campos.add("$ " + this.montoPercibido);
 		

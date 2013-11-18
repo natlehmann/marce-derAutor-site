@@ -27,7 +27,10 @@
   		<c:forEach items="${autoresMasEjecutados}" var="dato" varStatus="indice">
 		  <tr>
 		  	<td>${indice.count}</td>
-		    <td>${dato.autor.nombre}</td>
+		    <td>
+		    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
+		    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
+		    </td>
 		    <td>${dato.cantidadUnidades}</td>
 		  </tr>
   		</c:forEach>
@@ -51,7 +54,10 @@
   		<c:forEach items="${autoresMasCobrados}" var="dato" varStatus="indice">
 		  <tr>
 		  	<td>${indice.count}</td>
-		    <td>${dato.autor.nombre}</td>
+		    <td>
+		    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
+		    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
+		    </td>
 		    <td>${dato.montoPercibido}</td>
 		  </tr>
   		</c:forEach>

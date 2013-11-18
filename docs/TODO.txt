@@ -8,6 +8,9 @@ tablas al comenzar la importación.
 - Ancho columnas de los datatables
 
 - Refactoring: - Autores != Artistas mas cobrados/ejecutados
-				- Llevar metodos de DatosCancionDao a cada uno de los DAOs correspondientes
+
+- Busqueda (anio, trimestre, pais) por ajax 
+
+- Autocomplete para el combo de autores
 
 

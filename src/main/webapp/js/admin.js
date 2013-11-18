@@ -17,6 +17,3 @@ function confirmarEliminar(id) {
 	$("#dialog-eliminar").dialog("open");
 }
 
-function ir(url) {
-	window.location.assign(url);
-}

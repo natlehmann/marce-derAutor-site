@@ -24,7 +24,8 @@ public class Utils {
 		
 		PAIS	("paisSeleccionado"),
 		ANIO	("anioSeleccionado"),
-		TRIMESTRE	("trimestreSeleccionado");
+		TRIMESTRE	("trimestreSeleccionado"), 
+		AUTOR	("autorSeleccionado");
 		
 		private String valor;
 		
