@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 
 public class DatosCancionDao {
 	
@@ -61,11 +62,11 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<Long> getIdsPaises() {
+	public List<Pais> getPaises() {
 		
 		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery(
-				"select DISTINCT(dc.pais.id) from DatosCancion dc order by dc.pais.nombre asc").list();
+				"select DISTINCT(dc.pais) from DatosCancion dc order by dc.pais.nombre asc").list();
 	}
 
 

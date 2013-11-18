@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
@@ -29,9 +28,6 @@ public class HomeController {
 	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
-	
-	@Autowired
-	private PaisDao paisDao;
 	
 	@Autowired
 	private FechaDestacadaDao fechaDestacadaDao;
@@ -61,7 +57,7 @@ public class HomeController {
 			ModelMap model, HttpSession session) {
 		
 		
-		model.addAttribute("paises", paisDao.getTodos());
+		model.addAttribute("paises", datosCancionDao.getPaises());
 		model.addAttribute("anios", datosCancionDao.getAnios());
 		
 		session.setAttribute(SessionParam.PAIS.toString(), idPais);

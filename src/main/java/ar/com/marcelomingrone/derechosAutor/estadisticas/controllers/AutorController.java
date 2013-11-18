@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
@@ -34,8 +33,6 @@ public class AutorController {
 	@Autowired
 	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
 	
-	@Autowired
-	private PaisDao paisDao;
 
 	@RequestMapping("/autoresMasEjecutados")
 	public String autoresMasEjecutados(ModelMap model, HttpSession session) {
@@ -56,7 +53,7 @@ public class AutorController {
 		session.setAttribute(SessionParam.ANIO.toString(), anio);
 		session.setAttribute(SessionParam.TRIMESTRE.toString(), trimestre);
 		
-		model.addAttribute("paises", paisDao.getTodos());
+		model.addAttribute("paises", datosCancionDao.getPaises());
 		model.addAttribute("anios", datosCancionDao.getAnios());
 		
 		return "autores_mas_ejecutados";
@@ -115,7 +112,7 @@ public class AutorController {
 		session.setAttribute(SessionParam.ANIO.toString(), anio);
 		session.setAttribute(SessionParam.TRIMESTRE.toString(), trimestre);
 		
-		model.addAttribute("paises", paisDao.getTodos());
+		model.addAttribute("paises", datosCancionDao.getPaises());
 		model.addAttribute("anios", datosCancionDao.getAnios());
 		
 		return "autores_mas_cobrados";

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 
 public class ProcesarRankings implements Tasklet {
 	
@@ -31,24 +32,24 @@ public class ProcesarRankings implements Tasklet {
 		rankingArtistasMasEjecutadosDao.importarDatosCanciones(null, null, null);
 		rankingArtistasMasCobradosDao.importarDatosCanciones(null, null, null);
 		
-		List<Long> idsPaises = datosCancionDao.getIdsPaises();
+		List<Pais> paises = datosCancionDao.getPaises();
 		List<Integer> anios = datosCancionDao.getAnios();
 		
 		
-		for (Long id : idsPaises) {
+		for (Pais pais : paises) {
 			// solo por pais
-			rankingArtistasMasEjecutadosDao.importarDatosCanciones(id, null, null);
-			rankingArtistasMasCobradosDao.importarDatosCanciones(id, null, null);
+			rankingArtistasMasEjecutadosDao.importarDatosCanciones(pais.getId(), null, null);
+			rankingArtistasMasCobradosDao.importarDatosCanciones(pais.getId(), null, null);
 			
 			// pais y anio
 			for (Integer anio : anios) {
-				rankingArtistasMasEjecutadosDao.importarDatosCanciones(id, anio, null);
-				rankingArtistasMasCobradosDao.importarDatosCanciones(id, anio, null);
+				rankingArtistasMasEjecutadosDao.importarDatosCanciones(pais.getId(), anio, null);
+				rankingArtistasMasCobradosDao.importarDatosCanciones(pais.getId(), anio, null);
 				
 				// pais, anio y trimestre
 				for (int i = 1; i <=4; i++) {
-					rankingArtistasMasEjecutadosDao.importarDatosCanciones(id, anio, i);
-					rankingArtistasMasCobradosDao.importarDatosCanciones(id, anio, i);
+					rankingArtistasMasEjecutadosDao.importarDatosCanciones(pais.getId(), anio, i);
+					rankingArtistasMasCobradosDao.importarDatosCanciones(pais.getId(), anio, i);
 				}
 			}
 		}
