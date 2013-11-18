@@ -17,15 +17,22 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Param
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasCobrados;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 
 @Controller
 public class AutorController {
 	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
+	
+	@Autowired
+	private RankingArtistasMasCobradosDao rankingArtistasMasCobradosDao;
+	
+	@Autowired
+	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
 	
 	@Autowired
 	private PaisDao paisDao;
@@ -62,7 +69,7 @@ public class AutorController {
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
 		
-		List<RankingArtistasMasEjecutados> listado = datosCancionDao.getAutoresMasEjecutados(
+		List<Ranking> listado = rankingArtistasMasEjecutadosDao.getAutoresMasEjecutados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
 				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
 				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
@@ -70,13 +77,14 @@ public class AutorController {
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
 				(String)params.get(Params.FILTRO));
 		
-		long totalFiltrados = datosCancionDao.getCantidadAutoresMasEjecutados(
+		long totalFiltrados = rankingArtistasMasEjecutadosDao.getCantidadAutoresMasEjecutados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
 				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
 				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
 				(String)params.get(Params.FILTRO));
 		
-		long total = datosCancionDao.getCantidadAutoresMasEjecutados(null, null, null, null);
+		long total = rankingArtistasMasEjecutadosDao.getCantidadAutoresMasEjecutados(
+				null, null, null, null);
 		
 		DataTablesResponse resultado = new DataTablesResponse(
 				listado, request.getParameter("sEcho"), total, totalFiltrados);
@@ -120,7 +128,7 @@ public class AutorController {
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
 		
-		List<RankingArtistasMasCobrados> listado = datosCancionDao.getAutoresMasCobrados(
+		List<Ranking> listado = rankingArtistasMasCobradosDao.getAutoresMasCobrados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
 				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
 				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
@@ -128,13 +136,14 @@ public class AutorController {
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
 				(String)params.get(Params.FILTRO));
 		
-		long totalFiltrados = datosCancionDao.getCantidadAutoresMasCobrados(
+		long totalFiltrados = rankingArtistasMasCobradosDao.getCantidadAutoresMasCobrados(
 				(Long)session.getAttribute(SessionParam.PAIS.toString()), 
 				(Integer)session.getAttribute(SessionParam.ANIO.toString()), 
 				(Integer)session.getAttribute(SessionParam.TRIMESTRE.toString()),
 				(String)params.get(Params.FILTRO));
 		
-		long total = datosCancionDao.getCantidadAutoresMasCobrados(null, null, null, null);
+		long total = rankingArtistasMasCobradosDao.getCantidadAutoresMasCobrados(
+				null, null, null, null);
 		
 		DataTablesResponse resultado = new DataTablesResponse(
 				listado, request.getParameter("sEcho"), total, totalFiltrados);

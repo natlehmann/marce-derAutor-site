@@ -2,14 +2,11 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasCobrados;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
 
 public class DatosCancionDao {
 	
@@ -22,30 +19,6 @@ public class DatosCancionDao {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<RankingArtistasMasEjecutados> getAutoresMasEjecutados(Long idPais, Integer anio, 
-			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
-		
-		Session session = sessionFactory.getCurrentSession();
-		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT dc FROM RankingArtistasMasEjecutados dc ");
-		
-		buffer.append(DaoUtils.getWhereClauseOrNull(trimestre, anio, idPais, filtro));
-		
-		buffer.append("ORDER BY dc.ranking");
-		
-		Query query = session.createQuery(buffer.toString());
-		
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-		
-		query.setFirstResult(primerResultado);
-		query.setMaxResults(cantidadResultados);
-		
-		return query.list();
-	}
-
 
 	@Transactional
 	public DatosCancion guardar(DatosCancion datos) {
@@ -95,65 +68,5 @@ public class DatosCancionDao {
 				"select DISTINCT(dc.pais.id) from DatosCancion dc order by dc.pais.nombre asc").list();
 	}
 
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<RankingArtistasMasCobrados> getAutoresMasCobrados(Long idPais, Integer anio,
-			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
-		
-		Session session = sessionFactory.getCurrentSession();
-		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT dc FROM RankingArtistasMasCobrados dc ");
-		
-		buffer.append(DaoUtils.getWhereClauseOrNull(trimestre, anio, idPais, filtro));
-		
-		buffer.append("ORDER BY dc.ranking");
-		
-		Query query = session.createQuery(buffer.toString());
-		
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-		
-		query.setFirstResult(primerResultado);
-		query.setMaxResults(cantidadResultados);
-		
-		return query.list();
-	}
-
-	
-	@Transactional
-	public long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
-			Integer trimestre, String filtro) {
-		
-		return getCantidadAutoresMasEjecutados(
-				idPais, anio, trimestre, filtro, "RankingArtistasMasEjecutados");
-	}
-	
-	@Transactional
-	public long getCantidadAutoresMasCobrados(Long idPais, Integer anio, 
-			Integer trimestre, String filtro) {
-		
-		return getCantidadAutoresMasEjecutados(
-				idPais, anio, trimestre, filtro, "RankingArtistasMasCobrados");
-	}
-	
-	@Transactional
-	private long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
-			Integer trimestre, String filtro, String nombreEntidad) {
-		
-		Session session = sessionFactory.getCurrentSession();
-		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT COUNT(DISTINCT dc.autor.id) FROM " + nombreEntidad + " dc ");
-		
-		buffer.append(DaoUtils.getWhereClauseOrNull(trimestre, anio, idPais, filtro));
-		
-		Query query = session.createQuery(buffer.toString());
-		
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-		
-		Long resultado = (Long) query.uniqueResult();
-		
-		return resultado != null ? resultado : 0;
-	}
 
 }

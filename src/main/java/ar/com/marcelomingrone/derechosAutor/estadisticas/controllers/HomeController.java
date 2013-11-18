@@ -18,6 +18,8 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Sessi
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 
 @Controller
@@ -33,6 +35,12 @@ public class HomeController {
 	
 	@Autowired
 	private FechaDestacadaDao fechaDestacadaDao;
+	
+	@Autowired
+	private RankingArtistasMasCobradosDao rankingArtistasMasCobradosDao;
+	
+	@Autowired
+	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
 	
 	private SimpleDateFormat formateadorFechas = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -60,10 +68,10 @@ public class HomeController {
 		session.setAttribute(SessionParam.ANIO.toString(), anio);
 		session.setAttribute(SessionParam.TRIMESTRE.toString(), trimestre);
 		
-		model.addAttribute("autoresMasEjecutados", datosCancionDao.getAutoresMasEjecutados(
+		model.addAttribute("autoresMasEjecutados", rankingArtistasMasEjecutadosDao.getAutoresMasEjecutados(
 				idPais, anio, trimestre, 0, 10, null));
 		
-		model.addAttribute("autoresMasCobrados", datosCancionDao.getAutoresMasCobrados(
+		model.addAttribute("autoresMasCobrados", rankingArtistasMasCobradosDao.getAutoresMasCobrados(
 				idPais, anio, trimestre, 0, 10, null));
 		
 		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getTodos();

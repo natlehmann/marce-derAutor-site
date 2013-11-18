@@ -1,5 +1,7 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
 
 @Repository
-public class RankingArtistasMasEjecutadosDao extends EntidadDao<RankingArtistasMasEjecutados> {
+public class RankingArtistasMasEjecutadosDao extends RankingDao {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -67,6 +70,25 @@ public class RankingArtistasMasEjecutadosDao extends EntidadDao<RankingArtistasM
 		
 		query.executeUpdate();
 		
+	}
+	
+	
+	@Transactional
+	public List<Ranking> getAutoresMasEjecutados(Long idPais, Integer anio, 
+			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
+		
+		return super.getAutoresMasCobradosOEjecutados(
+				idPais, anio, trimestre, primerResultado, cantidadResultados, 
+				filtro, "RankingArtistasMasEjecutados");
+	}
+	
+	
+	@Transactional
+	public long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
+			Integer trimestre, String filtro) {
+		
+		return getCantidadAutoresMasEjecutados(
+				idPais, anio, trimestre, filtro, "RankingArtistasMasEjecutados");
 	}
 
 
