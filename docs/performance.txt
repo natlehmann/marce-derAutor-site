@@ -1,0 +1,13 @@
+Procesamiento todo junto
+
+INFO: Job: [FlowJob: [name=importacionJob]] launched with the following parameters: [{nombreArchivo=importacion1mill.csv, fechaEjecucion=1384817865196, tamanioArchivo=137749235}]
+Nov 18, 2013 8:37:45 PM org.springframework.batch.core.job.SimpleStepHandler handleStep
+INFO: Executing step: [inicializarHistorial]
+Nov 18, 2013 8:37:47 PM org.springframework.batch.core.job.SimpleStepHandler handleStep
+INFO: Executing step: [borrarDatosAnteriores]
+Nov 18, 2013 8:37:48 PM org.springframework.batch.core.job.SimpleStepHandler handleStep
+INFO: Executing step: [importarNuevosDatos]
+Nov 18, 2013 9:12:47 PM org.springframework.batch.core.job.SimpleStepHandler handleStep
+INFO: Executing step: [procesarDatos]
+Nov 18, 2013 9:48:21 PM org.springframework.batch.core.job.SimpleStepHandler handleStep
+INFO: Executing step: [cerrarHistorial]

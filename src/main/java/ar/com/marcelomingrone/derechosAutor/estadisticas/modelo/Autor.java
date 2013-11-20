@@ -24,6 +24,10 @@ public class Autor implements Serializable {
 		this.nombre = nombre;
 	}
 
+	public Autor(Long id) {
+		this.setId(id);
+	}
+
 	public String getNombre() {
 		return nombre;
 	}
