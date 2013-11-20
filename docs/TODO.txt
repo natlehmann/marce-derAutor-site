@@ -11,14 +11,6 @@ tablas al comenzar la importación.
 
 - Busqueda (anio, trimestre, pais) por ajax 
 
-- Autocomplete para el combo de autores
-
-- Agregar logs al proceso de importacion (procesar datos)
-
 - Pantalla "ver ultimo reporte de importacion" . Agregar tiempo estimado a la pantalla de importacion
-
-- BUG: Tarda mucho la pantalla de canciones si no se filtra por autor -> tabla de ranking?
-- BUG: En procesamiento de datos, No hace commit hasta el final?
-Separar cada paso en un chink diferente? JdbcCursorItemReader
 
 

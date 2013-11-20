@@ -39,12 +39,9 @@
 	
 	<c:if test="<%=mostrarAutores %>">
 	
-		<select name="autor">
-			<option value="">TODOS</option>
-			<c:forEach items="${autores}" var="autor">
-				<option value="${autor.id}" ${autorSeleccionado eq autor.id ? "selected='selected'" : ""}>${autor.nombre}</option>
-			</c:forEach>
-		</select>
+		<input name="nombreAutor" value="${nombreAutor}" id="autorAutocomplete" />
+		<input type="hidden" name="autor" value="${autorSeleccionado}" id="autorId" />
+
 	</c:if>
 	
 	<input type="submit" value="Buscar" />

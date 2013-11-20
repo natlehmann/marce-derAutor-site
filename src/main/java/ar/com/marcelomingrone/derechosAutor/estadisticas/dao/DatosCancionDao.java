@@ -80,6 +80,17 @@ public class DatosCancionDao {
 		return session.createQuery(
 				"select DISTINCT(dc.autor) from DatosCancion dc order by dc.autor.nombre asc").list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Autor> getAutoresLikeNombre(String nombreAutor) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery(
+				"select DISTINCT(dc.autor) from DatosCancion dc "
+				+ "WHERE dc.autor.nombre LIKE :nombreAutor order by dc.autor.nombre asc")
+				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -97,7 +108,7 @@ public class DatosCancionDao {
 		
 		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro, idAutor));
 		
-		buffer.append("GROUP BY dc.cancion.id ")
+		buffer.append("GROUP BY dc.cancion.id, dc.autor.id ")
 			.append("ORDER BY dc.cancion.nombre asc");
 		
 		Query query = session.createQuery(buffer.toString());

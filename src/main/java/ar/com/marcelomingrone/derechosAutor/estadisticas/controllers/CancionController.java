@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
 
@@ -25,6 +27,9 @@ public class CancionController {
 	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
+	
+	@Autowired
+	private AutorDao autorDao;
 	
 	
 	@RequestMapping("/canciones")
@@ -61,7 +66,11 @@ public class CancionController {
 		
 		model.addAttribute("paises", datosCancionDao.getPaises());
 		model.addAttribute("anios", datosCancionDao.getAnios());
-		model.addAttribute("autores", datosCancionDao.getAutores());
+		
+		if (idAutor != null) {
+			Autor autor = autorDao.buscar(idAutor);
+			model.addAttribute("nombreAutor", autor != null ? autor.getNombre() : "");
+		}
 		
 		return "canciones";
 	}

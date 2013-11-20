@@ -18,6 +18,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Sessi
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 
@@ -146,6 +147,15 @@ public class AutorController {
 				listado, request.getParameter("sEcho"), total, totalFiltrados);
 		
 		return resultado;
+	}
+	
+	
+	@RequestMapping("/buscarAutorPorNombre")
+	@ResponseBody
+	public List<Autor> buscarAutorPorNombre(@RequestParam("autor")String nombreAutor) {
+		
+		return datosCancionDao.getAutoresLikeNombre(nombreAutor);
+		
 	}
 	
 }
