@@ -105,3 +105,10 @@ create table RankingArtistasMasCobrados(
 	FOREIGN KEY (pais_id) REFERENCES Pais(id),
 	FOREIGN KEY (autor_id) REFERENCES Autor(id)
 )  ENGINE=InnoDB;
+
+create table ItemAuditoria(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(255) not null,
+	orden int not null,
+	puntaje int not null
+)  ENGINE=InnoDB;

@@ -1,3 +1,4 @@
+DROP TABLE ItemAuditoria;
 DROP TABLE DatosCancion;
 DROP TABLE HistorialImportacion;
 DROP TABLE FechaDestacada;
