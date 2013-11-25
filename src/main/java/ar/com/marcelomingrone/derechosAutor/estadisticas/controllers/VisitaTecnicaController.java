@@ -23,9 +23,9 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PuntoAuditoriaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ItemAuditoria;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PuntoAuditoria;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.VisitaTecnica;
 
 @Controller
-@RequestMapping("/admin/visitaTecnica")
 public class VisitaTecnicaController {
 	
 	private static Log log = LogFactory.getLog(VisitaTecnicaController.class);
@@ -39,20 +39,40 @@ public class VisitaTecnicaController {
 	@Autowired
 	private ItemAuditoriaDao itemAuditoriaDao;
 	
-	@RequestMapping("listar")
+	@RequestMapping("/visitasTecnicas")
 	public String listar(ModelMap model) {
+		
+		List<Fuente> fuentes = fuenteDao.getTodos();
+		
+		List<VisitaTecnica> visitas = new LinkedList<>();
+		
+		for (Fuente fuente : fuentes) {
+			
+			List<PuntoAuditoria> puntos = puntoAuditoriaDao.buscarPorFuente(fuente.getId());
+			double total = calcularTotal(puntos);
+			
+			VisitaTecnica visita = new VisitaTecnica();
+			visita.setFuente(fuente);
+			visita.setPuntos(total);
+			
+			visitas.add(visita);
+		}
+		
+		Collections.sort(visitas);
+		
+		model.addAttribute("visitasTecnicas", visitas);
 		
 		return "visitasTecnicas";
 	}
 	
-	@RequestMapping("/cargar")
+	@RequestMapping("/admin/visitaTecnica/cargar")
 	public String cargar(ModelMap model) {
 		
 		model.addAttribute("fuentes", fuenteDao.getTodos());
 		return "admin/visitaTecnica_seleccionarFuente";
 	}
 	
-	@RequestMapping("/seleccionarFuente")
+	@RequestMapping("/admin/visitaTecnica/seleccionarFuente")
 	public String seleccionarFuente(@RequestParam(value="fuente", required=false) Long idFuente, 
 			ModelMap model) {
 		
@@ -142,7 +162,7 @@ public class VisitaTecnicaController {
 	}
 	
 	
-	@RequestMapping(value="/aceptarEdicion", method={RequestMethod.POST})
+	@RequestMapping(value="/admin/visitaTecnica/aceptarEdicion", method={RequestMethod.POST})
 	public String aceptarEdicion(ModelMap model, HttpServletRequest request){
 
 		List<ItemAuditoria> todosLosItems = itemAuditoriaDao.getTodos();
@@ -218,22 +238,5 @@ public class VisitaTecnicaController {
 		
 		return puntos;
 	}
-
-	
-//	
-//	@RequestMapping(value="/eliminar", method={RequestMethod.POST})
-//	public String eliminar(@RequestParam("id") Long id, ModelMap model) {
-//		
-//		try {
-//			itemAuditoriaDao.eliminar(id);
-//			model.addAttribute("msg", "El item se ha eliminado con éxito.");
-//			
-//		} catch (Exception e) {
-//			log.error("Error al eliminar el item.", e);
-//			model.addAttribute("msg", "No se ha podido eliminar el item. " 
-//					+ "Si el problema persiste consulte al administrador del sistema.");
-//		}
-//		return listar(model);
-//	}
 
 }
