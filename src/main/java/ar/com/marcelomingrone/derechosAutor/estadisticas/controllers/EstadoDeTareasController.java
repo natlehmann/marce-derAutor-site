@@ -49,7 +49,7 @@ public class EstadoDeTareasController {
 	@RequestMapping("/estadoDeTareas")
 	public String listar(ModelMap model) {
 		
-		return buscar(null, null, null, null, null, model);
+		return buscar(null, null, null, null, null, null, model);
 	}
 	
 	@RequestMapping("/estadoDeTareas/buscar")
@@ -58,6 +58,7 @@ public class EstadoDeTareasController {
 			@RequestParam(value="fuente", required=false) Long idFuente,
 			@RequestParam(value="estado", required=false) String estado,
 			@RequestParam(value="prioridad", required=false) String prioridad,
+			@RequestParam(value="nombreAutor", required=false) String nombreAutor,
 			ModelMap model) {
 		
 		List<EstadoDeTareas> listado = estadoDeTareasDao.filtrar(
@@ -70,6 +71,7 @@ public class EstadoDeTareasController {
 		model.addAttribute("filtro_fuente", idFuente);
 		model.addAttribute("filtro_estado", estado);
 		model.addAttribute("filtro_prioridad", prioridad);
+		model.addAttribute("nombreAutor", nombreAutor);
 		
 		model.addAttribute("fuentes", fuenteDao.getTodos());
 		model.addAttribute("estados", Estado.values());
@@ -100,7 +102,7 @@ public class EstadoDeTareasController {
 		model.addAttribute("estados", Estado.values());
 		model.addAttribute("prioridades", Prioridad.values());
 		
-		if (estadoDeTareas.getAutor() != null) {
+		if (estadoDeTareas.getAutor() != null && model.get("nombreAutor") == null) {
 			model.addAttribute("nombreAutor", estadoDeTareas.getAutor().getNombre());
 		}
 		

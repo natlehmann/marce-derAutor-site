@@ -5,6 +5,9 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
+<script type="text/javascript" src='<c:url value="/js/estadoDeTareas_editar.js" />' ></script>
+
+
 <div class="titulo">Estado de tareas</div>
 
 <div class="msg">${msg}</div>
@@ -17,7 +20,9 @@
 	
 		<div>
 			Buscar por artista
-			<input type="text" name="autor" value="${filtro_autor}" />
+			<input type="hidden" id="autorId" name="autor" value="${filtro_autor}"/>
+			<input type="text" id="autorAutocomplete" name="nombreAutor" value="${nombreAutor}"
+				oninput="limpiarSeleccionAutor()" />
 		</div>
 	
 		<div>
