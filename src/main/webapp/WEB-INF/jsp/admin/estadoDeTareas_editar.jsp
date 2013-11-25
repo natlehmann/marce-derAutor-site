@@ -6,6 +6,8 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
+<script type="text/javascript" src='<c:url value="/js/estadoDeTareas_editar.js" />' ></script>
+
 <c:url value="/admin/estadoDeTareas/aceptarEdicion" var="formAction" />
 <form:form commandName="estadoDeTareas" action="${formAction}" method="POST">
 
@@ -20,7 +22,9 @@
 	<div class="campo">
 		<form:label path="autor.id">Artista</form:label>
 		<form:errors path="autor.id" cssClass="error"/>
-		<form:input path="autor.id"/>
+		<form:hidden path="autor.id" id="autorId"/>
+		<input type="text" id="autorAutocomplete" name="nombreAutor" value="${nombreAutor}"
+			oninput="limpiarSeleccionAutor()" />
 	</div>
 	
 	<div class="campo">

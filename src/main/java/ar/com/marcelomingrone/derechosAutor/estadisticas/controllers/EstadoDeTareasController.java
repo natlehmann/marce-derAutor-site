@@ -100,13 +100,20 @@ public class EstadoDeTareasController {
 		model.addAttribute("estados", Estado.values());
 		model.addAttribute("prioridades", Prioridad.values());
 		
+		if (estadoDeTareas.getAutor() != null) {
+			model.addAttribute("nombreAutor", estadoDeTareas.getAutor().getNombre());
+		}
+		
 		model.addAttribute("estadoDeTareas", estadoDeTareas);
 		return "admin/estadoDeTareas_editar";
 	}
 	
 	@RequestMapping(value="/admin/estadoDeTareas/aceptarEdicion", method={RequestMethod.POST})
 	public String aceptarEdicion(@Valid EstadoDeTareas estadoDeTareas, 
-			BindingResult result, ModelMap model){
+			BindingResult result, ModelMap model, 
+			@RequestParam(value="nombreAutor", required=false) String nombreAutor){
+		
+		model.addAttribute("nombreAutor", nombreAutor);
 		
 		if (!result.hasErrors()) {
 			
