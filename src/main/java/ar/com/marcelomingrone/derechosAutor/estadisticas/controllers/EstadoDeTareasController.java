@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.EstadoDeTareasDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
@@ -156,6 +157,23 @@ public class EstadoDeTareasController {
 					+ "Si el problema persiste consulte al administrador del sistema.");
 		}
 		return listar(model);
+	}
+	
+	@RequestMapping("/estadoDeTareas/verDescripcion") 
+	@ResponseBody
+	public String verDescripcion(@RequestParam("id") Long id) {
+		
+		EstadoDeTareas estadoDeTareas = estadoDeTareasDao.buscar(id);
+		return estadoDeTareas.getDescripcion() + " <a href='#' onclick='reducirDescripcion(this," 
+				+ estadoDeTareas.getId() + ")'>-</a>";
+	}
+	
+	@RequestMapping("/estadoDeTareas/reducirDescripcion") 
+	@ResponseBody
+	public String reducirDescripcion(@RequestParam("id") Long id) {
+		
+		EstadoDeTareas estadoDeTareas = estadoDeTareasDao.buscar(id);
+		return estadoDeTareas.getDescripcionCorta();
 	}
 
 }

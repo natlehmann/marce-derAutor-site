@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -104,6 +105,24 @@ public class EstadoDeTareas extends Entidad {
 
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
+	}
+	
+	@Transient
+	public String getDescripcionCorta() {
+		
+		if (this.descripcion != null && this.descripcion.length() > 200) {
+			
+			String corta = this.descripcion.substring(0, 200);
+			int indiceUltimoEspacio = corta.lastIndexOf(" ");
+			
+			if (indiceUltimoEspacio > 0) {
+				corta = corta.substring(0, indiceUltimoEspacio);
+			}
+			
+			return corta + "... <a href='#' onclick='verMas(this," + this.getId() + ")'>+</a>";
+		}
+		
+		return this.descripcion;
 	}
 	
 	public static enum Estado {

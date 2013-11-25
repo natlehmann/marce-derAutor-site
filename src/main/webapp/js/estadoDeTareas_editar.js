@@ -30,3 +30,23 @@ function limpiarSeleccionAutor() {
 		$("#autorId").val("");
 	}
 }
+
+function verMas(elemento, idEstadoDeTareas) {
+	$.ajax({
+		 url: $("#contexto").val() + "estadoDeTareas/verDescripcion",
+		 data: { id: idEstadoDeTareas },
+		 success: function( data ) {
+			$(elemento).parent().html(data); 
+	 	}
+	 });
+}
+
+function reducirDescripcion(elemento, idEstadoDeTareas) {
+	$.ajax({
+		 url: $("#contexto").val() + "estadoDeTareas/reducirDescripcion",
+		 data: { id: idEstadoDeTareas },
+		 success: function( data ) {
+			$(elemento).parent().html(data); 
+	 	}
+	 });
+}

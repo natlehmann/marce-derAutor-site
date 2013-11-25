@@ -91,7 +91,7 @@
 				<td>${estadoDeTareas.autor.nombre}</td>
 				<td>${estadoDeTareas.asunto}</td>
 				<td>${estadoDeTareas.fuente.nombre}</td>
-				<td>${estadoDeTareas.descripcion}</td>
+				<td>${estadoDeTareas.descripcionCorta}</td>
 				<td>${estadoDeTareas.comentario}</td>
 				<td>${estadoDeTareas.estado}</td>
 				<td>${estadoDeTareas.prioridad}</td>
