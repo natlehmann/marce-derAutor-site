@@ -4,6 +4,7 @@ DROP TABLE HistorialImportacion;
 DROP TABLE FechaDestacada;
 DROP TABLE RankingArtistasMasEjecutados;
 DROP TABLE RankingArtistasMasCobrados;
+DROP TABLE EstadoDeTareas;
 
 DROP TABLE Usuario_Rol;
 DROP TABLE Rol;
