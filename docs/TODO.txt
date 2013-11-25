@@ -13,4 +13,6 @@ tablas al comenzar la importación.
 
 - Pantalla "ver ultimo reporte de importacion" . Agregar tiempo estimado a la pantalla de importacion
 
+- Sacar la columna "acciones" de listado de estado de tareas (y el boton de nuevo) si el rol no es administrador
+
 

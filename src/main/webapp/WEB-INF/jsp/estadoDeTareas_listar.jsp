@@ -108,6 +108,21 @@
 </table>
 
 
+<div id="dialog-eliminar" style="display:none;" title="Confirmación">
+	<form action='<c:url value="/admin/estadoDeTareas/eliminar" />' method="post">
+		
+		<input type="hidden" name="id" id="dialog-eliminar-id" value="" />
+		
+		<p>
+			¿Está seguro que desea eliminar este elemento?
+		</p>
+		
+		<div class="ui-dialog-buttonpane">
+			<input type="submit" value="Aceptar" />
+			<button type="button" onclick="ir('listar')">Cancelar</button>
+		</div>
+	</form>
+</div>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
