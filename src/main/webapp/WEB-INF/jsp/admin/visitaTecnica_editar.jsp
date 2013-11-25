@@ -22,12 +22,17 @@
 					${item.itemAuditoria.puntaje}
 				</td>
 				<td>
-					<c:if test="${item.puntajeAsignado >= 0 and item.puntajeAsignado <= 10}">
-						${item.puntajeAsignado}
-					</c:if>
+					${item.puntajePonderado}
 				</td>
 			</tr>
 		</c:forEach>
+		
+		<tr>
+			<td>TOTAL</td>
+			<td><br/></td>
+			<td><br/></td>
+			<td>${total}</td>
+		</tr>
 	</table>
 	
 	<button type="button" onclick="enviarPuntajes()">Aceptar</button>

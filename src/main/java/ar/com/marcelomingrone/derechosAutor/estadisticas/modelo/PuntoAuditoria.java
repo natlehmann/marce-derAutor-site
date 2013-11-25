@@ -2,6 +2,7 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class PuntoAuditoria extends Entidad implements Comparable<PuntoAuditoria> {
@@ -38,6 +39,19 @@ public class PuntoAuditoria extends Entidad implements Comparable<PuntoAuditoria
 
 	public void setPuntajeAsignado(int puntajeAsignado) {
 		this.puntajeAsignado = puntajeAsignado;
+	}
+	
+	@Transient
+	public Double getPuntajePonderado() {
+		
+		Double puntajePonderado = null;
+		
+		if (this.puntajeAsignado >= 0 && this.puntajeAsignado <= 10 && this.itemAuditoria != null) {
+			puntajePonderado = this.puntajeAsignado * (double)this.itemAuditoria.getPuntaje() / 100D;
+		}
+		
+		return puntajePonderado;
+		
 	}
 
 	@Override

@@ -82,10 +82,22 @@ public class VisitaTecnicaController {
 		// ordenarlos
 		Collections.sort(puntosAuditoria);
 		
+		model.addAttribute("total", calcularTotal(puntosAuditoria));
+		
 		model.addAttribute("idFuente", idFuente);
 		model.addAttribute("items", puntosAuditoria);
 		
 		return "admin/visitaTecnica_editar";
+	}
+
+	private double calcularTotal(List<PuntoAuditoria> puntosAuditoria) {
+		
+		double sumatoria = 0;
+		for (PuntoAuditoria punto : puntosAuditoria) {
+			sumatoria += punto.getPuntajePonderado() != null ? punto.getPuntajePonderado() : 0;
+		}
+		
+		return sumatoria;
 	}
 
 	private void verificarPuntosAuditoria(List<PuntoAuditoria> puntosAuditoria,
