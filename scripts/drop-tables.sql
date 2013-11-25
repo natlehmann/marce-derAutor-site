@@ -1,4 +1,4 @@
-DROP TABLE ItemAuditoria;
+DROP TABLE PuntoAuditoria;
 DROP TABLE DatosCancion;
 DROP TABLE HistorialImportacion;
 DROP TABLE FechaDestacada;
@@ -12,3 +12,4 @@ DROP TABLE Autor;
 DROP TABLE Cancion;
 DROP TABLE Fuente;
 DROP TABLE Pais;
+DROP TABLE ItemAuditoria;

@@ -112,3 +112,12 @@ create table ItemAuditoria(
 	orden int not null,
 	puntaje int not null
 )  ENGINE=InnoDB;
+
+create table PuntoAuditoria(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fuente_id BIGINT NOT NULL,
+	itemAuditoria_id BIGINT NOT NULL,
+	puntajeAsignado int NOT NULL,
+	FOREIGN KEY (fuente_id) REFERENCES Fuente(id),
+	FOREIGN KEY (itemAuditoria_id) REFERENCES ItemAuditoria(id)
+)  ENGINE=InnoDB;

@@ -13,7 +13,7 @@ public class FuenteDao extends EntidadDao<Fuente> {
 	private SessionFactory sessionFactory;
 	
 	public FuenteDao() {
-		super(Fuente.class);
+		super(Fuente.class, "nombre");
 	}
 
 	@Override
