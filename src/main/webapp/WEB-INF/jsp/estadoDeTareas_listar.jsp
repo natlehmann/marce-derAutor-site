@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
@@ -10,9 +11,11 @@
 
 <div class="titulo">Estado de tareas</div>
 
-<div class="msg">${msg}</div>
-
-<button type="button" onclick="irAbsoluto('admin/estadoDeTareas/crear')">Nueva tarea</button>
+<sec:authorize access="hasRole('administrador')">
+	<div class="msg">${msg}</div>
+	
+	<button type="button" onclick="irAbsoluto('admin/estadoDeTareas/crear')">Nueva tarea</button>
+</sec:authorize>
 
 
 <div class="filtros">
@@ -81,7 +84,9 @@
 			<th>Comentario</th>
 			<th>Estado</th>
 			<th>Prioridad</th>
-			<th>Acciones</th>
+			<sec:authorize access="hasRole('administrador')">
+				<th>Acciones</th>
+			</sec:authorize>
 		</tr>
 	</thead>
 	<tbody>
@@ -95,13 +100,16 @@
 				<td>${estadoDeTareas.comentario}</td>
 				<td>${estadoDeTareas.estado}</td>
 				<td>${estadoDeTareas.prioridad}</td>
-				<td>
-					<c:url value="/admin/estadoDeTareas/modificar" var="modificarUrl">
-						<c:param name="id" value="${estadoDeTareas.id}"/>
-					</c:url>
-					<a href='${modificarUrl}'>Modificar</a>
-					<a href="#" onclick="confirmarEliminar('${estadoDeTareas.id}')">Eliminar</a>
-				</td>
+				
+				<sec:authorize access="hasRole('administrador')">
+					<td>
+						<c:url value="/admin/estadoDeTareas/modificar" var="modificarUrl">
+							<c:param name="id" value="${estadoDeTareas.id}"/>
+						</c:url>
+						<a href='${modificarUrl}'>Modificar</a>
+						<a href="#" onclick="confirmarEliminar('${estadoDeTareas.id}')">Eliminar</a>
+					</td>
+				</sec:authorize>
 			</tr>
 		</c:forEach>
 	</tbody>
