@@ -48,6 +48,7 @@ public class DatosCancionMapper implements FieldSetMapper<DatosCancion> {
 			
 			String nombreDerecho = fieldSet.readString(i++);
 			Derecho derecho = new Derecho(nombreDerecho != null ? nombreDerecho.toUpperCase() : null);
+			derecho.setModificable(false);
 			datosCancion.setDerecho(derecho);
 			
 			long copyRightShares = fieldSet.readLong(i++);

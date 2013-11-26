@@ -22,7 +22,8 @@ create table Usuario_Rol(
 )  ENGINE=InnoDB;
 
 create table Derecho(
-	nombre varchar(255) not null PRIMARY KEY
+	nombre varchar(255) not null PRIMARY KEY,
+	modificable bit default 0
 )  ENGINE=InnoDB;
 
 create table Autor(

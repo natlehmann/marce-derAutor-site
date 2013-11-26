@@ -1,17 +1,27 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class Derecho implements Serializable {
+public class Derecho implements Serializable, Comparable<Derecho>, Listable {
 	
 	private static final long serialVersionUID = -7609645649807916121L;
 	
 	@Id
+	@NotNull @Size(max=255) @NotBlank
 	private String nombre;
+	
+	private boolean modificable;
 	
 	public Derecho(){}
 	
@@ -25,6 +35,14 @@ public class Derecho implements Serializable {
 	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	
+	public boolean isModificable() {
+		return modificable;
+	}
+	
+	public void setModificable(boolean modificable) {
+		this.modificable = modificable;
 	}
 
 	@Override
@@ -55,6 +73,32 @@ public class Derecho implements Serializable {
 	@Override
 	public String toString() {
 		return this.nombre;
+	}
+
+	@Override
+	public int compareTo(Derecho otro) {
+		return this.nombre.compareTo(otro.nombre);
+	}
+
+	@Override
+	@Transient
+	public List<String> getCamposAsList() {
+		
+		List<String> resultado = new LinkedList<>();
+		resultado.add(this.nombre);
+		resultado.add(this.getLinksModificarEliminar());
+		
+		return resultado;
+	}
+
+	private String getLinksModificarEliminar() {
+		
+		if (this.modificable) {
+			return "<a href='#' onclick=\"confirmarEliminar('" + this.nombre + "')\">Eliminar</a>";
+		
+		} else {
+			return "";
+		}
 	}
 
 }
