@@ -15,3 +15,5 @@ tablas al comenzar la importación.
 
 - Poner boton limpiar en busqueda de estado de tareas
 
+- Paginas 403 y 404
+

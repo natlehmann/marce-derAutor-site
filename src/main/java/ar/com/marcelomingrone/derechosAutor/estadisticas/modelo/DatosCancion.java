@@ -29,6 +29,9 @@ public class DatosCancion extends Entidad {
 	@ManyToOne(cascade=CascadeType.MERGE)
 	private Fuente fuente;
 	
+	@ManyToOne(cascade=CascadeType.MERGE)
+	private Derecho derecho;
+	
 	private long cantidadUnidades;
 	
 	private double montoPercibido;
@@ -111,6 +114,14 @@ public class DatosCancion extends Entidad {
 
 	public void setMontoPercibido(double montoPercibido) {
 		this.montoPercibido = montoPercibido;
+	}
+	
+	public void setDerecho(Derecho derecho) {
+		this.derecho = derecho;
+	}
+	
+	public Derecho getDerecho() {
+		return derecho;
 	}
 	
 

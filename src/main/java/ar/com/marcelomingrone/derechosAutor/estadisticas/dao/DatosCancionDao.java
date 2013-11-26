@@ -43,11 +43,13 @@ public class DatosCancionDao {
 				+ "companyId BIGINT,pais_id BIGINT,trimestre int not null,"
 				+ "anio int not null,formatId int,autor_id BIGINT NULL,"
 				+ "cancion_id BIGINT NULL,fuente_id BIGINT NULL,"
+				+ "derecho_nombre varchar(255) NULL,"
 				+ "cantidadUnidades BIGINT default 0,montoPercibido DECIMAL(10,2) default 0,"
 				+ "FOREIGN KEY (pais_id) REFERENCES Pais(id),"
 				+ "FOREIGN KEY (autor_id) REFERENCES Autor(id),"
 				+ "FOREIGN KEY (cancion_id) REFERENCES Cancion(id),"
-				+ "FOREIGN KEY (fuente_id) REFERENCES Fuente(id))ENGINE=InnoDB;").executeUpdate();
+				+ "FOREIGN KEY (fuente_id) REFERENCES Fuente(id),"
+				+ "FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre))ENGINE=InnoDB;").executeUpdate();
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {

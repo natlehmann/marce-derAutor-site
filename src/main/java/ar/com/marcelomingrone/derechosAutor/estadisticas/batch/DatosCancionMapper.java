@@ -11,6 +11,7 @@ import org.springframework.validation.BindException;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Cancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 
@@ -44,6 +45,10 @@ public class DatosCancionMapper implements FieldSetMapper<DatosCancion> {
 			
 			Fuente fuente = new Fuente(fieldSet.readLong(i++), fieldSet.readString(i++));
 			datosCancion.setFuente(fuente);
+			
+			String nombreDerecho = fieldSet.readString(i++);
+			Derecho derecho = new Derecho(nombreDerecho != null ? nombreDerecho.toUpperCase() : null);
+			datosCancion.setDerecho(derecho);
 			
 			long copyRightShares = fieldSet.readLong(i++);
 			long unidades = fieldSet.readLong(i++);

@@ -155,7 +155,7 @@
 					<bean
 						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
 						<property name="names"
-							value="companyId,idPais,nombrePais,fecha,formatId,idCancion,nombreCancion,idAutor,nombreAutor,idFuente,nombreFuente,copyRightShares,unidades,externalCode,currencyFactor,localCurrency" />
+							value="companyId,idPais,nombrePais,fecha,formatId,idCancion,nombreCancion,idAutor,nombreAutor,idFuente,nombreFuente,rightName,copyRightShares,unidades,externalCode,currencyFactor,localCurrency" />
 					</bean>
 				</property>
 				<property name="fieldSetMapper">

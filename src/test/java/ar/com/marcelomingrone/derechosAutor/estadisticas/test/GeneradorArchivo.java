@@ -18,13 +18,17 @@ public class GeneradorArchivo {
 	private static final String[] PAISES = new String[]{"COLOMBIA", "ARGENTINA", "CHILE", "URUGUAY", 
 		"BRASIL", "ECUADOR", "COSTA RICA", "NICARAGUA", "PARAGUAY", "BOLIVIA"};
 	
+	private static final String[] DERECHOS = new String[]{"ELECTRONICS MACHINES", "GENERAL RADIO",
+		"FOREING PERFORMANCE", "BASE IN PERFORMANCE", "OPEN TELEVISION", "CABLE", "ORIGINAL MECHANICAL",
+		"LIVE PERFORMANCE", "ON DEMAND"};
+	
 	private static Date[] FECHAS;
 	
 	private static String[] CANCIONES;
 	
 	private static String[] AUTORES;
 	
-	private static final String[] SOURCES = new String[]{"SAYCO", "OTRA"};
+	private static final String[] SOURCES = new String[]{"SAYCO", "ABRAMUS"};
 	
 	private static final SimpleDateFormat formateadorFechas = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
@@ -120,6 +124,7 @@ public class GeneradorArchivo {
 		String cancion = generarValorAlAzarConId(CANCIONES);
 		String autor = generarValorAlAzarConId(AUTORES);
 		String source = generarValorAlAzarConId(SOURCES);
+		String derecho = generarValorAlAzar(DERECHOS);
 		String copyRightShare = generarEntero(0, 100000);
 		String unidades = generarEntero(0, 500);
 		String externalCode = generarEntero(0, 500);
@@ -134,6 +139,7 @@ public class GeneradorArchivo {
 		buffer.append(cancion).append(SEPARADOR_CAMPOS);
 		buffer.append(autor).append(SEPARADOR_CAMPOS);
 		buffer.append(source).append(SEPARADOR_CAMPOS);
+		buffer.append(derecho).append(SEPARADOR_CAMPOS);
 		buffer.append(copyRightShare).append(SEPARADOR_CAMPOS);
 		buffer.append(unidades).append(SEPARADOR_CAMPOS);
 		buffer.append(externalCode).append(SEPARADOR_CAMPOS);

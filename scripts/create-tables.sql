@@ -21,6 +21,10 @@ create table Usuario_Rol(
 	FOREIGN KEY (rol_id) REFERENCES Rol(id)
 )  ENGINE=InnoDB;
 
+create table Derecho(
+	nombre varchar(255) not null PRIMARY KEY
+)  ENGINE=InnoDB;
+
 create table Autor(
 	id BIGINT NOT NULL PRIMARY KEY,
 	nombre varchar(255) not null
@@ -54,12 +58,14 @@ create table DatosCancion(
 	autor_id BIGINT NULL,
 	cancion_id BIGINT NULL,
 	fuente_id BIGINT NULL,
+	derecho_nombre varchar(255) NULL,
 	cantidadUnidades BIGINT default 0,
 	montoPercibido DECIMAL(10,2) default 0,
 	FOREIGN KEY (pais_id) REFERENCES Pais(id),
 	FOREIGN KEY (autor_id) REFERENCES Autor(id),
 	FOREIGN KEY (cancion_id) REFERENCES Cancion(id),
-	FOREIGN KEY (fuente_id) REFERENCES Fuente(id)
+	FOREIGN KEY (fuente_id) REFERENCES Fuente(id),
+	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
 )  ENGINE=InnoDB;
 
 
