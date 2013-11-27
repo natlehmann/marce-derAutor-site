@@ -42,7 +42,7 @@
 	
 	<div class="acciones">
 		<form:button value="Aceptar">Aceptar</form:button>
-		<button type="button" onclick="ir('listar')">Cancelar</button>
+		<button type="button" onclick="irAbsoluto('reglamentoDeDistribucion')">Cancelar</button>
 	</div>
 	
 </form:form>

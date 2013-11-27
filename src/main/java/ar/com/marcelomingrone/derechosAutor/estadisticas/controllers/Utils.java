@@ -25,7 +25,8 @@ public class Utils {
 		PAIS	("paisSeleccionado"),
 		ANIO	("anioSeleccionado"),
 		TRIMESTRE	("trimestreSeleccionado"), 
-		AUTOR	("autorSeleccionado");
+		AUTOR	("autorSeleccionado"),
+		FUENTE	("fuenteSeleccionada");
 		
 		private String valor;
 		

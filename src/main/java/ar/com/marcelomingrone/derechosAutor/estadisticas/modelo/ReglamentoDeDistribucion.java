@@ -94,7 +94,6 @@ public class ReglamentoDeDistribucion extends Entidad {
 		resultado.add(this.derecho.getNombre());
 		resultado.add(this.getDescripcionCorta());
 		resultado.add(format.format(this.fecha));
-		resultado.add(this.fuente.getNombre());
 		resultado.add(super.getLinksModificarEliminar());
 		
 		return resultado;

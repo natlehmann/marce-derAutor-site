@@ -14,13 +14,21 @@
 	<button type="button" onclick="irAbsoluto('admin/reglamentoDeDistribucion/crear')">Nuevo reglamento</button>
 </sec:authorize>
 
+Seleccionar fuente:
+<select name="fuente" id="fuenteSeleccionada" onchange="filtrarListado()">
+	<c:forEach items="${fuentes}" var="fuente">
+		<option value="${fuente.nombre}" ${fuente.nombre eq fuenteSeleccionada ? "selected='selected'" : "" }>
+			${fuente.nombre}
+		</option>
+	</c:forEach>
+</select>
+
 <table class="datatable">
 	<thead>
 		<tr>
 			<th>Derecho</th>
 			<th>Descripción</th>
 			<th>Fecha</th>
-			<th>Fuente</th>
 			<sec:authorize access="hasRole('administrador')">
 				<th>Acciones</th>
 			</sec:authorize>

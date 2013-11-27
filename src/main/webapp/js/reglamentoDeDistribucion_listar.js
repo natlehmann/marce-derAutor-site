@@ -1,5 +1,8 @@
+var datatable;
+
 $(document).ready(function() {
-    $('.datatable').dataTable( {
+	
+	datatable = $('.datatable').dataTable( {
         "bProcessing": true,
         "bServerSide": true,
         "sAjaxSource": $("#contexto").val() + "reglamentoDeDistribucion/listar_ajax",
@@ -7,8 +10,10 @@ $(document).ready(function() {
         "sPaginationType": "full_numbers",
         "oLanguage": {
             "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
-        }
+        },
+        "oSearch" : {"sSearch": $("#fuenteSeleccionada").val()} 
     } );
+    
 } );
 
 
@@ -30,4 +35,9 @@ function reducirDescripcion(elemento, idReglamento) {
 			$(elemento).parent().html(data); 
 	 	}
 	 });
+}
+
+function filtrarListado() {
+	datatable.fnFilter($("#fuenteSeleccionada").val());
+	datatable.fnDraw(false);
 }

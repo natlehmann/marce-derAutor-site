@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DerechoDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.ReglamentoDeDistribucionDao;
@@ -53,18 +55,24 @@ public class ReglamentoDeDistribucionController {
 	}
 	
 	@RequestMapping("/reglamentoDeDistribucion")
-	public String listar(ModelMap model) {
+	public String listar(ModelMap model, HttpSession session) {
+		
+		model.addAttribute("fuentes", fuenteDao.getTodos());
+		session.setAttribute(SessionParam.FUENTE.toString(), null);
+		
 		return "reglamentoDeDistribucion_listar";
 	}
 	
 	@ResponseBody
 	@RequestMapping("/reglamentoDeDistribucion/listar_ajax")
-	public DataTablesResponse listar(HttpServletRequest request) {
+	public DataTablesResponse listar(HttpServletRequest request, HttpSession session) {
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
 		
 		String campoOrdenamiento = ReglamentoDeDistribucion.getCampoOrdenamiento( 
 				Utils.getInt(request.getParameter("iSortCol_0"), 0) );
+		
+		session.setAttribute(SessionParam.FUENTE.toString(), (String)params.get(Params.FILTRO));
 		
 		
 		List<ReglamentoDeDistribucion> reglamentos = reglamentoDeDistribucionDao.getTodosPaginadoFiltrado(
@@ -113,7 +121,7 @@ public class ReglamentoDeDistribucionController {
 	
 	@RequestMapping(value="/admin/reglamentoDeDistribucion/aceptarEdicion", method={RequestMethod.POST})
 	public String aceptarEdicion(@Valid ReglamentoDeDistribucion reglamento, 
-			BindingResult result, ModelMap model){
+			BindingResult result, ModelMap model, HttpSession session){
 		
 		if (!result.hasErrors()) {
 			
@@ -127,14 +135,14 @@ public class ReglamentoDeDistribucionController {
 						+ "Si el problema persiste consulte al administrador del sistema.");
 			}
 			
-			return listar(model);
+			return listar(model, session);
 		}
 		
 		return prepararFormulario(reglamento, model);
 	}
 	
 	@RequestMapping(value="/admin/reglamentoDeDistribucion/eliminar", method={RequestMethod.POST})
-	public String eliminar(@RequestParam("id") Long id, ModelMap model) {
+	public String eliminar(@RequestParam("id") Long id, ModelMap model, HttpSession session) {
 		
 		try {
 			reglamentoDeDistribucionDao.eliminar(id);
@@ -145,7 +153,7 @@ public class ReglamentoDeDistribucionController {
 			model.addAttribute("msg", "No se ha podido eliminar el reglamento de distribución. " 
 					+ "Si el problema persiste consulte al administrador del sistema.");
 		}
-		return listar(model);
+		return listar(model, session);
 	}
 	
 	@RequestMapping("/reglamentoDeDistribucion/verDescripcion")
