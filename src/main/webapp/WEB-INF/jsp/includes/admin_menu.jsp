@@ -11,6 +11,7 @@
 		<li><a href='<c:url value="/admin/visitaTecnica/cargar" />'>Cargar visita técnica</a></li>
 		<li><a href='<c:url value="/estadoDeTareas" />'>Estado de tareas</a></li>
 		<li><a href='<c:url value="/admin/derecho/listar" />'>Derechos</a></li>
+		<li><a href='<c:url value="/reglamentoDeDistribucion" />'>Reglamento de distribución</a></li>
 	</ul>
 </div>
 

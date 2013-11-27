@@ -18,8 +18,8 @@ public class DerechoDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@SuppressWarnings("unchecked")
 	@Transactional
+	@SuppressWarnings("unchecked")
 	public List<Derecho> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro) {
 		
@@ -88,6 +88,14 @@ public class DerechoDao {
 		
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(derecho);		
+	}
+
+	@Transactional
+	@SuppressWarnings("unchecked")
+	public List<Derecho> getTodos() {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("FROM Derecho d ORDER BY d.nombre").list();
 	}
 
 }

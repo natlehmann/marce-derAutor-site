@@ -1,6 +1,7 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.persistence.Transient;
 public class Entidad implements Serializable, Listable {
 	
 	private static final long serialVersionUID = -8982130090046767829L;
+	
+	protected static transient SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	
 	
 	@Id

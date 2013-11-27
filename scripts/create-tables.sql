@@ -142,3 +142,13 @@ create table EstadoDeTareas(
 	FOREIGN KEY (autor_id) REFERENCES Autor(id),
 	FOREIGN KEY (fuente_id) REFERENCES Fuente(id)
 )  ENGINE=InnoDB;
+
+create table ReglamentoDeDistribucion(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fecha datetime not null,
+	descripcion varchar(512) not null,
+	fuente_id BIGINT NOT NULL,
+	derecho_nombre varchar(255) NOT NULL,
+	FOREIGN KEY (fuente_id) REFERENCES Fuente(id),
+	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
+)  ENGINE=InnoDB;

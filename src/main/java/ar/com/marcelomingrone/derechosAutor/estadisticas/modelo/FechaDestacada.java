@@ -1,6 +1,5 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +16,6 @@ public class FechaDestacada extends Entidad {
 	
 	private static final long serialVersionUID = -2402582787082167671L;
 	
-	private static transient SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
 	@NotNull
 	private Date fecha;
 	

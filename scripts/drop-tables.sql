@@ -5,6 +5,7 @@ DROP TABLE FechaDestacada;
 DROP TABLE RankingArtistasMasEjecutados;
 DROP TABLE RankingArtistasMasCobrados;
 DROP TABLE EstadoDeTareas;
+DROP TABLE ReglamentoDeDistribucion;
 DROP TABLE Derecho;
 
 DROP TABLE Usuario_Rol;
