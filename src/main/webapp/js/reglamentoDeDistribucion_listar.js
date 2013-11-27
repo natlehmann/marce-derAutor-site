@@ -10,3 +10,24 @@ $(document).ready(function() {
         }
     } );
 } );
+
+
+function verMas(elemento, idReglamento) {
+	$.ajax({
+		 url: $("#contexto").val() + "reglamentoDeDistribucion/verDescripcion",
+		 data: { id: idReglamento },
+		 success: function( data ) {
+			$(elemento).parent().html(data); 
+	 	}
+	 });
+}
+
+function reducirDescripcion(elemento, idReglamento) {
+	$.ajax({
+		 url: $("#contexto").val() + "reglamentoDeDistribucion/reducirDescripcion",
+		 data: { id: idReglamento },
+		 success: function( data ) {
+			$(elemento).parent().html(data); 
+	 	}
+	 });
+}

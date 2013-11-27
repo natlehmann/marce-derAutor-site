@@ -147,5 +147,21 @@ public class ReglamentoDeDistribucionController {
 		}
 		return listar(model);
 	}
+	
+	@RequestMapping("/reglamentoDeDistribucion/verDescripcion")
+	@ResponseBody
+	public String verDescripcion(@RequestParam("id") Long id, ModelMap model) {
+		
+		ReglamentoDeDistribucion reglamento = reglamentoDeDistribucionDao.buscar(id);
+		return reglamento.getDescripcion() + reglamento.getLinkReducirDescripcion();
+	}
+	
+	@RequestMapping("/reglamentoDeDistribucion/reducirDescripcion")
+	@ResponseBody
+	public String reducirDescripcion(@RequestParam("id") Long id, ModelMap model) {
+		
+		ReglamentoDeDistribucion reglamento = reglamentoDeDistribucionDao.buscar(id);
+		return reglamento.getDescripcionCorta();
+	}
 
 }

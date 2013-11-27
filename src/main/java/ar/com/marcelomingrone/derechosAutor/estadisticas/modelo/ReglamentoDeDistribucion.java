@@ -52,6 +52,7 @@ public class ReglamentoDeDistribucion extends Entidad {
 		this.derecho = derecho;
 	}
 
+	@Override
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -91,12 +92,18 @@ public class ReglamentoDeDistribucion extends Entidad {
 		
 		List<String> resultado = new LinkedList<>();
 		resultado.add(this.derecho.getNombre());
-		resultado.add(this.descripcion);
+		resultado.add(this.getDescripcionCorta());
 		resultado.add(format.format(this.fecha));
 		resultado.add(this.fuente.getNombre());
 		resultado.add(super.getLinksModificarEliminar());
 		
 		return resultado;
+	}
+	
+	@Transient
+	public String getLinkModificar() {
+		return "<a href='#' onclick=\"irAbsoluto('admin/reglamentoDeDistribucion/modificar?id=" 
+				+ this.getId() + "')\">Modificar</a> ";
 	}
 
 }

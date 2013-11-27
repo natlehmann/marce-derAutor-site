@@ -29,6 +29,33 @@ public class Entidad implements Serializable, Listable {
 	public Long getId() {
 		return id;
 	}
+	
+	@Transient
+	public String getDescripcionCorta() {
+		
+		if (this.getDescripcion() != null && this.getDescripcion().length() > 200) {
+			
+			String corta = this.getDescripcion().substring(0, 100);
+			int indiceUltimoEspacio = corta.lastIndexOf(" ");
+			
+			if (indiceUltimoEspacio > 0) {
+				corta = corta.substring(0, indiceUltimoEspacio);
+			}
+			
+			return corta + "... <a href='#' onclick='verMas(this," + this.getId() + ")'>+</a>";
+		}
+		
+		return this.getDescripcion();
+	}
+	
+	public String getLinkReducirDescripcion() {
+		return " <a href='#' onclick='reducirDescripcion(this," + this.getId() + ")'>-</a>";
+	}
+
+	@Transient
+	public String getDescripcion() {
+		return "";
+	}
 
 	@Override
 	public int hashCode() {
@@ -67,8 +94,17 @@ public class Entidad implements Serializable, Listable {
 
 	@Transient
 	public String getLinksModificarEliminar() {
-		return "<a href='modificar?id=" + this.id 
-				+ "'>Modificar</a> <a href='#' onclick='confirmarEliminar(" + this.id + ")'>Eliminar</a>";
+		return this.getLinkModificar() + this.getLinkEliminar();
+	}
+	
+	@Transient
+	public String getLinkModificar() {
+		return "<a href='modificar?id=" + this.id + "'>Modificar</a> ";
+	}
+	
+	@Transient
+	public String getLinkEliminar() {
+		return "<a href='#' onclick='confirmarEliminar(" + this.id + ")'>Eliminar</a>";
 	}
 	
 }

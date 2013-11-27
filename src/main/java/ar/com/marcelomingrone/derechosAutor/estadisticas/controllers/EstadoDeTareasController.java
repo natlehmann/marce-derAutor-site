@@ -164,8 +164,7 @@ public class EstadoDeTareasController {
 	public String verDescripcion(@RequestParam("id") Long id) {
 		
 		EstadoDeTareas estadoDeTareas = estadoDeTareasDao.buscar(id);
-		return estadoDeTareas.getDescripcion() + " <a href='#' onclick='reducirDescripcion(this," 
-				+ estadoDeTareas.getId() + ")'>-</a>";
+		return estadoDeTareas.getDescripcion() + estadoDeTareas.getLinkReducirDescripcion();
 	}
 	
 	@RequestMapping("/estadoDeTareas/reducirDescripcion") 
