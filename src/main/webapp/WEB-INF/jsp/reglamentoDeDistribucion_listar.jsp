@@ -27,7 +27,7 @@
 		<img src=<c:url value="/images/h1Der.jpg" /> width="31" height="34" />
 	</div>
 	
-	<h2>Seleccionar fuente:</h2>
+	<h2>Seleccionar fuente</h2>
 	
 	<div class="dropdown">
 		<select name="fuente" id="fuenteSeleccionada" onchange="filtrarListado()" class="dropdown-select">
