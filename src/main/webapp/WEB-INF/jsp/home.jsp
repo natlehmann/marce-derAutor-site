@@ -42,7 +42,7 @@
 				    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
 				    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
 				    </td>
-				    <td>${dato.cantidadUnidades}</td>
+				    <td class="right">${dato.cantidadUnidades}</td>
 				  </tr>
 		  		</c:forEach>
 		  </tbody>
@@ -101,7 +101,7 @@
 				    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
 				    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
 				    </td>
-				    <td>${dato.montoPercibido}</td>
+				    <td class="right">${dato.montoPercibido}</td>
 				  </tr>
 		  		</c:forEach>
 		  </tbody>
