@@ -12,19 +12,26 @@
 	<jsp:param value="/autoresMasEjecutados/filtrar" name="action"/>
 </jsp:include>
 
+<div class="ranking ranking-no-sort">
+	
+	<div class="Grid">
 
-<table class="datatable">
-	<thead>
-		<tr>
-			<th>Ranking</th>
-			<th>Artista</th>
-			<th>Cantidad unidades</th>
-			<th>Monto percibido</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+		<table class="datatable">
+			<thead>
+				<tr>
+					<th>Ranking</th>
+					<th>Artista</th>
+					<th>Cantidad unidades</th>
+					<th>Monto percibido</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		
+	</div>
+	
+</div>
 
 
 

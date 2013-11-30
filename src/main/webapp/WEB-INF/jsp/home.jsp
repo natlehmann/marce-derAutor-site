@@ -11,7 +11,7 @@
 </jsp:include>
 
 
-<div class="ranking">
+<div class="ranking ranking-home">
 
 	<div class="izq">
 		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
@@ -71,7 +71,7 @@
 </div>
 
 
-<div class="ranking">
+<div class="ranking ranking-home">
 	<div class="izq">
 		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
 	</div>

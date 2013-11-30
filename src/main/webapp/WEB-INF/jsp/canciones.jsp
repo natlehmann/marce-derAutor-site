@@ -12,18 +12,36 @@
 </jsp:include>
 
 
-<table class="datatable">
-	<thead>
-		<tr>
-			<th>Canción</th>
-			<th>Artista</th>
-			<th>Cantidad unidades</th>
-			<th>Monto percibido</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+<div class="ranking ranking-no-sort">
+
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>CANCIONES</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+	
+	<div class="Grid">
+
+		<table class="datatable">
+			<thead>
+				<tr>
+					<th>Canción</th>
+					<th>Artista</th>
+					<th>Cant. unidades</th>
+					<th>Monto percibido</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		
+	</div>
+	
+</div>
 
 
 

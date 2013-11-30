@@ -8,7 +8,14 @@ $(document).ready(function() {
         "bSort": false,
         "oLanguage": {
             "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
-        }
+        },
+        "bAutoWidth" : false,
+        "aoColumns": [
+                      {"sWidth" : "30%"},
+                      {"sWidth" : "30%"},
+                      { "sClass": "right", "sWidth" : "15%" },
+                      { "sClass": "right", "sWidth" : "15%" }
+                    ]
     } );
     
     $( "#autorAutocomplete" ).autocomplete({

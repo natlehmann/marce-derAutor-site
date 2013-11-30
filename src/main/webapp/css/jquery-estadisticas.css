@@ -56,3 +56,23 @@
 	padding-top: 4px;
 	padding-bottom: 2px;
 }
+
+#mingrone .dataTables_info {
+	max-width: 40%;
+}
+
+#mingrone .dataTables_paginate {
+	max-width: 55%;
+}
+
+#mingrone .ranking .dataTables_wrapper .fg-toolbar:first-child {
+	border-radius: 0px;
+}
+
+.Grid table.dataTable thead th {
+	cursor: default;
+}
+
+.ranking-no-sort table.dataTable thead th div.DataTables_sort_wrapper {
+	padding-right: 0px;
+}
