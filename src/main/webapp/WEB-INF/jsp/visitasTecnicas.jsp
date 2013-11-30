@@ -6,24 +6,30 @@
 	<jsp:param value="visitasTecnicas" name="itemMenuSeleccionado"/>
 </jsp:include>
 
-<div class="titulo">Visitas Técnicas</div>
 
-<table class="datatable">
-	<thead>
-		<tr>
-			<th>Source</th>
-			<th>Puntos</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach items="${visitasTecnicas}" var="visita">
-			<tr>
-				<td>${visita.fuente.nombre}</td>
-				<td>${visita.puntos}</td>
-			</tr>
-		</c:forEach>
-	</tbody>
-</table>
+<div class="ranking-centrado ranking-no-sort">
+	
+	<div class="Grid">
+
+		<table class="datatable">
+			<thead>
+				<tr>
+					<th>Source</th>
+					<th>Puntos</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${visitasTecnicas}" var="visita">
+					<tr>
+						<td>${visita.fuente.nombre}</td>
+						<td>${visita.puntos}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		
+	</div>
+</div>
 
 
 
