@@ -3,7 +3,7 @@
 
 <script type="text/javascript" src='<c:url value="/js/admin.js" />' ></script>
 
-<div class="menu">
+<div class="admin-menu">
 	<ul>
 		<li><a href='<c:url value="/admin/importar" />'>Importar nuevos datos</a></li>
 		<li><a href='<c:url value="/admin/fechaDestacada/listar" />'>Fechas destacadas</a></li>

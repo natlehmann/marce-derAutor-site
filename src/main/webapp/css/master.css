@@ -596,7 +596,9 @@ input.dropdown-select {
 /*--------------------------------------BOTONES--------------------------------------*/
 .classname,
 input[type="submit"],
-button[type="button"] {
+input[type="button"],
+button[type="button"],
+button[type="submit"] {
 	background-color: #0F9;
 	background-color: #fe1a00;
 	-webkit-border-top-left-radius: 21px;
@@ -649,7 +651,9 @@ button[type="button"] {
 }
 
 input[type="submit"],
-button[type="button"] {
+button[type="button"],
+button[type="submit"],
+input[type="button"] {
 	text-transform: uppercase;
 	border: 0px;
 	background-image: url(../images/flecha.png);
@@ -658,7 +662,9 @@ button[type="button"] {
 }
 
 input[type="submit"]:hover,
-button[type="button"]:hover {
+button[type="button"]:hover,
+button[type="submit"]:hover,
+input[type="button"]:hover {
 	cursor: pointer;
 }
 
