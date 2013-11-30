@@ -17,3 +17,5 @@ tablas al comenzar la importación.
 
 - Paginas 403 y 404
 
+- Configurar log4j
+

@@ -1,0 +1,10 @@
+Si hay un boton de un formulario (como el buscar) usar un input y ponerle los estilos a eso (no un "A")
+
+Una de las reglas de una pagina bien formada (son las que repetan los buscadores automaticos al indexar un
+sitio) es que exista un único <h1> por página.
+
+NUNCA puede haber mas de un elemento por pagina con el mismo "id". Para aplicar estilos de esa forma es 
+preferible usar un class.
+
+
+

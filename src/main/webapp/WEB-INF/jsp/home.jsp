@@ -11,64 +11,134 @@
 </jsp:include>
 
 
-<div class="titulo">
-	<a href='<c:url value="/autoresMasEjecutados"/>'>Top artistas más ejecutados</a>
+<div class="ranking">
+
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>TOP ARTISTAS + EJECUTADOS</h1>
+	
+	<div class="der">
+		<a href='<c:url value="/autoresMasEjecutados"/>'>
+			<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+		</a>
+	</div>
+	
+	<div class="Grid">
+		<table class="datatable">
+			<thead>
+			  <tr>
+			    <th>Número</th>
+			    <th>Artista</th>
+			    <th>Unidades</th>
+			  </tr>
+		  </thead>
+		  <tbody>
+		  		<c:forEach items="${autoresMasEjecutados}" var="dato" varStatus="indice">
+				  <tr>
+				  	<td>${indice.count}</td>
+				    <td>
+				    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
+				    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
+				    </td>
+				    <td>${dato.cantidadUnidades}</td>
+				  </tr>
+		  		</c:forEach>
+		  </tbody>
+		</table>
+	</div>
 </div>
 
-<table class="datatable">
-	<thead>
-	  <tr>
-	    <th>Número</th>
-	    <th>Artista</th>
-	    <th>Unidades</th>
-	  </tr>
-  </thead>
-  <tbody>
-  		<c:forEach items="${autoresMasEjecutados}" var="dato" varStatus="indice">
-		  <tr>
-		  	<td>${indice.count}</td>
-		    <td>
-		    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
-		    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
-		    </td>
-		    <td>${dato.cantidadUnidades}</td>
-		  </tr>
-  		</c:forEach>
-  </tbody>
-</table>
 
+<div id="calendario">
 
-<div class="titulo">
-	<a href='<c:url value="/autoresMasCobrados"/>'>Top artistas más cobrados</a>
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>CALENDARIO</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+	
+	<div class="contenedor_calendario">
+		<div id="calendar"></div>
+		<input type="hidden" id="calendar_dates" value="${diasDestacados}" />
+		<input type="hidden" id="calendar_tooltips" value="${textoDiasDestacados}" />
+	</div>
 </div>
 
-<table class="datatable">
-	<thead>
-	  <tr>
-	    <th>Número</th>
-	    <th>Artista</th>
-	    <th>Monto</th>
-	  </tr>
-  </thead>
-  <tbody>
-  		<c:forEach items="${autoresMasCobrados}" var="dato" varStatus="indice">
-		  <tr>
-		  	<td>${indice.count}</td>
-		    <td>
-		    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
-		    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
-		    </td>
-		    <td>${dato.montoPercibido}</td>
-		  </tr>
-  		</c:forEach>
-  </tbody>
-</table>
+
+<div class="ranking">
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>TOP ARTISTAS + COBRADOS</h1>
+	
+	<div class="der">
+		<a href='<c:url value="/autoresMasCobrados"/>'>
+			<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+		</a>
+	</div>
+	
+	<div class="Grid">
+		<table class="datatable">
+			<thead>
+			  <tr>
+			    <th>Número</th>
+			    <th>Artista</th>
+			    <th>Monto</th>
+			  </tr>
+		  </thead>
+		  <tbody>
+		  		<c:forEach items="${autoresMasCobrados}" var="dato" varStatus="indice">
+				  <tr>
+				  	<td>${indice.count}</td>
+				    <td>
+				    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
+				    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
+				    </td>
+				    <td>${dato.montoPercibido}</td>
+				  </tr>
+		  		</c:forEach>
+		  </tbody>
+		</table>
+	</div>
+</div>
 
 
-<div id="calendar"></div>
+<div id="botonera">
+	<a href='<c:url value="/visitasTecnicas"/>' class="classname">VISITAS TECNICAS 
+		<img src='<c:url value="/images/flecha.png" />' width="17" height="19" />
+	</a>
+	<br /> 
+	<a href='<c:url value="/reglamentoDeDistribucion"/>' class="classname">REG. DE DISTRIBUCION 
+		<img src='<c:url value="/images/flecha.png" />' width="17" height="19" />
+	</a>
+	<br /> 
+	<a href='<c:url value="/estadoDeTareas"/>' class="classname">ESTADO	DE TAREAS 
+		<img src='<c:url value="/images/flecha.png" />' width="17" height="19" />
+	</a>
+</div>
 
-<input type="hidden" id="calendar_dates" value="${diasDestacados}" />
-<input type="hidden" id="calendar_tooltips" value="${textoDiasDestacados}" />
+
+<div id="estadisticas">
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>ESTADISTICAS</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+	
+	<img src='<c:url value="/images/estadisticas.jpg" />' width="513" height="214" />
+</div>
+
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
