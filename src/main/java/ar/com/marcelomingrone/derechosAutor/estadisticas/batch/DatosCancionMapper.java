@@ -51,7 +51,7 @@ public class DatosCancionMapper implements FieldSetMapper<DatosCancion> {
 			derecho.setModificable(false);
 			datosCancion.setDerecho(derecho);
 			
-			long copyRightShares = fieldSet.readLong(i++);
+			double copyRightShares = fieldSet.readDouble(i++);
 			long unidades = fieldSet.readLong(i++);
 			long externalCode = fieldSet.readLong(i++);
 			double currencyFactor = fieldSet.readDouble(i++);
