@@ -13,10 +13,11 @@
 		<script type="text/javascript" src='<c:url value="/js/jquery.ui.datepicker-es.js" />' ></script>
 		<script type="text/javascript" src='<c:url value="/js/master.js" />' ></script>
 		
-		<link rel="stylesheet" type="text/css" href='<c:url value="/css/ui-lightness/jquery-ui-1.10.3.custom.min.css" />'>	
+		<link rel="stylesheet" type="text/css" href='<c:url value="/css/estadisticas/jquery-ui-1.10.3.custom.min.css" />'>	
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery.dataTables.css" />'>	
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery.dataTables_themeroller.css" />'>	
-		<link rel="stylesheet" type="text/css" href='<c:url value="/css/master.css" />'>	
+		<link rel="stylesheet" type="text/css" href='<c:url value="/css/master.css" />'>
+		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery-estadisticas.css" />'>	
 	</head>
 	
 	<body id="mingrone">

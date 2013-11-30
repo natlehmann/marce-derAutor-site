@@ -18,6 +18,7 @@
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/css/" mapping="/css/**"/>
 	<mvc:resources location="/images/" mapping="/images/**"/>
+	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
 
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.controllers" />
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.dao" />

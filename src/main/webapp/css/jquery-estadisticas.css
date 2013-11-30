@@ -1,0 +1,58 @@
+#mingrone .ui-datepicker {
+	border-radius: 0px;
+	width: 90%;
+	border: 0px;
+	margin: 0 auto;
+}
+
+#calendario #calendar,
+#mingrone .contenedor_calendario {
+	width: 100%;
+}
+
+#mingrone .ui-datepicker .ui-widget-header {
+	background-image: none;
+	background-color: #666666;
+    color: #CCCCCC;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #fff;
+    border-radius: 0px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#mingrone .ui-datepicker th {
+	background-color: #666666;
+    color: #CCCCCC;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: normal;
+    border: 1px solid #fff;
+}
+
+#mingrone .ui-datepicker .ui-widget-header .ui-icon {
+	background-image: url("estadisticas/images/ui-icons_ffffff_256x240.png")
+}
+
+#mingrone .ui-datepicker .ui-state-default, 
+#mingrone .ui-datepicker .ui-widget-content .ui-state-default {
+	background-image: none;
+	background-color: #EDEDED;
+    color: #999999;
+    font-size: 12px;
+    padding: 7px 10px;
+    border: 0px;
+}
+
+#mingrone .ui-datepicker td.destacada a.ui-state-default {
+	background-image: none;
+	color: #333333;
+	text-decoration: underline;
+}
+
+#mingrone .ui-datepicker .ui-datepicker-prev, 
+#mingrone .ui-datepicker .ui-datepicker-next {
+	padding-top: 4px;
+	padding-bottom: 2px;
+}

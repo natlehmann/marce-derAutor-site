@@ -600,12 +600,6 @@ input[type="submit"] {
 	top: 1px;
 }
 
-.ui-datepicker td.destacada a {
-	background-color: red;
-	background-image: none;
-	color: white;
-}
-
 .ranking .datatable tr th {
 	display: none;
 }

@@ -14,7 +14,10 @@ $(document).ready(function() {
 
 	$('#calendar').datepicker({
 		dateFormat : 'dd/mm/yy',
-		beforeShowDay : highlightDays
+		beforeShowDay : highlightDays,
+		onChangeMonthYear : function(year, month, instance) {
+			setTimeout( "$( '#calendar .ui-datepicker-calendar tbody' ).tooltip()", '250'); 
+		}
 	});
 	
 	$( '#calendar .ui-datepicker-calendar tbody' ).tooltip();
