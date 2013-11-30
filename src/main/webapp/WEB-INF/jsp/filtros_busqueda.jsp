@@ -53,10 +53,10 @@
 		<div class="dropdown">
 			<select name="trimestre" class="dropdown-select">
 				<option value="">Select...</option>
-				<option value="1" ${trimestreSeleccionado eq 1 ? "selected='selected'" : ""}>1</option>
-				<option value="2" ${trimestreSeleccionado eq 2 ? "selected='selected'" : ""}>2</option>
-				<option value="3" ${trimestreSeleccionado eq 3 ? "selected='selected'" : ""}>3</option>
-				<option value="4" ${trimestreSeleccionado eq 4 ? "selected='selected'" : ""}>4</option>
+				<option value="1" ${trimestreSeleccionado eq 1 ? "selected='selected'" : ""}>1st</option>
+				<option value="2" ${trimestreSeleccionado eq 2 ? "selected='selected'" : ""}>2nd</option>
+				<option value="3" ${trimestreSeleccionado eq 3 ? "selected='selected'" : ""}>3rd</option>
+				<option value="4" ${trimestreSeleccionado eq 4 ? "selected='selected'" : ""}>4th</option>
 			</select>
 		</div>
 		
@@ -75,8 +75,6 @@
 		
 		<div id="buscaBot">
 			<input type="submit" value="Buscar" />
-			<a href="#" class="classname">SEARCH <img src="image/flecha.png"
-				width="17" height="19" /></a>
 		</div>
 		
 	</form>

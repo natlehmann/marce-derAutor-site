@@ -404,11 +404,11 @@ h2 {
 	text-align: right;
 }
 
-.Grid table tbody tr.Alternate td {
+.Grid table tbody tr.odd td {
 	background: #F7F6F3;
 }
 
-.Grid table tbody tr.Alternat td.right {
+.Grid table tbody tr.odd td.right {
 	color: #333333;
 	padding: 2px 40px 2px 12px;
 	text-align: right;
@@ -560,7 +560,8 @@ h2 {
 }
 
 /*--------------------------------------BOTONES--------------------------------------*/
-.classname {
+.classname,
+input[type="submit"] {
 	background-color: #0F9;
 	background-color: #fe1a00;
 	-webkit-border-top-left-radius: 21px;
@@ -603,4 +604,25 @@ h2 {
 	background-color: red;
 	background-image: none;
 	color: white;
+}
+
+.ranking .datatable tr th {
+	display: none;
+}
+
+.ranking td a {
+	text-decoration: none;
+	color: #333333;
+}
+
+.ranking td a:hover {
+	text-decoration: underline;
+}
+
+input[type="submit"] {
+	text-transform: uppercase;
+	border: 0px;
+	background-image: url(../images/flecha.png);
+	background-repeat: no-repeat;
+	background-position: 257px center;
 }
