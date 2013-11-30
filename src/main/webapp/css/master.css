@@ -183,7 +183,8 @@ body {
 	font-weight: bold;
 }
 
-#button li a:hover {
+#button li a:hover,
+#button li a.activo {
 	background-color: #343333;
 	margin-top: 0px;
 	padding-bottom: 10px;

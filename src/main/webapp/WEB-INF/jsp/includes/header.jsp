@@ -20,6 +20,11 @@
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery-estadisticas.css" />'>	
 	</head>
 	
+	<%
+		String itemMenuSeleccionado = request.getParameter("itemMenuSeleccionado") != null ?
+				request.getParameter("itemMenuSeleccionado") : "";
+	%>
+	
 	<body id="mingrone">
 		
 		<input type="hidden" id="contexto" value='<c:url value="/" />' />
@@ -38,11 +43,31 @@
         
             	<ul id="button"> 
             		<li><img src='<c:url value="/images/latMenuIzq.jpg"/>' width="64" height="54" /></li>
-            		<li><a href='<c:url value="/autoresMasEjecutados"/>'>TOP ARTISTAS + EJECUTADOS</a></li> 
-            		<li><a href='<c:url value="/autoresMasCobrados"/>'>TOP ARTISTAS + COBRADOS</a></li> 
-            		<li><a href='<c:url value="/visitasTecnicas"/>'>VISITAS TECNICAS</a></li> 
-            		<li><a href='<c:url value="/reglamentoDeDistribucion"/>'>REGLAMENTO DE DISTRIBUCION</a></li> 
-            		<li><a href='<c:url value="/estadoDeTareas"/>'>ESTADO DE TAREAS</a></li> 
+            		<li>
+            			<a href='<c:url value="/autoresMasEjecutados"/>' 
+            				class='<%= itemMenuSeleccionado.equals("autoresMasEjecutados") ? "activo" : "" %>'>
+            				TOP ARTISTAS + EJECUTADOS
+            			</a></li> 
+            		<li>
+            			<a href='<c:url value="/autoresMasCobrados"/>' 
+            				class='<%= itemMenuSeleccionado.equals("autoresMasCobrados") ? "activo" : "" %>'>
+            				TOP ARTISTAS + COBRADOS
+            			</a></li> 
+            		<li>
+            			<a href='<c:url value="/visitasTecnicas"/>'
+            				class='<%= itemMenuSeleccionado.equals("visitasTecnicas") ? "activo" : "" %>'>
+            				VISITAS TECNICAS
+            			</a></li> 
+            		<li>
+            			<a href='<c:url value="/reglamentoDeDistribucion"/>'
+            				class='<%= itemMenuSeleccionado.equals("reglamentoDeDistribucion") ? "activo" : "" %>'>
+            				REGLAMENTO DE DISTRIBUCION
+            			</a></li> 
+            		<li>
+            			<a href='<c:url value="/estadoDeTareas"/>'
+            				class='<%= itemMenuSeleccionado.equals("estadoDeTareas") ? "activo" : "" %>'>
+            				ESTADO DE TAREAS
+            			</a></li> 
             	</ul>
             	<div id="ImgFin"><img src='<c:url value="/images/latDerMenu.jpg"/>' width="64" height="54" /></div>
 			</div>

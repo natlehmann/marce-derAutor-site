@@ -3,8 +3,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
-<jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
+<jsp:include page="/WEB-INF/jsp/includes/header.jsp">
+	<jsp:param value="reglamentoDeDistribucion" name="itemMenuSeleccionado"/>
+</jsp:include>
 
 <script type="text/javascript" src='<c:url value="/js/reglamentoDeDistribucion_listar.js" />' ></script>
 

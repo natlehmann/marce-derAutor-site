@@ -2,7 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/includes/header.jsp">
+	<jsp:param value="visitasTecnicas" name="itemMenuSeleccionado"/>
+</jsp:include>
 
 <div class="titulo">Visitas Técnicas</div>
 

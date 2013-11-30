@@ -4,7 +4,9 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/includes/header.jsp">
+	<jsp:param value="estadoDeTareas" name="itemMenuSeleccionado"/>
+</jsp:include>
 
 <script type="text/javascript" src='<c:url value="/js/estadoDeTareas_editar.js" />' ></script>
 
