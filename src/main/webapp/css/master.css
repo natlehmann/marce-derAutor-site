@@ -158,7 +158,7 @@ body {
 
 #button {
 	margin-top: 1px;
-	padding-top: 2px;
+    padding-top: 3px;
 }
 
 #button li img {
@@ -172,13 +172,12 @@ body {
 }
 
 #button li a {
-	font-family: "museosans500", sans-serif;
-	font-size: 11px;
-	text-decoration: none;
-	padding: 7px;
-	background-color: #ff2727;
-	color: #fff;
-	font-weight: bold;
+	color: #FFFFFF;
+    font-family: "museosans500",sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 7px;
+    text-decoration: none;
 }
 
 #button li a:hover,
@@ -287,15 +286,15 @@ h2 {
 
 #buscaBot {
 	background-color: #FFFFFF;
-	border: 1px solid #D5D5D5;
-	border-radius: 0 0 10px 10px;
-	float: left;
-	height: 39px;
-	margin-left: -1px;
-	margin-top: 5px;
-	text-align: center;
-	padding-top: 11px;
-	width: 100%;
+    border: 1px solid #D5D5D5;
+    border-radius: 0 0 10px 10px;
+    float: left;
+    height: 38px;
+    margin-left: 0;
+    margin-top: 5px;
+    padding-top: 11px;
+    text-align: center;
+    width: 100%;
 }
 
 #buscaBot img {
@@ -319,7 +318,7 @@ h2 {
 	border: 1px solid #D5D5D5;
 	border-radius: 10px;
 	float: left;
-	height: 300px;
+	min-height: 300px;
 	margin-left: 20px;
 	margin-top: 2%;
 	width: 30%;
@@ -414,12 +413,14 @@ h2 {
 }
 
 .Grid table thead tr th {
-	color: #F7F6F3;
-	background: #5D7B9D;
-	font-weight: bold;
-	border-bottom: solid 1px #CCCCCC;
-	border-right: solid 1px #CCCCCC;
-	padding: 2px;
+	background: none repeat scroll 0 0 #6E6C6C;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+    border: 0px;
 }
 
 .Grid table thead tr th a {
@@ -687,4 +688,18 @@ input[type="button"]:hover {
 
 .estadoTareas td.descripcion {
 	width: 16%;
+}
+
+#rankingInt {
+   background-color: #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 10px;
+    color: #343333;
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
+    margin-right: 20px;
+    margin-top: 2%;
+    width: 64%;
+    height: 35%;
 }
