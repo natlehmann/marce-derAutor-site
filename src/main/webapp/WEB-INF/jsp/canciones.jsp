@@ -30,7 +30,6 @@
 			<thead>
 				<tr>
 					<th>Canción</th>
-					<th>Artista</th>
 					<th>Cant. unidades</th>
 					<th>Monto percibido</th>
 				</tr>

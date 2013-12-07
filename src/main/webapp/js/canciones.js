@@ -11,8 +11,7 @@ $(document).ready(function() {
         },
         "bAutoWidth" : false,
         "aoColumns": [
-                      {"sWidth" : "30%"},
-                      {"sWidth" : "30%"},
+                      {"sWidth" : "60%"},
                       { "sClass": "right", "sWidth" : "15%" },
                       { "sClass": "right", "sWidth" : "15%" }
                     ]

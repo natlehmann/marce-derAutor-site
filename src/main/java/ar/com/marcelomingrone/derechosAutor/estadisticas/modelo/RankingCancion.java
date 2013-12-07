@@ -44,7 +44,6 @@ public class RankingCancion extends Ranking {
 		
 		List<String> campos = new LinkedList<>();
 		campos.add(this.cancion.getNombre());
-		campos.add(this.getAutor().getNombre());
 		campos.add(String.valueOf(getCantidadUnidades()));
 		campos.add("$ " + getMontoPercibido());
 		
