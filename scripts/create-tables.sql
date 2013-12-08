@@ -41,6 +41,11 @@ create table Fuente(
 	nombre varchar(255) not null
 )  ENGINE=InnoDB;
 
+create table FuenteAuditada(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre varchar(255) not null
+)  ENGINE=InnoDB;
+
 create table Pais(
 	id BIGINT NOT NULL PRIMARY KEY,
 	nombre varchar(255) not null,
@@ -122,9 +127,9 @@ create table ItemAuditoria(
 
 create table VisitaTecnica(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	fuente_id BIGINT NOT NULL,
+	fuenteAuditada_id BIGINT NOT NULL,
 	fecha datetime NOT NULL,
-	FOREIGN KEY (fuente_id) REFERENCES Fuente(id)
+	FOREIGN KEY (fuenteAuditada_id) REFERENCES FuenteAuditada(id)
 )  ENGINE=InnoDB;
 
 create table PuntoAuditoria(

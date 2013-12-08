@@ -19,7 +19,7 @@ public class VisitaTecnica extends Entidad implements Comparable<VisitaTecnica> 
 	private static final long serialVersionUID = 5996335390063846202L;
 
 	@ManyToOne
-	private Fuente fuente;
+	private FuenteAuditada fuenteAuditada;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
@@ -27,12 +27,12 @@ public class VisitaTecnica extends Entidad implements Comparable<VisitaTecnica> 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="visitaTecnica", fetch=FetchType.EAGER)
 	private List<PuntoAuditoria> puntosAuditoria;
 
-	public Fuente getFuente() {
-		return fuente;
+	public FuenteAuditada getFuenteAuditada() {
+		return fuenteAuditada;
 	}
-
-	public void setFuente(Fuente fuente) {
-		this.fuente = fuente;
+	
+	public void setFuenteAuditada(FuenteAuditada fuenteAuditada) {
+		this.fuenteAuditada = fuenteAuditada;
 	}
 
 	public Date getFecha() {

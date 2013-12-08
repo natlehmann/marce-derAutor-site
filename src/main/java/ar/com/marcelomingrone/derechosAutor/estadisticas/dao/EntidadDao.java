@@ -7,8 +7,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
-
 public abstract class EntidadDao<T> {
 	
 	@SuppressWarnings("rawtypes")
@@ -70,7 +68,7 @@ public abstract class EntidadDao<T> {
 
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<FechaDestacada> getTodosPaginado(int inicio,
+	public List<T> getTodosPaginado(int inicio,
 			int cantidadResultados, String campoOrdenamiento,
 			String direccionOrdenamiento) {
 		

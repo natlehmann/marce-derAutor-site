@@ -11,7 +11,7 @@
 
 	<input type="hidden" name="id" value="${visitaTecnica.id}" />
 
-	<input type="hidden" name="idFuente" value="${visitaTecnica.fuente.id}" />
+	<input type="hidden" name="idFuente" value="${visitaTecnica.fuenteAuditada.id}" />
 	
 	<label>Fecha</label>
 	<input type="text" name="fecha" 

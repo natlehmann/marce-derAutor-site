@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteAuditadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.ItemAuditoriaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PuntoAuditoriaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.VisitaTecnicaDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FuenteAuditada;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ItemAuditoria;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PuntoAuditoria;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.VisitaTecnica;
@@ -43,7 +43,7 @@ public class VisitaTecnicaController {
 	private VisitaTecnicaDao visitaTecnicaDao;
 	
 	@Autowired
-	private FuenteDao fuenteDao;
+	private FuenteAuditadaDao fuenteAuditadaDao;
 	
 	@Autowired
 	private ItemAuditoriaDao itemAuditoriaDao;
@@ -71,7 +71,7 @@ public class VisitaTecnicaController {
 	@RequestMapping("/admin/visitaTecnica/cargar")
 	public String cargar(ModelMap model) {
 		
-		model.addAttribute("fuentes", fuenteDao.getTodos());
+		model.addAttribute("fuentes", fuenteAuditadaDao.getTodos());
 		return "admin/visitaTecnica_seleccionarFuente";
 	}
 	
@@ -84,7 +84,7 @@ public class VisitaTecnicaController {
 			
 		} else {
 			
-			Fuente fuente = fuenteDao.buscar(idFuente);
+			FuenteAuditada fuente = fuenteAuditadaDao.buscar(idFuente);
 			
 			VisitaTecnica visitaTecnica = visitaTecnicaDao.buscarPorFuente(idFuente);
 			
@@ -111,12 +111,12 @@ public class VisitaTecnicaController {
 
 
 	private VisitaTecnica armarVisitaTecnica(VisitaTecnica visitaTecnica,
-			List<ItemAuditoria> itemsAuditoria, Fuente fuente) {
+			List<ItemAuditoria> itemsAuditoria, FuenteAuditada fuente) {
 		
 		if (visitaTecnica == null) {
 			
 			visitaTecnica = new VisitaTecnica();
-			visitaTecnica.setFuente(fuente);
+			visitaTecnica.setFuenteAuditada(fuente);
 			visitaTecnica.setFecha(new Date());
 			visitaTecnica.setPuntosAuditoria(new LinkedList<PuntoAuditoria>());
 		}
@@ -129,6 +129,7 @@ public class VisitaTecnicaController {
 			PuntoAuditoria punto = it.next();
 			if ( !itemsAuditoria.contains( punto.getItemAuditoria() ) ) {
 				puntoAuditoriaDao.eliminar(punto.getId());
+				it.remove();
 			}
 		}
 		
@@ -178,15 +179,15 @@ public class VisitaTecnicaController {
 		} else {
 			
 			visitaTecnica = new VisitaTecnica();			
-			Fuente fuente = fuenteDao.buscar(idFuente);
-			visitaTecnica.setFuente(fuente);
+			FuenteAuditada fuente = fuenteAuditadaDao.buscar(idFuente);
+			visitaTecnica.setFuenteAuditada(fuente);
 			visitaTecnica.setPuntosAuditoria(new LinkedList<PuntoAuditoria>());
 		}
 		
 		visitaTecnica.setFecha(fecha);
 		
 		if (fecha == null) {
-			visitaTecnica = armarVisitaTecnica(visitaTecnica, todosLosItems, visitaTecnica.getFuente());
+			visitaTecnica = armarVisitaTecnica(visitaTecnica, todosLosItems, visitaTecnica.getFuenteAuditada());
 			model.addAttribute("msgError", "Por favor complete la fecha.");
 			
 		} else {

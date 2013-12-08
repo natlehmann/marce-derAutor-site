@@ -29,7 +29,7 @@ public class VisitaTecnicaDao extends EntidadDao<VisitaTecnica> {
 		Session session = sessionFactory.getCurrentSession();		
 		
 		return (VisitaTecnica) session.createQuery(
-				"SELECT v FROM VisitaTecnica v WHERE v.fuente.id = :idFuente")
+				"SELECT v FROM VisitaTecnica v WHERE v.fuenteAuditada.id = :idFuente")
 					.setParameter("idFuente", idFuente).uniqueResult();
 	}
 

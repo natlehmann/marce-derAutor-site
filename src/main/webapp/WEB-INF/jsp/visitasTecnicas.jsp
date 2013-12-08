@@ -24,7 +24,7 @@
 				<c:forEach items="${visitasTecnicas}" var="visita">
 					<tr>
 						<td><fmt:formatDate value="${visita.fecha}" pattern="dd/MM/yyyy"/></td>
-						<td>${visita.fuente.nombre}</td>
+						<td>${visita.fuenteAuditada.nombre}</td>
 						<td>${visita.puntajeTotal}</td>
 					</tr>
 				</c:forEach>

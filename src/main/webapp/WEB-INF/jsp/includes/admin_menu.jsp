@@ -8,6 +8,7 @@
 		<li><a href='<c:url value="/admin/importar" />'>Importar nuevos datos</a></li>
 		<li><a href='<c:url value="/admin/fechaDestacada/listar" />'>Fechas destacadas</a></li>
 		<li><a href='<c:url value="/admin/itemAuditoria/listar" />'>Items de auditoría</a></li>
+		<li><a href='<c:url value="/admin/fuenteAuditada/listar" />'>Sources para visitas técnicas</a></li>
 		<li><a href='<c:url value="/admin/visitaTecnica/cargar" />'>Cargar visita técnica</a></li>
 		<li><a href='<c:url value="/estadoDeTareas" />'>Estado de tareas</a></li>
 		<li><a href='<c:url value="/admin/derecho/listar" />'>Derechos</a></li>

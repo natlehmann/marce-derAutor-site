@@ -1,4 +1,5 @@
 DELETE FROM PuntoAuditoria;
+DELETE FROM VisitaTecnica;
 DELETE FROM DatosCancion;
 --DELETE FROM HistorialImportacion;
 --DELETE FROM FechaDestacada;
@@ -14,5 +15,6 @@ DELETE FROM Derecho;
 DELETE FROM Autor;
 DELETE FROM Cancion;
 DELETE FROM Fuente;
+DELETE FROM FuenteAuditada;
 DELETE FROM Pais;
 DELETE FROM ItemAuditoria;

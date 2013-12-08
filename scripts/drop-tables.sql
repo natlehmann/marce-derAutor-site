@@ -15,5 +15,6 @@ DROP TABLE Usuario;
 DROP TABLE Autor;
 DROP TABLE Cancion;
 DROP TABLE Fuente;
+DROP TABLE FuenteAuditada;
 DROP TABLE Pais;
 DROP TABLE ItemAuditoria;

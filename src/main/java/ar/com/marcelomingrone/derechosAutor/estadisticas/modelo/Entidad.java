@@ -98,6 +98,11 @@ public class Entidad implements Serializable, Listable {
 	}
 	
 	@Transient
+	public String getLinksModificarDuplicarEliminar() {
+		return this.getLinkModificar() + this.getLinkDuplicar() + this.getLinkEliminar();
+	}
+	
+	@Transient
 	public String getLinkModificar() {
 		return "<a href='modificar?id=" + this.id + "'>Modificar</a> ";
 	}
@@ -105,6 +110,11 @@ public class Entidad implements Serializable, Listable {
 	@Transient
 	public String getLinkEliminar() {
 		return "<a href='#' onclick='confirmarEliminar(" + this.id + ")'>Eliminar</a>";
+	}
+	
+	@Transient
+	public String getLinkDuplicar() {
+		return "<a href='duplicar?id=" + this.id + "'>Duplicar</a> ";
 	}
 	
 }

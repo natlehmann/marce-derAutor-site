@@ -44,7 +44,7 @@ public class FechaDestacada extends Entidad {
 		List<String> resultado = new LinkedList<>();
 		resultado.add(format.format(this.fecha));
 		resultado.add(this.descripcion);
-		resultado.add(super.getLinksModificarEliminar());
+		resultado.add(super.getLinksModificarDuplicarEliminar());
 		
 		return resultado;
 	}

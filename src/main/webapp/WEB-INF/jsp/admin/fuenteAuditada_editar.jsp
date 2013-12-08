@@ -7,20 +7,14 @@
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
 
-<form:form commandName="fechaDestacada" action="aceptarEdicion" method="POST">
+<form:form commandName="fuenteAuditada" action="aceptarEdicion" method="POST">
 
 	<form:hidden path="id"/>
 
 	<div class="campo">
-		<form:label path="fecha">Fecha</form:label>
-		<form:errors path="fecha" cssClass="error"/>
-		<form:input path="fecha" cssClass="datepicker"/>
-	</div>
-	
-	<div class="campo">
-		<form:label path="descripcion">Descripción</form:label>
-		<form:errors path="descripcion" cssClass="error"/>
-		<form:textarea path="descripcion" cssErrorClass="error"/>
+		<form:label path="nombre">Nombre</form:label>
+		<form:errors path="nombre" cssClass="error"/>
+		<form:input path="nombre" maxlength="255"/>
 	</div>
 	
 	<div class="acciones">

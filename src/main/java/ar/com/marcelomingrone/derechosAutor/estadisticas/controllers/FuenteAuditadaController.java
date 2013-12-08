@@ -1,7 +1,5 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -11,43 +9,33 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteAuditadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FuenteAuditada;
 
 @Controller
-@RequestMapping("/admin/fechaDestacada")
-public class FechaDestacadaController {
+@RequestMapping("/admin/fuenteAuditada")
+public class FuenteAuditadaController {
 	
-	private static Log log = LogFactory.getLog(FechaDestacadaController.class);
+	private static Log log = LogFactory.getLog(FuenteAuditadaController.class);
 	
 	@Autowired
-	private FechaDestacadaDao fechaDestacadaDao;
-	
-	@InitBinder
-	private void dateBinder(WebDataBinder binder) {
-
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	    CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
-	    binder.registerCustomEditor(Date.class, editor);
-	}
+	private FuenteAuditadaDao dao;
 	
 	@RequestMapping("listar")
 	public String listar(ModelMap model) {
-		return "admin/fechaDestacada_listar";
+		return "admin/fuenteAuditada_listar";
 	}
 	
 	@ResponseBody
@@ -57,27 +45,27 @@ public class FechaDestacadaController {
 		
 		Map<Params, Object> params = Utils.getParametrosDatatables(request);
 		
-		String campoOrdenamiento = FechaDestacada.getCampoOrdenamiento( 
+		String campoOrdenamiento = FuenteAuditada.getCampoOrdenamiento( 
 				Utils.getInt(request.getParameter("iSortCol_0"), 0) );
 		
 		
-		List<FechaDestacada> fechas = fechaDestacadaDao.getTodosPaginadoFiltrado(
+		List<FuenteAuditada> fuentes = dao.getTodosPaginadoFiltrado(
 				(int)params.get(Params.INICIO),
 				(int)params.get(Params.CANTIDAD_RESULTADOS),
 				(String)params.get(Params.FILTRO),
 				campoOrdenamiento,
 				(String)params.get(Params.DIRECCION_ORDENAMIENTO));
 		
-		long totalFiltrados = fechaDestacadaDao.getCantidadResultados(
+		long totalFiltrados = dao.getCantidadResultados(
 				(String)params.get(Params.FILTRO));
 		
 		long total = totalFiltrados;
 		if (!StringUtils.isEmpty((String)params.get(Params.FILTRO))) {
-			total = fechaDestacadaDao.getCantidadResultados(null);
+			total = dao.getCantidadResultados(null);
 		}
 		
 		DataTablesResponse resultado = new DataTablesResponse(
-				fechas, request.getParameter("sEcho"), total, totalFiltrados);
+				fuentes, request.getParameter("sEcho"), total, totalFiltrados);
 		
 		return resultado;
 	}
@@ -85,69 +73,58 @@ public class FechaDestacadaController {
 	@RequestMapping("/modificar")
 	public String modificar(@RequestParam("id") Long id, ModelMap model) {
 		
-		FechaDestacada fecha = fechaDestacadaDao.buscar(id);
-		return prepararFormulario(fecha, model);
-	}
-	
-	@RequestMapping("/duplicar")
-	public String duplicar(@RequestParam("id") Long id, ModelMap model) {
-		
-		FechaDestacada fechaDuplicada = fechaDestacadaDao.buscar(id);
-		FechaDestacada nuevaFecha = new FechaDestacada();
-		
-		nuevaFecha.setDescripcion(fechaDuplicada.getDescripcion());
-		nuevaFecha.setFecha(fechaDuplicada.getFecha());
-		
-		return prepararFormulario(nuevaFecha, model);
+		FuenteAuditada fuente = dao.buscar(id);
+		return prepararFormulario(fuente, model);
 	}
 	
 	@RequestMapping("/crear")
 	public String crear(ModelMap model) {
 		
-		FechaDestacada fecha = new FechaDestacada();
-		return prepararFormulario(fecha, model);
+		FuenteAuditada fuente = new FuenteAuditada();
+		return prepararFormulario(fuente, model);
 	}
 
-	private String prepararFormulario(FechaDestacada fecha, ModelMap model) {
+	private String prepararFormulario(FuenteAuditada fuente, ModelMap model) {
 		
-		model.addAttribute("fechaDestacada", fecha);
-		return "admin/fechaDestacada_editar";
+		model.addAttribute("fuenteAuditada", fuente);
+		return "admin/fuenteAuditada_editar";
 	}
 	
 	@RequestMapping(value="/aceptarEdicion", method={RequestMethod.POST})
-	public String aceptarEdicion(@Valid FechaDestacada fechaDestacada, 
+	public String aceptarEdicion(@Valid FuenteAuditada fuente, 
 			BindingResult result, ModelMap model){
 		
 		if (!result.hasErrors()) {
 			
 			try {
-				fechaDestacadaDao.guardar(fechaDestacada);
-				model.addAttribute("msg", "La fecha se ha guardado con éxito.");
+				dao.guardar(fuente);
+				model.addAttribute("msg", "La fuente se ha guardado con éxito.");
 				
 			} catch (Exception e) {
-				log.error("Se produjo un error guardando la fecha destacada.", e);
-				model.addAttribute("msg", "Se produjo un error guardando la fecha. "
+				log.error("Se produjo un error guardando la fuente.", e);
+				model.addAttribute("msg", "Se produjo un error guardando la fuente. "
 						+ "Si el problema persiste consulte al administrador del sistema.");
 			}
 			
 			return listar(model);
 		}
 		
-		return prepararFormulario(fechaDestacada, model);
+		return prepararFormulario(fuente, model);
 	}
 	
 	@RequestMapping(value="/eliminar", method={RequestMethod.POST})
 	public String eliminar(@RequestParam("id") Long id, ModelMap model) {
 		
 		try {
-			fechaDestacadaDao.eliminar(id);
-			model.addAttribute("msg", "La fecha se ha eliminado con éxito.");
+			dao.eliminar(id);
+			model.addAttribute("msg", "La fuente se ha eliminado con éxito.");
 			
 		} catch (Exception e) {
-			log.error("Error al eliminar fecha destacada.", e);
-			model.addAttribute("msg", "No se ha podido eliminar la fecha. " 
+			log.error("Error al eliminar la fuente.", e);
+			model.addAttribute("msg", "No se ha podido eliminar la fuente. " 
 					+ "Si el problema persiste consulte al administrador del sistema.");
 		}
+		
 		return listar(model);
 	}
 
