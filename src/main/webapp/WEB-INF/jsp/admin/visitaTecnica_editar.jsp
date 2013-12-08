@@ -9,10 +9,16 @@
 
 <form action="aceptarEdicion" method="POST" id="puntajesForm">
 
-	<input type="hidden" name="idFuente" value="${idFuente}" />
+	<input type="hidden" name="id" value="${visitaTecnica.id}" />
+
+	<input type="hidden" name="idFuente" value="${visitaTecnica.fuente.id}" />
+	
+	<label>Fecha</label>
+	<input type="text" name="fecha" 
+		value='<fmt:formatDate value="${visitaTecnica.fecha}" pattern="dd/MM/yyyy"/>' class="datepicker"/>
 
 	<table>
-		<c:forEach items="${items}" var="item">
+		<c:forEach items="${visitaTecnica.puntosAuditoria}" var="item">
 			<tr>
 				<td>${item.itemAuditoria.nombre}</td>
 				<td>
@@ -31,7 +37,7 @@
 			<td>TOTAL</td>
 			<td><br/></td>
 			<td><br/></td>
-			<td>${total}</td>
+			<td>${visitaTecnica.puntajeTotal}</td>
 		</tr>
 	</table>
 	

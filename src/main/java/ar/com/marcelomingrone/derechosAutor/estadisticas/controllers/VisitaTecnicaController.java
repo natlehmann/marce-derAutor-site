@@ -1,6 +1,8 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,9 +12,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.ItemAuditoriaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PuntoAuditoriaDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.VisitaTecnicaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ItemAuditoria;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PuntoAuditoria;
@@ -34,29 +40,26 @@ public class VisitaTecnicaController {
 	private PuntoAuditoriaDao puntoAuditoriaDao;
 	
 	@Autowired
+	private VisitaTecnicaDao visitaTecnicaDao;
+	
+	@Autowired
 	private FuenteDao fuenteDao;
 	
 	@Autowired
 	private ItemAuditoriaDao itemAuditoriaDao;
 	
+	@InitBinder
+	private void dateBinder(WebDataBinder binder) {
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
+	    binder.registerCustomEditor(Date.class, editor);
+	}
+	
 	@RequestMapping("/visitasTecnicas")
 	public String listar(ModelMap model) {
 		
-		List<Fuente> fuentes = fuenteDao.getTodos();
-		
-		List<VisitaTecnica> visitas = new LinkedList<>();
-		
-		for (Fuente fuente : fuentes) {
-			
-			List<PuntoAuditoria> puntos = puntoAuditoriaDao.buscarPorFuente(fuente.getId());
-			double total = calcularTotal(puntos);
-			
-			VisitaTecnica visita = new VisitaTecnica();
-			visita.setFuente(fuente);
-			visita.setPuntos(total);
-			
-			visitas.add(visita);
-		}
+		List<VisitaTecnica> visitas = visitaTecnicaDao.getTodos();
 		
 		Collections.sort(visitas);
 		
@@ -83,48 +86,43 @@ public class VisitaTecnicaController {
 			
 			Fuente fuente = fuenteDao.buscar(idFuente);
 			
-			List<PuntoAuditoria> items = puntoAuditoriaDao.buscarPorFuente(idFuente);
+			VisitaTecnica visitaTecnica = visitaTecnicaDao.buscarPorFuente(idFuente);
 			
 			List<ItemAuditoria> todosLosItems = itemAuditoriaDao.getTodos();
 			
-			verificarPuntosAuditoria(items, todosLosItems, fuente);
+			visitaTecnica = armarVisitaTecnica(visitaTecnica, todosLosItems, fuente);
 			
-			prepararFormulario(idFuente, items, model);
+			prepararFormulario(visitaTecnica, model);
 		}
 		
 		return "admin/visitaTecnica_editar";
 	}
 	
 
-	private String prepararFormulario(Long idFuente, 
-			List<PuntoAuditoria> puntosAuditoria, ModelMap model) {
+	private String prepararFormulario(VisitaTecnica visitaTecnica, ModelMap model) {
 		
 		// ordenarlos
-		Collections.sort(puntosAuditoria);
+		Collections.sort(visitaTecnica.getPuntosAuditoria());
 		
-		model.addAttribute("total", calcularTotal(puntosAuditoria));
-		
-		model.addAttribute("idFuente", idFuente);
-		model.addAttribute("items", puntosAuditoria);
+		model.addAttribute("visitaTecnica", visitaTecnica);
 		
 		return "admin/visitaTecnica_editar";
 	}
 
-	private double calcularTotal(List<PuntoAuditoria> puntosAuditoria) {
-		
-		double sumatoria = 0;
-		for (PuntoAuditoria punto : puntosAuditoria) {
-			sumatoria += punto.getPuntajePonderado() != null ? punto.getPuntajePonderado() : 0;
-		}
-		
-		return sumatoria;
-	}
 
-	private void verificarPuntosAuditoria(List<PuntoAuditoria> puntosAuditoria,
+	private VisitaTecnica armarVisitaTecnica(VisitaTecnica visitaTecnica,
 			List<ItemAuditoria> itemsAuditoria, Fuente fuente) {
 		
+		if (visitaTecnica == null) {
+			
+			visitaTecnica = new VisitaTecnica();
+			visitaTecnica.setFuente(fuente);
+			visitaTecnica.setFecha(new Date());
+			visitaTecnica.setPuntosAuditoria(new LinkedList<PuntoAuditoria>());
+		}
+		
 		// borrar los que estan de mas
-		Iterator<PuntoAuditoria> it = puntosAuditoria.iterator();
+		Iterator<PuntoAuditoria> it = visitaTecnica.getPuntosAuditoria().iterator();
 		
 		while (it.hasNext()) {
 			
@@ -136,14 +134,15 @@ public class VisitaTecnicaController {
 		
 		// verificar que esten todos los que tienen que estar
 		for (ItemAuditoria item : itemsAuditoria) {
-			if ( !contiene(puntosAuditoria, item) ) {
+			if ( !contiene(visitaTecnica.getPuntosAuditoria(), item) ) {
 				
 				PuntoAuditoria nuevo = new PuntoAuditoria();
-				nuevo.setFuente(fuente);
 				nuevo.setItemAuditoria(item);
-				puntosAuditoria.add(nuevo);
+				visitaTecnica.getPuntosAuditoria().add(nuevo);
 			}
 		}
+		
+		return visitaTecnica;
 		
 	}
 
@@ -163,53 +162,74 @@ public class VisitaTecnicaController {
 	
 	
 	@RequestMapping(value="/admin/visitaTecnica/aceptarEdicion", method={RequestMethod.POST})
-	public String aceptarEdicion(ModelMap model, HttpServletRequest request){
-
+	public String aceptarEdicion(ModelMap model, HttpServletRequest request,
+			@RequestParam(value="id", required=false) Long id,
+			@RequestParam("idFuente") Long idFuente,
+			@RequestParam(value="fecha", required=false) Date fecha){
+		
+		
 		List<ItemAuditoria> todosLosItems = itemAuditoriaDao.getTodos();
 		
-		Fuente fuente = fuenteDao.buscar(Long.valueOf(request.getParameter("idFuente")));
+		VisitaTecnica visitaTecnica = null;
 		
-		List<PuntoAuditoria> puntosAuditoria = buildPuntosAuditoria(
-				request, fuente, todosLosItems, model);
-		
-		
-		if (StringUtils.isEmpty(model.get("msgError"))) {
+		if (id != null) {
+			visitaTecnica = visitaTecnicaDao.buscar(id);
 			
-			try {
-				puntoAuditoriaDao.guardar(puntosAuditoria);
-				model.addAttribute("msg", "La visita técnica se ha guardado con éxito.");
+		} else {
+			
+			visitaTecnica = new VisitaTecnica();			
+			Fuente fuente = fuenteDao.buscar(idFuente);
+			visitaTecnica.setFuente(fuente);
+			visitaTecnica.setPuntosAuditoria(new LinkedList<PuntoAuditoria>());
+		}
 		
-			} catch (Exception e) {
-				log.error("Se produjo un error guardando la visita tecnica.", e);
-				model.addAttribute("msg", "Se produjo un error guardando la visita técnica. "
-						+ "Si el problema persiste consulte al administrador del sistema.");
+		visitaTecnica.setFecha(fecha);
+		
+		if (fecha == null) {
+			visitaTecnica = armarVisitaTecnica(visitaTecnica, todosLosItems, visitaTecnica.getFuente());
+			model.addAttribute("msgError", "Por favor complete la fecha.");
+			
+		} else {
+		
+			buildPuntosAuditoria(request, visitaTecnica, todosLosItems, model);
+			
+			
+			if (StringUtils.isEmpty(model.get("msgError"))) {
+				
+				try {
+					visitaTecnicaDao.guardar(visitaTecnica);
+					model.addAttribute("msg", "La visita técnica se ha guardado con éxito.");
+			
+				} catch (Exception e) {
+					log.error("Se produjo un error guardando la visita tecnica.", e);
+					model.addAttribute("msg", "Se produjo un error guardando la visita técnica. "
+							+ "Si el problema persiste consulte al administrador del sistema.");
+				}
 			}
 		}
 		
-		return prepararFormulario(fuente.getId(), puntosAuditoria, model);
+		return prepararFormulario(visitaTecnica, model);
 			
 	}
 
 
 
-	private List<PuntoAuditoria> buildPuntosAuditoria(
-			HttpServletRequest request, Fuente fuente,
+	private void buildPuntosAuditoria(
+			HttpServletRequest request, VisitaTecnica visitaTecnica,
 			List<ItemAuditoria> todosLosItems, ModelMap model) {
-		
-		List<PuntoAuditoria> puntos = new LinkedList<>();
 		
 		for (ItemAuditoria item : todosLosItems) {
 			
-			PuntoAuditoria puntoAuditoria = puntoAuditoriaDao.buscarPorItemyFuente(item, fuente);
+			PuntoAuditoria puntoAuditoria = visitaTecnica.getPuntoAuditoria(item);
 			
 			if (puntoAuditoria == null) {
 				
 				puntoAuditoria = new PuntoAuditoria();
-				puntoAuditoria.setFuente(fuente);
 				puntoAuditoria.setItemAuditoria(item);
+				
+				visitaTecnica.addPuntoAuditoria(puntoAuditoria);
 			}
 					
-			puntos.add(puntoAuditoria);
 			
 			String valor = request.getParameter(String.valueOf(item.getId()));
 			
@@ -234,9 +254,7 @@ public class VisitaTecnicaController {
 				}
 			}
 		}
-			
 		
-		return puntos;
 	}
 
 }

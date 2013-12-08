@@ -5,6 +5,10 @@ function seleccionarFuente() {
 		 data: { 'fuente': $("#fuenteSeleccionada").val() },
 		 success: function( data ) {
 			 $("#visitaTecnicaForm").html(data);
+			 
+			 $(".datepicker").datepicker({
+					dateFormat: 'dd/mm/yy'
+			 });
 	 	}
 	 });
 }
@@ -17,6 +21,10 @@ function enviarPuntajes() {
 		 data: $("#puntajesForm").serialize(),
 		 success: function( data ) {
 			 $("#visitaTecnicaForm").html(data);
+			 
+			 $(".datepicker").datepicker({
+					dateFormat: 'dd/mm/yy'
+			 });
 	 	}
 	 });
 }

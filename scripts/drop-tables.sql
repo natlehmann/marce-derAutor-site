@@ -1,4 +1,5 @@
 DROP TABLE PuntoAuditoria;
+DROP TABLE VisitaTecnica;
 DROP TABLE DatosCancion;
 DROP TABLE HistorialImportacion;
 DROP TABLE FechaDestacada;

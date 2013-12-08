@@ -19,3 +19,5 @@ tablas al comenzar la importación.
 
 - Configurar log4j
 
+- Formatear puntajes de visitas tecnicas
+

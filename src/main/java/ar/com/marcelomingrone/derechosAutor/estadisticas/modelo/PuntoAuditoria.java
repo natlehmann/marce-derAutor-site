@@ -10,20 +10,12 @@ public class PuntoAuditoria extends Entidad implements Comparable<PuntoAuditoria
 	private static final long serialVersionUID = 8172666382691455610L;
 
 	@ManyToOne
-	private Fuente fuente;
-	
-	@ManyToOne
 	private ItemAuditoria itemAuditoria;
 	
 	private int puntajeAsignado;
-
-	public Fuente getFuente() {
-		return fuente;
-	}
-
-	public void setFuente(Fuente fuente) {
-		this.fuente = fuente;
-	}
+	
+	@ManyToOne
+	private VisitaTecnica visitaTecnica;
 
 	public ItemAuditoria getItemAuditoria() {
 		return itemAuditoria;
@@ -39,6 +31,14 @@ public class PuntoAuditoria extends Entidad implements Comparable<PuntoAuditoria
 
 	public void setPuntajeAsignado(int puntajeAsignado) {
 		this.puntajeAsignado = puntajeAsignado;
+	}
+	
+	public VisitaTecnica getVisitaTecnica() {
+		return visitaTecnica;
+	}
+	
+	public void setVisitaTecnica(VisitaTecnica visitaTecnica) {
+		this.visitaTecnica = visitaTecnica;
 	}
 	
 	@Transient

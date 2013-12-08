@@ -1,38 +1,36 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.PuntoAuditoria;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.VisitaTecnica;
 
 @Repository
-public class PuntoAuditoriaDao extends EntidadDao<PuntoAuditoria> {
+public class VisitaTecnicaDao extends EntidadDao<VisitaTecnica> {
 	
 	@Autowired
 	private SessionFactory sessionFactory;
 	
-	protected PuntoAuditoriaDao() {
-		super(PuntoAuditoria.class);
+	protected VisitaTecnicaDao() {
+		super(VisitaTecnica.class);
 	}
-
 
 	@Override
 	protected SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-
+	
 	@Transactional
-	public void guardar(List<PuntoAuditoria> puntosAuditoria) {
+	public VisitaTecnica buscarPorFuente(Long idFuente) {
 		
-		Session session = getSessionFactory().getCurrentSession();
-		for (PuntoAuditoria punto : puntosAuditoria) {
-			session.saveOrUpdate(punto);
-		}
+		Session session = sessionFactory.getCurrentSession();		
+		
+		return (VisitaTecnica) session.createQuery(
+				"SELECT v FROM VisitaTecnica v WHERE v.fuente.id = :idFuente")
+					.setParameter("idFuente", idFuente).uniqueResult();
 	}
 
 }
