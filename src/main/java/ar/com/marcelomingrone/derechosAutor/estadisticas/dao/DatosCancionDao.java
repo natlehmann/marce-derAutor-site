@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
@@ -73,15 +74,6 @@ public class DatosCancionDao {
 		return session.createQuery(
 				"select DISTINCT(dc.pais) from DatosCancion dc order by dc.pais.nombre asc").list();
 	}
-
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<Autor> getAutores() {
-		
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery(
-				"select DISTINCT(dc.autor) from DatosCancion dc order by dc.autor.nombre asc").list();
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -90,7 +82,8 @@ public class DatosCancionDao {
 		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery(
 				"select DISTINCT(dc.autor) from DatosCancion dc "
-				+ "WHERE dc.autor.nombre LIKE :nombreAutor order by dc.autor.nombre asc")
+				+ "WHERE dc.companyId = :companyId AND dc.autor.nombre LIKE :nombreAutor order by dc.autor.nombre asc")
+				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
 				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
 	}
 
@@ -106,7 +99,8 @@ public class DatosCancionDao {
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion( ")
 			.append("dc.cancion.id, dc.cancion.nombre, dc.autor.id, dc.autor.nombre, ")
 			.append("SUM(dc.cantidadUnidades), SUM(dc.montoPercibido)) ")
-			.append("FROM DatosCancion dc ");
+			.append("FROM DatosCancion dc ")
+			.append("WHERE dc.companyId = :companyId ");
 		
 		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro, idAutor));
 		
@@ -114,6 +108,7 @@ public class DatosCancionDao {
 			.append("ORDER BY dc.cancion.nombre asc");
 		
 		Query query = session.createQuery(buffer.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
 		
 		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro, idAutor);
 		
@@ -130,11 +125,12 @@ public class DatosCancionDao {
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(DISTINCT dc.cancion.id) FROM DatosCancion dc ");
+		buffer.append("select count(DISTINCT dc.cancion.id) FROM DatosCancion dc WHERE dc.companyId = :companyId ");
 		
 		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro, idAutor));
 		
 		Query query = session.createQuery(buffer.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
 		
 		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro, idAutor);
 		

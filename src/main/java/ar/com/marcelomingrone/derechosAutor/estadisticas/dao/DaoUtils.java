@@ -20,55 +20,36 @@ public class DaoUtils {
 		
 		StringBuffer buffer = new StringBuffer("");
 		
-		if (trimestre != null || anio != null || idPais != null || !StringUtils.isEmpty(filtro)
-				|| idAutor != null) {
-			buffer.append("WHERE ");
-		}
-		
 		if (trimestre != null) {
-			buffer.append("dc.trimestre = :trimestre ");
-			if (anio != null || idPais != null || !StringUtils.isEmpty(filtro) || idAutor != null) {
-				buffer.append("AND ");
-			}
+			buffer.append("AND dc.trimestre = :trimestre ");
 		}
 		
 		if (anio != null) {
-			buffer.append("dc.anio = :anio ");
-			if (idPais != null || !StringUtils.isEmpty(filtro) || idAutor != null) {
-				buffer.append("AND ");
-			}
+			buffer.append("AND dc.anio = :anio ");
 		}
 		
 		if (idPais != null) {
 			
 			if (sqlSyntax) {
-				buffer.append("dc.pais_id = :idPais ");
+				buffer.append("AND dc.pais_id = :idPais ");
 				
 			} else {
-				buffer.append("dc.pais.id = :idPais ");
-			}
-			
-			if (!StringUtils.isEmpty(filtro) || idAutor != null) {
-				buffer.append("AND ");
+				buffer.append("AND dc.pais.id = :idPais ");
 			}
 		}
 		
 		if (!StringUtils.isEmpty(filtro)) {
 			
 			if (filtrarPorAutor) {
-				buffer.append("dc.autor.nombre like :filtro ");
+				buffer.append("AND dc.autor.nombre like :filtro ");
 				
 			} else {
-				buffer.append("dc.cancion.nombre like :filtro ");
-			}
-			
-			if (idAutor != null) {
-				buffer.append("AND ");
+				buffer.append("AND dc.cancion.nombre like :filtro ");
 			}
 		}
 		
 		if (idAutor != null) {
-			buffer.append("dc.autor.id = :idAutor ");
+			buffer.append("AND dc.autor.id = :idAutor ");
 		}
 		
 		return buffer.toString();

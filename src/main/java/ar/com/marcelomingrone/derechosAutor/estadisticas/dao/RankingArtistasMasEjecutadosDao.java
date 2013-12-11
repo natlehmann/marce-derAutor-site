@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
 
@@ -57,6 +58,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 			.append("dc.autor_id, SUM(dc.cantidadUnidades) as cantidadUnidades, ")
 			.append("SUM(dc.montoPercibido) as montoPercibido ")
 			.append("FROM DatosCancion dc ")
+			.append("WHERE dc.companyId = :companyId ")
 			
 			.append(DaoUtils.getWhereClauseSQL(trimestre, anio, idPais))
 			
@@ -65,6 +67,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 			.append("CROSS JOIN (SELECT @rank\\:=0) b");
 
 		Query query = session.createSQLQuery(queryStr.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
 		
 		DaoUtils.setearParametros(query, idPais, anio, trimestre, null);
 		

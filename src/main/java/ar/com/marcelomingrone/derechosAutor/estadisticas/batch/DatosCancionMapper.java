@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindException;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
@@ -37,11 +38,31 @@ public class DatosCancionMapper implements FieldSetMapper<DatosCancion> {
 			
 			datosCancion.setFormatId(fieldSet.readInt(i++));
 			
-			Cancion cancion = new Cancion(fieldSet.readLong(i++), fieldSet.readString(i++));
-			datosCancion.setCancion(cancion);
+			Long idCancion = null;
+			try {				
+				idCancion = fieldSet.readLong(i++);
+				
+			} catch (NumberFormatException e) {}
 			
-			Autor autor = new Autor(fieldSet.readLong(i++), fieldSet.readString(i++));
-			datosCancion.setAutor(autor);
+			String nombreCancion = fieldSet.readString(i++);
+			
+			if (!StringUtils.isEmpty(nombreCancion)) {
+				Cancion cancion = new Cancion(idCancion, nombreCancion);
+				datosCancion.setCancion(cancion);
+			}
+			
+			Long idAutor = null;
+			try {
+				idAutor = fieldSet.readLong(i++);
+				
+			} catch (NumberFormatException e) {}
+			
+			String nombreAutor = fieldSet.readString(i++);
+			
+			if (!StringUtils.isEmpty(nombreAutor)) {
+				Autor autor = new Autor(idAutor, nombreAutor);
+				datosCancion.setAutor(autor);
+			}
 			
 			Fuente fuente = new Fuente(fieldSet.readLong(i++), fieldSet.readString(i++));
 			datosCancion.setFuente(fuente);
