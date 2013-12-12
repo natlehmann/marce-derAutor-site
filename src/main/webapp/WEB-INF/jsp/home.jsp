@@ -4,6 +4,8 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
+<script type="text/javascript" src='<c:url value="/js/google-jsapi.js" />' ></script>
+
 <script type="text/javascript" src='<c:url value="/js/home.js" />' ></script>
 
 <jsp:include page="/WEB-INF/jsp/filtros_busqueda.jsp">
@@ -141,7 +143,7 @@
 			<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 		</div>
 		
-		<img src='<c:url value="/images/estadisticas.jpg" />' width="513" height="214" />
+		<div id="grafico_estadisticas" style="width:513px;height:214px"></div>
 	</div>
 	
 	<div class="separador"></div>

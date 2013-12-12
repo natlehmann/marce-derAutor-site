@@ -21,3 +21,5 @@ tablas al comenzar la importación.
 
 - Formatear puntajes de visitas tecnicas
 
+- Habilitar cache hibernate
+

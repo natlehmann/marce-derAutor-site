@@ -1,5 +1,7 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
 
@@ -64,6 +67,24 @@ public class DatosCancionDao {
 		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery(
 				"select DISTINCT(dc.anio) from DatosCancion dc order by dc.anio desc").list();
+	}
+	
+	@Transactional
+	public List<Integer> getUltimosTresAnios() {
+		
+		List<Integer> anios = new LinkedList<>();
+		
+		Session session = sessionFactory.getCurrentSession();
+		Integer ultimoAnio = (Integer) session.createQuery(
+				"SELECT MAX(dc.anio) FROM DatosCancion dc").uniqueResult();
+		
+		if (ultimoAnio != null) {
+			anios.add(ultimoAnio);
+			anios.add(ultimoAnio - 1);
+			anios.add(ultimoAnio - 2);
+		}
+		
+		return anios;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -138,6 +159,71 @@ public class DatosCancionDao {
 		
 		return resultado != null ? resultado.longValue() : 0;
 	}
+	
+	/**
+	 * Pais y trimestre son opcionales
+	 * @param pais
+	 * @param trimestre
+	 * @return
+	 */
+	@Transactional
+	public List<MontoTotal> getMontosTotalesSACMPorAnio(Pais pais, Integer trimestre) {
+		return getMontosTotalesPorAnio(pais, trimestre, false);
+	}
+	
+	/**
+	 * Pais y trimestre son opcionales
+	 * @param pais
+	 * @param trimestre
+	 * @return
+	 */
+	@Transactional
+	public List<MontoTotal> getMontosOtrosTotalesPorAnio(Pais pais, Integer trimestre) {
+		return getMontosTotalesPorAnio(pais, trimestre, true);
+	}
 
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	private List<MontoTotal> getMontosTotalesPorAnio(Pais pais, Integer trimestre, boolean excluirSACM) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
+			.append("'anio', dc.anio, SUM(dc.montoPercibido)) ")
+			.append("FROM DatosCancion dc ");
+		
+		if (excluirSACM) {
+			buffer.append("WHERE dc.companyId != :companyId ");
+			
+		} else {
+			buffer.append("WHERE dc.companyId = :companyId ");
+		}
+			
+		buffer.append(DaoUtils.getWhereClause(trimestre, null, pais.getId(), null))			
+			.append("GROUP BY dc.anio");
+		
+		Query query = session.createQuery(buffer.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+		
+		DaoUtils.setearParametros(query, pais.getId(), null, trimestre, null);
+		
+		List<MontoTotal> montos = query.list();
+		
+		List<Integer> anios = getUltimosTresAnios();
+		for (Integer anio : anios) {
+			
+			MontoTotal nuevoMonto = new MontoTotal("anio", anio, 0.0);
+			if (!montos.contains(nuevoMonto)) {
+				
+				montos.add(nuevoMonto);
+			}
+		}
+		
+		Collections.sort(montos, new MontoTotal.ComparadorPorAnio());
+		
+		return montos;
+	}
 
 }
