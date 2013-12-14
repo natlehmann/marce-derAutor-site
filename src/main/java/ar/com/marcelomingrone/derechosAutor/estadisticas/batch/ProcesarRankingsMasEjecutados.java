@@ -50,6 +50,11 @@ public class ProcesarRankingsMasEjecutados implements Tasklet {
 					rankingArtistasMasEjecutadosDao.importarDatosCanciones(pais.getId(), anio, i);
 				}
 			}
+			
+			// pais y trimestre
+			for (int i = 1; i <= 4; i++) {
+				rankingArtistasMasEjecutadosDao.importarDatosCanciones(pais.getId(), null, i);
+			}
 		}
 		
 		// solo por anio
