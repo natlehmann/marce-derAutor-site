@@ -143,7 +143,9 @@ google.load("visualization", "1", {packages:["corechart"]});
 		<h1>ESTADISTICAS</h1>
 		
 		<div class="der">
-			<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+			<a href='<c:url value="/estadisticas"/>'>
+				<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+			</a>
 		</div>
 		
 		<div id="grafico_estadisticas" style="height:240px"></div>
