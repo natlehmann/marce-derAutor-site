@@ -146,7 +146,7 @@ google.load("visualization", "1", {packages:["corechart"]});
 			<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 		</div>
 		
-		<div id="grafico_estadisticas" style="width:600px;height:214px"></div>
+		<div id="grafico_estadisticas" style="height:240px"></div>
 		
 		<input type="hidden" id="titulo_grafico" value="${tituloGrafico}" />
 		<input type="hidden" id="titulo_eje_x" value="${tituloEjeX}" />

@@ -52,7 +52,11 @@ function drawChart() {
 
     var options = {
       title: document.getElementById('titulo_grafico').value,
-      hAxis: {title: document.getElementById('titulo_eje_x').value}
+      hAxis: { title: document.getElementById('titulo_eje_x').value,
+    	  gridlines : {color : '#d7d7d7'}
+      },
+      colors : ['#858384', '#ff422f'],
+      chartArea : { width: '65%' }
     };
 
     var chart = new google.visualization.ColumnChart(document.getElementById('grafico_estadisticas'));
