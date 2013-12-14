@@ -19,8 +19,14 @@ tablas al comenzar la importación.
 
 - Configurar log4j
 
-- Formatear puntajes de visitas tecnicas
+- Formatear puntajes de visitas tecnicas (ver estadisticas)
 
 - Habilitar cache hibernate
+
+- Administracion de newsletter
+
+- parent right ??????
+
+- estado de tareas -> con iconos, descrpcion que ocupe fila entera o abrir en pop up
 
 
