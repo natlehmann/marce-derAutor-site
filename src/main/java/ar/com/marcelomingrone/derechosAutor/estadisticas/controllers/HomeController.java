@@ -37,6 +37,7 @@ public class HomeController {
 	private static final String DISTRIBUCION = "DISTRIBUCION";
 	private static final String SACM = "SACM";
 
+	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(HomeController.class);
 	
 	@Autowired

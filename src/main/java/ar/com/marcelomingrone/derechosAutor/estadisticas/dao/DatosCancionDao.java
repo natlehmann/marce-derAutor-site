@@ -191,7 +191,7 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
-			.append("'anio', dc.anio, SUM(dc.montoPercibido)) ")
+			.append("dc.anio, SUM(dc.montoPercibido)) ")
 			.append("FROM DatosCancion dc ");
 		
 		if (excluirSACM) {
@@ -214,7 +214,7 @@ public class DatosCancionDao {
 		List<Integer> anios = getUltimosTresAnios();
 		for (Integer anio : anios) {
 			
-			MontoTotal nuevoMonto = new MontoTotal("anio", anio, 0.0);
+			MontoTotal nuevoMonto = new MontoTotal(anio, 0.0);
 			if (!montos.contains(nuevoMonto)) {
 				
 				montos.add(nuevoMonto);
@@ -272,7 +272,7 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
-			.append("'trimestre', ").append(anio).append(", dc.trimestre, SUM(dc.montoPercibido)) ")
+			.append(anio).append(", dc.trimestre, SUM(dc.montoPercibido)) ")
 			.append("FROM DatosCancion dc ");
 		
 		if (excluirSACM) {
@@ -294,7 +294,7 @@ public class DatosCancionDao {
 		
 		for (int i = 1 ; i <= 4; i++) {
 			
-			MontoTotal nuevoMonto = new MontoTotal("trimestre", anio, Integer.valueOf(i), 0.0);
+			MontoTotal nuevoMonto = new MontoTotal(anio, Integer.valueOf(i), 0.0);
 			if (!montos.contains(nuevoMonto)) {
 				
 				montos.add(nuevoMonto);
@@ -354,7 +354,7 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
-			.append("'pais', ").append(anio).append(", ")
+			.append(anio).append(", ")
 			.append(trimestre).append(", dc.pais, SUM(dc.montoPercibido)) ")
 			.append("FROM DatosCancion dc ");
 		
@@ -380,7 +380,7 @@ public class DatosCancionDao {
 			List<Pais> todosLosPaises = getPaises();
 			for (Pais otroPais : todosLosPaises) {
 				
-				MontoTotal nuevoMonto = new MontoTotal("pais", anio, trimestre, otroPais, 0.0);
+				MontoTotal nuevoMonto = new MontoTotal(anio, trimestre, otroPais, 0.0);
 				if (!montos.contains(nuevoMonto)) {
 					montos.add(nuevoMonto);
 				}

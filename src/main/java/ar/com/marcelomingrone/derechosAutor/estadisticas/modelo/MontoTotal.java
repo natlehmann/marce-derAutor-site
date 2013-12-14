@@ -21,19 +21,24 @@ public class MontoTotal implements Serializable{
 	
 	public MontoTotal() {}
 	
-	public MontoTotal(String clave, Integer anio, Double monto) {
-		this.clave = clave;
+	public MontoTotal(Integer anio, Double monto) {
+		this.clave = "anio";
 		this.anio = anio;
 		this.monto = monto;
 	}
 	
-	public MontoTotal(String clave, Integer anio, Integer trimestre, Double monto) {
-		this(clave, anio, monto);
+	public MontoTotal(Integer anio, Integer trimestre, Double monto) {
+		this.clave = "trimestre";
+		this.anio = anio;
+		this.monto = monto;
 		this.trimestre = trimestre;
 	}
 	
-	public MontoTotal(String clave, Integer anio, Integer trimestre, Pais pais, Double monto) {
-		this(clave, anio, trimestre, monto);
+	public MontoTotal(Integer anio, Integer trimestre, Pais pais, Double monto) {
+		this.clave = "pais";
+		this.anio = anio;
+		this.monto = monto;
+		this.trimestre = trimestre;
 		this.pais = pais;
 	}
 
