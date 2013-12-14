@@ -1,8 +1,10 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -90,11 +92,59 @@ public class HomeController {
 		model.addAttribute("diasDestacados", diasDestacados);
 		model.addAttribute("textoDiasDestacados", textoDiasDestacados);
 			
+		Map<String, String> titulosGrafico = getTitulosGrafico(session);
+		model.addAttribute("tituloGrafico", titulosGrafico.get("tituloGrafico"));
+		model.addAttribute("tituloEjeX", titulosGrafico.get("tituloEjeX"));
 		
 		return "home";
 		
 	}
 	
+	private Map<String, String> getTitulosGrafico(HttpSession session) {
+		
+		String tituloGrafico = null;
+		String ejeX = null;
+		
+		Long idPais = (Long) session.getAttribute(SessionParam.PAIS.toString());
+		Integer anio = (Integer) session.getAttribute(SessionParam.ANIO.toString());
+		Integer trimestre = (Integer) session.getAttribute(SessionParam.TRIMESTRE.toString());
+		
+		boolean ninguno = idPais == null && anio == null && trimestre == null;
+		boolean soloPais = idPais != null && anio == null && trimestre == null;
+		boolean soloAnio = idPais == null && anio != null && trimestre == null;
+		boolean soloTrimestre = idPais == null && anio == null && trimestre != null;		
+		boolean paisYAnio = idPais != null && anio != null && trimestre == null;
+		boolean paisYTrimestre = idPais != null && anio == null && trimestre != null;
+		boolean anioYTrimestre = idPais == null && anio != null && trimestre != null;
+		boolean todos = idPais != null && anio != null && trimestre != null;
+		
+		if (ninguno || soloPais || soloTrimestre || paisYTrimestre) {
+			tituloGrafico = "Valores por año";
+			ejeX = "Año";
+		}
+		
+		if (soloAnio || paisYAnio) {
+			tituloGrafico = "Valores por trimestre";
+			ejeX = "Trimestre";
+		}
+		
+		if (anioYTrimestre) {
+			tituloGrafico = "Valores por país";
+			ejeX = "País";
+		}
+		
+		if (todos) {
+			tituloGrafico = "Valores para el trimestre " + trimestre;
+			ejeX = "Trimestre";
+		}
+		
+		Map<String, String> titulos = new HashMap<String, String>();
+		titulos.put("tituloGrafico", tituloGrafico);
+		titulos.put("tituloEjeX", ejeX);
+		
+		return titulos;
+	}
+
 	@RequestMapping("/home/grafico")
 	@ResponseBody
 	public Grafico getGraficoEstadisticas() {

@@ -148,8 +148,8 @@ google.load("visualization", "1", {packages:["corechart"]});
 		
 		<div id="grafico_estadisticas" style="width:600px;height:214px"></div>
 		
-		<input type="hidden" id="titulo_grafico" value="Valores por año" />
-		<input type="hidden" id="titulo_eje_x" value="Año" />
+		<input type="hidden" id="titulo_grafico" value="${tituloGrafico}" />
+		<input type="hidden" id="titulo_eje_x" value="${tituloEjeX}" />
 	</div>
 	
 	<div class="separador"></div>
