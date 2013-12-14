@@ -8,6 +8,7 @@
 
 <jsp:include page="/WEB-INF/jsp/filtros_busqueda.jsp">
 	<jsp:param value="/estadisticas/filtrar" name="action"/>
+	<jsp:param value="true" name="ocultarTrimestre"/>
 </jsp:include>
 
 
@@ -17,7 +18,7 @@
 		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
 	</div>
 	
-	<h1>ESTADÍSTICAS</h1>
+	<h1>ESTADÍSTICAS PARA ${nombrePais != null ? nombrePais : "LATINOAMERICA"}</h1>
 	
 	<div class="der">
 		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
@@ -44,7 +45,7 @@
 						<tr class="sacm">
 							<td>${totalPorDerecho.derecho.nombre}</td>
 							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2"
 									value="${totalPorDerecho.primerTrimestreSACM}"/>
 							</td>
 							<td>
@@ -94,11 +95,26 @@
 				<tfoot>
 					<tr>
 						<td>TOTAL</td>
-						<td>${totalPorFuente.totalPrimerTrimestre}</td>
-						<td>${totalPorFuente.totalSegundoTrimestre}</td>
-						<td>${totalPorFuente.totalTercerTrimestre}</td>
-						<td>${totalPorFuente.totalCuartoTrimestre}</td>
-						<td>${totalPorFuente.total}</td>
+						<td>
+							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+									value="${totalPorFuente.totalPrimerTrimestre}"/>
+						</td>
+						<td>
+							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+									value="${totalPorFuente.totalSegundoTrimestre}"/>
+						</td>
+						<td>
+							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+									value="${totalPorFuente.totalTercerTrimestre}"/>
+						</td>
+						<td>
+							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+									value="${totalPorFuente.totalCuartoTrimestre}"/>
+						</td>
+						<td>
+							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+									value="${totalPorFuente.total}"/>
+						</td>
 					</tr>
 				</tfoot>
 			</table>

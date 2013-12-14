@@ -1,6 +1,7 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
@@ -162,6 +164,38 @@ public class DatosCancionDao {
 		Long resultado = (Long) query.uniqueResult();
 		
 		return resultado != null ? resultado.longValue() : 0;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Fuente> getFuentes(Long idPais) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT DISTINCT(dc.fuente) from DatosCancion dc ");
+		
+		if (idPais != null) {
+			buffer.append("WHERE dc.pais.id = :idPais ");
+		}
+		
+		buffer.append("ORDER BY dc.fuente.id");
+		
+		Query query = session.createQuery(buffer.toString());
+		DaoUtils.setearParametros(query, idPais, null, null, null);
+		
+		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<Derecho> getDerechosPorFuente(Fuente fuente) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery(
+				"SELECT DISTINCT(dc.derecho) from DatosCancion dc WHERE dc.fuente = :fuente ORDER BY dc.derecho.nombre")
+				.setParameter("fuente", fuente).list();
 	}
 	
 	/**
@@ -397,32 +431,119 @@ public class DatosCancionDao {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<MontoTotalPorFuente> getTotalesPorFuente(Long idPais, Integer anio) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
+		Query query = getQueryTotalesPorFuenteSACM(session, idPais, anio);
+		List<MontoPorDerecho> montosSACM = query.list();
+		
+		query = getQueryTotalesPorFuenteOtros(session, idPais, anio);
+		List<MontoPorDerecho> montosOtros = query.list();
+		
+		List<Fuente> fuentes = getFuentes(idPais);
+		
+		return procesarTotalesPorFuente(montosSACM, montosOtros, fuentes);
+			
+	}
+
+	private List<MontoTotalPorFuente> procesarTotalesPorFuente(
+			List<MontoPorDerecho> montosSACM,
+			List<MontoPorDerecho> montosOtros, List<Fuente> fuentes) {
+		
 		List<MontoTotalPorFuente> resultado = new LinkedList<>();
 		
-		MontoTotalPorFuente monto = new MontoTotalPorFuente();
-		monto.setFuente((Fuente)session.get(Fuente.class, 1L));
-		List<MontoTotalPorDerecho> montosPorDerecho = new LinkedList<>();
-		monto.setMontosPorDerecho(montosPorDerecho);
-		
-		MontoTotalPorDerecho monto2 = new MontoTotalPorDerecho();
-		monto2.setCuartoTrimestreOtros(1);
-		monto2.setCuartoTrimestreSACM(2);
-		monto2.setDerecho((Derecho)session.get(Derecho.class, "CABLE"));
-		monto2.setPrimerTrimestreOtros(3);
-		monto2.setPrimerTrimestreSACM(4);
-		monto2.setSegundoTrimestreOtros(5);
-		monto2.setSegundoTrimestreSACM(6);
-		monto2.setTercerTrimestreOtros(7);
-		monto2.setTercerTrimestreSACM(8);
-		montosPorDerecho.add(monto2);
-		
-		resultado.add(monto);
+		for (Fuente fuente : fuentes) {
+			
+			MontoTotalPorFuente montoTotalPorFuente = new MontoTotalPorFuente();
+			montoTotalPorFuente.setFuente(fuente);
+			resultado.add(montoTotalPorFuente);
+			
+			List<Derecho> derechos = getDerechosPorFuente(fuente);
+			for (Derecho derecho : derechos) {
+				
+				MontoTotalPorDerecho montoTotalPorDerecho = new MontoTotalPorDerecho();
+				montoTotalPorDerecho.setDerecho(derecho);
+				montoTotalPorFuente.agregarMontoPorDerecho(montoTotalPorDerecho);
+				
+				for (int trimestre = 1; trimestre <= 4; trimestre++) {
+					
+					MontoPorDerecho montoSACM = buscarPorFuenteDerechoYTrimestre(
+							montosSACM, fuente, derecho, trimestre);
+					
+					if (montoSACM != null) {
+						montoTotalPorDerecho.setMontoSACM(montoSACM.getMonto(), trimestre);
+					}
+					
+					MontoPorDerecho montoOtros = buscarPorFuenteDerechoYTrimestre(
+							montosOtros, fuente, derecho, trimestre);
+					
+					if (montoOtros != null) {
+						montoTotalPorDerecho.setMontoOtros(montoOtros.getMonto(), trimestre);
+					}
+				}
+			}
+		}
 		
 		return resultado;
+	}
+
+	private MontoPorDerecho buscarPorFuenteDerechoYTrimestre(
+			List<MontoPorDerecho> montos, Fuente fuente, Derecho derecho,
+			int trimestre) {
+		
+		MontoPorDerecho resultado = null;
+		Iterator<MontoPorDerecho> it = montos.iterator();
+		
+		while (it.hasNext() && resultado == null) {
+			
+			MontoPorDerecho encontrado = it.next();
+			if (encontrado.getDerecho().equals(derecho) 
+					&& encontrado.getFuente().equals(fuente) 
+					&& encontrado.getTrimestre().equals(Integer.valueOf(trimestre))) {
+				
+				resultado = encontrado;
+				it.remove();
+			}
+		}
+		
+		return resultado;
+	}
+
+	private Query getQueryTotalesPorFuenteSACM(Session session, Long idPais, Integer anio) {
+		return getQueryTotalesPorFuente(session, idPais, anio, false);
+	}
+	
+	private Query getQueryTotalesPorFuenteOtros(Session session, Long idPais, Integer anio) {
+		return getQueryTotalesPorFuente(session, idPais, anio, true);
+	}
+
+	private Query getQueryTotalesPorFuente(Session session, Long idPais, 
+			Integer anio, boolean excluirSACM) {
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho(")
+			.append("dc.fuente, dc.derecho, dc.trimestre, SUM(dc.montoPercibido)) ")
+			.append("FROM DatosCancion dc ");
+		
+		if (excluirSACM) {
+			buffer.append("WHERE dc.companyId != :companyId ");
+			
+		} else {
+			buffer.append("WHERE dc.companyId = :companyId ");
+		}
+			
+		buffer.append(DaoUtils.getWhereClause(null, anio, idPais, null))			
+			.append("GROUP BY dc.fuente, dc.derecho, dc.trimestre ")
+			.append("ORDER BY dc.fuente.id, dc.derecho.nombre");
+		
+		Query query = session.createQuery(buffer.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+		
+		DaoUtils.setearParametros(query, idPais, anio, null, null);
+		
+		return query;
 	}
 }

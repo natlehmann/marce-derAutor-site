@@ -9,6 +9,9 @@
 	
 	boolean mostrarAutores = request.getParameter("mostrarAutores") != null 
 			&& request.getParameter("mostrarAutores").equalsIgnoreCase("true");
+	
+	boolean ocultarTrimestre = request.getParameter("ocultarTrimestre") != null 
+			&& request.getParameter("ocultarTrimestre").equalsIgnoreCase("true");
 %>
 
 <c:set var="url" value="<%= action %>" />
@@ -48,17 +51,20 @@
 			</select>
 		</div>
 		
-		<h2>Quarter</h2>
+		<c:if test="<%= !ocultarTrimestre %>">
 		
-		<div class="dropdown">
-			<select name="trimestre" class="dropdown-select">
-				<option value="">Select...</option>
-				<option value="1" ${trimestreSeleccionado eq 1 ? "selected='selected'" : ""}>1st</option>
-				<option value="2" ${trimestreSeleccionado eq 2 ? "selected='selected'" : ""}>2nd</option>
-				<option value="3" ${trimestreSeleccionado eq 3 ? "selected='selected'" : ""}>3rd</option>
-				<option value="4" ${trimestreSeleccionado eq 4 ? "selected='selected'" : ""}>4th</option>
-			</select>
-		</div>
+			<h2>Quarter</h2>
+			
+			<div class="dropdown">
+				<select name="trimestre" class="dropdown-select">
+					<option value="">Select...</option>
+					<option value="1" ${trimestreSeleccionado eq 1 ? "selected='selected'" : ""}>1st</option>
+					<option value="2" ${trimestreSeleccionado eq 2 ? "selected='selected'" : ""}>2nd</option>
+					<option value="3" ${trimestreSeleccionado eq 3 ? "selected='selected'" : ""}>3rd</option>
+					<option value="4" ${trimestreSeleccionado eq 4 ? "selected='selected'" : ""}>4th</option>
+				</select>
+			</div>
+		</c:if>
 		
 		
 		<c:if test="<%=mostrarAutores %>">

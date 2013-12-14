@@ -106,4 +106,42 @@ public class MontoTotalPorDerecho implements Serializable {
 				+ this.cuartoTrimestreOtros;
 	}
 
+	public void setMontoSACM(double monto, int trimestre) {
+		
+		switch(trimestre) {
+		
+		case 1: this.setPrimerTrimestreSACM(monto);
+				break;
+		
+		case 2: this.setSegundoTrimestreSACM(monto);
+				break;
+		
+		case 3: this.setTercerTrimestreSACM(monto);
+				break;
+		
+		case 4: this.setCuartoTrimestreSACM(monto);
+				break;
+		}
+		
+	}
+
+	public void setMontoOtros(double monto, int trimestre) {
+		
+		switch(trimestre) {
+		
+		case 1: this.setPrimerTrimestreOtros(monto);
+				break;
+		
+		case 2: this.setSegundoTrimestreOtros(monto);
+				break;
+		
+		case 3: this.setTercerTrimestreOtros(monto);
+				break;
+		
+		case 4: this.setCuartoTrimestreOtros(monto);
+				break;
+		}
+		
+	}
+
 }

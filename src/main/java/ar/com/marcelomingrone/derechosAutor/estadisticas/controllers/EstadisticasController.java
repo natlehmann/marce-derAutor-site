@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 
 @Controller
 public class EstadisticasController {
 	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
+	
+	@Autowired
+	private PaisDao paisDao;
 	
 	
 	@RequestMapping("/estadisticas")
@@ -39,6 +43,7 @@ public class EstadisticasController {
 		session.setAttribute(SessionParam.ANIO.toString(), anio);
 		
 		model.addAttribute("totalesPorFuente", datosCancionDao.getTotalesPorFuente(idPais, anio));
+		model.addAttribute("nombrePais", idPais != null ? paisDao.buscar(idPais).getNombre() : null);
 		
 		return "estadisticas";
 		
