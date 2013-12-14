@@ -4,7 +4,10 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 
-<script type="text/javascript" src='<c:url value="/js/google-jsapi.js" />' ></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+google.load("visualization", "1", {packages:["corechart"]});
+</script>
 
 <script type="text/javascript" src='<c:url value="/js/home.js" />' ></script>
 
@@ -143,7 +146,10 @@
 			<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 		</div>
 		
-		<div id="grafico_estadisticas" style="width:513px;height:214px"></div>
+		<div id="grafico_estadisticas" style="width:600px;height:214px"></div>
+		
+		<input type="hidden" id="titulo_grafico" value="Valores por año" />
+		<input type="hidden" id="titulo_eje_x" value="Año" />
 	</div>
 	
 	<div class="separador"></div>

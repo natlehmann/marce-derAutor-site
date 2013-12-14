@@ -37,25 +37,24 @@ $(document).ready(function() {
 
 
 function inicializarGrafico() {
-	
-	google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(drawChart);
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-        ['Year', 'Sales', 'Expenses'],
-        ['2004',  1000,      400],
-        ['2005',  1170,      460],
-        ['2006',  660,       1120],
-        ['2007',  1030,      540]
-      ]);
-
-      var options = {
-        title: 'Company Performance',
-        hAxis: {title: 'Year', titleTextStyle: {color: 'red'}}
-      };
-
-      var chart = new google.visualization.ColumnChart(document.getElementById('grafico_estadisticas'));
-      chart.draw(data, options);
-    }
-
 }
+
+function drawChart() {
+
+	var jsonData = $.ajax({
+        url: $("#contexto").val() + "home/grafico",
+        dataType:"json",
+        async: false
+        }).responseText;
+
+	var data = new google.visualization.DataTable(jsonData);
+
+    var options = {
+      title: document.getElementById('titulo_grafico').value,
+      hAxis: {title: document.getElementById('titulo_eje_x').value}
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('grafico_estadisticas'));
+    chart.draw(data, options);
+  }
