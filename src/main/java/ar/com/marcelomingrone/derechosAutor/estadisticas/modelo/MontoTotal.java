@@ -9,7 +9,7 @@ public class MontoTotal implements Serializable{
 	
 	private static final long serialVersionUID = 404715572876004689L;
 	
-	private String clave = "anio";
+	private Clave clave = Clave.ANIO;
 
 	private Pais pais;
 	
@@ -22,20 +22,20 @@ public class MontoTotal implements Serializable{
 	public MontoTotal() {}
 	
 	public MontoTotal(Integer anio, Double monto) {
-		this.clave = "anio";
+		this.clave = Clave.ANIO;
 		this.anio = anio;
 		this.monto = monto;
 	}
 	
 	public MontoTotal(Integer anio, Integer trimestre, Double monto) {
-		this.clave = "trimestre";
+		this.clave = Clave.TRIMESTRE;
 		this.anio = anio;
 		this.monto = monto;
 		this.trimestre = trimestre;
 	}
 	
 	public MontoTotal(Integer anio, Integer trimestre, Pais pais, Double monto) {
-		this.clave = "pais";
+		this.clave = Clave.PAIS;
 		this.anio = anio;
 		this.monto = monto;
 		this.trimestre = trimestre;
@@ -75,12 +75,8 @@ public class MontoTotal implements Serializable{
 		this.monto = monto;
 	}
 	
-	public String getClave() {
+	public Clave getClave() {
 		return clave;
-	}
-	
-	public void setClave(String clave) {
-		this.clave = clave;
 	}
 	
 	@Override
@@ -94,14 +90,14 @@ public class MontoTotal implements Serializable{
 		
 		switch(this.clave) {
 		
-		case "anio" :
+		case ANIO :
 			return otro.getAnio() != null && this.getAnio() != null && otro.getAnio().equals(this.getAnio());
 		
-		case "trimestre" :
+		case TRIMESTRE :
 			return otro.getTrimestre() != null && this.getTrimestre() != null
 				&& otro.getTrimestre().equals(this.getTrimestre());
 		
-		case "pais" :
+		case PAIS :
 			return otro.getPais() != null && this.getPais() != null && this.getPais().equals(otro.getPais());
 		}
 		
@@ -148,17 +144,23 @@ public class MontoTotal implements Serializable{
 		
 		switch(this.clave) {
 		
-		case "anio" :
+		case ANIO :
 			return String.valueOf(this.getAnio());
 		
-		case "trimestre" :
+		case TRIMESTRE :
 			return String.valueOf(this.getTrimestre());
 		
-		case "pais" :
+		case PAIS :
 			return this.getPais().getNombre();
 		}
 		
 		return null;
+	}
+	
+	private static enum Clave {
+		ANIO,
+		TRIMESTRE,
+		PAIS;
 	}
 
 }
