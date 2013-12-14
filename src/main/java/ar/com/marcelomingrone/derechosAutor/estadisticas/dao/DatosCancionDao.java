@@ -178,10 +178,10 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional
-	public List<MontoTotal> getMontosOtrosTotalesPorAnio(Pais pais, Integer trimestre) {
+	public List<MontoTotal> getMontosTotalesOtrosPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, true);
 	}
-
+	
 
 	@SuppressWarnings("unchecked")
 	@Transactional
@@ -223,7 +223,172 @@ public class DatosCancionDao {
 		
 		Collections.sort(montos, new MontoTotal.ComparadorPorAnio());
 		
+		if (montos.size() > 3) {
+			montos = montos.subList(0, 3);
+		}
+		
 		return montos;
 	}
 
+	
+	/**
+	 * Anio es obligatorio, pais es opcional
+	 * @param anio
+	 * @param pais
+	 * @return
+	 */
+	@Transactional
+	public List<MontoTotal> getMontosTotalesSACMPorTrimestre(Integer anio, Pais pais) {
+		
+		if (anio == null) {
+			throw new IllegalArgumentException("El año debe estar seteado para esta consulta");
+		}
+		
+		return getMontosTotalesPorTrimestre(anio, pais, false);
+	}
+	
+	/**
+	 * Anio es obligatorio, pais es opcional
+	 * @param anio
+	 * @param pais
+	 * @return
+	 */
+	@Transactional
+	public List<MontoTotal> getMontosTotalesOtrosPorTrimestre(Integer anio, Pais pais) {
+		
+		if (anio == null) {
+			throw new IllegalArgumentException("El año debe estar seteado para esta consulta");
+		}
+		
+		return getMontosTotalesPorTrimestre(anio, pais, true);
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	private List<MontoTotal> getMontosTotalesPorTrimestre(Integer anio, Pais pais, boolean excluirSACM) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
+			.append("'trimestre', ").append(anio).append(", dc.trimestre, SUM(dc.montoPercibido)) ")
+			.append("FROM DatosCancion dc ");
+		
+		if (excluirSACM) {
+			buffer.append("WHERE dc.companyId != :companyId ");
+			
+		} else {
+			buffer.append("WHERE dc.companyId = :companyId ");
+		}
+			
+		buffer.append(DaoUtils.getWhereClause(null, anio, (pais != null) ? pais.getId() : null, null))			
+			.append("GROUP BY dc.trimestre");
+		
+		Query query = session.createQuery(buffer.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+		
+		DaoUtils.setearParametros(query, (pais != null) ? pais.getId() : null, anio, null, null);
+		
+		List<MontoTotal> montos = query.list();
+		
+		for (int i = 1 ; i <= 4; i++) {
+			
+			MontoTotal nuevoMonto = new MontoTotal("trimestre", anio, Integer.valueOf(i), 0.0);
+			if (!montos.contains(nuevoMonto)) {
+				
+				montos.add(nuevoMonto);
+			}
+		}
+		
+		Collections.sort(montos, new MontoTotal.ComparadorPorTrimestre());
+		
+		return montos;
+	}
+
+	/**
+	 * Anio y trimestre son obligatorios, pais es opcional
+	 * @param anio
+	 * @param trimestre
+	 * @param pais
+	 * @return
+	 */
+	@Transactional
+	public List<MontoTotal> getMontosTotalesSACMPorPais(Integer anio,
+			Integer trimestre, Pais pais) {
+		
+		if (anio == null || trimestre == null) {
+			throw new IllegalArgumentException(
+					"El año y el trimestre deben estar seteados para esta consulta");
+		}
+		
+		return getMontosTotalesPorPais(anio, trimestre, pais, false);
+	}
+	
+	/**
+	 * Anio y trimestre son obligatorios, pais es opcional
+	 * @param anio
+	 * @param trimestre
+	 * @param pais
+	 * @return
+	 */
+	@Transactional
+	public List<MontoTotal> getMontosTotalesOtrosPorPais(Integer anio,
+			Integer trimestre, Pais pais) {
+		
+		if (anio == null || trimestre == null) {
+			throw new IllegalArgumentException(
+					"El año y el trimestre deben estar seteados para esta consulta");
+		}
+		
+		return getMontosTotalesPorPais(anio, trimestre, pais, true);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	private List<MontoTotal> getMontosTotalesPorPais(Integer anio, Integer trimestre, 
+			Pais pais, boolean excluirSACM) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
+			.append("'pais', ").append(anio).append(", ")
+			.append(trimestre).append(", dc.pais, SUM(dc.montoPercibido)) ")
+			.append("FROM DatosCancion dc ");
+		
+		if (excluirSACM) {
+			buffer.append("WHERE dc.companyId != :companyId ");
+			
+		} else {
+			buffer.append("WHERE dc.companyId = :companyId ");
+		}
+			
+		buffer.append(DaoUtils.getWhereClause(trimestre, anio, (pais != null) ? pais.getId() : null, null))			
+			.append("GROUP BY dc.pais");
+		
+		Query query = session.createQuery(buffer.toString());
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+		
+		DaoUtils.setearParametros(query, (pais != null) ? pais.getId() : null, anio, trimestre, null);
+		
+		List<MontoTotal> montos = query.list();
+		
+		if (pais == null) {
+			
+			List<Pais> todosLosPaises = getPaises();
+			for (Pais otroPais : todosLosPaises) {
+				
+				MontoTotal nuevoMonto = new MontoTotal("pais", anio, trimestre, otroPais, 0.0);
+				if (!montos.contains(nuevoMonto)) {
+					montos.add(nuevoMonto);
+				}
+			}
+		}
+		
+		Collections.sort(montos, new MontoTotal.ComparadorPorPais());
+		
+		return montos;
+	}
 }

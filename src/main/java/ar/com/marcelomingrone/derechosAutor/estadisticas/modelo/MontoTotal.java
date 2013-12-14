@@ -3,6 +3,8 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import javax.persistence.Transient;
+
 public class MontoTotal implements Serializable{
 	
 	private static final long serialVersionUID = 404715572876004689L;
@@ -23,6 +25,16 @@ public class MontoTotal implements Serializable{
 		this.clave = clave;
 		this.anio = anio;
 		this.monto = monto;
+	}
+	
+	public MontoTotal(String clave, Integer anio, Integer trimestre, Double monto) {
+		this(clave, anio, monto);
+		this.trimestre = trimestre;
+	}
+	
+	public MontoTotal(String clave, Integer anio, Integer trimestre, Pais pais, Double monto) {
+		this(clave, anio, trimestre, monto);
+		this.pais = pais;
 	}
 
 
@@ -96,8 +108,23 @@ public class MontoTotal implements Serializable{
 		@Override
 		public int compare(MontoTotal o1, MontoTotal o2) {
 			return o1.getAnio().compareTo(o2.getAnio());
-		}
-		
+		}		
+	}
+	
+	public static class ComparadorPorTrimestre implements Comparator<MontoTotal> {
+
+		@Override
+		public int compare(MontoTotal o1, MontoTotal o2) {
+			return o1.getTrimestre().compareTo(o2.getTrimestre());
+		}		
+	}
+	
+	public static class ComparadorPorPais implements Comparator<MontoTotal> {
+
+		@Override
+		public int compare(MontoTotal o1, MontoTotal o2) {
+			return o1.getPais().getNombre().compareTo(o2.getPais().getNombre());
+		}		
 	}
 
 	public double calcularPorcentaje(double total) {
@@ -109,6 +136,24 @@ public class MontoTotal implements Serializable{
 		}
 		
 		return porcentaje;
+	}
+
+	@Transient
+	public String getCriterio() {
+		
+		switch(this.clave) {
+		
+		case "anio" :
+			return String.valueOf(this.getAnio());
+		
+		case "trimestre" :
+			return String.valueOf(this.getTrimestre());
+		
+		case "pais" :
+			return this.getPais().getNombre();
+		}
+		
+		return null;
 	}
 
 }

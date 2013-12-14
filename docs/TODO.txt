@@ -23,3 +23,5 @@ tablas al comenzar la importación.
 
 - Habilitar cache hibernate
 
+-BUG: si busco Brazil me trae canciones. Si busco Brazil + trimestre 1 no --> ESTA MAL
+

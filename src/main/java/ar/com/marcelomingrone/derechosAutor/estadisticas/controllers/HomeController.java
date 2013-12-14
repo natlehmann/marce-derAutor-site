@@ -24,6 +24,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasC
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.CeldaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.FilaGrafico;
@@ -33,6 +34,9 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafi
 @Controller
 public class HomeController {
 	
+	private static final String DISTRIBUCION = "DISTRIBUCION";
+	private static final String SACM = "SACM";
+
 	private static Log log = LogFactory.getLog(HomeController.class);
 	
 	@Autowired
@@ -124,18 +128,18 @@ public class HomeController {
 		}
 		
 		if (soloAnio || paisYAnio) {
-			tituloGrafico = "Valores por trimestre";
+			tituloGrafico = "Valores por trimestre para el " + anio;
 			ejeX = "Trimestre";
 		}
 		
 		if (anioYTrimestre) {
-			tituloGrafico = "Valores por país";
+			tituloGrafico = "Valores por país (trimestre " + trimestre + " del año " + anio + ")";
 			ejeX = "País";
 		}
 		
 		if (todos) {
-			tituloGrafico = "Valores para el trimestre " + trimestre;
-			ejeX = "Trimestre";
+			tituloGrafico = "Valores para el trimestre " + trimestre + " del " + anio;
+			ejeX = "País";
 		}
 		
 		Map<String, String> titulos = new HashMap<String, String>();
@@ -147,21 +151,22 @@ public class HomeController {
 
 	@RequestMapping("/home/grafico")
 	@ResponseBody
-	public Grafico getGraficoEstadisticas() {
+	public Grafico getGraficoEstadisticas(HttpSession session) {
 		
-		List<MontoTotal> montosSACM = datosCancionDao.getMontosTotalesSACMPorAnio(null, null);
+		Map<String, List<MontoTotal>> montos = getMontosTotales(session);
 		
-		List<MontoTotal> otrosMontos = datosCancionDao.getMontosOtrosTotalesPorAnio(null, null);
+		List<MontoTotal> montosSACM = montos.get(SACM);
+		List<MontoTotal> otrosMontos = montos.get(DISTRIBUCION);
 		
 		Grafico grafico = new Grafico();
 		
-		grafico.agregarColumna(new ColumnaGrafico("Año"));
+		grafico.agregarColumna(new ColumnaGrafico("encabezado"));
 		grafico.agregarColumna(new ColumnaGrafico("Distribución", TipoColumna.NUMERICO));
 		grafico.agregarToolTip();
-		grafico.agregarColumna(new ColumnaGrafico("SACM", TipoColumna.NUMERICO));
+		grafico.agregarColumna(new ColumnaGrafico(SACM, TipoColumna.NUMERICO));
 		grafico.agregarToolTip();
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < montosSACM.size(); i++) {
 			
 			MontoTotal montoSACM = montosSACM.get(i);
 			MontoTotal otroMonto = otrosMontos.get(i);
@@ -169,7 +174,7 @@ public class HomeController {
 			double total = montoSACM.getMonto() + otroMonto.getMonto();
 			
 			grafico.agregarFila(new FilaGrafico(
-					new CeldaGrafico<String>(String.valueOf(montoSACM.getAnio())),
+					new CeldaGrafico<String>(montoSACM.getCriterio()),
 					
 					new CeldaGrafico<Double>(otroMonto.getMonto()),
 					
@@ -184,6 +189,43 @@ public class HomeController {
 		
 		return grafico;
 		
+	}
+
+	private Map<String, List<MontoTotal>> getMontosTotales(HttpSession session) {
+		
+		Map<String, List<MontoTotal>> resultado = new HashMap<>();
+		
+		Long idPais = (Long) session.getAttribute(SessionParam.PAIS.toString());
+		Integer anio = (Integer) session.getAttribute(SessionParam.ANIO.toString());
+		Integer trimestre = (Integer) session.getAttribute(SessionParam.TRIMESTRE.toString());
+		
+		boolean ninguno = idPais == null && anio == null && trimestre == null;
+		boolean soloPais = idPais != null && anio == null && trimestre == null;
+		boolean soloAnio = idPais == null && anio != null && trimestre == null;
+		boolean soloTrimestre = idPais == null && anio == null && trimestre != null;		
+		boolean paisYAnio = idPais != null && anio != null && trimestre == null;
+		boolean paisYTrimestre = idPais != null && anio == null && trimestre != null;
+		boolean anioYTrimestre = idPais == null && anio != null && trimestre != null;
+		boolean todos = idPais != null && anio != null && trimestre != null;
+		
+		Pais pais = (idPais != null) ? new Pais(idPais) : null;
+		
+		if (ninguno || soloPais || soloTrimestre || paisYTrimestre) {
+			resultado.put(SACM, datosCancionDao.getMontosTotalesSACMPorAnio(pais, trimestre));
+			resultado.put(DISTRIBUCION, datosCancionDao.getMontosTotalesOtrosPorAnio(pais, trimestre));
+		}
+		
+		if (soloAnio || paisYAnio) {
+			resultado.put(SACM, datosCancionDao.getMontosTotalesSACMPorTrimestre(anio, pais));
+			resultado.put(DISTRIBUCION, datosCancionDao.getMontosTotalesOtrosPorTrimestre(anio, pais));
+		}
+		
+		if (anioYTrimestre || todos) {
+			resultado.put(SACM, datosCancionDao.getMontosTotalesSACMPorPais(anio, trimestre, pais));
+			resultado.put(DISTRIBUCION, datosCancionDao.getMontosTotalesOtrosPorPais(anio, trimestre, pais));
+		}
+		
+		return resultado;
 	}
 
 }
