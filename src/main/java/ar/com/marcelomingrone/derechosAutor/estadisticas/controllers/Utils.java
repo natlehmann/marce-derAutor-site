@@ -1,6 +1,8 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
+import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,8 @@ import org.springframework.util.StringUtils;
 public class Utils {
 
 	private static Log log = LogFactory.getLog(Utils.class);
+	
+	private static NumberFormat formateadorNumeros;
 	
 	public static enum Params {
 		INICIO,
@@ -93,6 +97,16 @@ public class Utils {
 		params.put(Params.DIRECCION_ORDENAMIENTO, direccionOrdenamiento);
 		
 		return params;
+	}
+	
+	public static String formatear(double numero) {
+		
+		if (formateadorNumeros == null) {
+			formateadorNumeros = NumberFormat.getInstance(new Locale("es"));
+			formateadorNumeros.setMaximumFractionDigits(2);
+		}
+		
+		return formateadorNumeros.format(numero);
 	}
 
 }

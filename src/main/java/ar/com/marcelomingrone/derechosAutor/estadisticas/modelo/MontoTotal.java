@@ -95,9 +95,20 @@ public class MontoTotal implements Serializable{
 
 		@Override
 		public int compare(MontoTotal o1, MontoTotal o2) {
-			return o2.getAnio().compareTo(o1.getAnio());
+			return o1.getAnio().compareTo(o2.getAnio());
 		}
 		
+	}
+
+	public double calcularPorcentaje(double total) {
+		
+		double porcentaje = 0.0;
+		if (this.monto != null && total > 0) {
+			
+			porcentaje = this.monto * 100 / total;
+		}
+		
+		return porcentaje;
 	}
 
 }

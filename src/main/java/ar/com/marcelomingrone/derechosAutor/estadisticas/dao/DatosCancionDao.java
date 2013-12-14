@@ -201,13 +201,13 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClause(trimestre, null, pais.getId(), null))			
+		buffer.append(DaoUtils.getWhereClause(trimestre, null, (pais != null) ? pais.getId() : null, null))			
 			.append("GROUP BY dc.anio");
 		
 		Query query = session.createQuery(buffer.toString());
 		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
 		
-		DaoUtils.setearParametros(query, pais.getId(), null, trimestre, null);
+		DaoUtils.setearParametros(query, (pais != null) ? pais.getId() : null, null, trimestre, null);
 		
 		List<MontoTotal> montos = query.list();
 		

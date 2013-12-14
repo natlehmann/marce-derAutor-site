@@ -21,6 +21,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.CeldaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.FilaGrafico;
@@ -98,34 +99,38 @@ public class HomeController {
 	@ResponseBody
 	public Grafico getGraficoEstadisticas() {
 		
+		List<MontoTotal> montosSACM = datosCancionDao.getMontosTotalesSACMPorAnio(null, null);
+		
+		List<MontoTotal> otrosMontos = datosCancionDao.getMontosOtrosTotalesPorAnio(null, null);
+		
 		Grafico grafico = new Grafico();
 		
-		grafico.agregarColumna(new ColumnaGrafico("Year"));
-		grafico.agregarColumna(new ColumnaGrafico("Sales", TipoColumna.NUMERICO));
+		grafico.agregarColumna(new ColumnaGrafico("Año"));
+		grafico.agregarColumna(new ColumnaGrafico("Distribución", TipoColumna.NUMERICO));
 		grafico.agregarToolTip();
-		grafico.agregarColumna(new ColumnaGrafico("Expenses", TipoColumna.NUMERICO));
+		grafico.agregarColumna(new ColumnaGrafico("SACM", TipoColumna.NUMERICO));
 		grafico.agregarToolTip();
 		
-		grafico.agregarFila(new FilaGrafico(
-				new CeldaGrafico<String>("2004"), 
-				new CeldaGrafico<Integer>(1000),
-				new CeldaGrafico<String>(1000 + " (60%)"),
-				new CeldaGrafico<Integer>(400),
-				new CeldaGrafico<String>(400 + " (40%)")));
-		
-		grafico.agregarFila(new FilaGrafico(
-				new CeldaGrafico<String>("2005"), 
-				new CeldaGrafico<Integer>(876),
-				new CeldaGrafico<String>(1000 + " (30%)"),
-				new CeldaGrafico<Integer>(123),
-				new CeldaGrafico<String>(1000 + " (60%)")));
-		
-		grafico.agregarFila(new FilaGrafico(
-				new CeldaGrafico<String>("2006"), 
-				new CeldaGrafico<Integer>(986),
-				new CeldaGrafico<String>(1000 + " (43%)"),
-				new CeldaGrafico<Integer>(345),
-				new CeldaGrafico<String>(1000 + " (43%)")));
+		for (int i = 0; i < 3; i++) {
+			
+			MontoTotal montoSACM = montosSACM.get(i);
+			MontoTotal otroMonto = otrosMontos.get(i);
+			
+			double total = montoSACM.getMonto() + otroMonto.getMonto();
+			
+			grafico.agregarFila(new FilaGrafico(
+					new CeldaGrafico<String>(String.valueOf(montoSACM.getAnio())),
+					
+					new CeldaGrafico<Double>(otroMonto.getMonto()),
+					
+					new CeldaGrafico<String>(Utils.formatear(otroMonto.getMonto()) + " (" 
+							+ Utils.formatear(otroMonto.calcularPorcentaje(total)) + "%)"),
+							
+					new CeldaGrafico<Double>(montoSACM.getMonto()),
+					
+					new CeldaGrafico<String>(Utils.formatear(montoSACM.getMonto()) + " (" 
+							+ Utils.formatear(montoSACM.calcularPorcentaje(total)) + "%)")));
+		}
 		
 		return grafico;
 		
