@@ -2,6 +2,7 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.servicios;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -15,6 +16,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.UsuarioDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Usuario;
 
 @Service
 public class ServicioEnvioMail {
@@ -33,33 +37,42 @@ public class ServicioEnvioMail {
 	@Autowired
 	private ThreadPoolTaskExecutor taskExecutor;
 	
-	public void enviarNewsletter()
-			throws MessagingException, UnsupportedEncodingException {
+	@Autowired
+	private UsuarioDao usuarioDao;
+	
+	public void enviarNewsletter() {
 		
 		taskExecutor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
 				
-				try {
-					mimeMessage.setHeader("Content-Type", "application/octet-stream");
-					mimeMessage.setHeader("Content-Transfer-Encoding", "base64");
-					
-					mimeMessage.setText(new String("hola que tal".getBytes("UTF-8"), "UTF-8"), "UTF-8");
-					
-					mimeMessage.setSubject("Acá va el título", "UTF-8");
-					
-					mimeMessage.setSentDate(new Date());
-					mimeMessage.setRecipient(RecipientType.TO, new InternetAddress("natlehmann@yahoo.com"));
-					mimeMessage.setFrom(fromAddress);
-					
-					log.debug("Previo a enviar mail.");
-					javaMailSender.send(mimeMessage);
-					log.debug("Envio exitoso.");
-					
-				} catch (MessagingException | UnsupportedEncodingException e) {
-					// TODO !!!!
-					e.printStackTrace();
+				// TODO: FALTA ABRIR Y CERRAR UN ENVIO_NEWSLETTER CON EL RESULTADO DE ESTE PROCESO
+				
+				List<Usuario> usuarios = usuarioDao.getReceptoresNewsletter();
+				
+				for (Usuario usuario : usuarios) {
+				
+					try {
+						mimeMessage.setHeader("Content-Type", "application/octet-stream");
+						mimeMessage.setHeader("Content-Transfer-Encoding", "base64");
+						
+						mimeMessage.setText(new String("hola que tal".getBytes("UTF-8"), "UTF-8"), "UTF-8");
+						
+						mimeMessage.setSubject("Acá va el título", "UTF-8");
+						
+						mimeMessage.setSentDate(new Date());
+						mimeMessage.setRecipient(RecipientType.TO, new InternetAddress(usuario.getEmail()));
+						mimeMessage.setFrom(fromAddress);
+						
+						log.debug("Enviando mail a " + usuario.getEmail());
+						javaMailSender.send(mimeMessage);
+						log.debug("Envio exitoso.");
+						
+					} catch (MessagingException | UnsupportedEncodingException e) {
+						// TODO !!!!
+						e.printStackTrace();
+					}
 				}
 				
 			}
