@@ -22,7 +22,6 @@
 
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.controllers" />
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.dao" />
-	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.validadores" />
 	<context:component-scan base-package="ar.com.marcelomingrone.derechosAutor.estadisticas.servicios" />
 	
 	<context:property-placeholder location="classpath:configuracion.properties"/>
@@ -76,6 +75,42 @@
 
 	<!-- Activates annotation based transaction management -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	
+	<!-- Envio de mails -->
+	<bean id="smtpAuthenticator" class="ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.SmtpAuthenticator">
+		<constructor-arg value="${smtp.username}" />
+		<constructor-arg value="${smtp.password}" />
+	</bean>
+	
+	<bean id="mailSession" class="javax.mail.Session" factory-method="getInstance">
+		<constructor-arg>
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.socketFactory.port">${smtp.port}</prop>
+				<prop key="mail.smtp.socketFactory.class">${smtp.socket.factory}</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+				<prop key="mail.debug">${mail.debug}</prop>
+				<prop key="mail.smtp.ssl.trust">*</prop>
+				<prop key="content.type">text/plain; charset=UTF-8</prop>
+			</props>
+		</constructor-arg>
+		<constructor-arg ref="smtpAuthenticator" />
+	</bean>
+		
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${smtp.hostname}" />
+		<property name="port" value="${smtp.port}" />		
+		<property name="session" ref="mailSession" />
+	</bean>
+	
+	<bean id="fromAddress" class="javax.mail.internet.InternetAddress">
+		<constructor-arg value="${mail.from}" />
+	</bean>
+	
+	<bean id="mimeMessage" class="javax.mail.internet.MimeMessage">
+		<constructor-arg ref="mailSession" />
+	</bean>
 	
 	
 	<!-- Batch jobs -->

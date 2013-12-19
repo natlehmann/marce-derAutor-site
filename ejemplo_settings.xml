@@ -16,6 +16,13 @@
 				<db.user></db.user>
 				<db.password></db.password>
 				<tomcat.home></tomcat.home>
+				<smtp.hostname></smtp.hostname>
+				<smtp.username></smtp.username>
+				<smtp.password></smtp.password>
+				<smtp.port></smtp.port>
+				<smtp.socket.factory></smtp.socket.factory>
+				<mail.debug></mail.debug>
+				<mail.from></mail.from>
 			</properties>
 		</profile>
 	</profiles>
