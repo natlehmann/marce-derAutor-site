@@ -17,7 +17,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.NewsletterDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.UsuarioDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ErrorEnvioNewsletter;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Usuario;
 
 @Service
@@ -40,41 +44,80 @@ public class ServicioEnvioMail {
 	@Autowired
 	private UsuarioDao usuarioDao;
 	
-	public void enviarNewsletter() {
+	@Autowired
+	private NewsletterDao newsletterDao;
+	
+	
+	public void enviarNewsletter(final Newsletter newsletter) {
 		
 		taskExecutor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
 				
-				// TODO: FALTA ABRIR Y CERRAR UN ENVIO_NEWSLETTER CON EL RESULTADO DE ESTE PROCESO
+				String contenido = reemplazarImagenes(newsletter.getContenido());
+				
+				EnvioNewsletter envio = new EnvioNewsletter();
+				envio.setFechaEnvio(new Date());
+				newsletter.agregarEnvio(envio);
 				
 				List<Usuario> usuarios = usuarioDao.getReceptoresNewsletter();
 				
-				for (Usuario usuario : usuarios) {
 				
-					try {
-						mimeMessage.setHeader("Content-Type", "application/octet-stream");
-						mimeMessage.setHeader("Content-Transfer-Encoding", "base64");
+				try {
+					mimeMessage.setHeader("Content-Type", "text/html");
+					mimeMessage.setHeader("Content-Transfer-Encoding", "base64");
+					
+					mimeMessage.setSubject(newsletter.getSubject(), "UTF-8");					
+					mimeMessage.setSentDate(new Date());					
+					mimeMessage.setFrom(fromAddress);
+				
+					log.info("Enviando newsletter ID " + newsletter.getId() + " a " + usuarios.size() + " usuarios");
+					long contador = 0;
+					
+					for (Usuario usuario : usuarios) {
 						
-						mimeMessage.setText(new String("hola que tal".getBytes("UTF-8"), "UTF-8"), "UTF-8");
-						
-						mimeMessage.setSubject("Acá va el título", "UTF-8");
-						
-						mimeMessage.setSentDate(new Date());
-						mimeMessage.setRecipient(RecipientType.TO, new InternetAddress(usuario.getEmail()));
-						mimeMessage.setFrom(fromAddress);
-						
-						log.debug("Enviando mail a " + usuario.getEmail());
-						javaMailSender.send(mimeMessage);
-						log.debug("Envio exitoso.");
-						
-					} catch (MessagingException | UnsupportedEncodingException e) {
-						// TODO !!!!
-						e.printStackTrace();
+						try {
+							
+							contenido = contenido + getLinksParaUsuario(usuario);
+							
+							mimeMessage.setText(new String(contenido.getBytes("UTF-8"), "UTF-8"), "UTF-8");
+							mimeMessage.setRecipient(RecipientType.TO, new InternetAddress(usuario.getEmail()));
+							
+							javaMailSender.send(mimeMessage);
+							envio.agregarReceptor(usuario);
+							contador++;
+							
+						} catch (MessagingException e) {
+							log.error("Error al enviar mail a " + usuario.getEmail(), e);
+							envio.agregarErrorEnvio(new ErrorEnvioNewsletter(
+									"No se pudo enviar el newsletter '" + newsletter.getSubject() 
+									+ "' al mail " + usuario.getEmail()));
+						}
 					}
+					
+					log.info("Newsletter enviado a " + contador + " usuarios.");
+					
+					
+				} catch (MessagingException | UnsupportedEncodingException e) {
+					log.error("Error en la configuración del envio de newsletter", e);
+					envio.agregarErrorEnvio(new ErrorEnvioNewsletter(
+							"No se ha podido enviar el newsletter '" + newsletter.getSubject() 
+							+ "' a ningún usuario por problemas en su configuración. Consulte al administrador del sistema."));
 				}
 				
+				newsletterDao.guardar(newsletter);
+				
+			}
+
+			private String getLinksParaUsuario(Usuario usuario) {
+				// TODO !!!!!!!!!!!!!!
+				return "";
+			}
+
+			private String reemplazarImagenes(String contenido) {
+				// TODO !!!!!!!!!!
+				return contenido;
 			}
 		});
 		

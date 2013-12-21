@@ -23,7 +23,10 @@ tablas al comenzar la importación.
 
 - Habilitar cache hibernate
 
-- Administracion de newsletter
+- Administracion de newsletter : faltan links VER(preview) e INFO (para ver resultados envios)
+- Mostrar solo un fragmento del contenido en el listado
+- Falta reemplazar tags imagenes
+- Falta agregar link para desuscribir al final
 
 - parent right ??????
 

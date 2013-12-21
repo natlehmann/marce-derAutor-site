@@ -169,7 +169,7 @@ create table ReglamentoDeDistribucion(
 create table Newsletter(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	subject varchar(255) not null,
-	contenido varchar(2048) not null,
+	contenido LONGTEXT not null,
 	fechaCreacion datetime not null
 )  ENGINE=InnoDB;
 
@@ -178,6 +178,13 @@ create table EnvioNewsletter(
 	fechaEnvio datetime not null,
 	newsletter_id BIGINT NOT NULL,
 	FOREIGN KEY (newsletter_id) REFERENCES Newsletter(id)
+)  ENGINE=InnoDB;
+
+create table ErrorEnvioNewsletter(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	error varchar(512) NOT NULL,
+	envioNewsletter_id BIGINT NOT NULL,
+	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id)
 )  ENGINE=InnoDB;
 
 create table EnvioNewsletter_Usuario(

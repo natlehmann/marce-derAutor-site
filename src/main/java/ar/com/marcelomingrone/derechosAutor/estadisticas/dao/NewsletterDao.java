@@ -78,8 +78,22 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 	public List<EnvioNewsletter> getEnviosNewsletter(Long id) {
 		
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("SELECT n.envios FROM Newsletter n WHERE n.id = :id")
+		return session.createQuery(
+				"SELECT e FROM EnvioNewsletter e WHERE e.newsletter.id = :id ORDER BY e.fechaEnvio DESC")
 				.setParameter("id", id).list();
+	}
+
+	@Transactional
+	public Newsletter buscarConEnvios(Long id) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		Newsletter newsletter = (Newsletter) session.get(Newsletter.class, id);
+		
+		if (newsletter.getEnvios() != null) {
+			newsletter.getEnvios().size();
+		}
+		
+		return newsletter;
 	}
 
 }

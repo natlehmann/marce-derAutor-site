@@ -4,12 +4,15 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -29,6 +32,9 @@ public class EnvioNewsletter extends Entidad {
 	@JoinTable(name="EnvioNewsletter_Usuario", joinColumns=@JoinColumn(name="envioNewsletter_id"), 
 		inverseJoinColumns=@JoinColumn(name="usuario_id"))
 	private List<Usuario> receptores;
+	
+	@OneToMany(mappedBy="envioNewsletter", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<ErrorEnvioNewsletter> errores;
 
 	public Date getFechaEnvio() {
 		return fechaEnvio;
@@ -59,5 +65,21 @@ public class EnvioNewsletter extends Entidad {
 			this.receptores = new LinkedList<>();
 		}
 		this.receptores.add(receptor);
+	}
+	
+	public List<ErrorEnvioNewsletter> getErrores() {
+		return errores;
+	}
+	
+	public void setErrores(List<ErrorEnvioNewsletter> errores) {
+		this.errores = errores;
+	}
+	
+	public void agregarErrorEnvio(ErrorEnvioNewsletter error) {
+		if (this.errores == null) {
+			this.errores = new LinkedList<>();
+		}
+		this.errores.add(error);
+		error.setEnvioNewsletter(this);
 	}
 }

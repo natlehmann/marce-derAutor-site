@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,15 +26,16 @@ public class Newsletter extends Entidad {
 	@NotNull @Size(max=255) @NotBlank
 	private String subject;
 	
-	@Column(length=2048, nullable=false)
-	@NotNull @Size(max=2048) @NotBlank
+	@Column(nullable=false)
+	@NotNull @NotBlank
+	@Lob
 	private String contenido;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
 	private Date fechaCreacion;
 	
-	@OneToMany(mappedBy="newsletter")
+	@OneToMany(mappedBy="newsletter", cascade=CascadeType.ALL)
 	private List<EnvioNewsletter> envios;
 
 	public String getSubject() {
@@ -64,6 +67,7 @@ public class Newsletter extends Entidad {
 			this.envios = new LinkedList<>();
 		}
 		this.envios.add(envio);
+		envio.setNewsletter(this);
 	}
 	
 	public void setFechaCreacion(Date fechaCreacion) {

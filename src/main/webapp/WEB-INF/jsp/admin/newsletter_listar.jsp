@@ -26,7 +26,7 @@
 
 
 <div id="dialog-enviar" style="display:none;" title="Confirmación">
-	<form action="enviar" method="post">
+	<form action='<c:url value="/admin/newsletter/enviar"/>' method="post">
 		
 		<input type="hidden" name="id" id="dialog-enviar-id" value="" />
 		

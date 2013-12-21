@@ -13,7 +13,7 @@ INSERT INTO Usuario_Rol (usuario_id,rol_id) VALUES (4,3);
 create table Newsletter(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	subject varchar(255) not null,
-	contenido varchar(2048) not null,
+	contenido LONGTEXT not null,
 	fechaCreacion datetime not null
 )  ENGINE=InnoDB;
 
@@ -30,4 +30,11 @@ create table EnvioNewsletter_Usuario(
 	usuario_id BIGINT NOT NULL,
 	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id),
 	FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+)  ENGINE=InnoDB;
+
+create table ErrorEnvioNewsletter(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	error varchar(512) NOT NULL,
+	envioNewsletter_id BIGINT NOT NULL,
+	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id)
 )  ENGINE=InnoDB;

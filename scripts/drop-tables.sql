@@ -20,5 +20,6 @@ DROP TABLE Pais;
 DROP TABLE ItemAuditoria;
 
 DROP TABLE EnvioNewsletter_Usuario;
+DROP TABLE ErrorEnvioNewsletter;
 DROP TABLE EnvioNewsletter;
 DROP TABLE Newsletter;

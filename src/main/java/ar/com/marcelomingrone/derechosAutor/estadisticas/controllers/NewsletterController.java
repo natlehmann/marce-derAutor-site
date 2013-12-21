@@ -53,12 +53,15 @@ public class NewsletterController {
 	
 
 	@RequestMapping("/enviar")
-	public String enviar(ModelMap model) {
+	public String enviar(@RequestParam("id") Long id, ModelMap model) {
 		
-		servicioEnvioMail.enviarNewsletter();
+		Newsletter newsletter = newsletterDao.buscarConEnvios(id);
+
+		servicioEnvioMail.enviarNewsletter(newsletter);			
+	
+		model.addAttribute("msg", 
+				"Se ha iniciado el envío del newsletter. Podrá ver sus resultados cuando haya finalizado el proceso.");
 			
-		
-		model.addAttribute("msg", "El email se ha enviado con éxito.");
 		return "admin/newsletter_listar";
 	}
 	
@@ -174,13 +177,14 @@ public class NewsletterController {
 	@ResponseBody
 	public String validarEnvio(@RequestParam("id") Long id, ModelMap model) {
 		
-		String msg = "Está seguro que desea enviar este newsletter a todos los usuarios registrados?";
+		String msg = "¿Está seguro que desea enviar este newsletter a todos los usuarios registrados?";
 		
 		List<EnvioNewsletter> envios = newsletterDao.getEnviosNewsletter(id);
 		if (!envios.isEmpty()) {
-			msg = "Este newsletter ya fue enviado el día " 
+			msg = "Este newsletter ya fue enviado " + envios.size() 
+					+ " veces. El último envío se produjo el día " 
 					+ dateFormat.format(envios.get(0).getFechaEnvio()) 
-					+ ". Está seguro que desea enviarlo de nuevo?";
+					+ ". ¿Está seguro que desea enviarlo de nuevo?";
 		}
 		
 		return msg;
