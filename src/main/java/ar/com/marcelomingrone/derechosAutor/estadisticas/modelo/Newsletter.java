@@ -80,10 +80,15 @@ public class Newsletter extends Entidad {
 		List<String> resultado = new LinkedList<>();
 		resultado.add(format.format(this.fechaCreacion));
 		resultado.add(this.subject);
-		resultado.add(this.contenido);
-		resultado.add(super.getLinksModificarDuplicarEliminar());
+		resultado.add(this.contenido.replaceAll("\\<.*?>", ""));
+		resultado.add(super.getLinksModificarDuplicarEliminar() + this.getLinkEnviar());
 		
 		return resultado;
+	}
+	
+	@Transient
+	public String getLinkEnviar() {
+		return "<a href='#' onclick='confirmarEnviar(" + this.getId() + ")'>Enviar</a>";
 	}
 
 	@Transient

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
 
 @Repository
@@ -70,6 +71,15 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 			
 			return resultado != null ? resultado.longValue() : 0;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<EnvioNewsletter> getEnviosNewsletter(Long id) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("SELECT n.envios FROM Newsletter n WHERE n.id = :id")
+				.setParameter("id", id).list();
 	}
 
 }

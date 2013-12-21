@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.NewsletterDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ServicioEnvioMail;
 
@@ -41,10 +42,11 @@ public class NewsletterController {
 	@Autowired
 	private NewsletterDao newsletterDao;
 	
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	
 	@InitBinder
 	private void dateBinder(WebDataBinder binder) {
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	    CustomDateEditor editor = new CustomDateEditor(dateFormat, true);
 	    binder.registerCustomEditor(Date.class, editor);
 	}
@@ -166,5 +168,21 @@ public class NewsletterController {
 					+ "Si el problema persiste consulte al administrador del sistema.");
 		}
 		return listar(model);
+	}
+	
+	@RequestMapping("/validarEnvio")
+	@ResponseBody
+	public String validarEnvio(@RequestParam("id") Long id, ModelMap model) {
+		
+		String msg = "Está seguro que desea enviar este newsletter a todos los usuarios registrados?";
+		
+		List<EnvioNewsletter> envios = newsletterDao.getEnviosNewsletter(id);
+		if (!envios.isEmpty()) {
+			msg = "Este newsletter ya fue enviado el día " 
+					+ dateFormat.format(envios.get(0).getFechaEnvio()) 
+					+ ". Está seguro que desea enviarlo de nuevo?";
+		}
+		
+		return msg;
 	}
 }

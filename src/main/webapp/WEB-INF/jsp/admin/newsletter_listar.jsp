@@ -25,4 +25,21 @@
 </table>
 
 
+<div id="dialog-enviar" style="display:none;" title="Confirmación">
+	<form action="enviar" method="post">
+		
+		<input type="hidden" name="id" id="dialog-enviar-id" value="" />
+		
+		<p>
+			<div id="dialog-enviar-msg"></div>
+		</p>
+		
+		<div class="ui-dialog-buttonpane">
+			<input type="submit" value="Aceptar" />
+			<button type="button" onclick="ir('listar')">Cancelar</button>
+		</div>
+	</form>
+</div>
+
+
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
