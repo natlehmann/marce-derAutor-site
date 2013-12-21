@@ -27,6 +27,7 @@ tablas al comenzar la importación.
 - Mostrar solo un fragmento del contenido en el listado
 - Falta reemplazar tags imagenes
 - Falta agregar link para desuscribir al final
+No se ven las imagenes al enviar Mail XXXXXXXXXXXXXXXX
 
 - parent right ??????
 

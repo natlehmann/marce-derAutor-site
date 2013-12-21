@@ -81,7 +81,7 @@ public class ServicioEnvioMail {
 							
 							contenido = contenido + getLinksParaUsuario(usuario);
 							
-							mimeMessage.setText(new String(contenido.getBytes("UTF-8"), "UTF-8"), "UTF-8");
+							mimeMessage.setContent(new String(contenido.getBytes("UTF-8"), "UTF-8"), "text/html; charset=utf-8");
 							mimeMessage.setRecipient(RecipientType.TO, new InternetAddress(usuario.getEmail()));
 							
 							javaMailSender.send(mimeMessage);
