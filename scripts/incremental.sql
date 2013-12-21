@@ -8,3 +8,26 @@ INSERT INTO Usuario (id,nombre,password, email) VALUES (4,'prueba2','null', 'nat
 
 INSERT INTO Usuario_Rol (usuario_id,rol_id) VALUES (3,3);
 INSERT INTO Usuario_Rol (usuario_id,rol_id) VALUES (4,3);
+
+
+create table Newsletter(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	subject varchar(255) not null,
+	contenido varchar(2048) not null,
+	fechaCreacion datetime not null
+)  ENGINE=InnoDB;
+
+create table EnvioNewsletter(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fechaEnvio datetime not null,
+	newsletter_id BIGINT NOT NULL,
+	FOREIGN KEY (newsletter_id) REFERENCES Newsletter(id)
+)  ENGINE=InnoDB;
+
+create table EnvioNewsletter_Usuario(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	envioNewsletter_id BIGINT NOT NULL,
+	usuario_id BIGINT NOT NULL,
+	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id),
+	FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+)  ENGINE=InnoDB;

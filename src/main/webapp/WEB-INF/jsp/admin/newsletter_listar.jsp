@@ -5,10 +5,24 @@
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
+<script type="text/javascript" src='<c:url value="/js/newsletter_listar.js" />' ></script>
 
-<form action='<c:url value="/newsletter/enviar"/>' >
-<input type="submit" value="Enviar">
-</form>
+<div class="msg">${msg}</div>
+
+<button type="button" onclick="ir('crear')">Nuevo newsletter</button>
+
+<table class="datatable">
+	<thead>
+		<tr>
+			<th>Fecha creación</th>
+			<th>Subject</th>
+			<th>Contenido</th>
+			<th>Acciones</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

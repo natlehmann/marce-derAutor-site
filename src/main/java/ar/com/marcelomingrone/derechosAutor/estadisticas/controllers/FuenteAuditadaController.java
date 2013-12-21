@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteAuditadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FuenteAuditada;
 
 @Controller

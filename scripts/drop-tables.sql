@@ -18,3 +18,7 @@ DROP TABLE Fuente;
 DROP TABLE FuenteAuditada;
 DROP TABLE Pais;
 DROP TABLE ItemAuditoria;
+
+DROP TABLE EnvioNewsletter_Usuario;
+DROP TABLE EnvioNewsletter;
+DROP TABLE Newsletter;
