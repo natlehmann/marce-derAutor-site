@@ -6,5 +6,15 @@ sitio) es que exista un único <h1> por página.
 NUNCA puede haber mas de un elemento por pagina con el mismo "id". Para aplicar estilos de esa forma es 
 preferible usar un class.
 
+El formulario de login lo puse tal cual me lo pasaste, pero se ve raro. Se ven los dos campos en una sola linea
+y cuando haces click en alguno salta a la linea de abajo. Es por el estilo :focus que le cambia el ancho al input.
+Me parece que eso no está muy bueno.
+
+En algun lado (en el header) habría que poner un link para hacer logout.
+
+
+
+
+
 
 

@@ -18,6 +18,7 @@
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery.dataTables_themeroller.css" />'>	
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/master.css" />'>
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery-estadisticas.css" />'>	
+		<link rel="stylesheet" type="text/css" href='<c:url value="/css/login.css" />'>	
 	</head>
 	
 	<%

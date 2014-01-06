@@ -10,13 +10,16 @@
     <http pattern="/js/**" security="none" />
     <http pattern="/images/**" security="none" />
     <http pattern="/fonts/**" security="none" />
+    
+    <http pattern="/login" security="none" />
+    <http pattern="/login-error" security="none" />
 
     <http use-expressions="true">
         <intercept-url pattern="/" access="permitAll" />
 	    <intercept-url pattern="/admin/**" access="hasRole('administrador')" />
 	    <intercept-url pattern="/**" access="hasAnyRole('administrador','usuario')" />
-        <form-login />
-        <logout logout-url="/logout" logout-success-url="/"/>
+        <form-login login-page="/login" authentication-failure-url="/login-error" default-target-url="/home" />
+        <logout logout-url="/logout" logout-success-url="/login"/>
     </http>
 
 	<beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>

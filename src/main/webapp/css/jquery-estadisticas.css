@@ -146,3 +146,19 @@
 	color: #585858 !important;
 	opacity: 1;
 }
+
+#mingrone table.dataTable tr.odd td.sorting_1 {
+    background-color: #FFBAB2;
+}
+
+#mingrone table.dataTable tr.odd td.sorting_2 {
+    background-color: #FFD1CC;
+}
+
+#mingrone table.dataTable tr.odd td.sorting_3 {
+    background-color: #E0E2FF;
+}
+
+#mingrone table.dataTable tr.even td.sorting_1 {
+    background-color: #FFD1CC;
+}
