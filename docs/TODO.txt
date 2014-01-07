@@ -33,4 +33,7 @@ No se ven las imagenes al enviar Mail XXXXXXXXXXXXXXXX
 
 - estado de tareas -> con iconos, descrpcion que ocupe fila entera o abrir en pop up
 
+- BUG: estado de tareas, eliminar, cancelar -> falla
+- BUG:  reglamento de distribucion eliminar no funciona. Es posible que tenga que ver con el largo de la linea (descripcion larga)
+
 

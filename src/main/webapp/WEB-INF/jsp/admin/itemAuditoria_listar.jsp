@@ -26,8 +26,8 @@
 				<td>${item.nombre}</td>
 				<td>${item.puntaje}</td>
 				<td>
-					<a href="modificar?id=${item.id}">Modificar</a>
-					<a href="#" onclick="confirmarEliminar('${item.id}')">Eliminar</a>
+					<a href="modificar?id=${item.id}" class='modificar-link' title='Modificar'></a>
+					<a href="#" onclick="confirmarEliminar('${item.id}')" class='eliminar-link' title='Eliminar'></a>
 				</td>
 			</tr>
 		</c:forEach>

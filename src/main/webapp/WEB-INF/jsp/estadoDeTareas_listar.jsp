@@ -145,8 +145,8 @@
 								<c:url value="/admin/estadoDeTareas/modificar" var="modificarUrl">
 									<c:param name="id" value="${estadoDeTareas.id}"/>
 								</c:url>
-								<a href='${modificarUrl}'>Modificar</a>
-								<a href="#" onclick="confirmarEliminar('${estadoDeTareas.id}')">Eliminar</a>
+								<a href='${modificarUrl}' class='modificar-link' title='Modificar'></a>
+								<a href="#" onclick="confirmarEliminar('${estadoDeTareas.id}')" class='eliminar-link' title='Eliminar'></a>
 							</td>
 						</sec:authorize>
 					</tr>

@@ -94,7 +94,7 @@ public class Derecho implements Serializable, Comparable<Derecho>, Listable {
 	private String getLinksModificarEliminar() {
 		
 		if (this.modificable) {
-			return "<a href='#' onclick=\"confirmarEliminar('" + this.nombre + "')\">Eliminar</a>";
+			return "<a href='#' onclick=\"confirmarEliminar('" + this.nombre + "')\" class='eliminar-link' title='Eliminar'></a>";
 		
 		} else {
 			return "";

@@ -703,3 +703,39 @@ input[type="button"]:hover {
     width: 64%;
     height: 35%;
 }
+
+a.modificar-link {
+	background-image: url(../images/modificar.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
+a.eliminar-link {
+	background-image: url(../images/eliminar.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
+a.duplicar-link {
+	background-image: url(../images/duplicar.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
+a.ver-mas-link {
+	background-image: url(../images/sumar.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}

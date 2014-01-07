@@ -102,7 +102,7 @@ public class ReglamentoDeDistribucion extends Entidad {
 	@Transient
 	public String getLinkModificar() {
 		return "<a href='#' onclick=\"irAbsoluto('admin/reglamentoDeDistribucion/modificar?id=" 
-				+ this.getId() + "')\">Modificar</a> ";
+				+ this.getId() + "')\" class='modificar-link' title='Modificar'></a> ";
 	}
 
 }

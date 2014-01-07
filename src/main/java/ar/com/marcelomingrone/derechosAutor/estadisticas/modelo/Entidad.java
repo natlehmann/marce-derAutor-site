@@ -42,7 +42,7 @@ public class Entidad implements Serializable, Listable {
 				corta = corta.substring(0, indiceUltimoEspacio);
 			}
 			
-			return corta + "... <a href='#' onclick='verMas(this," + this.getId() + ")'>+</a>";
+			return corta + "... <a href='#' onclick='verMas(this," + this.getId() + ")' class='ver-mas-link' title='Ver más'></a>";
 		}
 		
 		return this.getDescripcion();
@@ -104,17 +104,17 @@ public class Entidad implements Serializable, Listable {
 	
 	@Transient
 	public String getLinkModificar() {
-		return "<a href='modificar?id=" + this.id + "'>Modificar</a> ";
+		return "<a href='modificar?id=" + this.id + "' class='modificar-link' title='Modificar'></a> ";
 	}
 	
 	@Transient
 	public String getLinkEliminar() {
-		return "<a href='#' onclick='confirmarEliminar(" + this.id + ")'>Eliminar</a>";
+		return "<a href='#' onclick='confirmarEliminar(" + this.id + ")' class='eliminar-link' title='Eliminar'></a>";
 	}
 	
 	@Transient
 	public String getLinkDuplicar() {
-		return "<a href='duplicar?id=" + this.id + "'>Duplicar</a> ";
+		return "<a href='duplicar?id=" + this.id + "' class='duplicar-link' title='Duplicar'></a> ";
 	}
 	
 }
