@@ -8,74 +8,89 @@
 
 <script type="text/javascript" src='<c:url value="/js/estadoDeTareas_editar.js" />' ></script>
 
-<c:url value="/admin/estadoDeTareas/aceptarEdicion" var="formAction" />
-<form:form commandName="estadoDeTareas" action="${formAction}" method="POST">
+<div id="adminInt">
 
-	<form:hidden path="id"/>
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>${estadoDeTareas.id == null ? "CREAR " : "MODIFICAR " } ESTADO DE TAREAS</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+	
 
-	<div class="campo">
-		<form:label path="fecha">Fecha</form:label>
-		<form:errors path="fecha" cssClass="error"/>
-		<form:input path="fecha" cssClass="datepicker"/>
-	</div>
+	<c:url value="/admin/estadoDeTareas/aceptarEdicion" var="formAction" />
+	<form:form commandName="estadoDeTareas" action="${formAction}" method="POST">
 	
-	<div class="campo">
-		<form:label path="autor.id">Artista</form:label>
-		<form:errors path="autor.id" cssClass="error"/>
-		<form:hidden path="autor.id" id="autorId"/>
-		<input type="text" id="autorAutocomplete" name="nombreAutor" value="${nombreAutor}"
-			oninput="limpiarSeleccionAutor()" />
-	</div>
+		<form:hidden path="id"/>
 	
-	<div class="campo">
-		<form:label path="asunto">Asunto</form:label>
-		<form:errors path="asunto" cssClass="error"/>
-		<form:input path="asunto" maxlength="255"/>
-	</div>
+		<div class="campo">
+			<form:label path="fecha">Fecha</form:label>
+			<form:errors path="fecha" cssClass="error"/>
+			<form:input path="fecha" cssClass="datepicker"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="autor.id">Artista</form:label>
+			<form:errors path="autor.id" cssClass="error"/>
+			<form:hidden path="autor.id" id="autorId"/>
+			<input type="text" id="autorAutocomplete" name="nombreAutor" value="${nombreAutor}"
+				oninput="limpiarSeleccionAutor()" />
+		</div>
+		
+		<div class="campo">
+			<form:label path="asunto">Asunto</form:label>
+			<form:errors path="asunto" cssClass="error"/>
+			<form:input path="asunto" maxlength="255"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="fuente.id">Fuente</form:label>
+			<form:errors path="fuente.id" cssClass="error"/>
+			<form:select path="fuente.id">
+				<form:option value="">Ninguna</form:option>
+				<form:options items="${fuentes}" itemLabel="nombre" itemValue="id"/>
+			</form:select>
+		</div>
+		
+		<div class="campo">
+			<form:label path="descripcion">Descripción</form:label>
+			<form:errors path="descripcion" cssClass="error"/>
+			<form:textarea path="descripcion" rows="3" cssErrorClass="error"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="comentario">Comentario</form:label>
+			<form:errors path="comentario" cssClass="error"/>
+			<form:textarea path="comentario" rows="3" cssErrorClass="error"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="estado">Estado</form:label>
+			<form:errors path="estado" cssClass="error"/>
+			<form:select path="estado">
+				<form:options items="${estados}"/>
+			</form:select>
+		</div>
+		
+		<div class="campo">
+			<form:label path="prioridad">Prioridad</form:label>
+			<form:errors path="prioridad" cssClass="error"/>
+			<form:select path="prioridad">
+				<form:options items="${prioridades}"/>
+			</form:select>
+		</div>
+		
+		<div class="acciones">
+			<form:button value="Aceptar">Aceptar</form:button>
+			<button type="button" onclick="irAbsoluto('estadoDeTareas')">Cancelar</button>
+		</div>
+		
+	</form:form>
 	
-	<div class="campo">
-		<form:label path="fuente.id">Fuente</form:label>
-		<form:errors path="fuente.id" cssClass="error"/>
-		<form:select path="fuente.id">
-			<form:option value="">Ninguna</form:option>
-			<form:options items="${fuentes}" itemLabel="nombre" itemValue="id"/>
-		</form:select>
-	</div>
-	
-	<div class="campo">
-		<form:label path="descripcion">Descripción</form:label>
-		<form:errors path="descripcion" cssClass="error"/>
-		<form:textarea path="descripcion" rows="3" cssErrorClass="error"/>
-	</div>
-	
-	<div class="campo">
-		<form:label path="comentario">Comentario</form:label>
-		<form:errors path="comentario" cssClass="error"/>
-		<form:textarea path="comentario" rows="3" cssErrorClass="error"/>
-	</div>
-	
-	<div class="campo">
-		<form:label path="estado">Estado</form:label>
-		<form:errors path="estado" cssClass="error"/>
-		<form:select path="estado">
-			<form:options items="${estados}"/>
-		</form:select>
-	</div>
-	
-	<div class="campo">
-		<form:label path="prioridad">Prioridad</form:label>
-		<form:errors path="prioridad" cssClass="error"/>
-		<form:select path="prioridad">
-			<form:options items="${prioridades}"/>
-		</form:select>
-	</div>
-	
-	<div class="acciones">
-		<form:button value="Aceptar">Aceptar</form:button>
-		<button type="button" onclick="irAbsoluto('estadoDeTareas')">Cancelar</button>
-	</div>
-	
-</form:form>
+</div>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
