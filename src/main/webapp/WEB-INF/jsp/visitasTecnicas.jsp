@@ -16,7 +16,7 @@
 	
 	<h1>VISITAS TÉCNICAS</h1>
 	<div class="der">
-		<img src=<c:url value="/images/h1Der.jpg" /> width="31" height="34" />
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 	</div>
 	
 	<div class="Grid">

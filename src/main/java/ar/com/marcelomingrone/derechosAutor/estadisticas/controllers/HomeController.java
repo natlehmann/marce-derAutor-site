@@ -228,5 +228,10 @@ public class HomeController {
 		
 		return resultado;
 	}
+	
+	@RequestMapping("/admin")
+	public String adminHome() {
+		return "/admin/home";
+	}
 
 }
