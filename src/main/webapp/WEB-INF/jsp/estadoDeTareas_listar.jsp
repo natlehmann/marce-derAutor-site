@@ -14,7 +14,9 @@
 <sec:authorize access="hasRole('administrador')">
 	<div class="msg">${msg}</div>
 	
-	<button type="button" onclick="irAbsoluto('admin/estadoDeTareas/crear')">Nueva tarea</button>
+	<div id="crear">
+		<button type="button" onclick="irAbsoluto('admin/estadoDeTareas/crear')">Nueva tarea</button>
+	</div>
 </sec:authorize>
 
 
@@ -94,8 +96,7 @@
 			</div>
 		</div>
 		
-		<div class="campo">
-			<h2><br/></h2>
+		<div id="buscaBot1">
 			<input type="submit" value="Buscar" />
 		</div>
 		

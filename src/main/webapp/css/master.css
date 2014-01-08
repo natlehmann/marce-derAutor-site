@@ -739,3 +739,34 @@ a.ver-mas-link {
 	height: 16px;
 	line-height: 16px;
 }
+
+#buscaBot1 {
+    background-color: #FFFFFF;
+    border-top: 1px solid #D5D5D5;
+
+    border-radius: 0 0 10px 10px;
+    float: left;
+    margin-top: 5px;
+    padding-top: 11px;
+    text-align: center;
+    width: 100%;
+}
+
+#crear{
+    height: 20px;
+    text-align: right;
+    width: 97%;
+}
+
+.ranking, .ranking-centrado, 
+.ranking-centrado-total a:link {
+    color:#F00;
+    text-decoration:none;
+
+}
+
+.ranking, .ranking-centrado, 
+.ranking-centrado-total a:visited {
+    color:#000;
+    text-decoration:none;
+}
