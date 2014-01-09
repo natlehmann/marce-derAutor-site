@@ -7,34 +7,48 @@
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
 
-<form:form commandName="itemAuditoria" action="aceptarEdicion" method="POST">
+<div id="adminInt">
 
-	<form:hidden path="id"/>
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>${itemAuditoria.id == null ? "CREAR " : "MODIFICAR " } ITEM DE AUDITORÍA</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
 
-	<div class="campo">
-		<form:label path="orden">Orden</form:label>
-		<form:errors path="orden" cssClass="error"/>
-		<form:input path="orden" maxlength="4"  cssErrorClass="error"/>
-	</div>
+
+	<form:form commandName="itemAuditoria" action="aceptarEdicion" method="POST">
 	
-	<div class="campo">
-		<form:label path="nombre">Nombre</form:label>
-		<form:errors path="nombre" cssClass="error"/>
-		<form:input path="nombre" maxlength="255" cssErrorClass="error"/>
-	</div>
+		<form:hidden path="id"/>
 	
-	<div class="campo">
-		<form:label path="puntaje">Puntaje</form:label>
-		<form:errors path="puntaje" cssClass="error"/>
-		<form:input path="puntaje" maxlength="4" cssErrorClass="error"/>
-	</div>
-	
-	<div class="acciones">
-		<form:button value="Aceptar">Aceptar</form:button>
-		<button type="button" onclick="ir('listar')">Cancelar</button>
-	</div>
-	
-</form:form>
+		<div class="campo">
+			<form:label path="orden">Orden</form:label>
+			<form:errors path="orden" cssClass="error"/>
+			<form:input path="orden" maxlength="4"  cssErrorClass="error"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="nombre">Nombre</form:label>
+			<form:errors path="nombre" cssClass="error"/>
+			<form:input path="nombre" maxlength="255" cssErrorClass="error"/>
+		</div>
+		
+		<div class="campo">
+			<form:label path="puntaje">Puntaje</form:label>
+			<form:errors path="puntaje" cssClass="error"/>
+			<form:input path="puntaje" maxlength="4" cssErrorClass="error"/>
+		</div>
+		
+		<div class="acciones">
+			<form:button value="Aceptar">Aceptar</form:button>
+			<button type="button" onclick="ir('listar')">Cancelar</button>
+		</div>
+		
+	</form:form>
+</div>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

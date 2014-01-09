@@ -7,20 +7,35 @@
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
 
-<form:form commandName="derecho" action="aceptarEdicion" method="POST">
+<div id="adminInt">
 
-	<div class="campo">
-		<form:label path="nombre">Nombre</form:label>
-		<form:errors path="nombre" cssClass="error"/>
-		<form:input path="nombre" maxlength="255"/>
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
 	</div>
 	
-	<div class="acciones">
-		<form:button value="Aceptar">Aceptar</form:button>
-		<button type="button" onclick="ir('listar')">Cancelar</button>
-	</div>
+	<h1>${derecho.nombre == null ? "CREAR " : "MODIFICAR " } DERECHO</h1>
 	
-</form:form>
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+
+
+	<form:form commandName="derecho" action="aceptarEdicion" method="POST">
+	
+		<div class="campo">
+			<form:label path="nombre">Nombre</form:label>
+			<form:errors path="nombre" cssClass="error"/>
+			<form:input path="nombre" maxlength="255"/>
+		</div>
+		
+		<div class="acciones">
+			<form:button value="Aceptar">Aceptar</form:button>
+			<button type="button" onclick="ir('listar')">Cancelar</button>
+		</div>
+		
+	</form:form>
+	
+</div>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

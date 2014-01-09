@@ -787,7 +787,8 @@ a.ver-mas-link {
 
 
 #adminInt form,
-#adminInt .Grid {
+#adminInt .Grid,
+#puntajesForm table {
     margin-top: 20px;
     width: 100%;
 }
@@ -816,7 +817,8 @@ a.ver-mas-link {
 }
 
 #adminInt form .campo,
-#adminInt .Grid .campo {
+#adminInt .Grid .campo,
+#puntajesForm table {
     padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 15px;

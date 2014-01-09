@@ -14,7 +14,7 @@
 		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
 	</div>
 	
-	<h1>CARGAR VISITA TÉCNICA</h1>
+	<h1>SELECCIONAR FUENTE</h1>
 	
 	<div class="der">
 		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
