@@ -786,7 +786,8 @@ a.ver-mas-link {
 }
 
 
-#adminInt form {
+#adminInt form,
+#adminInt .Grid {
     margin-top: 20px;
     width: 100%;
 }
@@ -805,7 +806,8 @@ a.ver-mas-link {
     text-decoration: none;
 }
 
-#adminInt form .acciones {
+#adminInt form .acciones,
+#adminInt .Grid .acciones {
     border-top: 1px solid #D5D5D5;
     margin-top: 30px;
     padding-top: 11px;
@@ -813,7 +815,8 @@ a.ver-mas-link {
     width: 100%;
 }
 
-#adminInt form .campo {
+#adminInt form .campo,
+#adminInt .Grid .campo {
     padding-bottom: 10px;
     padding-left: 15px;
     padding-right: 15px;

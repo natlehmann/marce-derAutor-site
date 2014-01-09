@@ -8,12 +8,31 @@
 
 <script type="text/javascript" src='<c:url value="/js/visitaTecnica_editar.js" />' ></script>
 
-<select name="fuente" onchange="seleccionarFuente()" id="fuenteSeleccionada">
-	<option value="">-- Seleccionar --</option>
-	<c:forEach items="${fuentes}" var="fuente">
-		<option value="${fuente.id}">${fuente.nombre}</option>
-	</c:forEach>
-</select>
+<div id="adminInt">
+
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>CARGAR VISITA TÉCNICA</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+	
+	<div class="Grid">
+
+		<div class="campo">
+			<select name="fuente" onchange="seleccionarFuente()" id="fuenteSeleccionada">
+				<option value="">-- Seleccionar fuente --</option>
+				<c:forEach items="${fuentes}" var="fuente">
+					<option value="${fuente.id}">${fuente.nombre}</option>
+				</c:forEach>
+			</select>
+		</div>
+		
+	</div>
+</div>
 
 
 <div id="visitaTecnicaForm"></div>

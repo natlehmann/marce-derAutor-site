@@ -9,18 +9,37 @@
 
 <div class="msg">${msg}</div>
 
-<button type="button" onclick="ir('crear')">Nueva fuente</button>
+<div id="crear">
+	<button type="button" onclick="ir('crear')">Nueva fuente</button>
+</div>
 
-<table class="datatable">
-	<thead>
-		<tr>
-			<th>Nombre</th>
-			<th>Acciones</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
+<div id="adminInt">
+
+	<div class="izq">
+		<img src='<c:url value="/images/h1Izq.jpg" />' width="14" height="34" />
+	</div>
+	
+	<h1>FUENTES AUDITADAS</h1>
+	
+	<div class="der">
+		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
+	</div>
+	
+	<div class="Grid">
+
+		<table class="datatable">
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		
+	</div>
+</div>
 
 
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />

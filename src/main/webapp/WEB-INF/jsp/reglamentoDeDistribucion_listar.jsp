@@ -12,7 +12,9 @@
 <sec:authorize access="hasRole('administrador')">
 	<div class="msg">${msg}</div>
 	
-	<button type="button" onclick="irAbsoluto('admin/reglamentoDeDistribucion/crear')">Nuevo reglamento</button>
+	<div id="crear">
+		<button type="button" onclick="irAbsoluto('admin/reglamentoDeDistribucion/crear')">Nuevo reglamento</button>
+	</div>
 </sec:authorize>
 
 
