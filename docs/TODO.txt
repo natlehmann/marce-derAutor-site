@@ -15,19 +15,15 @@ tablas al comenzar la importación.
 
 - Poner boton limpiar en busqueda de estado de tareas
 
-- Paginas 403 y 404
-
 - Configurar log4j
-
-- Formatear puntajes de visitas tecnicas (ver estadisticas)
 
 - Habilitar cache hibernate
 
-- Administracion de newsletter : faltan links VER(preview) e INFO (para ver resultados envios)
+- Administracion de newsletter : faltan links PROBAR ENVIO e INFO (para ver resultados envios)
 - Mostrar solo un fragmento del contenido en el listado
-- Falta reemplazar tags imagenes
 - Falta agregar link para desuscribir al final
-No se ven las imagenes al enviar Mail XXXXXXXXXXXXXXXX
+- Cambiar la funcionalidad de preview por un "Probar envio" que pida una direccion de email unica a la cual se va a enviar el newsletter
+- Falta link para saber si un usuario abrió un newsletter
 
 - parent right ??????
 
@@ -36,7 +32,15 @@ No se ven las imagenes al enviar Mail XXXXXXXXXXXXXXXX
 - BUG: estado de tareas, eliminar, cancelar -> falla
 - BUG:  reglamento de distribucion eliminar no funciona. Es posible que tenga que ver con el largo de la linea (descripcion larga)
 
-- Externalizar ruta a los archivos de importacion (que este relativa al apache)
+- Externalizar ruta a los archivos de importacion (que este relativa al apache) (simil newsletter)
+
+- BUG: Link de desuscripcion viene siempre con el mismo id de usuario
+
+- FALTA ABM DE USUARIOS
+
+. En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
+
+- Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
 
 
 
