@@ -13,7 +13,18 @@
     http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task-3.2.xsd
     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
 
-	<mvc:annotation-driven />
+	<mvc:annotation-driven>
+	    <mvc:message-converters>
+	        <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+	            <property name="supportedMediaTypes">
+	                <list>
+	                    <value>image/jpeg</value>
+	                    <value>image/png</value>
+	                </list>
+	            </property>
+	        </bean>
+	    </mvc:message-converters>
+	</mvc:annotation-driven>
 	
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/css/" mapping="/css/**"/>

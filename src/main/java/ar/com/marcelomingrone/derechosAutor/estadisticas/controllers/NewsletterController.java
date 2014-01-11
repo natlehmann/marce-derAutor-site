@@ -1,5 +1,9 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -8,9 +12,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,10 +24,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.HandlerMapping;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.NewsletterDao;
@@ -31,7 +39,6 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ServicioEnvioMail;
 
 @Controller
-@RequestMapping("/admin/newsletter")
 public class NewsletterController {
 	
 	private static Log log = LogFactory.getLog(NewsletterController.class);
@@ -41,6 +48,9 @@ public class NewsletterController {
 	
 	@Autowired
 	private NewsletterDao newsletterDao;
+	
+	@Value("${newsletter.home}")
+	private String NEWSLETTER_HOME;
 	
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
@@ -52,7 +62,7 @@ public class NewsletterController {
 	}
 	
 
-	@RequestMapping("/enviar")
+	@RequestMapping("/admin/newsletter/enviar")
 	public String enviar(@RequestParam("id") Long id, ModelMap model) {
 		
 		Newsletter newsletter = newsletterDao.buscarConEnvios(id);
@@ -65,13 +75,13 @@ public class NewsletterController {
 		return "admin/newsletter_listar";
 	}
 	
-	@RequestMapping("listar")
+	@RequestMapping("/admin/newsletter/listar")
 	public String listar(ModelMap model) {
 		return "admin/newsletter_listar";
 	}
 	
 	@ResponseBody
-	@RequestMapping("/listar_ajax")
+	@RequestMapping("/admin/newsletter/listar_ajax")
 	public DataTablesResponse listar(HttpServletRequest request) {
 		
 		
@@ -102,14 +112,14 @@ public class NewsletterController {
 		return resultado;
 	}
 	
-	@RequestMapping("/modificar")
+	@RequestMapping("/admin/newsletter/modificar")
 	public String modificar(@RequestParam("id") Long id, ModelMap model) {
 		
 		Newsletter newsletter = newsletterDao.buscar(id);
 		return prepararFormulario(newsletter, model);
 	}
 	
-	@RequestMapping("/duplicar")
+	@RequestMapping("/admin/newsletter/duplicar")
 	public String duplicar(@RequestParam("id") Long id, ModelMap model) {
 		
 		Newsletter newsletterDuplicado = newsletterDao.buscar(id);
@@ -122,7 +132,7 @@ public class NewsletterController {
 		return prepararFormulario(nuevo, model);
 	}
 	
-	@RequestMapping("/crear")
+	@RequestMapping("/admin/newsletter/crear")
 	public String crear(ModelMap model) {
 		
 		Newsletter newsletter = new Newsletter();
@@ -136,7 +146,7 @@ public class NewsletterController {
 		return "admin/newsletter_editar";
 	}
 	
-	@RequestMapping(value="/aceptarEdicion", method={RequestMethod.POST})
+	@RequestMapping(value="/admin/newsletter/aceptarEdicion", method={RequestMethod.POST})
 	public String aceptarEdicion(@Valid Newsletter newsletter, 
 			BindingResult result, ModelMap model){
 		
@@ -158,7 +168,7 @@ public class NewsletterController {
 		return prepararFormulario(newsletter, model);
 	}
 	
-	@RequestMapping(value="/eliminar", method={RequestMethod.POST})
+	@RequestMapping(value="/admin/newsletter/eliminar", method={RequestMethod.POST})
 	public String eliminar(@RequestParam("id") Long id, ModelMap model) {
 		
 		try {
@@ -173,7 +183,7 @@ public class NewsletterController {
 		return listar(model);
 	}
 	
-	@RequestMapping("/validarEnvio")
+	@RequestMapping("/admin/newsletter/validarEnvio")
 	@ResponseBody
 	public String validarEnvio(@RequestParam("id") Long id, ModelMap model) {
 		
@@ -188,5 +198,35 @@ public class NewsletterController {
 		}
 		
 		return msg;
+	}
+	
+	@RequestMapping("/admin/newsletter/verInfo")
+	public String verInfo(@RequestParam("id") Long id, ModelMap model) {
+		
+		Newsletter newsletter = newsletterDao.buscarConEnvios(id);
+
+		model.addAttribute("newsletter", newsletter);
+			
+		return "admin/newsletter_info";
+	}
+	
+	@RequestMapping("/newsletter/desuscribir/{id}")
+	public String desuscribir(@PathVariable("id") Long id) {
+		
+		throw new IllegalArgumentException("AUN NO IMPLEMENTADO");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/newsletter/**")
+	public byte[] verImagenNewsletter(HttpServletRequest request) 
+			throws IOException {
+		
+		String restOfTheUrl = (String) request.getAttribute(
+		        HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		
+		InputStream in = new FileInputStream(new File(NEWSLETTER_HOME
+				+ restOfTheUrl.substring("/newsletter".length())));
+		
+	    return IOUtils.toByteArray(in);
 	}
 }

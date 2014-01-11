@@ -11,11 +11,14 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<base.url>http://localhost:8080/derechosAutor</base.url>
+				<tomcat.home></tomcat.home>
+				<apache.home>/var/www</apache.home>
+				
 				<db.host></db.host>
 				<db.schema></db.schema>
 				<db.user></db.user>
 				<db.password></db.password>
-				<tomcat.home></tomcat.home>
 				<smtp.hostname></smtp.hostname>
 				<smtp.username></smtp.username>
 				<smtp.password></smtp.password>

@@ -12,6 +12,8 @@ Me parece que eso no está muy bueno.
 
 En algun lado (en el header) habría que poner un link para hacer logout.
 
+Los newsletters tienen que comenzar con el tag <html> directamente. No puede estar la linea de <DOCTYPE>
+
 
 
 

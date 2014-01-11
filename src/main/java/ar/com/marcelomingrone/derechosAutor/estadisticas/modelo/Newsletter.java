@@ -21,7 +21,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Newsletter extends Entidad {
 	
 	private static final long serialVersionUID = -2052208950694120931L;
-
+	
 	@Column(nullable=false)
 	@NotNull @Size(max=255) @NotBlank
 	private String subject;
@@ -85,14 +85,25 @@ public class Newsletter extends Entidad {
 		resultado.add(format.format(this.fechaCreacion));
 		resultado.add(this.subject);
 		resultado.add(this.contenido.replaceAll("\\<.*?>", ""));
-		resultado.add(super.getLinksModificarDuplicarEliminar() + this.getLinkEnviar());
+		resultado.add(super.getLinksModificarDuplicarEliminar() 
+				+ this.getLinkPrevisualizar() + this.getLinkVerInfo() + this.getLinkEnviar());
 		
 		return resultado;
 	}
 	
 	@Transient
+	private String getLinkVerInfo() {
+		return "<a href='verInfo?id=" + this.getId() + "'>Ver info</a> ";
+	}
+
+	@Transient
+	private String getLinkPrevisualizar() {
+		return "<a href='previsualizar?id=" + this.getId() + "'>Previsualizar</a> ";
+	}
+
+	@Transient
 	public String getLinkEnviar() {
-		return "<a href='#' onclick='confirmarEnviar(" + this.getId() + ")'>Enviar</a>";
+		return "<a href='#' onclick='confirmarEnviar(" + this.getId() + ")'>Enviar</a> ";
 	}
 
 	@Transient
