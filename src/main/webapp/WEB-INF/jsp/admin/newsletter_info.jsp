@@ -9,7 +9,7 @@
 <div class="msg">${msg}</div>
 
 <div id="crear">
-	<button type="button" onclick="ir('listar')">Volver</button>
+	<button type="button" onclick="irAbsoluto('admin/newsletter/listar')">Volver</button>
 </div>
 
 <div id="adminInt">

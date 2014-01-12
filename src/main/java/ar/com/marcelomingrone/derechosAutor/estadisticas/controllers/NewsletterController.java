@@ -36,6 +36,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.NewsletterDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReceptorNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ServicioEnvioMail;
 
 @Controller
@@ -218,6 +219,51 @@ public class NewsletterController {
 		model.addAttribute("newsletter", newsletter);
 			
 		return "admin/newsletter_probarEnvio";
+	}
+	
+	@RequestMapping("/admin/newsletter/verReceptores/{idEnvio}")
+	public String verReceptores(@PathVariable("idEnvio") Long id, ModelMap model) {
+		
+		EnvioNewsletter envio = newsletterDao.buscarEnvioNewsletter(id);
+		
+		model.addAttribute("idEnvio", id);
+		model.addAttribute("idNewsletter", envio.getNewsletter().getId());
+		
+		return "admin/newsletter_receptores_listar";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/admin/newsletter/verReceptores_ajax/{idEnvio}")
+	public DataTablesResponse verReceptoresAjax(
+			@PathVariable("idEnvio") Long idEnvio, HttpServletRequest request) {
+		
+		Map<Params, Object> params = Utils.getParametrosDatatables(request);
+		
+		String campoOrdenamiento = ReceptorNewsletter.getCampoOrdenamiento( 
+				Utils.getInt(request.getParameter("iSortCol_0"), 0) );
+		
+		
+		List<ReceptorNewsletter> receptores = newsletterDao.getReceptoresNewsletterPaginadoFiltrado(
+				idEnvio,
+				(int)params.get(Params.INICIO),
+				(int)params.get(Params.CANTIDAD_RESULTADOS),
+				(String)params.get(Params.FILTRO),
+				campoOrdenamiento,
+				(String)params.get(Params.DIRECCION_ORDENAMIENTO));
+		
+		long totalFiltrados = newsletterDao.getCantidadReceptores(
+				idEnvio, (String)params.get(Params.FILTRO));
+		
+		long total = totalFiltrados;
+		if (!StringUtils.isEmpty((String)params.get(Params.FILTRO))) {
+			total = newsletterDao.getCantidadReceptores(idEnvio, null);
+		}
+		
+		DataTablesResponse resultado = new DataTablesResponse(
+				receptores, request.getParameter("sEcho"), total, totalFiltrados);
+		
+		return resultado;
+		
 	}
 	
 	@RequestMapping("/newsletter/desuscribir/{id}")

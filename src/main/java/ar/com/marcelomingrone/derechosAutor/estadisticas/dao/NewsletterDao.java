@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReceptorNewsletter;
 
 @Repository
 public class NewsletterDao extends EntidadDao<Newsletter> {
@@ -115,18 +116,91 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		
 		return (resultado != null) ? resultado.longValue() : 0;
 	}
-
+	
 	@Transactional
 	public long getCantidadReceptores(EnvioNewsletter envioNewsletter) {
 		
+		return getCantidadReceptores(envioNewsletter.getId());
+	}
+
+	@Transactional
+	public long getCantidadReceptores(Long idEnvioNewsletter) {
+		
 		Session session = getSessionFactory().getCurrentSession();
 		Query query = session.createQuery(
-				"SELECT COUNT(r) FROM ReceptorNewsletter r WHERE r.envioNewsletter = :envio")
-				.setParameter("envio", envioNewsletter);
+				"SELECT COUNT(r) FROM ReceptorNewsletter r WHERE r.envioNewsletter.id = :idEnvio")
+				.setParameter("idEnvio", idEnvioNewsletter);
 		
 		Long resultado = (Long) query.uniqueResult();
 		
 		return (resultado != null) ? resultado.longValue() : 0;
+	}
+
+	@Transactional
+	public EnvioNewsletter buscarEnvioNewsletter(Long id) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		return (EnvioNewsletter) session.get(EnvioNewsletter.class, id);
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<ReceptorNewsletter> getReceptoresNewsletterPaginadoFiltrado(
+			Long idEnvio, int inicio, int cantidadResultados, String filtro,
+			String campoOrdenamiento, String direccionOrdenamiento) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		
+		if (StringUtils.isEmpty(filtro)) {			
+			
+			String query = "from ReceptorNewsletter r WHERE r.envioNewsletter.id = :idEnvio";
+			
+			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
+				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
+			}
+			
+			return session.createQuery(query)
+					.setParameter("idEnvio", idEnvio)
+					.setFirstResult(inicio).setMaxResults(cantidadResultados).list();
+			
+		} else {
+			
+			String query = "from ReceptorNewsletter r WHERE r.envioNewsletter.id = :idEnvio "
+					+ "AND (r.usuario.nombre like :filtro OR r.usuario.email like :filtro)";
+			
+			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
+				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
+			}
+			
+			return session.createQuery(query)
+					.setParameter("idEnvio", idEnvio)
+					.setParameter("filtro", "%" + filtro + "%")
+					.setFirstResult(inicio)
+					.setMaxResults(cantidadResultados).list();
+			
+		}
+	}
+
+	@Transactional
+	public long getCantidadReceptores(Long idEnvio, String filtro) {
+		
+		if (StringUtils.isEmpty(filtro)) {
+			return this.getCantidadReceptores(idEnvio);
+			
+		} else {
+			
+			Session session = sessionFactory.getCurrentSession();
+			
+			String query = "SELECT COUNT(r) FROM ReceptorNewsletter r WHERE r.envioNewsletter.id = :idEnvio "
+					+ "AND (r.usuario.nombre like :filtro OR r.usuario.email like :filtro)";
+			
+			Long resultado = (Long) session.createQuery(query)
+					.setParameter("idEnvio", idEnvio)
+					.setParameter("filtro", "%" + filtro + "%").uniqueResult();
+			
+			return resultado != null ? resultado.longValue() : 0;
+		}
 	}
 
 }
