@@ -15,11 +15,23 @@ public class ServicioEnvioMail {
 	@Autowired
 	private EnvioNewsletterRunnable envioNewsletterRunnable;
 	
+	@Autowired
+	private EnvioNewsletterPruebaRunnable envioNewsletterPruebaRunnable;
+	
 	
 	public void enviarNewsletter(Newsletter newsletter) {
 		
 		envioNewsletterRunnable.setNewsletter(newsletter);
 		taskExecutor.execute(envioNewsletterRunnable);
+		
+	}
+
+
+	public void enviarPruebaNewsletter(Newsletter newsletter, String email) {
+		
+		envioNewsletterPruebaRunnable.setNewsletter(newsletter);
+		envioNewsletterPruebaRunnable.setEmail(email);
+		taskExecutor.execute(envioNewsletterPruebaRunnable);
 		
 	}
 

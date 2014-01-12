@@ -76,6 +76,30 @@ public class NewsletterController {
 		return "admin/newsletter_listar";
 	}
 	
+	@RequestMapping("/admin/newsletter/enviarPrueba")
+	public String enviarPrueba(@RequestParam("id") Long id, 
+			@RequestParam("email") String email, ModelMap model) {
+		
+		if (StringUtils.isEmpty(email)) {
+			model.addAttribute("emailError", "Por favor ingrese un email válido.");
+			model.addAttribute("idNewsletter", id);
+			model.addAttribute("email", email);
+			
+			return "admin/newsletter_probarEnvio";
+		
+		} else {
+		
+			Newsletter newsletter = newsletterDao.buscarConEnvios(id);
+	
+			servicioEnvioMail.enviarPruebaNewsletter(newsletter, email);			
+		
+			model.addAttribute("msg", 
+					"Se ha iniciado la prueba del envío del newsletter. Chequee la casilla de mail indicada.");
+				
+			return "admin/newsletter_listar";
+		}
+	}
+	
 	@RequestMapping("/admin/newsletter/listar")
 	public String listar(ModelMap model) {
 		return "admin/newsletter_listar";
@@ -214,9 +238,7 @@ public class NewsletterController {
 	@RequestMapping("/admin/newsletter/probarEnvio")
 	public String probarEnvio(@RequestParam("id") Long id, ModelMap model) {
 		
-		Newsletter newsletter = newsletterDao.buscar(id);
-
-		model.addAttribute("newsletter", newsletter);
+		model.addAttribute("idNewsletter", id);
 			
 		return "admin/newsletter_probarEnvio";
 	}

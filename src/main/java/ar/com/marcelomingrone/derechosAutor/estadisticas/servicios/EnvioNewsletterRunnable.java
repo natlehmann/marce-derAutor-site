@@ -53,13 +53,13 @@ public class EnvioNewsletterRunnable implements Runnable {
 	
 	
 	@Autowired
-	private JavaMailSender javaMailSender;
+	protected JavaMailSender javaMailSender;
 	
 	@Autowired @Qualifier(value="fromAddress")
 	private InternetAddress fromAddress;
 	
 	@Autowired
-	private MimeMessage mimeMessage;
+	protected MimeMessage mimeMessage;
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
@@ -68,7 +68,7 @@ public class EnvioNewsletterRunnable implements Runnable {
 	private NewsletterDao newsletterDao;
 	
 	
-	private Newsletter newsletter;
+	protected Newsletter newsletter;
 	
 	
 	public void setNewsletter(Newsletter newsletter) {
@@ -96,12 +96,7 @@ public class EnvioNewsletterRunnable implements Runnable {
 		
 		
 		try {
-			mimeMessage.setHeader("Content-Type", "text/html");
-			mimeMessage.setHeader("Content-Transfer-Encoding", "base64");
-			
-			mimeMessage.setSubject(newsletter.getSubject(), "UTF-8");					
-			mimeMessage.setSentDate(new Date());					
-			mimeMessage.setFrom(fromAddress);
+			configurarMimeMessage();
 		
 			log.info("Enviando newsletter ID " + newsletter.getId() + " a " + usuarios.size() + " usuarios");
 			long contador = 0;
@@ -138,13 +133,31 @@ public class EnvioNewsletterRunnable implements Runnable {
 	}
 
 
+	protected void configurarMimeMessage() throws MessagingException {
+		
+		mimeMessage.setHeader("Content-Type", "text/html");
+		mimeMessage.setHeader("Content-Transfer-Encoding", "base64");
+		
+		mimeMessage.setSubject(newsletter.getSubject(), "UTF-8");					
+		mimeMessage.setSentDate(new Date());					
+		mimeMessage.setFrom(fromAddress);
+	}
+	
 	public MimeMessageHelper armarMailParaUsuario(MimeMessage mimeMessage,
 			Document document, Usuario usuario, Map<String, String> imagenes) 
 			throws MessagingException {
 		
+		return armarMailParaUsuario(mimeMessage, document, usuario.getEmail(), usuario.getId(), imagenes);
+	}
+
+
+	public MimeMessageHelper armarMailParaUsuario(MimeMessage mimeMessage,
+			Document document, String emailUsuario, Long idUsuario, Map<String, String> imagenes) 
+			throws MessagingException {
+		
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);					
 		
-		agregarLinksUsuario(document, usuario);
+		agregarLinksUsuario(document, idUsuario);
 		
 		// use the true flag to indicate the text included is HTML
 		helper.setText(document.toString(), true);
@@ -156,13 +169,16 @@ public class EnvioNewsletterRunnable implements Runnable {
 			
 		}
 
-		helper.setTo(new InternetAddress(usuario.getEmail()));
+		helper.setTo(new InternetAddress(emailUsuario));
 		
 		return helper;
 	}
 
-
 	public void agregarLinksUsuario(Document document, Usuario usuario) {
+		agregarLinksUsuario(document, usuario.getId());
+	}
+
+	public void agregarLinksUsuario(Document document, Long idUsuario) {
 		
 		// TODO: FALTA AGREGAR EL LINK PARA SABER SI VIO EL NEWSLETTER
 		
@@ -177,7 +193,7 @@ public class EnvioNewsletterRunnable implements Runnable {
 		
 		Elements links = linkUsuario.getElementsByTag("a");
 		if (!links.isEmpty()) {
-			links.get(0).attr("href", BASE_URL + "/newsletter/desuscribir/" + usuario.getId());
+			links.get(0).attr("href", BASE_URL + "/newsletter/desuscribir/" + idUsuario);
 		}
 		
 		document.body().appendChild(linkUsuario.body().childNode(0));

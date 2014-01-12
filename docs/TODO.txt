@@ -17,12 +17,14 @@ tablas al comenzar la importación.
 
 - Habilitar cache hibernate
 
-- Administracion de newsletter : faltan links PROBAR ENVIO e INFO (para ver resultados envios)
+Administracion de newsletter :
 - Mostrar solo un fragmento del contenido en el listado
 - Falta agregar link para desuscribir al final
-- Cambiar la funcionalidad de preview por un "Probar envio" que pida una direccion de email unica a la cual se va a enviar el newsletter
 - Falta link para saber si un usuario abrió un newsletter
-- Probar de generar un error de envio
+. En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
+- Distinguir nombre y apellido de username para Usuario (si no, no se pueden repetir dos nombres)
+- Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
+
 
 - parent right ??????
 
@@ -35,11 +37,8 @@ tablas al comenzar la importación.
 
 - FALTA ABM DE USUARIOS
 
-. En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
 
-- Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
 
-- Distinguir nombre y apellido de username para Usuario (si no, no se pueden repetir dos nombres)
 
 
 
