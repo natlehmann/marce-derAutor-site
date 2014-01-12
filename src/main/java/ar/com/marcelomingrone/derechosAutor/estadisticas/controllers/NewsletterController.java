@@ -210,6 +210,16 @@ public class NewsletterController {
 		return "admin/newsletter_info";
 	}
 	
+	@RequestMapping("/admin/newsletter/probarEnvio")
+	public String probarEnvio(@RequestParam("id") Long id, ModelMap model) {
+		
+		Newsletter newsletter = newsletterDao.buscar(id);
+
+		model.addAttribute("newsletter", newsletter);
+			
+		return "admin/newsletter_probarEnvio";
+	}
+	
 	@RequestMapping("/newsletter/desuscribir/{id}")
 	public String desuscribir(@PathVariable("id") Long id) {
 		

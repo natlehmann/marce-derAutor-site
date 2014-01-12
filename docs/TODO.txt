@@ -7,8 +7,6 @@ tablas al comenzar la importación.
 
 - Ancho columnas de los datatables
 
-- Refactoring: - Autores != Artistas mas cobrados/ejecutados
-
 - Busqueda (anio, trimestre, pais) por ajax 
 
 - Pantalla "ver ultimo reporte de importacion" . Agregar tiempo estimado a la pantalla de importacion
@@ -24,6 +22,7 @@ tablas al comenzar la importación.
 - Falta agregar link para desuscribir al final
 - Cambiar la funcionalidad de preview por un "Probar envio" que pida una direccion de email unica a la cual se va a enviar el newsletter
 - Falta link para saber si un usuario abrió un newsletter
+- Probar de generar un error de envio
 
 - parent right ??????
 
@@ -34,13 +33,13 @@ tablas al comenzar la importación.
 
 - Externalizar ruta a los archivos de importacion (que este relativa al apache) (simil newsletter)
 
-- BUG: Link de desuscripcion viene siempre con el mismo id de usuario
-
 - FALTA ABM DE USUARIOS
 
 . En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
 
 - Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
+
+- Distinguir nombre y apellido de username para Usuario (si no, no se pueden repetir dos nombres)
 
 
 

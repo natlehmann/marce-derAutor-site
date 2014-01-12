@@ -2,6 +2,7 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +91,42 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		Newsletter newsletter = (Newsletter) session.get(Newsletter.class, id);
 		
 		if (newsletter.getEnvios() != null) {
-			newsletter.getEnvios().size();
+			
+			for (EnvioNewsletter envio : newsletter.getEnvios()) {
+				
+				envio.setCantidadReceptores(getCantidadReceptores(envio));
+				envio.setCantidadReceptoresActivos(getCantidadReceptoresActivos(envio));
+			}
 		}
 		
 		return newsletter;
+	}
+
+	@Transactional
+	public Long getCantidadReceptoresActivos(EnvioNewsletter envioNewsletter) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		Query query = session.createQuery(
+				"SELECT COUNT(r) FROM ReceptorNewsletter r WHERE r.envioNewsletter = :envio "
+				+ "AND r.fechaApertura is not null")
+				.setParameter("envio", envioNewsletter);
+		
+		Long resultado = (Long) query.uniqueResult();
+		
+		return (resultado != null) ? resultado.longValue() : 0;
+	}
+
+	@Transactional
+	public long getCantidadReceptores(EnvioNewsletter envioNewsletter) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		Query query = session.createQuery(
+				"SELECT COUNT(r) FROM ReceptorNewsletter r WHERE r.envioNewsletter = :envio")
+				.setParameter("envio", envioNewsletter);
+		
+		Long resultado = (Long) query.uniqueResult();
+		
+		return (resultado != null) ? resultado.longValue() : 0;
 	}
 
 }

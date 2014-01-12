@@ -187,10 +187,13 @@ create table ErrorEnvioNewsletter(
 	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id)
 )  ENGINE=InnoDB;
 
-create table EnvioNewsletter_Usuario(
+create table ReceptorNewsletter(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	envioNewsletter_id BIGINT NOT NULL,
+	fechaApertura datetime null,
 	usuario_id BIGINT NOT NULL,
-	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
+	envioNewsletter_id BIGINT NOT NULL,
+	FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
+	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id)
 )  ENGINE=InnoDB;
+
+

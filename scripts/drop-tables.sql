@@ -19,7 +19,7 @@ DROP TABLE FuenteAuditada;
 DROP TABLE Pais;
 DROP TABLE ItemAuditoria;
 
-DROP TABLE EnvioNewsletter_Usuario;
+DROP TABLE ReceptorNewsletter;
 DROP TABLE ErrorEnvioNewsletter;
 DROP TABLE EnvioNewsletter;
 DROP TABLE Newsletter;

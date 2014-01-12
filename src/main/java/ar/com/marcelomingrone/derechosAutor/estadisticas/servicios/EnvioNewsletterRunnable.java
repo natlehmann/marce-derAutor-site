@@ -102,9 +102,6 @@ public class EnvioNewsletterRunnable implements Runnable {
 			mimeMessage.setSubject(newsletter.getSubject(), "UTF-8");					
 			mimeMessage.setSentDate(new Date());					
 			mimeMessage.setFrom(fromAddress);
-			
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);					
-			
 		
 			log.info("Enviando newsletter ID " + newsletter.getId() + " a " + usuarios.size() + " usuarios");
 			long contador = 0;
@@ -113,35 +110,16 @@ public class EnvioNewsletterRunnable implements Runnable {
 				
 				try {
 					
-					agregarLinksUsuario(document, usuario);
-					
-					// use the true flag to indicate the text included is HTML
-//						helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
-					helper.setText(document.toString(), true);
-					
-					for (String idImagen : imagenes.keySet()) {
-						
-						FileSystemResource res = new FileSystemResource(new File(imagenes.get(idImagen)));
-						helper.addInline(idImagen, res);
-						
-					}
-
-					
-					
-//						mimeMessage.setContent(new String(contenido.getBytes("UTF-8"), "UTF-8"), "text/html; charset=utf-8");
-//						mimeMessage.setRecipient(RecipientType.TO, new InternetAddress(usuario.getEmail()));
-					
-					helper.setTo(new InternetAddress(usuario.getEmail()));
+					armarMailParaUsuario(mimeMessage, document, usuario, imagenes);
 					
 					javaMailSender.send(mimeMessage);
 					envio.agregarReceptor(usuario);
 					contador++;
 					
-				} catch (MessagingException e) {
+				} catch (Exception e) {
 					log.error("Error al enviar mail a " + usuario.getEmail(), e);
 					envio.agregarErrorEnvio(new ErrorEnvioNewsletter(
-							"No se pudo enviar el newsletter '" + newsletter.getSubject() 
-							+ "' al mail " + usuario.getEmail()));
+							"No se pudo enviar el newsletter al mail '" + usuario.getEmail() + "'"));
 				}
 			}
 			
@@ -157,6 +135,30 @@ public class EnvioNewsletterRunnable implements Runnable {
 		
 		newsletterDao.guardar(newsletter);
 		
+	}
+
+
+	public MimeMessageHelper armarMailParaUsuario(MimeMessage mimeMessage,
+			Document document, Usuario usuario, Map<String, String> imagenes) 
+			throws MessagingException {
+		
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);					
+		
+		agregarLinksUsuario(document, usuario);
+		
+		// use the true flag to indicate the text included is HTML
+		helper.setText(document.toString(), true);
+		
+		for (String idImagen : imagenes.keySet()) {
+			
+			FileSystemResource res = new FileSystemResource(new File(imagenes.get(idImagen)));
+			helper.addInline(idImagen, res);
+			
+		}
+
+		helper.setTo(new InternetAddress(usuario.getEmail()));
+		
+		return helper;
 	}
 
 
@@ -231,6 +233,18 @@ public class EnvioNewsletterRunnable implements Runnable {
 	
 	public void setBaseUrl(String baseUrl) {
 		BASE_URL = baseUrl;
+	}
+
+	public void setJavaMailSender(JavaMailSender javaMailSender) {
+		this.javaMailSender = javaMailSender;		
+	}
+
+	public void setMimeMessage(MimeMessage mimeMessage) {
+		this.mimeMessage = mimeMessage;		
+	}
+
+	public void setUsuarioDao(UsuarioDao usuarioDao) {
+		this.usuarioDao = usuarioDao;		
 	}
 
 }

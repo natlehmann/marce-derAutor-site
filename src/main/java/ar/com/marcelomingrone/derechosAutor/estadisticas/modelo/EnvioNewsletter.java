@@ -8,13 +8,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class EnvioNewsletter extends Entidad {
@@ -28,13 +26,15 @@ public class EnvioNewsletter extends Entidad {
 	@ManyToOne(optional=false)
 	private Newsletter newsletter;
 	
-	@ManyToMany
-	@JoinTable(name="EnvioNewsletter_Usuario", joinColumns=@JoinColumn(name="envioNewsletter_id"), 
-		inverseJoinColumns=@JoinColumn(name="usuario_id"))
-	private List<Usuario> receptores;
+	@OneToMany(mappedBy="envioNewsletter", cascade=CascadeType.ALL)
+	private List<ReceptorNewsletter> receptores;
 	
 	@OneToMany(mappedBy="envioNewsletter", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<ErrorEnvioNewsletter> errores;
+	
+	private transient long cantidadReceptores;
+	
+	private transient long cantidadReceptoresActivos;
 
 	public Date getFechaEnvio() {
 		return fechaEnvio;
@@ -52,19 +52,24 @@ public class EnvioNewsletter extends Entidad {
 		this.newsletter = newsletter;
 	}
 
-	public List<Usuario> getReceptores() {
+	public List<ReceptorNewsletter> getReceptores() {
 		return receptores;
 	}
 
-	public void setReceptores(List<Usuario> receptores) {
+	public void setReceptores(List<ReceptorNewsletter> receptores) {
 		this.receptores = receptores;
 	}
 
-	public void agregarReceptor(Usuario receptor) {
+	public void agregarReceptor(Usuario usuario) {
 		if (this.receptores == null) {
 			this.receptores = new LinkedList<>();
 		}
-		this.receptores.add(receptor);
+		
+		ReceptorNewsletter receptorNewsletter = new ReceptorNewsletter();
+		receptorNewsletter.setUsuario(usuario);
+		receptorNewsletter.setEnvioNewsletter(this);
+		
+		this.receptores.add(receptorNewsletter);
 	}
 	
 	public List<ErrorEnvioNewsletter> getErrores() {
@@ -81,5 +86,23 @@ public class EnvioNewsletter extends Entidad {
 		}
 		this.errores.add(error);
 		error.setEnvioNewsletter(this);
+	}
+
+	public void setCantidadReceptores(long cantidadReceptores) {
+		this.cantidadReceptores = cantidadReceptores;		
+	}
+	
+	public void setCantidadReceptoresActivos(long cantidadReceptoresActivos) {
+		this.cantidadReceptoresActivos = cantidadReceptoresActivos;
+	}
+	
+	@Transient
+	public long getCantidadReceptores() {
+		return cantidadReceptores;
+	}
+	
+	@Transient
+	public long getCantidadReceptoresActivos() {
+		return cantidadReceptoresActivos;
 	}
 }

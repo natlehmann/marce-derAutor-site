@@ -24,17 +24,18 @@ create table EnvioNewsletter(
 	FOREIGN KEY (newsletter_id) REFERENCES Newsletter(id)
 )  ENGINE=InnoDB;
 
-create table EnvioNewsletter_Usuario(
-	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	envioNewsletter_id BIGINT NOT NULL,
-	usuario_id BIGINT NOT NULL,
-	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id),
-	FOREIGN KEY (usuario_id) REFERENCES Usuario(id)
-)  ENGINE=InnoDB;
-
 create table ErrorEnvioNewsletter(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	error varchar(512) NOT NULL,
 	envioNewsletter_id BIGINT NOT NULL,
+	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id)
+)  ENGINE=InnoDB;
+
+create table ReceptorNewsletter(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fechaApertura datetime null,
+	usuario_id BIGINT NOT NULL,
+	envioNewsletter_id BIGINT NOT NULL,
+	FOREIGN KEY (usuario_id) REFERENCES Usuario(id),
 	FOREIGN KEY (envioNewsletter_id) REFERENCES EnvioNewsletter(id)
 )  ENGINE=InnoDB;

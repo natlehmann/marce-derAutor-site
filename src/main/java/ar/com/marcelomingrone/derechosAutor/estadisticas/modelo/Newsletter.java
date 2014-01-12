@@ -86,7 +86,7 @@ public class Newsletter extends Entidad {
 		resultado.add(this.subject);
 		resultado.add(this.contenido.replaceAll("\\<.*?>", ""));
 		resultado.add(super.getLinksModificarDuplicarEliminar() 
-				+ this.getLinkPrevisualizar() + this.getLinkVerInfo() + this.getLinkEnviar());
+				+ this.getLinkProbarEnvio() + this.getLinkVerInfo() + this.getLinkEnviar());
 		
 		return resultado;
 	}
@@ -97,8 +97,8 @@ public class Newsletter extends Entidad {
 	}
 
 	@Transient
-	private String getLinkPrevisualizar() {
-		return "<a href='previsualizar?id=" + this.getId() + "'>Previsualizar</a> ";
+	private String getLinkProbarEnvio() {
+		return "<a href='probarEnvio?id=" + this.getId() + "'>Probar envío</a> ";
 	}
 
 	@Transient
