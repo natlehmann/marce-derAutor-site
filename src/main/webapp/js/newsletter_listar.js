@@ -30,3 +30,23 @@ function confirmarEnviar(id) {
 	 	}
 	 });
 }
+
+function verMas(elemento, id) {
+	$.ajax({
+		 url: $("#contexto").val() + "admin/newsletter/verDescripcion",
+		 data: { 'id': id },
+		 success: function( data ) {
+			$(elemento).parent().html(data); 
+	 	}
+	 });
+}
+
+function reducirDescripcion(elemento, id) {
+	$.ajax({
+		 url: $("#contexto").val() + "admin/newsletter/reducirDescripcion",
+		 data: { 'id': id },
+		 success: function( data ) {
+			$(elemento).parent().html(data); 
+	 	}
+	 });
+}

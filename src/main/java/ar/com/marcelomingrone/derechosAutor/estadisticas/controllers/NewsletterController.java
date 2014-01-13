@@ -288,6 +288,22 @@ public class NewsletterController {
 		
 	}
 	
+	@RequestMapping("/admin/newsletter/verDescripcion")
+	@ResponseBody
+	public String verDescripcion(@RequestParam("id") Long id, ModelMap model) {
+		
+		Newsletter newsletter = newsletterDao.buscar(id);
+		return newsletter.getDescripcion() + newsletter.getLinkReducirDescripcion();
+	}
+	
+	@RequestMapping("/admin/newsletter/reducirDescripcion")
+	@ResponseBody
+	public String reducirDescripcion(@RequestParam("id") Long id, ModelMap model) {
+		
+		Newsletter newsletter = newsletterDao.buscar(id);
+		return newsletter.getDescripcionCorta();
+	}
+	
 	@RequestMapping("/newsletter/desuscribir/{id}")
 	public String desuscribir(@PathVariable("id") Long id) {
 		
