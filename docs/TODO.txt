@@ -18,11 +18,9 @@ tablas al comenzar la importación.
 - Habilitar cache hibernate
 
 Administracion de newsletter :
-- Mostrar solo un fragmento del contenido en el listado
 - Falta agregar link para desuscribir al final
 - Falta link para saber si un usuario abrió un newsletter
 . En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
-- Distinguir nombre y apellido de username para Usuario (si no, no se pueden repetir dos nombres)
 - Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
 
 
@@ -35,7 +33,9 @@ Administracion de newsletter :
 
 - Externalizar ruta a los archivos de importacion (que este relativa al apache) (simil newsletter)
 
-- FALTA ABM DE USUARIOS
+- Poner referencia de colores en listado al que se llega desde el grafico de barras
+
+- FALTA ABM DE USUARIOS para newsletter
 
 
 

@@ -49,7 +49,7 @@ public class ReceptorNewsletter extends Entidad implements Listable {
 		
 		switch (indiceColumna) {
 		case 0:
-			return "r.usuario.nombre";
+			return "r.usuario.nombreApellido";
 
 		case 1:
 			return "r.usuario.email";
@@ -66,7 +66,7 @@ public class ReceptorNewsletter extends Entidad implements Listable {
 	public List<String> getCamposAsList() {
 		
 		List<String> resultado = new LinkedList<>();
-		resultado.add(this.usuario.getNombre());
+		resultado.add(this.usuario.getNombreApellido());
 		resultado.add(this.usuario.getEmail());
 		resultado.add(this.fechaApertura != null ? format.format(this.fechaApertura) :  "");
 		

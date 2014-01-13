@@ -305,7 +305,7 @@ public class NewsletterController {
 	}
 	
 	@RequestMapping("/newsletter/desuscribir/{id}")
-	public String desuscribir(@PathVariable("id") Long id) {
+	public String desuscribir(@PathVariable("id") Long idUsuario) {
 		
 		throw new IllegalArgumentException("AUN NO IMPLEMENTADO");
 	}

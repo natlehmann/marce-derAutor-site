@@ -167,7 +167,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		} else {
 			
 			String query = "from ReceptorNewsletter r WHERE r.envioNewsletter.id = :idEnvio "
-					+ "AND (r.usuario.nombre like :filtro OR r.usuario.email like :filtro)";
+					+ "AND (r.usuario.nombreApellido like :filtro OR r.usuario.email like :filtro)";
 			
 			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
 				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
@@ -193,7 +193,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 			Session session = sessionFactory.getCurrentSession();
 			
 			String query = "SELECT COUNT(r) FROM ReceptorNewsletter r WHERE r.envioNewsletter.id = :idEnvio "
-					+ "AND (r.usuario.nombre like :filtro OR r.usuario.email like :filtro)";
+					+ "AND (r.usuario.nombreApellido like :filtro OR r.usuario.email like :filtro)";
 			
 			Long resultado = (Long) session.createQuery(query)
 					.setParameter("idEnvio", idEnvio)

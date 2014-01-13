@@ -17,8 +17,10 @@ public class Usuario extends Entidad {
 	
 	private static final long serialVersionUID = -3577120786983842957L;
 
-	@Column(nullable=false, unique=true)
-	private String nombre;
+	private String nombreApellido;
+	
+	@Column(unique=true, nullable=true)
+	private String username;
 	
 	@Column(nullable=false)
 	private String password;
@@ -30,12 +32,20 @@ public class Usuario extends Entidad {
 	@JoinTable(name="Usuario_Rol", joinColumns=@JoinColumn(name="usuario_id"), inverseJoinColumns=@JoinColumn(name="rol_id"))
 	private Set<Rol> roles;
 
-	public String getNombre() {
-		return nombre;
+	public String getNombreApellido() {
+		return nombreApellido;
 	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	
+	public void setNombreApellido(String nombreApellido) {
+		this.nombreApellido = nombreApellido;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {

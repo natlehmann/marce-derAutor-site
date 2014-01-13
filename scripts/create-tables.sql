@@ -1,11 +1,12 @@
 create table Usuario(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre varchar(255) not null,
-	password varchar(255) not null,
+	nombreApellido varchar(255),
+	username varchar(255),
+	password varchar(255),
 	email varchar(255)
 )  ENGINE=InnoDB;
 
-CREATE UNIQUE INDEX UK_usuario_nombre ON Usuario(nombre);
+CREATE UNIQUE INDEX UK_usuario_nombre ON Usuario(username);
 
 create table Rol(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
