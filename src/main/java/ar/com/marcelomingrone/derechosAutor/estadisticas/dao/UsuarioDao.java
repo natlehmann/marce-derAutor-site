@@ -31,7 +31,8 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 	public List<Usuario> getReceptoresNewsletter() {
 		
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("SELECT r.usuarios FROM Rol r WHERE r.nombre = :rolNewsletter")
+		return session.createQuery(
+				"SELECT u FROM Usuario u JOIN u.roles r WHERE u.fechaBaja is null AND r.nombre = :rolNewsletter")
 				.setParameter("rolNewsletter", ROL_NEWSLETTER).list();
 	}
 

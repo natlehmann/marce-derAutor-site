@@ -3,7 +3,8 @@ create table Usuario(
 	nombreApellido varchar(255),
 	username varchar(255),
 	password varchar(255),
-	email varchar(255)
+	email varchar(255),
+	fechaBaja datetime
 )  ENGINE=InnoDB;
 
 CREATE UNIQUE INDEX UK_usuario_nombre ON Usuario(username);

@@ -57,3 +57,11 @@
 #loginsearch input[type="password"]:focus {
 	width: 200px;
 }
+
+#login h3 {
+	padding:20px;
+}
+
+#login #crear {
+	height: auto;
+}

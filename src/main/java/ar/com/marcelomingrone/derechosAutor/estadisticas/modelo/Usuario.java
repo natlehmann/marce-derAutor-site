@@ -1,5 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -8,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -27,6 +30,9 @@ public class Usuario extends Entidad {
 	
 	@Email @NotBlank
 	private String email;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaBaja;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="Usuario_Rol", joinColumns=@JoinColumn(name="usuario_id"), inverseJoinColumns=@JoinColumn(name="rol_id"))
@@ -64,5 +70,12 @@ public class Usuario extends Entidad {
 		this.email = email;
 	}
 	
+	public Date getFechaBaja() {
+		return fechaBaja;
+	}
+	
+	public void setFechaBaja(Date fechaBaja) {
+		this.fechaBaja = fechaBaja;
+	}
 
 }

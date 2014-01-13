@@ -33,10 +33,12 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.NewsletterDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.UsuarioDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Newsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReceptorNewsletter;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Usuario;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ServicioEnvioMail;
 
 @Controller
@@ -49,6 +51,9 @@ public class NewsletterController {
 	
 	@Autowired
 	private NewsletterDao newsletterDao;
+	
+	@Autowired
+	private UsuarioDao usuarioDao;
 	
 	@Value("${newsletter.home}")
 	private String NEWSLETTER_HOME;
@@ -307,7 +312,13 @@ public class NewsletterController {
 	@RequestMapping("/newsletter/desuscribir/{id}")
 	public String desuscribir(@PathVariable("id") Long idUsuario) {
 		
-		throw new IllegalArgumentException("AUN NO IMPLEMENTADO");
+		Usuario usuario = usuarioDao.buscar(idUsuario);
+		usuario.setFechaBaja(new Date());
+		
+		log.info("Desuscribiendo al usuario " + usuario.getNombreApellido() + " - ID: " + usuario.getId());
+		usuarioDao.guardar(usuario);
+		
+		return "admin/newsletter_desuscripcion_exito";
 	}
 	
 	@ResponseBody
