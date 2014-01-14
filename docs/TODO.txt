@@ -18,7 +18,6 @@ tablas al comenzar la importación.
 - Habilitar cache hibernate
 
 Administracion de newsletter :
-- Falta link para saber si un usuario abrió un newsletter
 . En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
 - Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
 
@@ -35,6 +34,8 @@ Administracion de newsletter :
 - Poner referencia de colores en listado al que se llega desde el grafico de barras
 
 - FALTA ABM DE USUARIOS para newsletter
+
+- Probar si funciona tracking en gmail una vez que tengamos nickar
 
 
 

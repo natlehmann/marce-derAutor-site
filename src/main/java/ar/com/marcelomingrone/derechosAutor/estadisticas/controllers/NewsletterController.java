@@ -325,14 +325,17 @@ public class NewsletterController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/newsletter/notificar/{idEnvio}/{idUsuario}")
+	@RequestMapping(value="/newsletter/notificar/{idEnvio}/{idUsuario}", produces={"image/jpeg"})
 	public byte[] notificarRecepcion(@PathVariable("idEnvio") Long idEnvio, 
 			@PathVariable("idUsuario") Long idUsuario) 
 			throws IOException {
 		
 		ReceptorNewsletter receptor = newsletterDao.getReceptorNewsletter(idEnvio, idUsuario);
-		receptor.setFechaApertura(new Date());
-		newsletterDao.guardarReceptor(receptor);
+		
+		if (receptor.getFechaApertura() == null) {
+			receptor.setFechaApertura(new Date());
+			newsletterDao.guardarReceptor(receptor);
+		}
 		
 		InputStream in = new FileInputStream(new File(BLANK_IMG));
 		
