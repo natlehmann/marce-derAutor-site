@@ -40,7 +40,7 @@ public class EnvioNewsletterPruebaRunnable extends EnvioNewsletterRunnable {
 		
 			log.info("Enviando prueba de newsletter ID " + newsletter.getId() + " a " + this.email);
 					
-			armarMailParaUsuario(mimeMessage, document, email, null, imagenes);
+			armarMailParaUsuario(mimeMessage, document, email, null, null, imagenes);
 			
 			javaMailSender.send(mimeMessage);
 			

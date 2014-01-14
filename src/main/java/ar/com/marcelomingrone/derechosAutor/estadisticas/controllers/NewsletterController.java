@@ -58,6 +58,9 @@ public class NewsletterController {
 	@Value("${newsletter.home}")
 	private String NEWSLETTER_HOME;
 	
+	@Value("${mail.link.notificacion.img}")
+	private String BLANK_IMG;
+	
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	
 	@InitBinder
@@ -319,6 +322,21 @@ public class NewsletterController {
 		usuarioDao.guardar(usuario);
 		
 		return "admin/newsletter_desuscripcion_exito";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/newsletter/notificar/{idEnvio}/{idUsuario}")
+	public byte[] notificarRecepcion(@PathVariable("idEnvio") Long idEnvio, 
+			@PathVariable("idUsuario") Long idUsuario) 
+			throws IOException {
+		
+		ReceptorNewsletter receptor = newsletterDao.getReceptorNewsletter(idEnvio, idUsuario);
+		receptor.setFechaApertura(new Date());
+		newsletterDao.guardarReceptor(receptor);
+		
+		InputStream in = new FileInputStream(new File(BLANK_IMG));
+		
+	    return IOUtils.toByteArray(in);
 	}
 	
 	@ResponseBody

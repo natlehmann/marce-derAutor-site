@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EnvioNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Usuario;
 
 public class EnvioNewsletterRunnableTest {
@@ -19,6 +20,7 @@ public class EnvioNewsletterRunnableTest {
 	private static final String NEWSLETTER_HOME = "/var/www/newsletter";
 	private static final String LINK_DESUSCRIPCION = "<div id='suscripcion'>Para dejar de recibir newsletters de BMAT, por favor hacer <a href=''>click aqui</a></div>";
 	private static final String BASE_URL = "http://localhost:8080/derechosAutor";
+	private static final String LINK_NOTIFICACION = "<img id='img_notificacion' src='' width='1' height='1' border='0'/>";
 	
 	private EnvioNewsletterRunnable servicio;
 	private Map<String, String> imagenes;
@@ -32,6 +34,7 @@ public class EnvioNewsletterRunnableTest {
 		servicio.setNewsletterHome(NEWSLETTER_HOME);
 		servicio.setLinkDesuscripcion(LINK_DESUSCRIPCION);
 		servicio.setBaseUrl(BASE_URL);
+		servicio.setLinkNotificacion(LINK_NOTIFICACION);
 		
 		imagenes = new LinkedHashMap<>();
 	}
@@ -77,10 +80,13 @@ public class EnvioNewsletterRunnableTest {
 		Usuario usuario = new Usuario();
 		usuario.setId(3L);
 		
+		EnvioNewsletter envio = new EnvioNewsletter();
+		envio.setId(9L);
+		
 		String documentoConUnTag = "<html><body><div>HOLA</div></body></html>";
 		Document document = Jsoup.parse(documentoConUnTag);
 		
-		servicio.agregarLinksUsuario(document, usuario);
+		servicio.agregarLinksUsuario(document, usuario, envio);
 		
 		StringBuffer esperado = new StringBuffer();
 		esperado
@@ -92,10 +98,17 @@ public class EnvioNewsletterRunnableTest {
 			.append(BASE_URL + "/newsletter/desuscribir/3")
 			// cierra link desuscripcion
 			.append("\">click aqui</a></div>")
+			// abre link notificacion
+			.append("<img id=\"img_notificacion\" src=\"")
+			// se agrego URL notificacion
+			.append(BASE_URL + "/newsletter/notificar/9/3")
+			// cierra link notificacion
+			.append("\" width=\"1\" height=\"1\" border=\"0\"/>")
 			// cierra documento
 			.append("</body></html>");
 		
-	    String output = document.html().replaceAll("[\\r\\n]+\\s", "").replaceAll(">\\s*", ">").replaceAll("\\s*<", "<");
+	    String output = document.html().replaceAll("[\\r\\n]+\\s", "").replaceAll(">\\s*", ">")
+	    		.replaceAll("\\s*/>\\s*", "/>").replaceAll("\\s*<", "<");
 		
 		assertEquals(esperado.toString(), output);
 	}
@@ -107,13 +120,18 @@ public class EnvioNewsletterRunnableTest {
 		Usuario usuario = new Usuario();
 		usuario.setId(4L);
 		
+		EnvioNewsletter envio = new EnvioNewsletter();
+		envio.setId(6L);
+		
 		String documento = "<html><body><div>HOLA</div><div id=\"suscripcion\">"
 				+ "Para dejar de recibir newsletters de BMAT, por favor hacer<a href=\"" 
-				+ BASE_URL + "/newsletter/desuscribir/3\">click aqui</a></div>" + "</body></html>";
+				+ BASE_URL + "/newsletter/desuscribir/3\">click aqui</a></div><img id='img_notificacion' src='" 
+				+ BASE_URL + "/newsletter/notificar/5/3' width='1' height='1' border='0'/>"
+				+ "</body></html>";
 		
 		Document document = Jsoup.parse(documento);
 		
-		servicio.agregarLinksUsuario(document, usuario);
+		servicio.agregarLinksUsuario(document, usuario, envio);
 		
 		StringBuffer esperado = new StringBuffer();
 		esperado
@@ -125,10 +143,17 @@ public class EnvioNewsletterRunnableTest {
 			.append(BASE_URL + "/newsletter/desuscribir/4")
 			// cierra link desuscripcion
 			.append("\">click aqui</a></div>")
+			// abre link notificacion
+			.append("<img id=\"img_notificacion\" src=\"")
+			// se agrego URL notificacion
+			.append(BASE_URL + "/newsletter/notificar/6/4")
+			// cierra link notificacion
+			.append("\" width=\"1\" height=\"1\" border=\"0\"/>")
 			// cierra documento
 			.append("</body></html>");
 		
-	    String output = document.html().replaceAll("[\\r\\n]+\\s", "").replaceAll(">\\s*", ">").replaceAll("\\s*<", "<");
+	    String output = document.html().replaceAll("[\\r\\n]+\\s", "").replaceAll(">\\s*", ">")
+	    		.replaceAll("\\s*/>\\s*", "/>").replaceAll("\\s*<", "<");
 		
 		assertEquals(esperado.toString(), output);
 	}

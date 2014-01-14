@@ -203,4 +203,29 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		}
 	}
 
+	@Transactional
+	public EnvioNewsletter guardarEnvio(EnvioNewsletter envio) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		envio.setId((Long) session.save(envio));
+		return envio;
+	}
+
+	@Transactional
+	public ReceptorNewsletter getReceptorNewsletter(Long idEnvio, Long idUsuario) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return (ReceptorNewsletter) session.createQuery(
+				"SELECT r FROM ReceptorNewsletter r WHERE r.usuario.id = :idUsuario AND r.envioNewsletter.id = :idEnvio")
+				.setParameter("idUsuario", idUsuario)
+				.setParameter("idEnvio", idEnvio)
+				.uniqueResult();
+	}
+
+	@Transactional
+	public void guardarReceptor(ReceptorNewsletter receptor) {
+		Session session = sessionFactory.getCurrentSession();
+		session.saveOrUpdate(receptor);		
+	}
+
 }

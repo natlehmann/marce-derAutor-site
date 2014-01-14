@@ -42,6 +42,9 @@ public class EnvioNewsletterRunnable implements Runnable {
 	@Value("${mail.link.desuscripcion}")
 	private String LINK_DESUSCRIPCION;
 	
+	@Value("${mail.link.notificacion}")
+	private String LINK_NOTIFICACION;
+	
 	@Value("${base.url}")
 	private String BASE_URL;
 	
@@ -90,6 +93,9 @@ public class EnvioNewsletterRunnable implements Runnable {
 		
 		EnvioNewsletter envio = new EnvioNewsletter();
 		envio.setFechaEnvio(new Date());
+		envio.setNewsletter(newsletter);
+		envio = newsletterDao.guardarEnvio(envio);
+		
 		newsletter.agregarEnvio(envio);
 		
 		List<Usuario> usuarios = usuarioDao.getReceptoresNewsletter();
@@ -105,7 +111,7 @@ public class EnvioNewsletterRunnable implements Runnable {
 				
 				try {
 					
-					armarMailParaUsuario(mimeMessage, document, usuario, imagenes);
+					armarMailParaUsuario(mimeMessage, document, usuario, envio, imagenes);
 					
 					javaMailSender.send(mimeMessage);
 					envio.agregarReceptor(usuario);
@@ -144,20 +150,22 @@ public class EnvioNewsletterRunnable implements Runnable {
 	}
 	
 	public MimeMessageHelper armarMailParaUsuario(MimeMessage mimeMessage,
-			Document document, Usuario usuario, Map<String, String> imagenes) 
+			Document document, Usuario usuario, EnvioNewsletter envio, Map<String, String> imagenes) 
 			throws MessagingException {
 		
-		return armarMailParaUsuario(mimeMessage, document, usuario.getEmail(), usuario.getId(), imagenes);
+		return armarMailParaUsuario(mimeMessage, document, usuario.getEmail(), 
+				usuario.getId(), envio.getId(), imagenes);
 	}
 
 
 	public MimeMessageHelper armarMailParaUsuario(MimeMessage mimeMessage,
-			Document document, String emailUsuario, Long idUsuario, Map<String, String> imagenes) 
+			Document document, String emailUsuario, Long idUsuario, Long idEnvioNewsletter,
+			Map<String, String> imagenes) 
 			throws MessagingException {
 		
 		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);					
 		
-		agregarLinksUsuario(document, idUsuario);
+		agregarLinksUsuario(document, idUsuario, idEnvioNewsletter);
 		
 		// use the true flag to indicate the text included is HTML
 		helper.setText(document.toString(), true);
@@ -174,17 +182,23 @@ public class EnvioNewsletterRunnable implements Runnable {
 		return helper;
 	}
 
-	public void agregarLinksUsuario(Document document, Usuario usuario) {
-		agregarLinksUsuario(document, usuario.getId());
+	public void agregarLinksUsuario(Document document, Usuario usuario, EnvioNewsletter envio) {
+		agregarLinksUsuario(document, usuario.getId(), envio.getId());
 	}
 
-	public void agregarLinksUsuario(Document document, Long idUsuario) {
-		
-		// TODO: FALTA AGREGAR EL LINK PARA SABER SI VIO EL NEWSLETTER
+	public void agregarLinksUsuario(Document document, Long idUsuario, Long idEnvioNewsletter) {
 		
 		Document linkUsuario = Jsoup.parseBodyFragment(LINK_DESUSCRIPCION);
 		
-		// si ya existe en el documento, eliminarlo
+		Document linkNotificacionApertura = Jsoup.parseBodyFragment(LINK_NOTIFICACION);
+		
+		// si ya existen en el documento, eliminarlos
+		if (document.body().children().last().toString().contains(
+				BASE_URL + "/newsletter/notificar/")) {
+			
+			document.body().children().last().remove();
+		}
+				
 		if (document.body().children().last().html().contains(
 				BASE_URL + "/newsletter/desuscribir/")) {
 			
@@ -197,6 +211,13 @@ public class EnvioNewsletterRunnable implements Runnable {
 		}
 		
 		document.body().appendChild(linkUsuario.body().childNode(0));
+		
+		Elements notificacion = linkNotificacionApertura.getElementsByTag("img");
+		if (!notificacion.isEmpty()) {
+			notificacion.get(0).attr("src", BASE_URL + "/newsletter/notificar/" + idEnvioNewsletter + "/" + idUsuario);
+		}
+		
+		document.body().appendChild(linkNotificacionApertura.body().childNode(0));
 	}
 	
 	
@@ -261,6 +282,10 @@ public class EnvioNewsletterRunnable implements Runnable {
 
 	public void setUsuarioDao(UsuarioDao usuarioDao) {
 		this.usuarioDao = usuarioDao;		
+	}
+	
+	public void setLinkNotificacion(String linkNotificacion) {
+		LINK_NOTIFICACION = linkNotificacion;
 	}
 
 }
