@@ -18,7 +18,6 @@ tablas al comenzar la importación.
 - Habilitar cache hibernate
 
 Administracion de newsletter :
-. En el ABM de Newsletter poner un pop up con las recomendaciones e instrucciones.
 - Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
 
 

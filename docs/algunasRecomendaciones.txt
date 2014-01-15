@@ -10,32 +10,10 @@ El formulario de login lo puse tal cual me lo pasaste, pero se ve raro. Se ven l
 y cuando haces click en alguno salta a la linea de abajo. Es por el estilo :focus que le cambia el ancho al input.
 Me parece que eso no está muy bueno.
 
-En algun lado (en el header) habría que poner un link para hacer logout.
+En algun lado (en el header) habría que poner un link para hacer logout. Tambien se podría poner el nombre del usuario logueado.
 
-Para armar un newsletter, primero es necesario copiar las imagenes por FTP dentro de la carpeta XXXXXX/newsletter.
-Dentro de esa carpeta se pueden crear tantos subdirectorios como se desee (pero no se puede cambiar el nombre
-de la carpeta). 
-Luego las imagenes pueden accederse de la siguiente manera: 
-http://www.marcelomingrone.com.ar/newsletter/mi_imagen.jpg
 
-Armar el newsletter utilizando el path completo para cada una de las imágenes. No se pueden usar paths relativos.
 
-Tener en cuenta que:
-
-- Los newsletters tienen que comenzar con el tag <html> directamente. No puede estar la linea de <DOCTYPE>
-- Es preferible reducir la cantidad de imagenes al minimo. Cuantas más imagenes, más tarda el envio de cada mail.
-- No tienen que tener el link de desuscripcion, ya que eso se agrega automáticamente.
-- Gmail no soporta que los estilos se definan por separado dentro del tag <head> y luego se referencien 
-con atributos class o id. Es necesario que los estilos estén embebidos. Por ejemplo:
-
-en lugar de 
-<div class="negrita">.....
-
-se debe hacer
-<div style="font-style:bold;">....
-
-- Gmail tampoco soporta que las imagenes se definan en estilos. No se puede poner una imagen como background en un
-atributo "style". Es necesario resolverlo con un tag <img>
 
 
 
