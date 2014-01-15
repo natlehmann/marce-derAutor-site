@@ -31,11 +31,10 @@ Administracion de newsletter :
 
 - Externalizar ruta a los archivos de importacion (que este relativa al apache) (simil newsletter)
 
-- Poner referencia de colores en listado al que se llega desde el grafico de barras
+- Probar si funciona tracking en gmail una vez que tengamos nic.ar
 
-- FALTA ABM DE USUARIOS para newsletter
+- SOlucionar problemas con los acentos. Por ejemplo, email invalido en alta usuarios. Proceso importacion con exito.
 
-- Probar si funciona tracking en gmail una vez que tengamos nickar
 
 
 

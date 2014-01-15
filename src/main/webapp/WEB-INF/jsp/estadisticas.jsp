@@ -24,6 +24,15 @@
 		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 	</div>
 	
+	<div class="referencias">
+		<h4>Referencias:</h4>
+		<div class="referenciaSacm"><br/></div>
+		<div class="texto">SACM</div>
+		<div class="referenciaOtros"><br/></div>
+		<div class="texto">Distribución</div>
+	</div>
+	
+	
 	<c:forEach items="${totalesPorFuente}" var="totalPorFuente">
 	
 		<div class="Grid">
