@@ -1,6 +1,9 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,15 +14,18 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
-public class Usuario extends Entidad {
+public class Usuario extends Entidad implements Listable {
 	
 	private static final long serialVersionUID = -3577120786983842957L;
 
+	@NotNull @Size(max=255) @NotBlank
 	private String nombreApellido;
 	
 	@Column(unique=true, nullable=true)
@@ -28,7 +34,7 @@ public class Usuario extends Entidad {
 	@Column(nullable=false)
 	private String password;
 	
-	@Email @NotBlank
+	@Email @NotBlank @Size(max=255)
 	private String email;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -76,6 +82,42 @@ public class Usuario extends Entidad {
 	
 	public void setFechaBaja(Date fechaBaja) {
 		this.fechaBaja = fechaBaja;
+	}
+
+	public static String getCampoOrdenamiento(int indice) {
+		
+		switch (indice) {
+		case 0:
+			return "nombreApellido";
+
+		case 1:
+			return "email";
+			
+		case 2:
+			return "fechaBaja";
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<String> getCamposAsList() {
+		
+		List<String> campos = new LinkedList<>();
+		campos.add(this.nombreApellido);
+		campos.add(this.email);
+		campos.add(this.fechaBaja != null ? format.format(this.fechaBaja) :  "");
+		campos.add(getLinksModificarEliminar());
+		
+		return campos;
+	}
+
+	public void agregarRol(Rol rol) {
+		if (this.roles == null) {
+			this.roles = new HashSet<>();
+		}
+		
+		this.roles.add(rol);		
 	}
 
 }

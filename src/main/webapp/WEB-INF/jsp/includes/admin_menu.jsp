@@ -14,6 +14,7 @@
 		<li><a href='<c:url value="/admin/derecho/listar" />'>Derechos</a></li>
 		<li><a href='<c:url value="/reglamentoDeDistribucion" />'>Reglamento de distribución</a></li>
 		<li><a href='<c:url value="/admin/newsletter/listar" />'>Newsletters</a></li>
+		<li><a href='<c:url value="/admin/usuario/listar" />'>Usuarios receptores de newsletters</a></li>
 	</ul>
 </div>
 
