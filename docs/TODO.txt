@@ -24,9 +24,6 @@ Administracion de newsletter :
 
 - parent right ??????
 
-- estado de tareas -> con iconos, descrpcion que ocupe fila entera o abrir en pop up
-
-- BUG: estado de tareas, eliminar, cancelar -> falla
 - BUG:  reglamento de distribucion eliminar no funciona. Es posible que tenga que ver con el largo de la linea (descripcion larga)
 
 - Externalizar ruta a los archivos de importacion (que este relativa al apache) (simil newsletter)

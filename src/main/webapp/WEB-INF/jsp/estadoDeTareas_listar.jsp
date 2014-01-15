@@ -188,7 +188,7 @@
 			
 			<div class="ui-dialog-buttonpane">
 				<input type="submit" value="Aceptar" />
-				<button type="button" onclick="ir('listar')">Cancelar</button>
+				<button type="button" onclick="irAbsoluto('estadoDeTareas')">Cancelar</button>
 			</div>
 		</form>
 	</div>
