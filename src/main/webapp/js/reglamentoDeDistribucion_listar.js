@@ -20,6 +20,13 @@ $(document).ready(function() {
                       { "sClass": "right", "sWidth" : "10%" }
                     ]
     } );
+	
+	$("#dialog-eliminar").dialog({
+		resizable : false,
+		width : 350,
+		modal : true,
+		autoOpen : false
+	});
     
 } );
 
@@ -42,6 +49,12 @@ function reducirDescripcion(elemento, idReglamento) {
 			$(elemento).parent().html(data); 
 	 	}
 	 });
+}
+
+function confirmarEliminar(id) {
+	
+	$("#dialog-eliminar-id").val(id);
+	$("#dialog-eliminar").dialog("open");
 }
 
 function filtrarListado() {

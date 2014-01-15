@@ -77,4 +77,23 @@
 </div>
 
 
+<sec:authorize access="hasRole('administrador')">
+	<div id="dialog-eliminar" style="display:none;" title="Confirmación">
+		<form action='<c:url value="/admin/reglamentoDeDistribucion/eliminar" />' method="post">
+			
+			<input type="hidden" name="id" id="dialog-eliminar-id" value="" />
+			
+			<p>
+				¿Está seguro que desea eliminar este elemento?
+			</p>
+			
+			<div class="ui-dialog-buttonpane">
+				<input type="submit" value="Aceptar" />
+				<button type="button" onclick="irAbsoluto('reglamentoDeDistribucion')">Cancelar</button>
+			</div>
+		</form>
+	</div>
+</sec:authorize>
+
+
 <jsp:include page="/WEB-INF/jsp/includes/footer.jsp" />
