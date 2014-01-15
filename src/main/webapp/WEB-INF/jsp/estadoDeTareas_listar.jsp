@@ -107,6 +107,12 @@
 </div>
 
 
+<c:set var="esAdmin" value="false"/>
+<sec:authorize access="hasRole('administrador')">
+	<c:set var="esAdmin" value="true"/>
+</sec:authorize>
+
+
 <div class="ranking-centrado-total ranking-no-sort">
 	
 	<div class="Grid">
@@ -114,16 +120,14 @@
 		<table class="datatable estadoTareas">
 			<thead>
 				<tr>
-					<th style="width:8%">Fecha</th>
-					<th style="width:15%">Artista</th>
-					<th style="width:15%">Asunto</th>
-					<th style="width:15%">Fuente</th>
-					<th style="width:16%">Descripción</th>
-					<th style="width:15%">Comentario</th>
-					<th style="width:8%">Estado</th>
-					<th style="width:8%">Prior.</th>
+					<th>Fecha</th>
+					<th>Artista</th>
+					<th>Asunto</th>
+					<th>Fuente</th>
+					<th>Estado</th>
+					<th>Prior.</th>
 					<sec:authorize access="hasRole('administrador')">
-						<th>Acciones</th>
+						<th style="width: 8%">Acciones</th>
 					</sec:authorize>
 				</tr>
 			</thead>
@@ -136,8 +140,6 @@
 						<td class="autor">${estadoDeTareas.autor.nombre}</td>
 						<td class="asunto">${estadoDeTareas.asunto}</td>
 						<td class="fuente">${estadoDeTareas.fuente.nombre}</td>
-						<td class="descripcion">${estadoDeTareas.descripcionCorta}</td>
-						<td class="comentario">${estadoDeTareas.comentario}</td>
 						<td class="estado">${estadoDeTareas.estado}</td>
 						<td class="prioridad">${estadoDeTareas.prioridad}</td>
 						
@@ -151,6 +153,21 @@
 							</td>
 						</sec:authorize>
 					</tr>
+					
+					<tr>
+						<td class="titulo-interno-descripcion">Descripción</td>
+						<td colspan="${esAdmin ? 6 : 5 }" class="descripcion">
+							Descripción: ${estadoDeTareas.descripcionCorta}
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="titulo-interno-comentario">Comentario</td>
+						<td colspan="${esAdmin ? 6 : 5 }" class="comentario">
+							Comentario: ${estadoDeTareas.comentario}
+						</td>
+					</tr>				
+					
 				</c:forEach>
 			</tbody>
 		</table>

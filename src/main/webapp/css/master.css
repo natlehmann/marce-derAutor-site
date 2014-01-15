@@ -873,3 +873,31 @@ a.ver-mas-link {
 	padding-right: 40px;
 	font-size: 12px;
 }
+
+.estadoTareas td.fecha,
+.estadoTareas td.autor,
+.estadoTareas td.asunto,
+.estadoTareas td.fuente,
+.estadoTareas td.estado,
+.estadoTareas td.prioridad,
+.estadoTareas td.acciones,
+.estadoTareas td.descripcion,
+.estadoTareas td.titulo-interno-descripcion {
+	border-bottom: 1px solid #eee;
+}
+
+.estadoTareas td.fecha,
+.estadoTareas td.autor,
+.estadoTareas td.asunto,
+.estadoTareas td.fuente,
+.estadoTareas td.estado,
+.estadoTareas td.prioridad,
+.estadoTareas td.titulo-interno-descripcion,
+.estadoTareas td.titulo-interno-comentario {
+	border-right: 1px solid #eee;
+}
+
+.estadoTareas td.titulo-interno-comentario,
+.estadoTareas td.comentario {
+	border-bottom: 2px solid #aaa;
+}
