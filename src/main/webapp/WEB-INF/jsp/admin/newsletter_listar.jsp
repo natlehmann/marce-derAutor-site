@@ -59,6 +59,7 @@
 	posible utilizar paths relativos). Por ejemplo:
 		<pre>&lt;img src="http://www.marcelomingrone.com.ar/newsletter/miDirectorio/mi_imagen.jpg" /&gt;</pre>
 	</li>
+	<li>Un newsletter armado de esta manera se puede abrir perfectamente en un browser para verificarlo.</li>
 	<li>El newsletter debe comenzar con el tag &lt;html&gt; directamente. No debería incluirse ninguna linea
 	antes que esa.</li>
 	<li>Es preferible reducir la cantidad de imágenes al mínimo. Cuantas más imágenes tenga un newsletter

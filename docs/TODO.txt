@@ -29,6 +29,8 @@ Administracion de newsletter :
 
 - SOlucionar problemas con los acentos. Por ejemplo, email invalido en alta usuarios. Proceso importacion con exito.
 
+- Falta mensaje de no hay resultados en busqueda de estado de tareas (probablemente reglamento de dist tambien)
+
 
 
 

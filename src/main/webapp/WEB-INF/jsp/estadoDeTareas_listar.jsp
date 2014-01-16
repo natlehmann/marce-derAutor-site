@@ -157,14 +157,14 @@
 					<tr>
 						<td class="titulo-interno-descripcion">Descripción</td>
 						<td colspan="${esAdmin ? 6 : 5 }" class="descripcion">
-							Descripción: ${estadoDeTareas.descripcionCorta}
+							${estadoDeTareas.descripcionCorta}
 						</td>
 					</tr>
 					
 					<tr>
 						<td class="titulo-interno-comentario">Comentario</td>
 						<td colspan="${esAdmin ? 6 : 5 }" class="comentario">
-							Comentario: ${estadoDeTareas.comentario}
+							${estadoDeTareas.comentario}
 						</td>
 					</tr>				
 					
