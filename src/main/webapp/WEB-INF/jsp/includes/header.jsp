@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html>
 <html>
@@ -38,8 +39,16 @@
 	            		<img src='<c:url value="/images/logo.jpg"/>' width="355" height="55" />
             		</a>
             	</div>
+            	
+            	<sec:authorize access="isAuthenticated()">
+		            <div id="logout">
+		            	<strong>Usuario:</strong>  <sec:authentication property="principal.username" /> / 
+		            	<a href='<c:url value="/logout"/>'>Salir</a>
+		            </div>
+		       </sec:authorize>
         	</div>
-      
+        	
+        	
 			<div class="menu">
         
             	<ul id="button"> 

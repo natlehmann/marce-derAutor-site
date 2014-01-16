@@ -17,20 +17,39 @@
 }
 
 #login #buscaBot {
-	background-color: #FFFFFF;
-	border: 1px solid #FFFFFF;
-	border-radius: 0 0 10px 10px;
-	float: left;
-	height: 39px;
-	margin-left: 3px;
-	margin-top: 18px;
-	padding-top: 11px;
-	text-align: center;
-	width: 94%;
+    background-color: #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    float: left;
+    height: 38px;
+    margin-left: 0;
+    margin-top: 5px;
+    padding-top: 11px;
+    text-align: center;
+    width: 100%;
 }
 
-#loginsearch {
-	
+#logout {     
+	float: right;
+    margin-top: -30px;
+    padding-right: 15px;
+    font-size:11px;
+}
+   
+#logoutResaltado {
+    font-weight:bold;  
+}
+
+#logout a { 
+	text-decoration: none;
+	font-weight:bold;
+	color: #343333; 
+}
+
+#logout a:hover { 
+	color: #ff2727; 
+}
+
+#loginsearch {	
 }
 
 #loginsearch input[type="text"],
@@ -51,11 +70,6 @@
 	-o-transition: all 0.7s ease 0s;
 	transition: all 0.7s ease 0s;
 	font-size: 12px;
-}
-
-#loginsearch input[type="text"]:focus,
-#loginsearch input[type="password"]:focus {
-	width: 200px;
 }
 
 #login h3 {
