@@ -6,7 +6,9 @@
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
 
-<div class="msg">${msg}</div>
+<c:if test="${msg != null}">
+	<div class="msg">${msg}</div>
+</c:if>
 
 <div id="crear">
 	<button type="button" onclick="ir('crear')">Nuevo item</button>

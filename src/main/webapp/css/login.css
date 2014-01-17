@@ -80,3 +80,8 @@
 #login #crear {
 	height: auto;
 }
+
+#login .msg {
+	margin-left: 3%;
+	width: 90%;
+}

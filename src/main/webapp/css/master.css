@@ -957,7 +957,6 @@ a.enviar-link {
 }
 
 .msg {
-
     font-weight: bold;
     margin-bottom: 10px;
     margin-left: 35%;
@@ -978,4 +977,10 @@ a.enviar-link {
     -webkit-border-bottom-left-radius: 21px;
     -moz-border-radius-bottomleft: 21px;
     border-bottom-left-radius: 21px;
+}
+
+#visitaTecnicaForm .msg,
+#estadoDeTareas .msg {
+	margin-left: 3%;
+	width: 90%;
 }

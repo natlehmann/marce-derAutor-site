@@ -10,7 +10,9 @@
 <script type="text/javascript" src='<c:url value="/js/reglamentoDeDistribucion_listar.js" />' ></script>
 
 <sec:authorize access="hasRole('administrador')">
-	<div class="msg">${msg}</div>
+	<c:if test="${msg != null}">
+		<div class="msg">${msg}</div>
+	</c:if>
 	
 	<div id="crear">
 		<button type="button" onclick="irAbsoluto('admin/reglamentoDeDistribucion/crear')">Nuevo reglamento</button>

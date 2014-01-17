@@ -18,7 +18,9 @@
 		<img src='<c:url value="/images/h1Der.jpg"/>' width="31" height="34" />
 	</div>
 	
-	<h3>${msg}</h3>
+	<c:if test="${msg != null}">
+		<div class="msg">${msg}</div>
+	</c:if>
 	
 	<form action='<c:url value="j_spring_security_check" />' method='POST' id="loginsearch">
 	

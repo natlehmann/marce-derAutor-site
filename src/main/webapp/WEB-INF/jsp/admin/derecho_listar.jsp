@@ -7,7 +7,9 @@
 
 <script type="text/javascript" src='<c:url value="/js/derecho_listar.js" />' ></script>
 
-<div class="msg">${msg}</div>
+<c:if test="${msg != null}">
+	<div class="msg">${msg}</div>
+</c:if>
 
 <div id="crear">
 	<button type="button" onclick="ir('crear')">Nuevo derecho</button>

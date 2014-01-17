@@ -15,7 +15,9 @@
 		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 	</div>
 
-	<div class="msg">${msg}</div>
+	<c:if test="${msg != null}">
+		<div class="msg">${msg}</div>
+	</c:if>
 	
 	<div class="error">${msgError}</div>
 	

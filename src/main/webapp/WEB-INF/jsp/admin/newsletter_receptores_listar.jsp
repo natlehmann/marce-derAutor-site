@@ -10,7 +10,9 @@
 
 <script type="text/javascript" src='<c:url value="/js/newsletter_receptores_listar.js" />' ></script>
 
-<div class="msg">${msg}</div>
+<c:if test="${msg != null}">
+	<div class="msg">${msg}</div>
+</c:if>
 
 <div id="crear">
 	<button type="button" onclick="irAbsoluto('admin/newsletter/verInfo?id=${idNewsletter}')">Volver</button>
