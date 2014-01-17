@@ -49,7 +49,7 @@ public class Entidad implements Serializable, Listable {
 	}
 	
 	public String getLinkReducirDescripcion() {
-		return " <a href='#' onclick='reducirDescripcion(this," + this.getId() + ")'>-</a>";
+		return " <a href='#' onclick='reducirDescripcion(this," + this.getId() + ")' class='ver-menos-link' title='Reducir'></a>";
 	}
 
 	@Transient

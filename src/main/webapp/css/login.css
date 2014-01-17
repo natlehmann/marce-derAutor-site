@@ -18,21 +18,22 @@
 
 #login #buscaBot {
     background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
     border-radius: 0 0 10px 10px;
     float: left;
-    height: 38px;
-    margin-left: 0;
-    margin-top: 5px;
+    height: 39px;
+    margin-left: 3px;
+    margin-top: 18px;
     padding-top: 11px;
     text-align: center;
-    width: 100%;
+    width: 94%;
 }
 
 #logout {     
 	float: right;
-    margin-top: -30px;
+    font-size: 11px;
+    margin-top: -100px;
     padding-right: 15px;
-    font-size:11px;
 }
    
 #logoutResaltado {
@@ -73,7 +74,7 @@
 }
 
 #login h3 {
-	padding:20px;
+	padding:5px;
 }
 
 #login #crear {

@@ -99,17 +99,17 @@ public class Newsletter extends Entidad {
 	
 	@Transient
 	private String getLinkVerInfo() {
-		return "<a href='verInfo?id=" + this.getId() + "'>Ver info</a> ";
+		return "<a href='verInfo?id=" + this.getId() + "' class='ver-info-link' title='Ver info'></a> ";
 	}
 
 	@Transient
 	private String getLinkProbarEnvio() {
-		return "<a href='probarEnvio?id=" + this.getId() + "'>Probar envío</a> ";
+		return "<a href='probarEnvio?id=" + this.getId() + "' class='probar-envio-link' title='Probar envío'></a> ";
 	}
 
 	@Transient
 	public String getLinkEnviar() {
-		return "<a href='#' onclick='confirmarEnviar(" + this.getId() + ")'>Enviar</a> ";
+		return "<a href='#' onclick='confirmarEnviar(" + this.getId() + ")' class='enviar-link' title='Enviar'></a> ";
 	}
 
 	@Transient

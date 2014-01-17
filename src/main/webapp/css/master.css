@@ -286,7 +286,6 @@ h2 {
 
 #buscaBot {
 	background-color: #FFFFFF;
-    border: 1px solid #D5D5D5;
     border-radius: 0 0 10px 10px;
     float: left;
     height: 38px;
@@ -742,6 +741,42 @@ a.ver-mas-link {
 	line-height: 16px;
 }
 
+a.ver-menos-link {
+	background-image: url(../images/verMenos.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
+a.ver-info-link {
+	background-image: url(../images/verInfo.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
+a.probar-envio-link {
+	background-image: url(../images/probarEnvio.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
+a.enviar-link {
+	background-image: url(../images/enviar.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
 #buscaBot1 {
     background-color: #FFFFFF;
     border-top: 1px solid #D5D5D5;
@@ -804,6 +839,11 @@ a.ver-mas-link {
 .admin-menu a:link,
 .admin-menu a:visited,
 .admin-menu a:active {
+    color: #666666;
+    text-decoration: none;
+}
+
+.admin-menu a:hover {
     color: #FF0000;
     text-decoration: none;
 }
@@ -831,6 +871,7 @@ a.ver-mas-link {
 
 .Grid tr.otros td {
 	color: #888;
+    border-bottom:thin solid #efeeee;
 }
 
 .Grid tr.sacm td:first-child {
@@ -913,4 +954,28 @@ a.ver-mas-link {
 .recomendaciones {
 	margin-top: 50px;
 	padding-left: 20px;
+}
+
+.msg {
+
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-left: 35%;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-top: 10px;
+    width: 60.5%;
+    background-color: #F2F2F2;
+    -webkit-border-top-left-radius: 21px;
+    -moz-border-radius-topleft: 21px;
+    border-top-left-radius: 21px;
+    -webkit-border-top-right-radius: 21px;
+    -moz-border-radius-topright: 21px;
+    border-top-right-radius: 21px;
+    -webkit-border-bottom-right-radius: 21px;
+    -moz-border-radius-bottomright: 21px;
+    border-bottom-right-radius: 21px;
+    -webkit-border-bottom-left-radius: 21px;
+    -moz-border-radius-bottomleft: 21px;
+    border-bottom-left-radius: 21px;
 }
