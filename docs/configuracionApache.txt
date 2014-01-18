@@ -1,0 +1,131 @@
+********************************************************************************
+Configuración del reverse proxy con mod_proxy_html
+********************************************************************************
+
+Primero, tienen que estar instalados los siguientes módulos en Apache:
+
+proxy_module
+proxy_ajp_module
+proxy_http_module
+proxy_balancer_module
+proxy_connect_module
+proxy_scgi_module (este puede no ser necesario)
+
+Para ver si están instalados, ver si se listan en [APACHE_HOME]/conf/httpd.conf y si las librerías 
+correspondientes están en [APACHE_HOME]/modules
+
+Si no están instalados:
+
+a) Descargar el código fuente de Apache de http://apache.xfree.com.ar//httpd/httpd-2.2.25.tar.gz
+(verificar que sea la version correspondiente). Se lo copia a [APACHE_HOME]/source
+
+b) Descomprimir el archivo con
+
+gzip -d httpd-2.2.25.tar.gz
+tar xvf httpd-2.2.25.tar
+
+c) Copiar todos los .h y todos los .c que se encuentran en [APACHE_HOME]/source/httpd-2.2.25/modules/proxy
+a [APACHE_HOME]/modules
+
+d) Ejecutar las siguientes lineas para instalar los módulos:
+
+cd [APACHE_HOME]/modules
+
+[APACHE_HOME]/bin/apxs -a -i -c mod_proxy.c proxy_util.c
+[APACHE_HOME]/bin/apxs -a -i -c mod_proxy_ajp.c proxy_util.c ajp_utils.c ajp_header.c ajp_msg.c ajp_link.c
+[APACHE_HOME]/bin/apxs -a -i -c mod_proxy_http.c proxy_util.c
+[APACHE_HOME]/bin/apxs -a -i -c mod_proxy_balancer.c proxy_util.c
+[APACHE_HOME]/bin/apxs -a -i -c mod_proxy_connect.c mod_proxy_ftp.c proxy_util.c
+[APACHE_HOME]/bin/apxs -a -i -c mod_proxy_scgi.c proxy_util.c
+
+e) Verificar que hayan aparecido las siguientes entradas en [APACHE_HOME]/conf/httpd.conf:
+
+LoadModule proxy_module       modules/mod_proxy.so
+LoadModule proxy_ajp_module   modules/mod_proxy_ajp.so
+LoadModule proxy_http_module  modules/mod_proxy_http.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule proxy_scgi_module  modules/mod_proxy_scgi.so
+
+Una vez que están instalados estos módulos, instalar el de mod_proxy_html. Para ello:
+
+1) Descargar el código fuente en [APACHE_HOME]/modules
+
+cd [APACHE_HOME]/modules
+wget 'http://apache.webthing.com/mod_proxy_html/mod_proxy_html-2.5.2.c'
+
+2) Compilarlo con 
+
+[APACHE_HOME]/bin/apxs -c -I/usr/include/libxml2 -i mod_proxy_html-2.5.2.c
+
+3) Agregar las siguientes lineas a [APACHE_HOME]/conf/httpd.conf:
+
+LoadFile /usr/lib/libxml2.so
+LoadModule proxy_html_module modules/mod_proxy_html-2.5.2.so
+
+Al final, también agregar:
+
+Include conf/extra/httpd-tomcat.conf
+
+4) Agregar un archivo en [APACHE_HOME]/conf/extra llamado httpd-tomcat.conf con el siguiente contenido:
+
+#
+#  Information about 'mod_proxy_html' can be found at 
+#   http://apache.webthing.com/mod_proxy_html/
+# Estas lineas se agregaron a httpd.conf
+#LoadFile    /usr/lib/libxml2.so
+#LoadModule  proxy_html_module    modules/mod_proxy_html-2.5.2.so
+ 
+# DON'T TURN ProxyRequests ON!  Bad things will happen
+# http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#access
+# http://www.akadia.com/services/prevent_abuse_proxy.html
+ProxyRequests off
+ 
+# Necessary to have mod_proxy_html do the rewriting
+RequestHeader      unset  Accept-Encoding
+ 
+# Rewrite the URLs to proxy ("[P]") into the Tomcat server
+RewriteEngine     on
+RewriteRule ^(/.*)      ajp://localhost:8009/context_path/$1    [P]
+ 
+# Be prepared to rewrite the HTML/CSS files as they come back
+# from Tomcat
+SetOutputFilter proxy-html
+ 
+# Rewrite JavaScript and CSS files in addition to HTML files
+ProxyHTMLExtended on
+ 
+# Output Strict XHTML (add "Legacy" to the end of the line below
+# to output Transitional XHTML)
+ProxyHTMLDoctype XHTML 
+ 
+# Rewrite HTTP headers and HTML/CSS links for everything else
+ProxyPassReverse /context_path/ /
+ProxyPassReverseCookiePath /context_path/ /
+ProxyHTMLURLMap /context_path/ /
+
+
+reemplazar "context_path" por el context path de la aplicación deplegada en Tomcat. Por ejemplo: "almaDeJazmin"
+
+5) Reiniciar el apache y listo.
+
+/etc/init.d/httpd restart
+
+
+Si en algún momento se quiere probar si la configuración es correcta, se puede hacer con
+
+[APACHE_HOME]/bin/apachectl configtest
+
+o 
+
+[APACHE_HOME]/bin/apachectl -t
+
+
+
+
+Links de interés:
+http://www.linuxquestions.org/questions/linux-newbie-8/how-to-install-mod_proxy-module-into-apache-788406/
+http://dltj.org/article/apache-httpd-and-tomcat/
+
+
+http://www.thegeekstuff.com/2008/07/install-apache-2-from-source-on-linux/
