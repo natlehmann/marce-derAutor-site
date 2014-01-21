@@ -16,15 +16,15 @@ correspondientes están en [APACHE_HOME]/modules
 
 Si no están instalados:
 
-a) Descargar el código fuente de Apache de http://apache.xfree.com.ar//httpd/httpd-2.2.25.tar.gz
+a) Descargar el código fuente de Apache de http://apache.xfree.com.ar/httpd/httpd-2.2.26.tar.gz
 (verificar que sea la version correspondiente). Se lo copia a [APACHE_HOME]/source
 
 b) Descomprimir el archivo con
 
-gzip -d httpd-2.2.25.tar.gz
-tar xvf httpd-2.2.25.tar
+gzip -d httpd-2.2.26.tar.gz
+tar xvf httpd-2.2.26.tar
 
-c) Copiar todos los .h y todos los .c que se encuentran en [APACHE_HOME]/source/httpd-2.2.25/modules/proxy
+c) Copiar todos los .h y todos los .c que se encuentran en [APACHE_HOME]/source/httpd-2.2.26/modules/proxy
 a [APACHE_HOME]/modules
 
 d) Ejecutar las siguientes lineas para instalar los módulos:
@@ -71,27 +71,32 @@ Include conf/extra/httpd-tomcat.conf
 
 #
 #  Information about 'mod_proxy_html' can be found at 
-#   http://apache.webthing.com/mod_proxy_html/
+#  http://apache.webthing.com/mod_proxy_html/
 # Estas lineas se agregaron a httpd.conf
 #LoadFile    /usr/lib/libxml2.so
 #LoadModule  proxy_html_module    modules/mod_proxy_html-2.5.2.so
- 
+
 # DON'T TURN ProxyRequests ON!  Bad things will happen
 # http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#access
 # http://www.akadia.com/services/prevent_abuse_proxy.html
 ProxyRequests off
- 
+
 # Necessary to have mod_proxy_html do the rewriting
 RequestHeader      unset  Accept-Encoding
- 
+
 # Rewrite the URLs to proxy ("[P]") into the Tomcat server
 RewriteEngine     on
-RewriteRule ^(/.*)      ajp://localhost:8009/context_path/$1    [P]
- 
+RewriteRule ^/context_path/(.*)$ /$1 [P]
+
+ProxyPass / ajp://localhost:8009/context_path/
+ProxyPassReverse / ajp://localhost:8009/context_path/
+#ProxyPass /j_spring_security_check ajp://localhost:8009/context_path/j_spring_security_check
+#ProxyPassReverse /j_spring_security_check ajp://localhost:8009/context_path/j_spring_security_check
+
 # Be prepared to rewrite the HTML/CSS files as they come back
 # from Tomcat
 SetOutputFilter proxy-html
- 
+
 # Rewrite JavaScript and CSS files in addition to HTML files
 ProxyHTMLExtended on
  
@@ -105,7 +110,7 @@ ProxyPassReverseCookiePath /context_path/ /
 ProxyHTMLURLMap /context_path/ /
 
 
-reemplazar "context_path" por el context path de la aplicación deplegada en Tomcat. Por ejemplo: "almaDeJazmin"
+reemplazar "context_path" por el context path de la aplicación deplegada en Tomcat. Por ejemplo: "derechosAutor"
 
 5) Reiniciar el apache y listo.
 
@@ -127,5 +132,12 @@ Links de interés:
 http://www.linuxquestions.org/questions/linux-newbie-8/how-to-install-mod_proxy-module-into-apache-788406/
 http://dltj.org/article/apache-httpd-and-tomcat/
 
-
 http://www.thegeekstuff.com/2008/07/install-apache-2-from-source-on-linux/
+http://salomo-petrus.blogspot.com.ar/2011/11/tomcat-behind-apache-http-server-using.html
+http://stackoverflow.com/questions/6063339/spring-security-and-ajp-proxy
+
+
+-----------------------------------
+DATTATEC: APACHE_HOME = /opt/apache
+
+

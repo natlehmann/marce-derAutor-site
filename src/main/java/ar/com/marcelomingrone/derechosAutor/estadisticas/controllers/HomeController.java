@@ -54,6 +54,11 @@ public class HomeController {
 	
 	private SimpleDateFormat formateadorFechas = new SimpleDateFormat("dd/MM/yyyy");
 	
+	@RequestMapping("/")
+	public String redirectHome() {
+		return "redirect:/home";
+	}
+	
 	
 	@RequestMapping("/home")
 	public String home(ModelMap model, HttpSession session) {

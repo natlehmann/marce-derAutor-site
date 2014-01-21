@@ -94,10 +94,14 @@ public class ReglamentoDeDistribucion extends Entidad {
 		resultado.add(this.derecho.getNombre());
 		resultado.add(this.getDescripcionCorta());
 		resultado.add(format.format(this.fecha));
-		resultado.add(super.getLinksModificarEliminar());
+		
+		if (esAdministrador()) {
+			resultado.add(super.getLinksModificarEliminar());
+		}
 		
 		return resultado;
 	}
+	
 	
 	@Transient
 	public String getLinkModificar() {

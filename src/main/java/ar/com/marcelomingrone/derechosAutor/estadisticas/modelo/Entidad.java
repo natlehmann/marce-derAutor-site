@@ -10,6 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 @MappedSuperclass
 public class Entidad implements Serializable, Listable {
 	
@@ -116,5 +121,27 @@ public class Entidad implements Serializable, Listable {
 	public String getLinkDuplicar() {
 		return "<a href='duplicar?id=" + this.id + "' class='duplicar-link' title='Duplicar'></a> ";
 	}
+	
+	@Transient
+	protected boolean esAdministrador() {
+
+		SecurityContext context = SecurityContextHolder.getContext();
+        if (context == null) {
+            return false;
+        }
+
+        Authentication authentication = context.getAuthentication();
+        if (authentication == null) {
+            return false;
+        }
+
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if ("administrador".equals(auth.getAuthority())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 	
 }

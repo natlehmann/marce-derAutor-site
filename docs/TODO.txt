@@ -30,6 +30,9 @@ Administracion de newsletter :
 - Falta mensaje de no hay resultados en busqueda de estado de tareas (probablemente reglamento de dist tambien)
 
 
+- ESTA REDIRIGIENDO A /derechosAutor/.... VER DE SACAR ESO
+
+
 
 
 
