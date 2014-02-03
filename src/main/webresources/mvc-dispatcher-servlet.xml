@@ -200,7 +200,7 @@
 
 	<bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
 
-		<property name="resource" value="file://${tomcat.home}/importacion/#{jobParameters['nombreArchivo']}" />
+		<property name="resource" value="file://${importacion.home}/#{jobParameters['nombreArchivo']}" />
 
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">

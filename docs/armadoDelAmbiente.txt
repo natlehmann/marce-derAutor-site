@@ -4,3 +4,9 @@ JAVA_OPTS="-Djava.awt.headless=true -Dfile.encoding=UTF-8 -server -Xms1536m -Xmx
 
 No olvidar configurar el archivo settings.xml y utilizarlo al empaquetar:
 mvn clean package -s settings.xml
+
+
+En una instalación limpia, se deben crear las carpetas
+- newsletter
+- importacion
+dentro de "apache.home". Por ejemplo, /var/www/importacion

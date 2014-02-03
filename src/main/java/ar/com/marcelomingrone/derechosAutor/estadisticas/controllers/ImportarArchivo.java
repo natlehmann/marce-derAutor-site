@@ -33,7 +33,8 @@ public class ImportarArchivo {
 	@Value("${tomcat.home}")
 	private String TOMCAT_HOME;
 	
-	private static final String RUTA_IMPORTACION = "/importacion/";
+	@Value("${importacion.home}")
+	private String RUTA_IMPORTACION;
 
 	@Autowired
 	private HistorialImportacionDao historialImportacionDao;
@@ -48,7 +49,7 @@ public class ImportarArchivo {
 	@RequestMapping("/importar")
 	public String armarFormulario(ModelMap model, HttpSession session) {
 		
-		File file = new File(TOMCAT_HOME + RUTA_IMPORTACION);
+		File file = new File(RUTA_IMPORTACION);
 		model.addAttribute("archivos", file.list());
 		
 		limpiarSesion(session);
@@ -144,7 +145,7 @@ public class ImportarArchivo {
 
 		try {
 			
-			File archivo = new File(TOMCAT_HOME + RUTA_IMPORTACION + nombreArchivo);
+			File archivo = new File(RUTA_IMPORTACION + "/" + nombreArchivo);
 			Date fechaEjecucion = new Date();
 			
 			JobParametersBuilder builder = new JobParametersBuilder()
