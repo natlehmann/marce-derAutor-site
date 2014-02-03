@@ -777,6 +777,15 @@ a.enviar-link {
 	line-height: 16px;
 }
 
+a.ver-usuarios-link {
+	background-image: url(../images/usuario.png);
+	background-repeat: no-repeat;
+	padding-left: 15px;
+	padding-right: 10px;
+	height: 16px;
+	line-height: 16px;
+}
+
 #buscaBot1 {
     background-color: #FFFFFF;
     border-top: 1px solid #D5D5D5;

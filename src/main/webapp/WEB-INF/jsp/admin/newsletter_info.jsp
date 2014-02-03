@@ -64,7 +64,7 @@
 					
 						<td>
 							<a class='ver-usuarios-link' title='Ver usuarios' 
-								href='<c:url value="/admin/newsletter/verReceptores/${envio.id}"/>'>Ver usuarios</a>
+								href='<c:url value="/admin/newsletter/verReceptores/${envio.id}"/>'></a>
 						</td>
 					</tr>
 					
