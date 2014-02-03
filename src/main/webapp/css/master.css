@@ -434,7 +434,8 @@ h2 {
 	text-align: left;
 }
 
-.Grid table tbody tr td.right {
+.Grid table tbody tr td.right,
+.Grid table tfoot tr td.right {
 	text-align: right;
 }
 
@@ -874,13 +875,23 @@ a.ver-usuarios-link {
     padding-right: 15px;
 }
 
-.Grid tr.sacm td {
+.Grid tr.sacm td,
+.Grid tr.subtotal td.titulo-sacm:first-child  {
 	color: #ff422f;
 }
 
 .Grid tr.otros td {
 	color: #888;
     border-bottom:thin solid #efeeee;
+}
+
+.Grid tr.subtotal td {
+    border-bottom:thin solid #efeeee;
+    background-color: #efeeee;
+}
+
+.Grid tr.total td {
+    background-color: #ccc;
 }
 
 .Grid tr.sacm td:first-child {

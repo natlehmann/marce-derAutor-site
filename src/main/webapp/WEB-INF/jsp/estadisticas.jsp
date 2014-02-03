@@ -53,75 +53,123 @@
 					<c:forEach items="${totalPorFuente.montosPorDerecho}" var="totalPorDerecho">
 						<tr class="sacm">
 							<td>${totalPorDerecho.derecho.nombre}</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2"
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2"
 									value="${totalPorDerecho.primerTrimestreSACM}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.segundoTrimestreSACM}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.tercerTrimestreSACM}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.cuartoTrimestreSACM}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.totalSACM}"/>
 							</td>
 						</tr>
 						
 						<tr class="otros">
 							<td><br/></td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.primerTrimestreOtros}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.segundoTrimestreOtros}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.tercerTrimestreOtros}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.cuartoTrimestreOtros}"/>
 							</td>
-							<td>
-								<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+							<td class="right">
+								<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorDerecho.totalOtros}"/>
 							</td>
 						</tr>
 					</c:forEach>
 				</tbody>
 				
+				<tr class="subtotal sacm">
+					<td class="titulo-sacm">TOTAL SACM</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalSACMPrimerTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalSACMSegundoTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalSACMTercerTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalSACMCuartoTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalSACM}"/>
+					</td>
+				</tr>
+				
+				<tr class="subtotal otros">
+					<td class="titulo-otros">TOTAL Distribución</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalOtrosPrimerTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalOtrosSegundoTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalOtrosTercerTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalOtrosCuartoTrimestre}"/>
+					</td>
+					<td class="right">
+						<fmt:formatNumber maxFractionDigits="2" 
+								value="${totalPorFuente.totalOtros}"/>
+					</td>
+				</tr>
+				
 				<tfoot>
-					<tr>
+					<tr class="total">
 						<td>TOTAL</td>
-						<td>
-							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+						<td class="right">
+							<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorFuente.totalPrimerTrimestre}"/>
 						</td>
-						<td>
-							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+						<td class="right">
+							<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorFuente.totalSegundoTrimestre}"/>
 						</td>
-						<td>
-							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+						<td class="right">
+							<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorFuente.totalTercerTrimestre}"/>
 						</td>
-						<td>
-							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+						<td class="right">
+							<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorFuente.totalCuartoTrimestre}"/>
 						</td>
-						<td>
-							<fmt:formatNumber type="currency" currencySymbol="$" maxFractionDigits="2" 
+						<td class="right">
+							<fmt:formatNumber maxFractionDigits="2" 
 									value="${totalPorFuente.total}"/>
 						</td>
 					</tr>

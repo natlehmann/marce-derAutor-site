@@ -41,11 +41,47 @@ public class MontoTotalPorFuente {
 		return total;
 	}
 	
+	public double getTotalSACMPrimerTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getPrimerTrimestreSACM();
+		}
+		return total;
+	}
+	
+	public double getTotalOtrosPrimerTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getPrimerTrimestreOtros();
+		}
+		return total;
+	}
+	
 	public double getTotalSegundoTrimestre() {
 		
 		double total = 0;
 		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
 			total += monto.getSegundoTrimestreSACM() + monto.getSegundoTrimestreOtros();
+		}
+		return total;
+	}
+	
+	public double getTotalSACMSegundoTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getSegundoTrimestreSACM();
+		}
+		return total;
+	}
+	
+	public double getTotalOtrosSegundoTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getSegundoTrimestreOtros();
 		}
 		return total;
 	}
@@ -59,6 +95,24 @@ public class MontoTotalPorFuente {
 		return total;
 	}
 	
+	public double getTotalSACMTercerTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getTercerTrimestreSACM();
+		}
+		return total;
+	}
+	
+	public double getTotalOtrosTercerTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getTercerTrimestreOtros();
+		}
+		return total;
+	}
+	
 	public double getTotalCuartoTrimestre() {
 		
 		double total = 0;
@@ -68,11 +122,47 @@ public class MontoTotalPorFuente {
 		return total;
 	}
 	
+	public double getTotalSACMCuartoTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getCuartoTrimestreSACM();
+		}
+		return total;
+	}
+	
+	public double getTotalOtrosCuartoTrimestre() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getCuartoTrimestreOtros();
+		}
+		return total;
+	}
+	
 	public double getTotal() {
 		
 		double total = 0;
 		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
 			total += monto.getTotalSACM() + monto.getTotalOtros();
+		}
+		return total;
+	}
+	
+	public double getTotalSACM() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getTotalSACM();
+		}
+		return total;
+	}
+	
+	public double getTotalOtros() {
+		
+		double total = 0;
+		for (MontoTotalPorDerecho monto : this.montosPorDerecho) {
+			total += monto.getTotalOtros();
 		}
 		return total;
 	}
