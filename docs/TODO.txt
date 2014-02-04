@@ -13,8 +13,6 @@ tablas al comenzar la importación.
 
 - Poner boton limpiar en busqueda de estado de tareas
 
-- Habilitar cache hibernate
-
 Administracion de newsletter :
 - Ver si se puede hacer que en Gmail no aparezcan los attachments abajo
 
