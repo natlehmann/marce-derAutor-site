@@ -11,6 +11,10 @@
 <script type="text/javascript">
 $(function() {
 	iniciarConsultaStatus();
+	
+	if ($("#duracion_estimada").text() == '') {
+		completarDuracionEstimada();
+	}
 });
 </script>
 </c:if>
@@ -61,6 +65,8 @@ $(function() {
 					Se ha iniciado el proceso de importación. Esto puede llevar varios minutos. Por favor espere
 					hasta que le notifiquemos que el proceso ha finalizado.
 				</div>
+				
+				<div class="info">Tiempo estimado: <span id="duracion_estimada">${duracionEstimada}</span></div>
 				
 				<div id="progressBar"></div>
 				

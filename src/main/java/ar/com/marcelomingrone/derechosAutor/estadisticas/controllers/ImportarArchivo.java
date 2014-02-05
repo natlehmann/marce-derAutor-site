@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.HistorialImportacionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImportacion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.TimeUtils;
 
 @Controller
 @RequestMapping("/admin")
@@ -75,20 +76,25 @@ public class ImportarArchivo {
 	}
 	
 	
+	@RequestMapping("/consultar_duracion")
+	@ResponseBody
+	public String consultarDuracion(HttpSession session) {
+		
+		HistorialImportacion historial = getHistorialImportacion(session);
+		if (historial != null) {
+			return TimeUtils.convertirATexto(historial.getDuracionEstimada());
+		}
+		
+		return "";
+	}
+	
+	
 	@RequestMapping("/status_importacion")
 	@ResponseBody
 	public String statusImportacion(HttpSession session) {
 		
 		JobExecution execution = (JobExecution) session.getAttribute("jobExecution");
-		HistorialImportacion historial = (HistorialImportacion) session.getAttribute("historial");
-		
-		if (historial == null) {
-			historial = historialImportacionDao.buscarPorNombreYFecha(
-					(String)session.getAttribute("nombreArchivo"),
-					(Date)session.getAttribute("fechaEjecucion"));
-			
-			session.setAttribute("historial", historial);
-		}
+		HistorialImportacion historial = getHistorialImportacion(session);
 		
 		String msg = null;
 		
@@ -121,6 +127,23 @@ public class ImportarArchivo {
 		}
 		
 		return msg;
+	}
+
+
+
+	private HistorialImportacion getHistorialImportacion(HttpSession session) {
+		
+		HistorialImportacion historial = (HistorialImportacion) session.getAttribute("historial");
+		
+		if (historial == null) {
+			historial = historialImportacionDao.buscarPorNombreYFecha(
+					(String)session.getAttribute("nombreArchivo"),
+					(Date)session.getAttribute("fechaEjecucion"));
+			
+			session.setAttribute("historial", historial);
+		}
+		
+		return historial;
 	}
 
 	
