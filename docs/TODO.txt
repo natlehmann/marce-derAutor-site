@@ -19,9 +19,6 @@ Administracion de newsletter :
 
 - Probar si funciona tracking en gmail una vez que tengamos nic.ar
 
-- Falta mensaje de no hay resultados en busqueda de estado de tareas (probablemente reglamento de dist tambien)
-
-
 - ESTA REDIRIGIENDO A /derechosAutor/.... VER DE SACAR ESO  (poner en contexto ROOT?)
 
 
