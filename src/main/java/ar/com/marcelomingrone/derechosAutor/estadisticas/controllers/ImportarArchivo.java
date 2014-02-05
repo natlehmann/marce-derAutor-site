@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.HistorialImportacionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImportacion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.TimeUtils;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ConversionUtils;
 
 @Controller
 @RequestMapping("/admin")
@@ -82,7 +82,7 @@ public class ImportarArchivo {
 		
 		HistorialImportacion historial = getHistorialImportacion(session);
 		if (historial != null) {
-			return TimeUtils.convertirATexto(historial.getDuracionEstimada());
+			return ConversionUtils.convertirATexto(historial.getDuracionEstimada());
 		}
 		
 		return "";

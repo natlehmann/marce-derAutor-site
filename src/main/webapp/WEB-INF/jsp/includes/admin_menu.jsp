@@ -6,6 +6,7 @@
 <div class="admin-menu">
 	<ul>
 		<li><a href='<c:url value="/admin/importar" />'>Importar nuevos datos</a></li>
+		<li><a href='<c:url value="/admin/historialImportacion/listar" />'>Historial de importaciones</a></li>
 		<li><a href='<c:url value="/admin/fechaDestacada/listar" />'>Fechas destacadas</a></li>
 		<li><a href='<c:url value="/admin/itemAuditoria/listar" />'>Items de auditoría</a></li>
 		<li><a href='<c:url value="/admin/fuenteAuditada/listar" />'>Sources para visitas técnicas</a></li>

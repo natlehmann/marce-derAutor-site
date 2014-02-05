@@ -1,10 +1,14 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ConversionUtils;
 
 @Entity
 public class HistorialImportacion extends Entidad {
@@ -90,5 +94,42 @@ public class HistorialImportacion extends Entidad {
 	
 	public void setNombreArchivo(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
+	}
+
+	public static String getCampoOrdenamiento(int indice) {
+		
+		switch (indice) {
+		case 0:
+			return "nombreArchivo";
+			
+		case 1:
+			return "inicio";
+			
+		case 2:
+			return "fin";
+			
+		case 3:
+			return "duracion";
+			
+		case 4:
+			return "tamanioArchivo";
+
+		default:
+			return null;
+		}
+	}
+	
+	@Override
+	public List<String> getCamposAsList() {
+		
+		List<String> resultado = new LinkedList<>();
+		
+		resultado.add(this.nombreArchivo);
+		resultado.add(inicio != null ? datetimeFormat.format(inicio) : "");
+		resultado.add(fin != null ? datetimeFormat.format(fin) : "");
+		resultado.add(duracion != null ? ConversionUtils.convertirATexto(this.duracion) : "");
+		resultado.add(tamanioArchivo != null ? ConversionUtils.humanReadableByteCount(this.tamanioArchivo) : "");
+		
+		return resultado;
 	}
 }

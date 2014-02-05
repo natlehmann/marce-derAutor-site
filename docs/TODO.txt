@@ -9,9 +9,6 @@ tablas al comenzar la importación.
 
 - Busqueda (anio, trimestre, pais) por ajax 
 
-- Pantalla "ver ultimo reporte de importacion" . 
-Agregar tiempo estimado a la pantalla de importacion
-
 - Poner boton limpiar en busqueda de estado de tareas
 
 Administracion de newsletter :

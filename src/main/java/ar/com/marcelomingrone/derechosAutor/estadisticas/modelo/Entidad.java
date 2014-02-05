@@ -22,6 +22,8 @@ public class Entidad implements Serializable, Listable {
 	
 	protected static transient SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	
+	protected static transient SimpleDateFormat datetimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	
 	
 	@Id
 	@GeneratedValue

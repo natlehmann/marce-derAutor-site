@@ -8,7 +8,7 @@ import org.joda.time.Hours;
 import org.joda.time.Minutes;
 import org.joda.time.Seconds;
 
-public class TimeUtils {
+public class ConversionUtils {
 
 	public static String convertirATexto(long milisegundos) {
 		
@@ -47,6 +47,18 @@ public class TimeUtils {
 		}
 		
 		return "0" + numero;
+	}
+
+	public static String humanReadableByteCount(long tamanioArchivo) {
+		return humanReadableByteCount(tamanioArchivo, false);
+	}
+	
+	public static String humanReadableByteCount(long bytes, boolean si) {
+	    int unit = si ? 1000 : 1024;
+	    if (bytes < unit) return bytes + " B";
+	    int exp = (int) (Math.log(bytes) / Math.log(unit));
+	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
 	}
 
 }

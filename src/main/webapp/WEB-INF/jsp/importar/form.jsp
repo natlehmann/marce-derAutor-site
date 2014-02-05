@@ -63,7 +63,8 @@ $(function() {
 	
 				<div id="statusImportacion">
 					Se ha iniciado el proceso de importación. Esto puede llevar varios minutos. Por favor espere
-					hasta que le notifiquemos que el proceso ha finalizado.
+					hasta que le notifiquemos que el proceso ha finalizado o puede consultar la pantalla de 
+					<a href='<c:url value="/admin/historialImportacion/listar"/>'>Historial de importaciones</a>.
 				</div>
 				
 				<br/>
