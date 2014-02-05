@@ -58,7 +58,7 @@
 		<img src='<c:url value="/images/h1Der.jpg" />' width="31" height="34" />
 	</div>
 	
-	<div class="Grid">
+	<div class="Grid reglamentoDistribucion">
 
 		<table class="datatable">
 			<thead>

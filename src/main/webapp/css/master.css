@@ -1004,3 +1004,7 @@ a.ver-usuarios-link {
 	margin-left: 3%;
 	width: 90%;
 }
+
+.reglamentoDistribucion .dataTables_filter {
+	display: none;
+}
