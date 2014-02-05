@@ -66,7 +66,11 @@ $(function() {
 					hasta que le notifiquemos que el proceso ha finalizado.
 				</div>
 				
+				<br/>
+				
 				<div class="info">Tiempo estimado: <span id="duracion_estimada">${duracionEstimada}</span></div>
+				
+				<br/>
 				
 				<div id="progressBar"></div>
 				

@@ -52,8 +52,9 @@
 	</bean>
 	
 	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages" />
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	         <property name="basename" value="classpath:messages"/>
+	         <property name="defaultEncoding" value="UTF-8"/>
 	</bean>
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

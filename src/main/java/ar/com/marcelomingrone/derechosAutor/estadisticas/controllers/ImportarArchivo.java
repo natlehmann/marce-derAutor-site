@@ -76,7 +76,7 @@ public class ImportarArchivo {
 	}
 	
 	
-	@RequestMapping("/consultar_duracion")
+	@RequestMapping(value="/consultar_duracion", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String consultarDuracion(HttpSession session) {
 		
@@ -89,7 +89,7 @@ public class ImportarArchivo {
 	}
 	
 	
-	@RequestMapping("/status_importacion")
+	@RequestMapping(value="/status_importacion", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String statusImportacion(HttpSession session) {
 		
