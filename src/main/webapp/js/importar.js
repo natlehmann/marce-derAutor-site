@@ -50,15 +50,19 @@ function consultarStatus() {
 
 function completarDuracionEstimada() {
 	
-	$.ajax({
-		type : "POST",
-		url : $("#contexto").val() + "admin/consultar_duracion",
-		async : true,
-		dataType : 'html',
-		success : function(data) {
-			$("#duracion_estimada").html(data);
-		}
-	});
+	setTimeout(function(){
+		
+		$.ajax({
+			type : "POST",
+			url : $("#contexto").val() + "admin/consultar_duracion",
+			async : true,
+			dataType : 'html',
+			success : function(data) {
+				$("#duracion_estimada").html(data);
+			}
+		});
+		
+	},1000);	
 }
 
 function cerrarDialog(idDialog) {
