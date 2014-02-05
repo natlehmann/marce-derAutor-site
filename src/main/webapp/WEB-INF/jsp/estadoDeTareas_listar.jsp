@@ -119,7 +119,7 @@
 	<div class="ranking-centrado-total ranking-no-sort">
 		
 		<div class="Grid">
-	
+		
 			<table class="datatable estadoTareas">
 				<thead>
 					<tr>
@@ -134,7 +134,20 @@
 						</sec:authorize>
 					</tr>
 				</thead>
+				
+				
+				
 				<tbody>
+				
+					<c:if test="${empty listado}">
+						<tr class="odd">
+							<td valign="top" colspan="${esAdmin ? 7 : 6}" class="dataTables_empty" style="text-align:center">
+								No se han encontrado resultados.
+							</td>
+						</tr>
+					</c:if>
+			
+			
 					<c:forEach items="${listado}" var="estadoDeTareas">
 						<tr>
 							<td class="fecha">
