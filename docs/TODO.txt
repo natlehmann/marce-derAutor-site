@@ -33,8 +33,6 @@ Problemas con login:
 
 Responsive para todo. Solo tablets.
 
-El mail FROM de los newsletters debe ser: mmingrone@bmat.com
-
 
 
 
