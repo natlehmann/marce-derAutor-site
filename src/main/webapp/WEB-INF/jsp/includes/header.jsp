@@ -78,6 +78,17 @@
             				class='<%= itemMenuSeleccionado.equals("estadoDeTareas") ? "activo" : "" %>'>
             				ESTADO DE TAREAS
             			</a></li> 
+            			
+            			
+            		<sec:authorize access="hasRole('administrador')">	
+            			<li>
+            				<a href='<c:url value="/admin"/>'
+	            				class='<%= itemMenuSeleccionado.equals("admin") ? "activo" : "" %>'>
+	            				ADMIN.
+            				</a>
+            			</li> 
+            		</sec:authorize>
+            		
             	</ul>
             	<div id="ImgFin"><img src='<c:url value="/images/latDerMenu.jpg"/>' width="64" height="54" /></div>
 			</div>

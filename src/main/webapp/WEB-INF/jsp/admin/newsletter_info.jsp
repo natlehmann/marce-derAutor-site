@@ -3,7 +3,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-<jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
+<jsp:include page="/WEB-INF/jsp/includes/header.jsp">
+	<jsp:param value="admin" name="itemMenuSeleccionado"/>
+</jsp:include>
+
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
 <c:if test="${msg != null}">

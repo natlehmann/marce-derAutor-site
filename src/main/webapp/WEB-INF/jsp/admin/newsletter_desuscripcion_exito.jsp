@@ -19,7 +19,7 @@
 	</div>
 	
 	<h3>Usted ha solicitado dejar de recibir el newsletter de BMat.<br/> 
-	Si desea recibirlo nuevamente, envíenos un mail a info@marcelomingrone.com.ar</h3>
+	Si desea recibirlo nuevamente, envíenos un mail a mmingrone@bmat.com</h3>
 	
 	
 	<div id="crear">
