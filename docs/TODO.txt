@@ -30,10 +30,6 @@ Problemas con login:
 - configurar index
 - En Chrome falla siempre
 
-Calendario:
-- Que se pueda cargar más de evento por dia. Que se vean en el calendar.
-
-Link para acceder al menu admin. Puede ser un item mas en menu o link en nombre del usuario.
 
 Responsive para todo. Solo tablets.
 

@@ -16,11 +16,11 @@ $(document).ready(function() {
 		dateFormat : 'dd/mm/yy',
 		beforeShowDay : highlightDays,
 		onChangeMonthYear : function(year, month, instance) {
-			setTimeout( "$( '#calendar .ui-datepicker-calendar tbody' ).tooltip()", '250'); 
+			setTimeout( activarTooltips, '250'); 
 		}
 	});
 	
-	$( '#calendar .ui-datepicker-calendar tbody' ).tooltip();
+	activarTooltips();
 
 	function highlightDays(date) {
 
@@ -34,6 +34,16 @@ $(document).ready(function() {
 	
 	inicializarGrafico();
 });
+
+
+function activarTooltips() {
+	
+	$( '#calendar .ui-datepicker-calendar tbody' ).tooltip({
+        content: function(){
+            return $(this).attr('title');
+        }
+    });
+}
 
 
 function inicializarGrafico() {

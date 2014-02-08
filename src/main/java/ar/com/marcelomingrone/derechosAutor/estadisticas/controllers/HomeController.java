@@ -1,7 +1,10 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -89,14 +92,24 @@ public class HomeController {
 		model.addAttribute("autoresMasCobrados", rankingArtistasMasCobradosDao.getAutoresMasCobrados(
 				idPais, anio, trimestre, 0, 10, null));
 		
-		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getTodos();
+		Map<Date, List<String>> fechasDestacadas = getFechasDestacadasAgrupadas();
 		
 		List<String> diasDestacados = new LinkedList<>();
 		List<String> textoDiasDestacados = new LinkedList<>();
 		
-		for (FechaDestacada fecha : fechasDestacadas) {
-			diasDestacados.add(formateadorFechas.format(fecha.getFecha()));
-			textoDiasDestacados.add("'" + fecha.getDescripcion() + "'");
+		for (Date fecha : fechasDestacadas.keySet()) {
+			diasDestacados.add(formateadorFechas.format(fecha));
+			
+			StringBuffer buffer = new StringBuffer();
+			buffer.append("'<ul>");
+			for (String descripcion : fechasDestacadas.get(fecha)) {
+				buffer.append("<li>");
+				buffer.append(descripcion);
+				buffer.append("</li>");
+			}
+			buffer.append("</ul>'");
+			
+			textoDiasDestacados.add(buffer.toString());
 		}
 		
 		model.addAttribute("diasDestacados", diasDestacados);
@@ -110,6 +123,42 @@ public class HomeController {
 		
 	}
 	
+	private Map<Date, List<String>> getFechasDestacadasAgrupadas() {
+		
+		Date fechaDesde = getFechaDesdeCalendario();
+		List<FechaDestacada> fechasDestacadas = fechaDestacadaDao.getDesde(fechaDesde);
+		
+		Map<Date, List<String>> resultado = new LinkedHashMap<>();
+		
+		for (FechaDestacada fecha : fechasDestacadas) {
+			
+			List<String> descripciones = resultado.get(fecha.getFecha());
+			if (descripciones == null) {
+				descripciones = new LinkedList<>();
+				resultado.put(fecha.getFecha(), descripciones);
+			}
+			
+			descripciones.add(fecha.getDescripcion());
+		}
+		
+		return resultado;
+	}
+
+
+	private Date getFechaDesdeCalendario() {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -6);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		
+		return calendar.getTime();
+	}
+
+
 	private Map<String, String> getTitulosGrafico(HttpSession session) {
 		
 		String tituloGrafico = null;

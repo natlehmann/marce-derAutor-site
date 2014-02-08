@@ -1,5 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -70,6 +71,17 @@ public class FechaDestacadaDao extends EntidadDao<FechaDestacada> {
 			
 			return resultado != null ? resultado.longValue() : 0;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<FechaDestacada> getDesde(Date fechaDesde) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		return session.createQuery(
+				"SELECT e FROM FechaDestacada e WHERE e.fecha >= :fechaDesde ORDER BY e.fecha")
+				.setParameter("fechaDesde", fechaDesde).list();
 	}
 
 
