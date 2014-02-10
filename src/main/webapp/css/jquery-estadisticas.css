@@ -42,7 +42,9 @@
 	background-color: #EDEDED;
     color: #999999;
     font-size: 12px;
-    padding: 7px 10px;
+    padding-bottom: 7px;
+    padding-top: 7px;
+    text-align: center;
     border: 0px;
 }
 
@@ -161,4 +163,11 @@
 
 #mingrone table.dataTable tr.even td.sorting_1 {
     background-color: #FFD1CC;
+}
+
+#mingrone .ui-tooltip ul {
+	padding-left: 18px;
+	padding-right:10px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 }

@@ -94,7 +94,6 @@ body {
 .contenedor {
 	z-index: -1;
 	width: 90%;
-	left: 5%;
 	box-shadow: 0px 0px 14px #e7e6e6;
 	border-radius: 10px;
 	height: 1200px;
@@ -102,7 +101,7 @@ body {
 	font-size: 13px;
 	letter-spacing: 1px;
 	line-height: 17px;
-	margin-left: 80px;
+	margin: 0 auto;
 	margin-top: 50px;
 }
 
@@ -151,27 +150,24 @@ body {
 /*--------------------------------------menu--------------------------------------*/
 .menu {
 	background-color: #ff2727;
-	height: 30px;
 	width: 100%;
 	margin-bottom: 2%;
 }
 
-#button {
-	margin-top: 1px;
-    padding-top: 3px;
+#button-menu {
+	margin-left: 2%;
+	margin-right: 2%;
 }
 
-#button li img {
-	margin-left: -93px;
-	margin-top: -15px;
+#button-menu .item-menu {
+	padding-top: 5px;
+	padding-bottom: 6px;
+	margin: 0px;
+	display: inline-block;
+	margin-left: -4px;
 }
 
-#button li {
-	display: inline;
-	float: left;
-}
-
-#button li a {
+#button-menu .item-menu a {
 	color: #FFFFFF;
     font-family: "museosans500",sans-serif;
     font-size: 11px;
@@ -180,11 +176,9 @@ body {
     text-decoration: none;
 }
 
-#button li a:hover,
-#button li a.activo {
+#button-menu .item-menu a:hover,
+#button-menu .item-menu a.activo {
 	background-color: #343333;
-	margin-top: 0px;
-	padding-bottom: 10px;
 }
 
 #ImgFin {
@@ -623,7 +617,7 @@ button[type="submit"] {
 	font-style: normal;
 	height: 32px;
 	line-height: 32px;
-	width: 281px;
+	width: 90%;
 	font-family: "museosans500", sans-serif;
 	font-size: 11px;
 	text-align: center;
@@ -631,11 +625,45 @@ button[type="submit"] {
 	text-decoration: none;
 }
 
-.classname:hover {
+#crear .classname,
+#crear input[type="submit"],
+#crear input[type="button"],
+#crear button[type="button"],
+#crear button[type="submit"],
+.acciones .classname,
+.acciones input[type="submit"],
+.acciones input[type="button"],
+.acciones button[type="button"],
+.acciones button[type="submit"],
+#busca-ancho-pag .classname,
+#busca-ancho-pag input[type="submit"],
+#busca-ancho-pag input[type="button"],
+#busca-ancho-pag button[type="button"],
+#busca-ancho-pag button[type="submit"] {
+	width: 20%;
+}
+
+#loginsearch .classname,
+#loginsearch input[type="submit"],
+#loginsearch input[type="button"],
+#loginsearch button[type="button"],
+#loginsearch button[type="submit"]{
+	width: 40%;
+}
+
+.classname:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button[type="button"]:hover,
+button[type="submit"]:hover {
 	background-color: #343333;
 }
 
-.classname:active {
+.classname:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+button[type="button"]:active,
+button[type="submit"]:active {
 	position: relative;
 	top: 1px;
 }
@@ -661,7 +689,7 @@ input[type="button"] {
 	border: 0px;
 	background-image: url(../images/flecha.png);
 	background-repeat: no-repeat;
-	background-position: 257px center;
+	background-position: 98% center;
 }
 
 input[type="submit"]:hover,
@@ -1007,9 +1035,4 @@ a.ver-usuarios-link {
 
 .reglamentoDistribucion .dataTables_filter {
 	display: none;
-}
-
-.ui-tooltip ul {
-	padding-left: 18px;
-	padding-right:10px;
 }

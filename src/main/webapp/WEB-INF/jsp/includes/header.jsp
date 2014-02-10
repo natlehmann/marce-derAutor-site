@@ -7,6 +7,7 @@
 	<head>
 		<title>Marcelo Mingrone</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<script type="text/javascript" src='<c:url value="/js/jquery-1.10.2.min.js" />' ></script>	
 		<script type="text/javascript" src='<c:url value="/js/jquery-ui-1.10.3.custom.min.js" />' ></script>
@@ -20,6 +21,8 @@
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/master.css" />'>
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/jquery-estadisticas.css" />'>	
 		<link rel="stylesheet" type="text/css" href='<c:url value="/css/login.css" />'>	
+		<link rel="stylesheet" type="text/css" media="screen and (max-width:1025px)" href='<c:url value="/css/master-mobile.css" />'>	
+		
 	</head>
 	
 	<%
@@ -51,45 +54,48 @@
         	
 			<div class="menu">
         
-            	<ul id="button"> 
-            		<li><img src='<c:url value="/images/latMenuIzq.jpg"/>' width="64" height="54" /></li>
-            		<li>
+            	<div id="button-menu"> 
+            		<div class="item-menu">
             			<a href='<c:url value="/autoresMasEjecutados"/>' 
             				class='<%= itemMenuSeleccionado.equals("autoresMasEjecutados") ? "activo" : "" %>'>
             				TOP ARTISTAS + EJECUTADOS
-            			</a></li> 
-            		<li>
+            			</a>
+            		</div> 
+            		<div class="item-menu">
             			<a href='<c:url value="/autoresMasCobrados"/>' 
             				class='<%= itemMenuSeleccionado.equals("autoresMasCobrados") ? "activo" : "" %>'>
             				TOP ARTISTAS + COBRADOS
-            			</a></li> 
-            		<li>
+            			</a>
+            		</div> 
+            		<div class="item-menu">
             			<a href='<c:url value="/visitasTecnicas"/>'
             				class='<%= itemMenuSeleccionado.equals("visitasTecnicas") ? "activo" : "" %>'>
             				VISITAS TECNICAS
-            			</a></li> 
-            		<li>
+            			</a>
+            		</div> 
+            		<div class="item-menu">
             			<a href='<c:url value="/reglamentoDeDistribucion"/>'
             				class='<%= itemMenuSeleccionado.equals("reglamentoDeDistribucion") ? "activo" : "" %>'>
             				REGLAMENTO DE DISTRIBUCION
-            			</a></li> 
-            		<li>
+            			</a>
+            		</div> 
+            		<div class="item-menu">
             			<a href='<c:url value="/estadoDeTareas"/>'
             				class='<%= itemMenuSeleccionado.equals("estadoDeTareas") ? "activo" : "" %>'>
             				ESTADO DE TAREAS
-            			</a></li> 
+            			</a>
+            		</div> 
             			
             			
             		<sec:authorize access="hasRole('administrador')">	
-            			<li>
+            			<div class="item-menu">
             				<a href='<c:url value="/admin"/>'
 	            				class='<%= itemMenuSeleccionado.equals("admin") ? "activo" : "" %>'>
 	            				ADMIN.
             				</a>
-            			</li> 
+            			</div>
             		</sec:authorize>
             		
-            	</ul>
-            	<div id="ImgFin"><img src='<c:url value="/images/latDerMenu.jpg"/>' width="64" height="54" /></div>
+            	</div>
 			</div>
 	
