@@ -1,5 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.NewsletterDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RolDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.UsuarioDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReceptorNewsletter;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Rol;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Usuario;
 
@@ -36,6 +39,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private RolDao rolDao;
+	
+	@Autowired
+	private NewsletterDao newsletterDao;
 	
 	@RequestMapping("listar")
 	public String listar(ModelMap model) {
@@ -122,7 +128,10 @@ public class UsuarioController {
 	public String eliminar(@RequestParam("id") Long id, ModelMap model) {
 		
 		try {
-			usuarioDao.eliminar(id);
+			Usuario usuario = usuarioDao.buscar(id);
+			usuario.setFechaEliminacion(new Date());
+			usuarioDao.guardar(usuario);
+			
 			model.addAttribute("msg", "El usuario se ha eliminado con éxito.");
 			
 		} catch (Exception e) {
@@ -131,6 +140,21 @@ public class UsuarioController {
 					+ "Si el problema persiste consulte al administrador del sistema.");
 		}
 		return listar(model);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/confirmarEliminar", method={RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	public String confirmarEliminar(@RequestParam("id") Long id, ModelMap model) {
+		
+		String mensaje = "¿Está seguro que desea eliminar este usuario?";
+		
+		List<ReceptorNewsletter> receptores = newsletterDao.getRecepcionesParaUsuario(id);
+		
+		if (!receptores.isEmpty()) {
+			mensaje = "Este usuario ha recibido newsletters. ¿Está seguro que desea eliminarlo?";
+		}
+		
+		return mensaje;
 	}
 
 }

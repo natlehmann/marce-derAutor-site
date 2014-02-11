@@ -10,3 +10,22 @@ $(document).ready(function() {
         }
     } );
 } );
+
+
+function confirmarEliminarUsuario(idUsuario) {
+	
+	$.ajax({
+		type : "POST",
+		url : $("#contexto").val() + "admin/usuario/confirmarEliminar",
+		data: {
+			'id': idUsuario
+		},
+		async : false,
+		dataType : 'html',
+		success : function(data) {
+			$("#dialog-eliminar-mensaje").html(data);
+			confirmarEliminar(idUsuario);
+		}
+	});
+	
+}

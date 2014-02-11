@@ -31,8 +31,6 @@ Problemas con login:
 - En Chrome falla siempre
 
 
-Responsive para todo. Solo tablets.
-
 
 
 

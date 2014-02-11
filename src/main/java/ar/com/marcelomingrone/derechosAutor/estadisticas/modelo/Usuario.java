@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -39,6 +40,9 @@ public class Usuario extends Entidad implements Listable {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaBaja;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaEliminacion;
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="Usuario_Rol", joinColumns=@JoinColumn(name="usuario_id"), inverseJoinColumns=@JoinColumn(name="rol_id"))
@@ -83,6 +87,14 @@ public class Usuario extends Entidad implements Listable {
 	public void setFechaBaja(Date fechaBaja) {
 		this.fechaBaja = fechaBaja;
 	}
+	
+	public Date getFechaEliminacion() {
+		return fechaEliminacion;
+	}
+	
+	public void setFechaEliminacion(Date fechaEliminacion) {
+		this.fechaEliminacion = fechaEliminacion;
+	}
 
 	public static String getCampoOrdenamiento(int indice) {
 		
@@ -110,6 +122,12 @@ public class Usuario extends Entidad implements Listable {
 		campos.add(getLinksModificarEliminar());
 		
 		return campos;
+	}
+	
+	@Transient
+	public String getLinkEliminar() {
+		return "<a href='#' onclick='confirmarEliminarUsuario(" 
+				+ this.getId() + ")' class='eliminar-link' title='Eliminar'></a>";
 	}
 
 	public void agregarRol(Rol rol) {

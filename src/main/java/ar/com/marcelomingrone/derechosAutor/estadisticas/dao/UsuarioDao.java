@@ -33,7 +33,8 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 		
 		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery(
-				"SELECT u FROM Usuario u JOIN u.roles r WHERE u.fechaBaja is null AND r.nombre = :rolNewsletter")
+				"SELECT u FROM Usuario u JOIN u.roles r WHERE u.fechaBaja is null "
+				+ "AND u.fechaEliminacion is null AND r.nombre = :rolNewsletter")
 				.setParameter("rolNewsletter", Configuracion.ROL_NEWSLETTER).list();
 	}
 
@@ -46,7 +47,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 		
 		if (StringUtils.isEmpty(filtro)) {
 			
-			String query = "SELECT u from Usuario u join u.roles r where r.nombre = :rolNewsletter";
+			String query = "SELECT u from Usuario u join u.roles r where r.nombre = :rolNewsletter AND u.fechaEliminacion is null";
 			
 			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
 				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
@@ -60,7 +61,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 			
 			String query = "SELECT u from Usuario u join u.roles r where "
 					+ "(u.nombreApellido like :filtro OR u.email like :filtro) "
-					+ "AND r.nombre = :rolNewsletter";
+					+ "AND r.nombre = :rolNewsletter AND u.fechaEliminacion is null";
 			
 			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
 				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
@@ -82,7 +83,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 		
 		if (StringUtils.isEmpty(filtro)) {
 			
-			String query = "select count(e) from Usuario e join e.roles r WHERE r.nombre = :rolNewsletter";
+			String query = "select count(e) from Usuario e join e.roles r WHERE r.nombre = :rolNewsletter AND e.fechaEliminacion is null";
 			
 			Long resultado = (Long) session.createQuery(query)
 					.setParameter("rolNewsletter", Configuracion.ROL_NEWSLETTER)
@@ -94,7 +95,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 			
 			String query = "select count(e) from Usuario e join e.roles r "
 					+ "where (e.nombreApellido like :filtro OR e.email like :filtro) "
-					+ "AND r.nombre = :rolNewsletter";
+					+ "AND r.nombre = :rolNewsletter AND e.fechaEliminacion is null";
 			
 			Long resultado = (Long) session.createQuery(query)
 					.setParameter("filtro", "%" + filtro + "%")

@@ -27,7 +27,9 @@
 		<input type="hidden" name="id" id="dialog-eliminar-id" value="" />
 		
 		<p>
-			¿Está seguro que desea eliminar este elemento?
+			<span id="dialog-eliminar-mensaje">
+				¿Está seguro que desea eliminar este elemento?
+			</span>
 		</p>
 		
 		<div class="ui-dialog-buttonpane">

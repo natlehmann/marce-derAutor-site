@@ -228,4 +228,13 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		session.saveOrUpdate(receptor);		
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public List<ReceptorNewsletter> getRecepcionesParaUsuario(Long id) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery("SELECT r FROM ReceptorNewsletter r WHERE r.usuario.id = :idUsuario")
+				.setParameter("idUsuario", id).list();
+	}
+
 }
