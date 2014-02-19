@@ -7,7 +7,7 @@ CREATE TABLE CollectionDetailsGroup(
 	CollectShare_Calculated numeric(7, 3) NULL,
 	CollectShare_Excedent numeric(7, 3) NULL,
 	TransferShare numeric(7, 3) NULL,
-	CollectShare_ExcedentSolved numeric(7, 3) NOT NULL DEFAULT (0)
+	CollectShare_ExcedentSolved numeric(7, 3) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
 CREATE TABLE Sources(
@@ -50,13 +50,13 @@ CREATE TABLE Countries(
 	Nationality varchar(50) NULL,
 	NumericTISCode int NULL,
 	FlagIMG varchar(255) NULL,
-	AuthorPerfCollectFactor smallint NULL DEFAULT (1),
+	AuthorPerfCollectFactor smallint NULL DEFAULT 1,
 	NOPRCode varchar(10) NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE Owners(
 	OwnersID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	CountriesID int NULL,
+	CountriesID BIGINT NULL,
 	CAE_IPI_Number varchar(20) NULL,
 	FOREIGN KEY (CountriesID) REFERENCES Countries(CountriesID)
 ) ENGINE=InnoDB;
@@ -75,7 +75,7 @@ CREATE TABLE UsageUnlinkedWorks(
 	SongTitle varchar(100) NOT NULL,
 	SongSubtitle varchar(100) NOT NULL,
 	SongPerformer varchar(100) NOT NULL,
-	PerformersID int NULL,
+	PerformersID BIGINT NULL,
 	SongPublisher varchar(100) NULL,
 	SongOwners varchar(500) NOT NULL,
 	SongAux varchar(100) NULL,
@@ -90,15 +90,15 @@ CREATE TABLE Works(
 	WorkName varchar(50) NULL,
 	DateofCopyright datetime NULL,
 	GenresID int NULL,
-	LyricAdaptation varchar(1) NULL DEFAULT ('O'),
-	MusicArrangement varchar(1) NULL DEFAULT ('O'),
-	WorksID_Original int NULL,
+	LyricAdaptation varchar(1) NULL DEFAULT 'O',
+	MusicArrangement varchar(1) NULL DEFAULT 'O',
+	WorksID_Original BIGINT NULL,
 	ISWC varchar(20) NULL,
 	LanguagesID int NULL,
 	Duration datetime NULL,
-	PerformersID int NULL,
+	PerformersID BIGINT NULL,
 	WorksID_Replaced int NULL,
-	CountriesID int NULL,
+	CountriesID BIGINT NULL,
 	FOREIGN KEY (CountriesID) REFERENCES Countries(CountriesID),
 	FOREIGN KEY (PerformersID) REFERENCES Performers(PerformersID),
 	FOREIGN KEY (WorksID_Original) REFERENCES Works(WorksID)
@@ -116,13 +116,13 @@ CREATE TABLE ISRC(
 	SourcesExternalCodesID int NULL,
 	Year varchar(2) NULL,
 	Number varchar(5) NULL,
-	PerformersID int NULL,
-	NLS_ToBeChecked_Again char(1) NULL DEFAULT ('Y'),
+	PerformersID BIGINT NULL,
+	NLS_ToBeChecked_Again char(1) NULL DEFAULT 'Y',
 	RecordingTypesID int NULL,
 	GenresID int NULL,
 	ISWC varchar(20) NULL,
 	Duration datetime NULL,
-	CustomersID int NULL,
+	CustomersID BIGINT NULL,
 	GRID varchar(20) NULL,
 	FOREIGN KEY (CustomersID) REFERENCES Customers(CustomersID),
 	FOREIGN KEY (PerformersID) REFERENCES Performers(PerformersID)
@@ -130,21 +130,21 @@ CREATE TABLE ISRC(
 
 CREATE TABLE CollectionDetailsDistinct(
 	CollectionDetailsDistinctID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	SourcesID int NOT NULL,
+	SourcesID BIGINT NOT NULL,
 	SongCode varchar(100) NULL,
 	SongTitle varchar(100) NULL,
 	SongOwners varchar(100) NULL,
 	ReleaseCode varchar(100) NULL,
 	ReleasePerformer varchar(100) NULL,
-	WorksID int NULL,
+	WorksID BIGINT NULL,
 	NOPRIncomingSongsHeadsID int NULL,
-	UsageUnlinkedWorksID int NULL,
-	UsageToProcess varchar(1) NULL DEFAULT ('N'),
-	ISRC varchar(12) NULL DEFAULT (''),
-	DoNotUseThisGroup varchar(1) NOT NULL DEFAULT ('N'),
+	UsageUnlinkedWorksID BIGINT NULL,
+	UsageToProcess varchar(1) NULL DEFAULT 'N',
+	ISRC varchar(12) NULL DEFAULT '',
+	DoNotUseThisGroup varchar(1) NOT NULL DEFAULT 'N',
 	GRID varchar(20) NULL,
 	ISWC varchar(20) NULL,
-	ISRCId int NULL,
+	ISRCId BIGINT NULL,
 	FOREIGN KEY (ISRCId) REFERENCES ISRC(ISRCID),
 	FOREIGN KEY (SourcesID) REFERENCES Sources(SourcesID),
 	FOREIGN KEY (UsageUnlinkedWorksID) REFERENCES UsageUnlinkedWorks(UsageUnlinkedWorksID),
@@ -164,7 +164,7 @@ CREATE TABLE Companies(
 CREATE TABLE CollectionHeaders(
 	CollectionHeadersID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	CollectionType varchar(1) NULL,
-	SourcesID int NULL,
+	SourcesID BIGINT NULL,
 	Description varchar(100) NULL,
 	CurrenciesID int NULL,
 	StartDate datetime NULL,
@@ -177,14 +177,14 @@ CREATE TABLE CollectionHeaders(
 	AllFieldsLinked varchar(1) NULL,
 	AllReleasesLinked varchar(1) NULL,
 	Closed varchar(1) NULL,
-	CompaniesID int NULL,
-	Claim0Collect varchar(1) NULL DEFAULT ('N'),
+	CompaniesID BIGINT NULL,
+	Claim0Collect varchar(1) NULL DEFAULT 'N',
 	TransactionTypeID int NULL,
 	TransactionTypeID_Prevision int NULL,
 	InvoiceID int NULL,
 	CurrencyFactor numeric(7, 3) NULL,
 	CollectionHeadersGroupsID int NULL,
-	ReadyForRoy varchar(1) NOT NULL DEFAULT ('N'),
+	ReadyForRoy varchar(1) NOT NULL DEFAULT 'N',
 	FOREIGN KEY (CompaniesID) REFERENCES Companies(CompaniesID),
 	FOREIGN KEY (SourcesID) REFERENCES Sources(SourcesID)
 ) ENGINE=InnoDB;
@@ -192,7 +192,7 @@ CREATE TABLE CollectionHeaders(
 CREATE TABLE Rights(
 	RightsID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	RightName varchar(30) NULL,
-	RightsID_Parent int NULL,
+	RightsID_Parent BIGINT NULL,
 	RightsCode varchar(50) NULL,
 	RightUnit varchar(50) NULL,
 	IncomeTypeCode varchar(3) NULL,
@@ -201,16 +201,16 @@ CREATE TABLE Rights(
 
 CREATE TABLE CollectionDetails(
 	CollectionDetailsID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	CollectionHeadersID int NULL,
+	CollectionHeadersID BIGINT NULL,
 	ImportedSource varchar(100) NULL,
-	CountriesID_Ammounts int NULL,
+	CountriesID_Ammounts BIGINT NULL,
 	SongCode varchar(100) NULL,
 	SongTitle varchar(100) NULL,
 	SongOwners varchar(100) NULL,
 	StartDate datetime NULL,
 	EndDate datetime NULL,
 	ImportedRight varchar(100) NULL,
-	RightsID int NULL,
+	RightsID BIGINT NULL,
 	PayerGrossIncome numeric(21, 9) NULL,
 	CollectedShare numeric(18, 4) NULL,
 	AmmountReceived numeric(21, 9) NULL,
@@ -224,9 +224,9 @@ CREATE TABLE CollectionDetails(
 	ReleaseHeaderTitle varchar(100) NULL,
 	UsageReleasesID int NULL,
 	ImportedCustomer varchar(100) NULL,
-	CustomersID int NULL,
+	CustomersID BIGINT NULL,
 	ReleasePerformer varchar(100) NULL,
-	PerformersID int NULL,
+	PerformersID BIGINT NULL,
 	ReleaseRSP numeric(10, 2) NULL,
 	ReleasePPD numeric(10, 2) NULL,
 	ReleaseCollectedRate numeric(10, 5) NULL,
@@ -264,12 +264,12 @@ CREATE TABLE CollectionDetails(
 
 CREATE TABLE CopyRight(
 	CopyRightID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	WorksID int NULL,
-	OwnersID int NULL,
-	RightsID int NULL,
+	WorksID BIGINT NULL,
+	OwnersID BIGINT NULL,
+	RightsID BIGINT NULL,
 	RolesID int NULL,
 	CopyRightShare numeric(7, 3) NULL,
-	deleted varchar(1) NULL DEFAULT ('N'),
+	deleted varchar(1) NULL DEFAULT 'N',
 	FOREIGN KEY (OwnersID) REFERENCES Owners(OwnersID),
 	FOREIGN KEY (RightsID) REFERENCES Rights(RightsID),
 	FOREIGN KEY (WorksID) REFERENCES Works(WorksID)
@@ -278,13 +278,13 @@ CREATE TABLE CopyRight(
 
 CREATE TABLE Publishers(
 	PublishersID BIGINT NOT NULL PRIMARY KEY,
-	PublishersID_Parent int NULL,
+	PublishersID_Parent BIGINT NULL,
 	PublisherName varchar(50) NULL,
 	Emi varchar(1) NULL,
-	Online varchar(1) NULL DEFAULT ('N'),
-	Virtual varchar(1) NULL DEFAULT ('N'),
+	Online varchar(1) NULL DEFAULT 'N',
+	Virtual varchar(1) NULL DEFAULT 'N',
 	PublishersCode varchar(50) NULL,
-	CompaniesID int NULL,
+	CompaniesID BIGINT NULL,
 	FOREIGN KEY (CompaniesID) REFERENCES Companies(CompaniesID),
 	FOREIGN KEY (PublishersID) REFERENCES Owners(OwnersID),
 	FOREIGN KEY (PublishersID_Parent) REFERENCES Publishers(PublishersID)
@@ -293,7 +293,7 @@ CREATE TABLE Publishers(
 CREATE TABLE DocumentHeader(
 	DocumentHeaderID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	DealsID int NULL,
-	PublishersID_Acquirer int NOT NULL,
+	PublishersID_Acquirer BIGINT NOT NULL,
 	DocumentType varchar(3) NOT NULL,
 	DocumentFull varchar(1) NULL,
 	DocumentGeneral varchar(1) NULL,
@@ -301,52 +301,52 @@ CREATE TABLE DocumentHeader(
 	TerritoriesID int NULL,
 	StartDocument datetime NULL,
 	StartCollection datetime NULL,
-	DocumentPrior varchar(1) NULL DEFAULT ('N'),
+	DocumentPrior varchar(1) NULL DEFAULT 'N',
 	EndDocument datetime NULL,
 	EndRetention datetime NULL,
 	EndCollection datetime NULL,
 	Note text NULL,
-	AtSource varchar(1) NULL DEFAULT ('N'),
-	IntercompanyRates varchar(1) NULL DEFAULT ('Y'),
-	SeparateAccounting varchar(1) NULL DEFAULT ('N'),
-	LockDocuments varchar(1) NULL DEFAULT ('N'),
-	LockAssignors varchar(1) NULL DEFAULT ('N'),
-	LockAssignments varchar(1) NULL DEFAULT ('N'),
-	PublishersID_Ownership int NULL,
-	AllowSpecific varchar(1) NULL DEFAULT ('N'),
+	AtSource varchar(1) NULL DEFAULT 'N',
+	IntercompanyRates varchar(1) NULL DEFAULT 'Y',
+	SeparateAccounting varchar(1) NULL DEFAULT 'N',
+	LockDocuments varchar(1) NULL DEFAULT 'N',
+	LockAssignors varchar(1) NULL DEFAULT 'N',
+	LockAssignments varchar(1) NULL DEFAULT 'N',
+	PublishersID_Ownership BIGINT NULL,
+	AllowSpecific varchar(1) NULL DEFAULT 'N',
 	EndDocumentText varchar(100) NULL,
 	EndRetentionText varchar(100) NULL,
 	EndCollectionText varchar(100) NULL,
-	CollectByNPS varchar(1) NULL DEFAULT ('N'),
+	CollectByNPS varchar(1) NULL DEFAULT 'N',
 	EXTERNAL_Deal_name varchar(60) NULL,
-	Ignore_Assig_Roy_For_Royalties bit NULL DEFAULT (0),
+	Ignore_Assig_Roy_For_Royalties bit NULL DEFAULT 0,
 	UsersID_Lock int NULL,
-	S2W_Default int NULL DEFAULT (0),
+	S2W_Default int NULL DEFAULT 0,
 	FOREIGN KEY (PublishersID_Acquirer) REFERENCES Publishers(PublishersID),
 	FOREIGN KEY (PublishersID_Ownership) REFERENCES Publishers(PublishersID)
 ) ENGINE=InnoDB;
 
 CREATE TABLE DocumentAssignor(
 	DocumentAssignorID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	DocumentHeaderID int NULL,
-	OwnersID int NOT NULL,
+	DocumentHeaderID BIGINT NULL,
+	OwnersID BIGINT NOT NULL,
 	FOREIGN KEY (DocumentHeaderID) REFERENCES DocumentHeader(DocumentHeaderID),
 	FOREIGN KEY (OwnersID) REFERENCES Owners(OwnersID)
 ) ENGINE=InnoDB;
 
 CREATE TABLE Documents(
 	DocumentsID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	DocumentHeaderID int NULL,
+	DocumentHeaderID BIGINT NULL,
 	DocumentNumber int NULL,
 	DocumentDate datetime NULL,
 	LarsFile varchar(15) NULL,
 	OwnAcquiredShare numeric(7, 3) NULL,
 	AdminAcquiredShare numeric(7, 3) NULL,
 	AssignorsAssignmentCode varchar(50) NULL,
-	WorksID_Acquired int NULL,
-	RightsID_Acquired int NULL,
-	DocumentHeaderID_Acquired int NULL,
-	DocumentsID_Acquired int NULL,
+	WorksID_Acquired BIGINT NULL,
+	RightsID_Acquired BIGINT NULL,
+	DocumentHeaderID_Acquired BIGINT NULL,
+	DocumentsID_Acquired BIGINT NULL,
 	Notes text NULL,
 	Controlled char(1) NULL,
 	DocumentHash varchar(20) NULL,
@@ -360,8 +360,8 @@ CREATE TABLE Documents(
 
 CREATE TABLE DocumentsCopyrights(
 	DocumentsCopyrightsID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	DocumentsID int NULL,
-	CopyrightID int NULL,
+	DocumentsID BIGINT NULL,
+	CopyrightID BIGINT NULL,
 	FOREIGN KEY (CopyrightID) REFERENCES CopyRight(CopyRightID),
 	FOREIGN KEY (DocumentsID) REFERENCES Documents(DocumentsID)
 ) ENGINE=InnoDB;
@@ -375,7 +375,7 @@ CREATE TABLE DocumentsTypes(
 CREATE TABLE ISRC_Details(
 	ISRC_DetailsID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	ISRC_HeaderID int NOT NULL,
-	ISRCID int NULL,
+	ISRCID BIGINT NULL,
 	SongCode varchar(100) NULL,
 	ReleaseCode varchar(100) NULL,
 	ReleaseHeaderTitle varchar(100) NULL,
@@ -391,17 +391,17 @@ CREATE TABLE ISRC_Details(
 CREATE TABLE UsageTypes(
 	UsageTypesID BIGINT NOT NULL PRIMARY KEY,
 	UsageTypeName varchar(50) NULL,
-	RightsID int NULL,
+	RightsID BIGINT NULL,
 	AcceptsLicenses char(1) NULL,
 	FOREIGN KEY (RightsID) REFERENCES Rights(RightsID)
 ) ENGINE=InnoDB;
 
 CREATE TABLE UsageWork(
 	UsageWorkID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	WorksID int NULL,
+	WorksID BIGINT NULL,
 	NOPRIncomingSongsHeadsID int NULL,
-	UsageUnlinkedWorksID int NULL,
-	UsageTypesID int NULL,
+	UsageUnlinkedWorksID BIGINT NULL,
+	UsageTypesID BIGINT NULL,
 	LastUpdate timestamp NULL,
 	FOREIGN KEY (UsageTypesID) REFERENCES UsageTypes(UsageTypesID),
 	FOREIGN KEY (UsageUnlinkedWorksID) REFERENCES UsageUnlinkedWorks(UsageUnlinkedWorksID),
@@ -410,9 +410,9 @@ CREATE TABLE UsageWork(
 
 CREATE TABLE ISRC_Songs(
 	ISRC_SongsID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	ISRCID int NOT NULL,
+	ISRCID BIGINT NOT NULL,
 	Share numeric(7, 3) NULL,
-	UsageWorkID int NOT NULL,
+	UsageWorkID BIGINT NOT NULL,
 	Duration datetime NULL,
 	ImportedSongTitle varchar(100) NULL,
 	ImportedSongOwners varchar(500) NULL,
@@ -424,9 +424,9 @@ CREATE TABLE ISRC_Songs(
 
 CREATE TABLE ISRC_SongsExternalCodes(
 	ISRC_SongsExternalCodesID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	SourcesID int NOT NULL,
+	SourcesID BIGINT NOT NULL,
 	ExternalCode varchar(20) NOT NULL,
-	ISRC_SongsID int NOT NULL,
+	ISRC_SongsID BIGINT NOT NULL,
 	FOREIGN KEY (ISRC_SongsID) REFERENCES ISRC_Songs(ISRC_SongsID),
 	FOREIGN KEY (SourcesID) REFERENCES Sources(SourcesID)
 ) ENGINE=InnoDB;
@@ -434,7 +434,7 @@ CREATE TABLE ISRC_SongsExternalCodes(
 
 CREATE TABLE OwnersAKAInformation(
 	OwnersAKAInformationID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	OwnersID int NOT NULL,
+	OwnersID BIGINT NOT NULL,
 	Pseudonym varchar(100) NULL,
 	NameType varchar(1) NULL,
 	Pseudogram varchar(400) NULL,
@@ -445,9 +445,9 @@ CREATE TABLE OwnersAKAInformation(
 
 CREATE TABLE OwnersExternalCodes(
 	OwnersExternalCodesID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	OwnersID int NULL,
+	OwnersID BIGINT NULL,
 	OwnerName varchar(102) NOT NULL,
-	SourcesID_Informer int NOT NULL,
+	SourcesID_Informer BIGINT NOT NULL,
 	ExternalCode varchar(20) NOT NULL,
 	UsersID int NULL,
 	FOREIGN KEY (OwnersID) REFERENCES Owners(OwnersID),
@@ -457,12 +457,12 @@ CREATE TABLE OwnersExternalCodes(
 
 CREATE TABLE OwnersPersonalInfo(
 	OwnersPersonalInfoID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	OwnersID int NULL,
+	OwnersID BIGINT NULL,
 	StreetAddress varchar(100) NULL,
 	City varchar(50) NULL,
 	State varchar(50) NULL,
 	ZipCode varchar(20) NULL,
-	CountriesID int NULL,
+	CountriesID BIGINT NULL,
 	Telephone varchar(50) NULL,
 	Fax varchar(50) NULL,
 	Email varchar(50) NULL,
@@ -479,13 +479,13 @@ CREATE TABLE OwnersPersonalInfo(
 CREATE TABLE OwnersSocieties(
 	OwnersSocietiesID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	CAE_IPI_Number varchar(20) NULL,
-	AuthorSocietiesID int NULL,
-	OwnersID int NULL,
+	AuthorSocietiesID BIGINT NULL,
+	OwnersID BIGINT NULL,
 	IPI_Base_Number varchar(20) NULL,
 	AffiliationDate datetime NULL,
 	DeAffiliationDate datetime NULL,
 	AffiliationNumber varchar(20) NULL,
-	RightsID int NULL,
+	RightsID BIGINT NULL,
 	TerritoriesID int NULL,
 	FOREIGN KEY (RightsID) REFERENCES Rights(RightsID),
 	FOREIGN KEY (AuthorSocietiesID) REFERENCES AuthorSocieties(AuthorSocietiesID),
@@ -497,7 +497,7 @@ CREATE TABLE Usages(
 	Origin varchar(50) NULL,
 	UsageDetailsLCID int NULL,
 	UsageHeaderLCReleaseID int NULL,
-	DocumentsID int NULL,
+	DocumentsID BIGINT NULL,
 	LicensesID int NULL,
 	FOREIGN KEY (DocumentsID) REFERENCES Documents(DocumentsID)
 ) ENGINE=InnoDB;
@@ -505,7 +505,7 @@ CREATE TABLE Usages(
 
 CREATE TABLE WorksAKAInformation(
 	WorksAKAInformationID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	WorksID int NULL,
+	WorksID BIGINT NULL,
 	Pseudonym varchar(100) NULL,
 	TytleType varchar(1) NULL,
 	Pseudogram varchar(400) NULL,
@@ -515,9 +515,9 @@ CREATE TABLE WorksAKAInformation(
 
 CREATE TABLE WorksExternalCodes(
 	WorksExternalCodesID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	WorksID int NOT NULL,
+	WorksID BIGINT NOT NULL,
 	WorkName varchar(102) NULL,
-	SourcesID_Informer int NOT NULL,
+	SourcesID_Informer BIGINT NOT NULL,
 	ExternalCode varchar(20) NULL,
 	UsersID int NULL,
 	FOREIGN KEY (SourcesID_Informer) REFERENCES Sources(SourcesID),
@@ -526,7 +526,7 @@ CREATE TABLE WorksExternalCodes(
 
 CREATE TABLE Works_IntendedPurpose(
 	Works_IntendedPurposeID BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	WorksID int NOT NULL,
+	WorksID BIGINT NOT NULL,
 	IntendedPurposeID int NOT NULL,
 	UsageDescription varchar(100) NULL,
 	UsageNotes varchar(1000) NULL,
