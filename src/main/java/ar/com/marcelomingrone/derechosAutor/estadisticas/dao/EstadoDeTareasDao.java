@@ -28,7 +28,7 @@ public class EstadoDeTareasDao extends EntidadDao<EstadoDeTareas> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<EstadoDeTareas> filtrar(Long idAutor, Long idFuente,
 			String asunto, String estado, String prioridad) {
 		

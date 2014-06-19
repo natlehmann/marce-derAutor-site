@@ -30,7 +30,7 @@ public abstract class EntidadDao<T> {
 	
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<T> getTodos() {
 		
 		Session session = getSessionFactory().getCurrentSession();
@@ -44,7 +44,7 @@ public abstract class EntidadDao<T> {
 		return resultado;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public T guardar(T entidad) {
 		Session session = getSessionFactory().getCurrentSession();
 		session.saveOrUpdate(entidad);
@@ -52,7 +52,7 @@ public abstract class EntidadDao<T> {
 		return entidad;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void borrarTodo() {
 		
 		Session session = getSessionFactory().getCurrentSession();		
@@ -60,14 +60,14 @@ public abstract class EntidadDao<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public T buscar(Long id) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (T) session.get(this.claseEntidad, id);
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<T> getTodosPaginado(int inicio,
 			int cantidadResultados, String campoOrdenamiento,
 			String direccionOrdenamiento) {
@@ -84,7 +84,7 @@ public abstract class EntidadDao<T> {
 				.setFirstResult(inicio).setMaxResults(cantidadResultados).list();
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadTotal() {
 		
 		Session session = getSessionFactory().getCurrentSession();
@@ -97,7 +97,7 @@ public abstract class EntidadDao<T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void eliminar(Long id) {
 		
 		Session session = getSessionFactory().getCurrentSession();

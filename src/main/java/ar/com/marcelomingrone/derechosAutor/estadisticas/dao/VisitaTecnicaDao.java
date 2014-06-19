@@ -23,7 +23,7 @@ public class VisitaTecnicaDao extends EntidadDao<VisitaTecnica> {
 		return sessionFactory;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public VisitaTecnica buscarPorFuente(Long idFuente) {
 		
 		Session session = sessionFactory.getCurrentSession();		

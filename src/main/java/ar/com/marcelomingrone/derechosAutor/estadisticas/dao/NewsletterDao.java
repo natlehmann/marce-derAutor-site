@@ -30,7 +30,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Newsletter> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
 		
@@ -56,7 +56,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		}
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Long getCantidadResultados(String filtro) {
 		
 		if (StringUtils.isEmpty(filtro)) {
@@ -76,7 +76,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<EnvioNewsletter> getEnviosNewsletter(Long id) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -85,7 +85,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 				.setParameter("id", id).list();
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Newsletter buscarConEnvios(Long id) {
 		
 		Session session = getSessionFactory().getCurrentSession();
@@ -103,7 +103,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		return newsletter;
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Long getCantidadReceptoresActivos(EnvioNewsletter envioNewsletter) {
 		
 		Session session = getSessionFactory().getCurrentSession();
@@ -117,13 +117,13 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		return (resultado != null) ? resultado.longValue() : 0;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadReceptores(EnvioNewsletter envioNewsletter) {
 		
 		return getCantidadReceptores(envioNewsletter.getId());
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadReceptores(Long idEnvioNewsletter) {
 		
 		Session session = getSessionFactory().getCurrentSession();
@@ -136,7 +136,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		return (resultado != null) ? resultado.longValue() : 0;
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public EnvioNewsletter buscarEnvioNewsletter(Long id) {
 		
 		Session session = getSessionFactory().getCurrentSession();
@@ -145,7 +145,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<ReceptorNewsletter> getReceptoresNewsletterPaginadoFiltrado(
 			Long idEnvio, int inicio, int cantidadResultados, String filtro,
 			String campoOrdenamiento, String direccionOrdenamiento) {
@@ -182,7 +182,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		}
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadReceptores(Long idEnvio, String filtro) {
 		
 		if (StringUtils.isEmpty(filtro)) {
@@ -203,7 +203,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		}
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public EnvioNewsletter guardarEnvio(EnvioNewsletter envio) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -211,7 +211,7 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 		return envio;
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public ReceptorNewsletter getReceptorNewsletter(Long idEnvio, Long idUsuario) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -222,14 +222,14 @@ public class NewsletterDao extends EntidadDao<Newsletter> {
 				.uniqueResult();
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void guardarReceptor(ReceptorNewsletter receptor) {
 		Session session = sessionFactory.getCurrentSession();
 		session.saveOrUpdate(receptor);		
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<ReceptorNewsletter> getRecepcionesParaUsuario(Long id) {
 		
 		Session session = sessionFactory.getCurrentSession();

@@ -28,7 +28,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Usuario> getReceptoresNewsletter() {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -39,7 +39,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Usuario> getTodosPaginadoFiltrado(int inicio, int cantidadResultados, String filtro,
 			String campoOrdenamiento, String direccionOrdenamiento) {
 		
@@ -76,7 +76,7 @@ public class UsuarioDao extends EntidadDao<Usuario> {
 		}
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadResultados(String filtro) {
 		
 		Session session = getSessionFactory().getCurrentSession();

@@ -26,7 +26,7 @@ public class PuntoAuditoriaDao extends EntidadDao<PuntoAuditoria> {
 		return sessionFactory;
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void guardar(List<PuntoAuditoria> puntosAuditoria) {
 		
 		Session session = getSessionFactory().getCurrentSession();

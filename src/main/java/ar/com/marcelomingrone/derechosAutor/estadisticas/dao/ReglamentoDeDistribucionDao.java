@@ -28,7 +28,7 @@ public class ReglamentoDeDistribucionDao extends EntidadDao<ReglamentoDeDistribu
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<ReglamentoDeDistribucion> getTodosPaginadoFiltrado(int inicio,
 			int cantidadResultados, String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
 		
@@ -60,7 +60,7 @@ public class ReglamentoDeDistribucionDao extends EntidadDao<ReglamentoDeDistribu
 		return query.list();
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadResultados(String filtro) {
 		
 		Session session = sessionFactory.getCurrentSession();

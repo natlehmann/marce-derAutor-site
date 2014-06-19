@@ -18,7 +18,7 @@ public class DerechoDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	@SuppressWarnings("unchecked")
 	public List<Derecho> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro) {
@@ -46,7 +46,7 @@ public class DerechoDao {
 		
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadResultados(String filtro) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -68,14 +68,14 @@ public class DerechoDao {
 		return resultado != null ? resultado.longValue() : 0;
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Derecho buscar(String nombre) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		return (Derecho) session.get(Derecho.class, nombre);
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void guardar(Derecho derecho) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -83,14 +83,14 @@ public class DerechoDao {
 		
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void eliminar(Derecho derecho) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		session.delete(derecho);		
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	@SuppressWarnings("unchecked")
 	public List<Derecho> getTodos() {
 		

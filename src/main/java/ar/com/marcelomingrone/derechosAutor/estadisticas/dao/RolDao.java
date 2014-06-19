@@ -24,7 +24,7 @@ public class RolDao extends EntidadDao<Rol> {
 		return sessionFactory;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Rol buscarPorNombre(String nombre) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -33,7 +33,7 @@ public class RolDao extends EntidadDao<Rol> {
 				.uniqueResult();
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Rol getRolReceptoresNewsletter() {
 		return buscarPorNombre(Configuracion.ROL_NEWSLETTER);
 	}

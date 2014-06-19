@@ -17,7 +17,7 @@ public abstract class RankingDao extends EntidadDao<Ranking> {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	protected List<Ranking> getAutoresMasCobradosOEjecutados(
 			Long idPais, Integer anio,
 			Integer trimestre, int primerResultado, int cantidadResultados, String filtro,
@@ -43,7 +43,7 @@ public abstract class RankingDao extends EntidadDao<Ranking> {
 	}
 
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	protected long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
 			Integer trimestre, String filtro, String nombreEntidad) {
 		

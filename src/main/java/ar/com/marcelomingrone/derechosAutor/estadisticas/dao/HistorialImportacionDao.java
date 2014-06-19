@@ -23,7 +23,7 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 	}
 
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getPromedioDuracionEstimadaPara1Kb() {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -35,7 +35,7 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 		return (promedio != null) ? promedio.longValue() : 0;
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public HistorialImportacion buscarPorNombreYFecha(String nombre,
 			Date inicioEjecucion) {
 		
@@ -62,7 +62,7 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<HistorialImportacion> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
 		
@@ -89,7 +89,7 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 	}
 	
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Long getCantidadResultados(String filtro) {
 		
 		if (StringUtils.isEmpty(filtro)) {

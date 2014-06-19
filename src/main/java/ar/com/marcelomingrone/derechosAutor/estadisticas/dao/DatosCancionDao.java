@@ -34,7 +34,7 @@ public class DatosCancionDao {
 	
 	
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public DatosCancion guardar(DatosCancion datos) {
 		Session session = sessionFactory.getCurrentSession();
 		datos = (DatosCancion) session.merge(datos);
@@ -42,7 +42,7 @@ public class DatosCancionDao {
 		return datos;
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void borrarTodo() {
 		
 		Session session = sessionFactory.getCurrentSession();		
@@ -67,7 +67,7 @@ public class DatosCancionDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Integer> getAnios() {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -75,7 +75,7 @@ public class DatosCancionDao {
 				"select DISTINCT(dc.anio) from DatosCancion dc order by dc.anio desc").list();
 	}
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Integer> getUltimosTresAnios() {
 		
 		List<Integer> anios = new LinkedList<>();
@@ -94,7 +94,7 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Pais> getPaises() {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -103,7 +103,7 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Autor> getAutoresLikeNombre(String nombreAutor) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -115,7 +115,7 @@ public class DatosCancionDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<RankingCancion> getCanciones(Long idPais,
 			Integer anio, Integer trimestre, Long idAutor, int inicio,
 			int cantidadResultados, String filtro) {
@@ -145,7 +145,7 @@ public class DatosCancionDao {
 		return query.list();
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadCanciones(Long idPais,
 			Integer anio, Integer trimestre, Long idAutor, String filtro) {
 		
@@ -168,7 +168,7 @@ public class DatosCancionDao {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Fuente> getFuentes(Long idPais) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -189,7 +189,7 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Derecho> getDerechosPorFuente(Fuente fuente) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -204,7 +204,7 @@ public class DatosCancionDao {
 	 * @param trimestre
 	 * @return
 	 */
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotal> getMontosTotalesSACMPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, false);
 	}
@@ -215,14 +215,14 @@ public class DatosCancionDao {
 	 * @param trimestre
 	 * @return
 	 */
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotal> getMontosTotalesOtrosPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, true);
 	}
 	
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	private List<MontoTotal> getMontosTotalesPorAnio(Pais pais, Integer trimestre, boolean excluirSACM) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -275,7 +275,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotal> getMontosTotalesSACMPorTrimestre(Integer anio, Pais pais) {
 		
 		if (anio == null) {
@@ -291,7 +291,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotal> getMontosTotalesOtrosPorTrimestre(Integer anio, Pais pais) {
 		
 		if (anio == null) {
@@ -303,7 +303,7 @@ public class DatosCancionDao {
 	
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	private List<MontoTotal> getMontosTotalesPorTrimestre(Integer anio, Pais pais, boolean excluirSACM) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -351,7 +351,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotal> getMontosTotalesSACMPorPais(Integer anio,
 			Integer trimestre, Pais pais) {
 		
@@ -370,7 +370,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotal> getMontosTotalesOtrosPorPais(Integer anio,
 			Integer trimestre, Pais pais) {
 		
@@ -384,7 +384,7 @@ public class DatosCancionDao {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	private List<MontoTotal> getMontosTotalesPorPais(Integer anio, Integer trimestre, 
 			Pais pais, boolean excluirSACM) {
 		
@@ -432,7 +432,7 @@ public class DatosCancionDao {
 
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<MontoTotalPorFuente> getTotalesPorFuente(Long idPais, Integer anio) {
 		
 		Session session = sessionFactory.getCurrentSession();

@@ -28,7 +28,7 @@ public class FuenteAuditadaDao extends EntidadDao<FuenteAuditada> {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<FuenteAuditada> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
 		
@@ -54,7 +54,7 @@ public class FuenteAuditadaDao extends EntidadDao<FuenteAuditada> {
 		}
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Long getCantidadResultados(String filtro) {
 		
 		if (StringUtils.isEmpty(filtro)) {

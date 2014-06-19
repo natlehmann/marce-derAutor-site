@@ -28,7 +28,7 @@ public class FechaDestacadaDao extends EntidadDao<FechaDestacada> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<FechaDestacada> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro, String campoOrdenamiento, String direccionOrdenamiento) {
 		
@@ -54,7 +54,7 @@ public class FechaDestacadaDao extends EntidadDao<FechaDestacada> {
 		}
 	}
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public Long getCantidadResultados(String filtro) {
 		
 		if (StringUtils.isEmpty(filtro)) {
@@ -74,7 +74,7 @@ public class FechaDestacadaDao extends EntidadDao<FechaDestacada> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<FechaDestacada> getDesde(Date fechaDesde) {
 		
 		Session session = sessionFactory.getCurrentSession();

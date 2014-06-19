@@ -24,7 +24,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 	}
 	
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void borrarTodo() {
 		
 		Session session = sessionFactory.getCurrentSession();		
@@ -41,7 +41,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 
 
 
-	@Transactional
+	@Transactional(value="transactionManager")
 	public void importarDatosCanciones(Long idPais, Integer anio, Integer trimestre) {
 		
 		Session session = sessionFactory.getCurrentSession();
@@ -76,7 +76,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 	}
 	
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public List<Ranking> getAutoresMasEjecutados(Long idPais, Integer anio, 
 			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
 		
@@ -86,7 +86,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 	}
 	
 	
-	@Transactional
+	@Transactional(value="transactionManager")
 	public long getCantidadAutoresMasEjecutados(Long idPais, Integer anio, 
 			Integer trimestre, String filtro) {
 		
