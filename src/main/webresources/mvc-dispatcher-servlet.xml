@@ -63,6 +63,7 @@
 		<property name="username" value="${db.user}" />
 		<property name="password" value="${db.password}" />
 	</bean>
+	
 
 	<!-- Hibernate Session Factory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -87,6 +88,39 @@
 
 	<!-- Activates annotation based transaction management -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	
+	
+	<!--  REEMPLAZAR POR MSSQL SERVER -->
+	<bean id="dataSourceExterno" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://${db.host.ext}:3306/${db.schema.ext}" />
+		<property name="username" value="${db.user.ext}" />
+		<property name="password" value="${db.password.ext}" />
+	</bean>
+	
+	<bean id="sessionFactoryExterno" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceExterno" />
+		<property name="packagesToScan">
+			<array>
+				<value>ar.com.marcelomingrone.derechosAutor.estadisticas.modelo</value>
+			</array>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+			</value>
+		</property>
+	</bean>
+	
+	<bean id="transactionManagerExterno"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactoryExterno" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManagerExterno" />
+	
+	
 	
 	
 	<!-- Envio de mails -->
