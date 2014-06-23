@@ -81,13 +81,14 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<Autor> getAutoresLikeNombre(String nombreAutor) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"select DISTINCT(dc.autor) from DatosCancion dc "
-				+ "WHERE dc.companyId = :companyId AND dc.autor.nombre LIKE :nombreAutor order by dc.autor.nombre asc")
+				"select DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor(dc.idAutor, dc.nombreAutor) "
+				+ "from SumaUnidadesYMontos dc "
+				+ "WHERE dc.companyId = :companyId AND dc.nombreAutor LIKE :nombreAutor order by dc.nombreAutor asc")
 				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
 				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
 	}

@@ -6,6 +6,10 @@ Sacar formatId
 
 CACHE!!!!!!!!
 
+Meter cache en JS de busqueda por autor (Canciones y  Estado de Tareas)
+
+Eliminar DatosCancion y a todas las entidades externas sacarles las anotaciones
+
 
 
 
