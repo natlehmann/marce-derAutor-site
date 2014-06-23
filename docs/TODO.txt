@@ -1,3 +1,6 @@
+RESOLVER TRIMESTRE Y ANIO EN SUMAUNIDADESyMONTOS (DaoUtils getWhereClauseExt)
+
+
 Agregar un UNION a la vista o reemplazarla por datos fijos para verificar que todo funcione.
 
 No funciona el grafico de la home cuando no se fija el anio.
@@ -9,6 +12,8 @@ CACHE!!!!!!!!
 Meter cache en JS de busqueda por autor (Canciones y  Estado de Tareas)
 
 Eliminar DatosCancion y a todas las entidades externas sacarles las anotaciones
+
+profiler para ver que queries tardan mas ?
 
 
 
