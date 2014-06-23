@@ -39,6 +39,21 @@
 				</c:forEach>
 			</select>
 		</div>
+		
+		
+		
+		
+		<div class="dropdown">
+			<select name="pais" class="dropdown-select">
+				<option value="">Select...</option>
+				<c:forEach items="${paisesExt}" var="pais">
+					<option value="${pais.id}">${pais.nombre}</option>
+				</c:forEach>
+			</select>
+		</div>
+		
+		
+		
 
 		<h2>Years</h2>
 		

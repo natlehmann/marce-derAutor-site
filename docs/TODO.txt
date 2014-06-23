@@ -1,3 +1,12 @@
+CAMBIANDO PAIS A UNA ENTIDAD EXTERNA
+Hacer que todas las relaciones de entidades con Pais tengan en su lugar un idPais
+
+
+
+
+
+----------------------------------------------------------------------------------------
+
 - Verificar que los ids de Cancion, Autor, Pais, Fuente no cambien. Si cambian hay que borrar todas estas
 tablas al comenzar la importación.
 

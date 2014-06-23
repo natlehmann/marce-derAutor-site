@@ -103,7 +103,7 @@
 		<property name="dataSource" ref="dataSourceExterno" />
 		<property name="packagesToScan">
 			<array>
-				<value>ar.com.marcelomingrone.derechosAutor.estadisticas.modelo</value>
+				<value>ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data</value>
 			</array>
 		</property>
 		<property name="hibernateProperties">
