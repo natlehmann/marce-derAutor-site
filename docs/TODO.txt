@@ -1,6 +1,8 @@
 CAMBIANDO PAIS A UNA ENTIDAD EXTERNA
 Hacer que todas las relaciones de entidades con Pais tengan en su lugar un idPais
 
+Sacar formatId
+
 
 
 
