@@ -8,11 +8,12 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
@@ -22,67 +23,43 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFue
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
 
+@Repository
 public class DatosCancionDao {
 	
+	@Autowired
+	private SessionFactory sessionFactoryExterno;
+	
+	@Autowired
 	private SessionFactory sessionFactory;
 	
 	public DatosCancionDao() {}
 	
 	public DatosCancionDao(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-	
-	
-
-	@Transactional(value="transactionManager")
-	public DatosCancion guardar(DatosCancion datos) {
-		Session session = sessionFactory.getCurrentSession();
-		datos = (DatosCancion) session.merge(datos);
-		
-		return datos;
-	}
-	
-	@Transactional(value="transactionManager")
-	public void borrarTodo() {
-		
-		Session session = sessionFactory.getCurrentSession();		
-		session.createSQLQuery("drop table DatosCancion").executeUpdate();
-		
-		session.createSQLQuery("create table DatosCancion("
-				+ "id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-				+ "companyId BIGINT,pais_id BIGINT,trimestre int not null,"
-				+ "anio int not null,formatId int,autor_id BIGINT NULL,"
-				+ "cancion_id BIGINT NULL,fuente_id BIGINT NULL,"
-				+ "derecho_nombre varchar(255) NULL,"
-				+ "cantidadUnidades BIGINT default 0,montoPercibido DECIMAL(10,2) default 0,"
-				+ "FOREIGN KEY (pais_id) REFERENCES Pais(id),"
-				+ "FOREIGN KEY (autor_id) REFERENCES Autor(id),"
-				+ "FOREIGN KEY (cancion_id) REFERENCES Cancion(id),"
-				+ "FOREIGN KEY (fuente_id) REFERENCES Fuente(id),"
-				+ "FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre))ENGINE=InnoDB;").executeUpdate();
+		this.sessionFactoryExterno = sessionFactory;
 	}
 	
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+		this.sessionFactoryExterno = sessionFactory;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<Integer> getAnios() {
 		
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery(
-				"select DISTINCT(dc.anio) from DatosCancion dc order by dc.anio desc").list();
+		Session session = sessionFactoryExterno.getCurrentSession();
+		return session.createSQLQuery(
+				"SELECT DISTINCT DATEPART(yyyy,fecha) AS fecha from VIEW_UnitsAndAmounts ORDER BY fecha desc")
+				.list();
 	}
 	
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<Integer> getUltimosTresAnios() {
 		
 		List<Integer> anios = new LinkedList<>();
 		
-		Session session = sessionFactory.getCurrentSession();
-		Integer ultimoAnio = (Integer) session.createQuery(
-				"SELECT MAX(dc.anio) FROM DatosCancion dc").uniqueResult();
+		Session session = sessionFactoryExterno.getCurrentSession();
+		Integer ultimoAnio = (Integer) session.createSQLQuery(
+				"SELECT MAX(DATEPART(yyyy,fecha)) FROM VIEW_UnitsAndAmounts").uniqueResult();
 		
 		if (ultimoAnio != null) {
 			anios.add(ultimoAnio);
@@ -94,12 +71,13 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<Pais> getPaises() {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"select DISTINCT(dc.pais) from DatosCancion dc order by dc.pais.nombre asc").list();
+				"select DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais(idPais,nombrePais) "
+				+ "FROM SumaUnidadesYMontos ORDER BY nombrePais ASC").list();
 	}
 	
 	@SuppressWarnings("unchecked")

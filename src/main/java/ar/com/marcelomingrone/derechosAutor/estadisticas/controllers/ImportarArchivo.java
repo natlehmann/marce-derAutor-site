@@ -29,178 +29,178 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ConversionUti
 @RequestMapping("/admin")
 public class ImportarArchivo {
 	
-	private static Log log = LogFactory.getLog(ImportarArchivo.class);
-	
-	@Value("${tomcat.home}")
-	private String TOMCAT_HOME;
-	
-	@Value("${importacion.home}")
-	private String RUTA_IMPORTACION;
-
-	@Autowired
-	private HistorialImportacionDao historialImportacionDao;
-	
-	@Autowired
-	private JobLauncher jobLauncher;
-	
-	@Autowired
-	@Qualifier("importacionJob")
-	private Job importacionJob;
-
-	@RequestMapping("/importar")
-	public String armarFormulario(ModelMap model, HttpSession session) {
-		
-		File file = new File(RUTA_IMPORTACION);
-		model.addAttribute("archivos", file.list());
-		
-		limpiarSesion(session);
-		
-		return "importar/form";
-	}
-	
-	
-
-	@RequestMapping("/iniciar_importacion")
-	public String iniciarImportacion(@RequestParam("archivo")String archivo, 
-			HttpSession session, ModelMap model) {
-		
-		if ( !ejecutarImportacion(archivo, session) ) {
-			model.addAttribute("errorImportacion", "Se produjo un error importando el archivo. "
-					+ "Por favor consulte al administrador del sistema.");
-			
-		} else {
-			model.addAttribute("enProceso", true);
-		}
-		
-		return "importar/form";
-	}
-	
-	
-	@RequestMapping(value="/consultar_duracion", produces="text/plain;charset=UTF-8")
-	@ResponseBody
-	public String consultarDuracion(HttpSession session) {
-		
-		HistorialImportacion historial = getHistorialImportacion(session);
-		if (historial != null) {
-			return ConversionUtils.convertirATexto(historial.getDuracionEstimada());
-		}
-		
-		return "";
-	}
-	
-	
-	@RequestMapping(value="/status_importacion", produces="text/plain;charset=UTF-8")
-	@ResponseBody
-	public String statusImportacion(HttpSession session) {
-		
-		JobExecution execution = (JobExecution) session.getAttribute("jobExecution");
-		HistorialImportacion historial = getHistorialImportacion(session);
-		
-		String msg = null;
-		
-		if (execution != null) {
-			if (execution.isRunning()) {
-				msg = calcularProgreso(historial);
-				
-			} else {
-				
-				BatchStatus status = execution.getStatus();				
-				
-				switch(status) {
-				
-					case COMPLETED : 
-						msg = "El proceso ha finalizado con éxito.";
-						break;
-					case FAILED : 
-						msg = "El proceso finalizó con errores. Por favor consulte al administrador del sistema.";
-						break;
-					case STOPPED : 
-						msg = "El proceso fue interrumpido.";
-						break;
-					default:
-						msg = "El proceso no finalizó correctamente. Por favor consulte al administrador del sistema.";
-				}
-				
-				limpiarSesion(session);
-			}
-				
-		}
-		
-		return msg;
-	}
-
-
-
-	private HistorialImportacion getHistorialImportacion(HttpSession session) {
-		
-		HistorialImportacion historial = (HistorialImportacion) session.getAttribute("historial");
-		
-		if (historial == null) {
-			historial = historialImportacionDao.buscarPorNombreYFecha(
-					(String)session.getAttribute("nombreArchivo"),
-					(Date)session.getAttribute("fechaEjecucion"));
-			
-			session.setAttribute("historial", historial);
-		}
-		
-		return historial;
-	}
-
-	
-
-	private String calcularProgreso(HistorialImportacion historial) {
-		
-		if (historial.getDuracionEstimada() == 0) {
-			return "0";
-		}
-		
-		Date ahora = new Date();
-		long tiempoTranscurrido = ahora.getTime() - historial.getInicio().getTime();
-		
-		long progreso = tiempoTranscurrido * 100 / historial.getDuracionEstimada();
-		
-		return String.valueOf(progreso);
-	}
-
-	private boolean ejecutarImportacion(String nombreArchivo, HttpSession session) {
-		
-		JobExecution execution = null;
-
-		try {
-			
-			File archivo = new File(RUTA_IMPORTACION + "/" + nombreArchivo);
-			Date fechaEjecucion = new Date();
-			
-			JobParametersBuilder builder = new JobParametersBuilder()
-				.addString("nombreArchivo", nombreArchivo)
-				.addDate("fechaEjecucion", fechaEjecucion)
-				.addLong("tamanioArchivo", archivo.length());
-			
-			execution = jobLauncher.run(importacionJob, builder.toJobParameters());
-			
-			session.setAttribute("jobExecution", execution);
-			session.setAttribute("nombreArchivo", nombreArchivo);
-			session.setAttribute("fechaEjecucion", fechaEjecucion);
-
-		} catch (Exception e) {
-			
-			log.error("Se produjo un error importando el archivo " + nombreArchivo, e);
-			limpiarSesion(session);
-			return false;
-		}
-		
-		return true;
-
-	}
-	
-	
-	private void limpiarSesion(HttpSession session) {
-		
-		session.setAttribute("jobExecution", null);
-		session.setAttribute("historial", null);
-		session.setAttribute("nombreArchivo", null);
-		session.setAttribute("fechaEjecucion", null);
-		
-	}
+//	private static Log log = LogFactory.getLog(ImportarArchivo.class);
+//	
+//	@Value("${tomcat.home}")
+//	private String TOMCAT_HOME;
+//	
+//	@Value("${importacion.home}")
+//	private String RUTA_IMPORTACION;
+//
+//	@Autowired
+//	private HistorialImportacionDao historialImportacionDao;
+//	
+//	@Autowired
+//	private JobLauncher jobLauncher;
+//	
+//	@Autowired
+//	@Qualifier("importacionJob")
+//	private Job importacionJob;
+//
+//	@RequestMapping("/importar")
+//	public String armarFormulario(ModelMap model, HttpSession session) {
+//		
+//		File file = new File(RUTA_IMPORTACION);
+//		model.addAttribute("archivos", file.list());
+//		
+//		limpiarSesion(session);
+//		
+//		return "importar/form";
+//	}
+//	
+//	
+//
+//	@RequestMapping("/iniciar_importacion")
+//	public String iniciarImportacion(@RequestParam("archivo")String archivo, 
+//			HttpSession session, ModelMap model) {
+//		
+//		if ( !ejecutarImportacion(archivo, session) ) {
+//			model.addAttribute("errorImportacion", "Se produjo un error importando el archivo. "
+//					+ "Por favor consulte al administrador del sistema.");
+//			
+//		} else {
+//			model.addAttribute("enProceso", true);
+//		}
+//		
+//		return "importar/form";
+//	}
+//	
+//	
+//	@RequestMapping(value="/consultar_duracion", produces="text/plain;charset=UTF-8")
+//	@ResponseBody
+//	public String consultarDuracion(HttpSession session) {
+//		
+//		HistorialImportacion historial = getHistorialImportacion(session);
+//		if (historial != null) {
+//			return ConversionUtils.convertirATexto(historial.getDuracionEstimada());
+//		}
+//		
+//		return "";
+//	}
+//	
+//	
+//	@RequestMapping(value="/status_importacion", produces="text/plain;charset=UTF-8")
+//	@ResponseBody
+//	public String statusImportacion(HttpSession session) {
+//		
+//		JobExecution execution = (JobExecution) session.getAttribute("jobExecution");
+//		HistorialImportacion historial = getHistorialImportacion(session);
+//		
+//		String msg = null;
+//		
+//		if (execution != null) {
+//			if (execution.isRunning()) {
+//				msg = calcularProgreso(historial);
+//				
+//			} else {
+//				
+//				BatchStatus status = execution.getStatus();				
+//				
+//				switch(status) {
+//				
+//					case COMPLETED : 
+//						msg = "El proceso ha finalizado con éxito.";
+//						break;
+//					case FAILED : 
+//						msg = "El proceso finalizó con errores. Por favor consulte al administrador del sistema.";
+//						break;
+//					case STOPPED : 
+//						msg = "El proceso fue interrumpido.";
+//						break;
+//					default:
+//						msg = "El proceso no finalizó correctamente. Por favor consulte al administrador del sistema.";
+//				}
+//				
+//				limpiarSesion(session);
+//			}
+//				
+//		}
+//		
+//		return msg;
+//	}
+//
+//
+//
+//	private HistorialImportacion getHistorialImportacion(HttpSession session) {
+//		
+//		HistorialImportacion historial = (HistorialImportacion) session.getAttribute("historial");
+//		
+//		if (historial == null) {
+//			historial = historialImportacionDao.buscarPorNombreYFecha(
+//					(String)session.getAttribute("nombreArchivo"),
+//					(Date)session.getAttribute("fechaEjecucion"));
+//			
+//			session.setAttribute("historial", historial);
+//		}
+//		
+//		return historial;
+//	}
+//
+//	
+//
+//	private String calcularProgreso(HistorialImportacion historial) {
+//		
+//		if (historial.getDuracionEstimada() == 0) {
+//			return "0";
+//		}
+//		
+//		Date ahora = new Date();
+//		long tiempoTranscurrido = ahora.getTime() - historial.getInicio().getTime();
+//		
+//		long progreso = tiempoTranscurrido * 100 / historial.getDuracionEstimada();
+//		
+//		return String.valueOf(progreso);
+//	}
+//
+//	private boolean ejecutarImportacion(String nombreArchivo, HttpSession session) {
+//		
+//		JobExecution execution = null;
+//
+//		try {
+//			
+//			File archivo = new File(RUTA_IMPORTACION + "/" + nombreArchivo);
+//			Date fechaEjecucion = new Date();
+//			
+//			JobParametersBuilder builder = new JobParametersBuilder()
+//				.addString("nombreArchivo", nombreArchivo)
+//				.addDate("fechaEjecucion", fechaEjecucion)
+//				.addLong("tamanioArchivo", archivo.length());
+//			
+//			execution = jobLauncher.run(importacionJob, builder.toJobParameters());
+//			
+//			session.setAttribute("jobExecution", execution);
+//			session.setAttribute("nombreArchivo", nombreArchivo);
+//			session.setAttribute("fechaEjecucion", fechaEjecucion);
+//
+//		} catch (Exception e) {
+//			
+//			log.error("Se produjo un error importando el archivo " + nombreArchivo, e);
+//			limpiarSesion(session);
+//			return false;
+//		}
+//		
+//		return true;
+//
+//	}
+//	
+//	
+//	private void limpiarSesion(HttpSession session) {
+//		
+//		session.setAttribute("jobExecution", null);
+//		session.setAttribute("historial", null);
+//		session.setAttribute("nombreArchivo", null);
+//		session.setAttribute("fechaEjecucion", null);
+//		
+//	}
 
 }

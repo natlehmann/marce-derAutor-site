@@ -1,7 +1,8 @@
-CAMBIANDO PAIS A UNA ENTIDAD EXTERNA
-Hacer que todas las relaciones de entidades con Pais tengan en su lugar un idPais
+Agregar un UNION a la vista o reemplazarla por datos fijos para verificar que todo funcione.
 
 Sacar formatId
+
+CACHE!!!!!!!!
 
 
 

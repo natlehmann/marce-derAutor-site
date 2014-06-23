@@ -1,6 +1,7 @@
 CREATE VIEW VIEW_UnitsAndAmounts AS
 
-SELECT     	Receipt.CompaniesID AS companyId,
+SELECT     	ROW_NUMBER() OVER(ORDER BY Works.WorksID) AS id,
+			Receipt.CompaniesID AS companyId,
 			Countries.CountriesID AS idPais,
 			Countries.CountryName AS nombrePais, 
 			Invoice.InvoiceDate AS fecha,

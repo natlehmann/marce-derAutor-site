@@ -166,6 +166,8 @@
 	
 	
 	<!-- Batch jobs -->
+	
+	<!--  
 
 	<jdbc:initialize-database data-source="dataSource">
 		<jdbc:script location="classpath:org/springframework/batch/core/schema-drop-mysql.sql" />
@@ -259,5 +261,7 @@
 	    <property name="targetObject" ref="datosCancionDao" />
 	    <property name="targetMethod" value="guardar" />
 	</bean>
+	
+	-->
 	
 </beans>
