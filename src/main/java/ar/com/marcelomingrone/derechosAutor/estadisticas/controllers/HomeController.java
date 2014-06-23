@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisExtDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
@@ -31,9 +30,9 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.CeldaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico.TipoColumna;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.FilaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.Grafico;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico.TipoColumna;
 
 @Controller
 public class HomeController {
@@ -49,9 +48,6 @@ public class HomeController {
 	
 	@Autowired
 	private FechaDestacadaDao fechaDestacadaDao;
-	
-	@Autowired
-	private PaisExtDao paisExtDao;
 	
 	@Autowired
 	private RankingArtistasMasCobradosDao rankingArtistasMasCobradosDao;
@@ -85,9 +81,6 @@ public class HomeController {
 		
 		model.addAttribute("paises", datosCancionDao.getPaises());
 		model.addAttribute("anios", datosCancionDao.getAnios());
-		
-		
-		model.addAttribute("paisesExt", paisExtDao.getTodos());
 		
 		session.setAttribute(SessionParam.PAIS.toString(), idPais);
 		session.setAttribute(SessionParam.ANIO.toString(), anio);
