@@ -9,6 +9,10 @@ public class DaoUtils {
 		return getWhereClause(trimestre, anio, idPais, filtro, null, false, true);
 	}
 	
+	public static String getWhereClauseExt(Integer trimestre, Integer anio, Long idPais, String filtro) {
+		return getWhereClauseExt(trimestre, anio, idPais, filtro, null, false, true);
+	}
+	
 	public static String getWhereClause(Integer trimestre, Integer anio, Long idPais, 
 			String filtro, Long idAutor) {
 		return getWhereClause(trimestre, anio, idPais, filtro, idAutor, false, false);

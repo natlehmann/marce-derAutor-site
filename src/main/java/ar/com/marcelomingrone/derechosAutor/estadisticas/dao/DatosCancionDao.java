@@ -29,9 +29,6 @@ public class DatosCancionDao {
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
 	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
 	public DatosCancionDao() {}
 	
 	public DatosCancionDao(SessionFactory sessionFactory) {
@@ -148,19 +145,20 @@ public class DatosCancionDao {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<Fuente> getFuentes(Long idPais) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT DISTINCT(dc.fuente) from DatosCancion dc ");
+		buffer.append("SELECT DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente(");
+		buffer.append("dc.idFuente,dc.nombreFuente) from SumaUnidadesYMontos dc ");
 		
 		if (idPais != null) {
-			buffer.append("WHERE dc.pais.id = :idPais ");
+			buffer.append("WHERE dc.idPais = :idPais ");
 		}
 		
-		buffer.append("ORDER BY dc.fuente.id");
+		buffer.append("ORDER BY dc.idFuente");
 		
 		Query query = session.createQuery(buffer.toString());
 		DaoUtils.setearParametros(query, idPais, null, null, null);
@@ -169,13 +167,15 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<Derecho> getDerechosPorFuente(Fuente fuente) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"SELECT DISTINCT(dc.derecho) from DatosCancion dc WHERE dc.fuente = :fuente ORDER BY dc.derecho.nombre")
-				.setParameter("fuente", fuente).list();
+				"SELECT DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho(dc.rightName) "
+				+ "from SumaUnidadesYMontos dc "
+				+ "WHERE dc.idFuente = :fuente ORDER BY dc.rightName")
+				.setParameter("fuente", fuente.getId()).list();
 	}
 	
 	/**
@@ -184,7 +184,7 @@ public class DatosCancionDao {
 	 * @param trimestre
 	 * @return
 	 */
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotal> getMontosTotalesSACMPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, false);
 	}
@@ -195,22 +195,22 @@ public class DatosCancionDao {
 	 * @param trimestre
 	 * @return
 	 */
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotal> getMontosTotalesOtrosPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, true);
 	}
 	
 
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	private List<MontoTotal> getMontosTotalesPorAnio(Pais pais, Integer trimestre, boolean excluirSACM) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
 			.append("dc.anio, SUM(dc.montoPercibido)) ")
-			.append("FROM DatosCancion dc ");
+			.append("FROM SumaUnidadesYMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -219,7 +219,7 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClause(trimestre, null, (pais != null) ? pais.getId() : null, null))			
+		buffer.append(DaoUtils.getWhereClauseExt(trimestre, null, (pais != null) ? pais.getId() : null, null))			
 			.append("GROUP BY dc.anio");
 		
 		Query query = session.createQuery(buffer.toString());
@@ -255,7 +255,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotal> getMontosTotalesSACMPorTrimestre(Integer anio, Pais pais) {
 		
 		if (anio == null) {
@@ -271,7 +271,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotal> getMontosTotalesOtrosPorTrimestre(Integer anio, Pais pais) {
 		
 		if (anio == null) {
@@ -283,15 +283,15 @@ public class DatosCancionDao {
 	
 
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	private List<MontoTotal> getMontosTotalesPorTrimestre(Integer anio, Pais pais, boolean excluirSACM) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
 			.append(anio).append(", dc.trimestre, SUM(dc.montoPercibido)) ")
-			.append("FROM DatosCancion dc ");
+			.append("FROM SumaUnidadesYMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -300,7 +300,7 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClause(null, anio, (pais != null) ? pais.getId() : null, null))			
+		buffer.append(DaoUtils.getWhereClauseExt(null, anio, (pais != null) ? pais.getId() : null, null))			
 			.append("GROUP BY dc.trimestre");
 		
 		Query query = session.createQuery(buffer.toString());
@@ -331,7 +331,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotal> getMontosTotalesSACMPorPais(Integer anio,
 			Integer trimestre, Pais pais) {
 		
@@ -350,7 +350,7 @@ public class DatosCancionDao {
 	 * @param pais
 	 * @return
 	 */
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotal> getMontosTotalesOtrosPorPais(Integer anio,
 			Integer trimestre, Pais pais) {
 		
@@ -364,17 +364,17 @@ public class DatosCancionDao {
 	
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	private List<MontoTotal> getMontosTotalesPorPais(Integer anio, Integer trimestre, 
 			Pais pais, boolean excluirSACM) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
 			.append(anio).append(", ")
-			.append(trimestre).append(", dc.pais, SUM(dc.montoPercibido)) ")
-			.append("FROM DatosCancion dc ");
+			.append(trimestre).append(", dc.idPais, dc.nombrePais, SUM(dc.montoPercibido)) ")
+			.append("FROM SumaUnidadesYMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -383,8 +383,8 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClause(trimestre, anio, (pais != null) ? pais.getId() : null, null))			
-			.append("GROUP BY dc.pais");
+		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, (pais != null) ? pais.getId() : null, null))			
+			.append("GROUP BY dc.idPais, dc.nombrePais ");
 		
 		Query query = session.createQuery(buffer.toString());
 		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
@@ -412,10 +412,10 @@ public class DatosCancionDao {
 
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<MontoTotalPorFuente> getTotalesPorFuente(Long idPais, Integer anio) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		Query query = getQueryTotalesPorFuenteSACM(session, idPais, anio);
 		List<MontoPorDerecho> montosSACM = query.list();
@@ -505,8 +505,8 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho(")
-			.append("dc.fuente, dc.derecho, dc.trimestre, SUM(dc.montoPercibido)) ")
-			.append("FROM DatosCancion dc ");
+			.append("dc.idFuente, dc.nombreFuente, dc.rightName, dc.trimestre, SUM(dc.montoPercibido)) ")
+			.append("FROM SumaUnidadesYMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -515,9 +515,9 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClause(null, anio, idPais, null))			
-			.append("GROUP BY dc.fuente, dc.derecho, dc.trimestre ")
-			.append("ORDER BY dc.fuente.id, dc.derecho.nombre");
+		buffer.append(DaoUtils.getWhereClauseExt(null, anio, idPais, null))			
+			.append("GROUP BY dc.idFuente, dc.nombreFuente, dc.rightName, dc.trimestre ")
+			.append("ORDER BY dc.idFuente, dc.rightName");
 		
 		Query query = session.createQuery(buffer.toString());
 		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);

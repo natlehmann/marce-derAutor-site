@@ -1,9 +1,9 @@
-RESOLVER TRIMESTRE Y ANIO EN SUMAUNIDADESyMONTOS (DaoUtils getWhereClauseExt)
+refactoring DaoUtils getWhereClauseExt
 
 
 Agregar un UNION a la vista o reemplazarla por datos fijos para verificar que todo funcione.
 
-No funciona el grafico de la home cuando no se fija el anio.
+No funciona el grafico de la home cuando se fijan los tres combos
 
 Sacar formatId
 

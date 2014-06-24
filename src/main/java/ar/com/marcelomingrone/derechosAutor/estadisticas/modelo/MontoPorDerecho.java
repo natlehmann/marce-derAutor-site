@@ -26,6 +26,17 @@ public class MontoPorDerecho implements Serializable {
 		this.trimestre = trimestre;
 		this.monto = monto;
 	}
+	
+	public MontoPorDerecho(Long idFuente, String nombreFuente, String nombreDerecho,
+			Integer trimestre, Double monto) {
+		
+		Fuente fuente = new Fuente(idFuente, nombreFuente);
+		this.setFuente(fuente);
+		Derecho derecho = new Derecho(nombreDerecho);
+		this.setDerecho(derecho);
+		this.trimestre = trimestre;
+		this.monto = monto;
+	}
 
 	public Fuente getFuente() {
 		return fuente;

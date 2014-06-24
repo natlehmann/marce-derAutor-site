@@ -41,6 +41,10 @@ public class MontoTotal implements Serializable{
 		this.trimestre = trimestre;
 		this.pais = pais;
 	}
+	
+	public MontoTotal(Integer anio, Integer trimestre, Long idPais, String nombrePais, Double monto) {
+		this(anio, trimestre, new Pais(idPais, nombrePais), monto);
+	}
 
 
 	public Pais getPais() {
