@@ -109,6 +109,7 @@
 		<property name="hibernateProperties">
 			<value>
 				hibernate.dialect=org.hibernate.dialect.SQLServer2008Dialect
+				hibernate.show_sql=false
 			</value>
 		</property>
 	</bean>

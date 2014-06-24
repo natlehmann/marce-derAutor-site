@@ -47,8 +47,8 @@ public class DatosCancionDao {
 	public List<Integer> getAnios() {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
-		return session.createSQLQuery(
-				"SELECT DISTINCT DATEPART(yyyy,fecha) AS fecha from VIEW_UnitsAndAmounts ORDER BY fecha desc")
+		return session.createQuery(
+				"SELECT DISTINCT anio from SumaUnidadesYMontos ORDER BY anio desc")
 				.list();
 	}
 	
@@ -58,8 +58,8 @@ public class DatosCancionDao {
 		List<Integer> anios = new LinkedList<>();
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
-		Integer ultimoAnio = (Integer) session.createSQLQuery(
-				"SELECT MAX(DATEPART(yyyy,fecha)) FROM VIEW_UnitsAndAmounts").uniqueResult();
+		Integer ultimoAnio = (Integer) session.createQuery(
+				"SELECT MAX(anio) FROM SumaUnidadesYMontos").uniqueResult();
 		
 		if (ultimoAnio != null) {
 			anios.add(ultimoAnio);
@@ -94,24 +94,24 @@ public class DatosCancionDao {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public List<RankingCancion> getCanciones(Long idPais,
 			Integer anio, Integer trimestre, Long idAutor, int inicio,
 			int cantidadResultados, String filtro) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion( ")
-			.append("dc.cancion.id, dc.cancion.nombre, dc.autor.id, dc.autor.nombre, ")
+			.append("dc.idCancion, dc.nombreCancion, dc.idAutor, dc.nombreAutor, ")
 			.append("SUM(dc.cantidadUnidades), SUM(dc.montoPercibido)) ")
-			.append("FROM DatosCancion dc ")
+			.append("FROM SumaUnidadesYMontos dc ")
 			.append("WHERE dc.companyId = :companyId ");
 		
-		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro, idAutor));
+		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, idPais, filtro, idAutor));
 		
-		buffer.append("GROUP BY dc.cancion.id, dc.autor.id ")
-			.append("ORDER BY dc.cancion.nombre asc");
+		buffer.append("GROUP BY dc.idCancion, dc.nombreCancion, dc.idAutor, dc.nombreAutor ")
+			.append("ORDER BY dc.nombreCancion asc");
 		
 		Query query = session.createQuery(buffer.toString());
 		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
@@ -124,16 +124,17 @@ public class DatosCancionDao {
 		return query.list();
 	}
 
-	@Transactional(value="transactionManager")
+	@Transactional(value="transactionManagerExterno")
 	public long getCantidadCanciones(Long idPais,
 			Integer anio, Integer trimestre, Long idAutor, String filtro) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(DISTINCT dc.cancion.id) FROM DatosCancion dc WHERE dc.companyId = :companyId ");
+		buffer.append("select count(DISTINCT dc.idCancion) FROM SumaUnidadesYMontos dc ");
+		buffer.append("WHERE dc.companyId = :companyId ");
 		
-		buffer.append(DaoUtils.getWhereClause(trimestre, anio, idPais, filtro, idAutor));
+		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, idPais, filtro, idAutor));
 		
 		Query query = session.createQuery(buffer.toString());
 		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);

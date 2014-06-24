@@ -13,11 +13,24 @@ SELECT     	ROW_NUMBER() OVER(ORDER BY Works.WorksID) AS id,
             Sources_All.SourcesID AS idFuente,
             Sources_All.UniqueName AS nombreFuente, 
             Rights.RightName AS rightName, 
-            CopyRight.CopyRightShare AS copyRightShares,
-            SUM(OniDetail.UnitsCollected) AS unidades,
-            SourcesExternalCodes.ExternalCode AS externalCode,
-            Receipt.CurrencyFactor AS currencyFactor, 
-            SUM(CollectionDetails.AmmountReceived) AS localCurrency
+--            CopyRight.CopyRightShare AS copyRightShares,
+--            SUM(OniDetail.UnitsCollected) AS unidades,
+--            SourcesExternalCodes.ExternalCode AS externalCode,
+--            Receipt.CurrencyFactor AS currencyFactor, 
+--            SUM(CollectionDetails.AmmountReceived) AS localCurrency,
+            DATEPART(yyyy,Invoice.InvoiceDate) AS anio,
+            CASE  
+			  WHEN DATEPART(mm,Invoice.InvoiceDate) BETWEEN 1 AND 3 THEN 1 
+			  WHEN DATEPART(mm,Invoice.InvoiceDate) BETWEEN 4 AND 6 THEN 2
+			  WHEN DATEPART(mm,Invoice.InvoiceDate) BETWEEN 7 AND 9 THEN 3 
+			  ELSE 4 
+		  	END as trimestre,
+		  	CASE 
+			  	WHEN SUM(OniDetail.UnitsCollected) is not null AND SourcesExternalCodes.ExternalCode is not null 
+			  		THEN SUM(OniDetail.UnitsCollected) * SourcesExternalCodes.ExternalCode * (CopyRight.CopyRightShare/100) 
+			  	ELSE 0
+		  	END AS cantidadUnidades,
+		  	Receipt.CurrencyFactor * SUM(CollectionDetails.AmmountReceived) * (CopyRight.CopyRightShare/100) AS montoPercibido
             
 FROM        CollectionDetails INNER JOIN
             CollectionHeaders ON CollectionDetails.CollectionHeadersID = CollectionHeaders.CollectionHeadersID INNER JOIN

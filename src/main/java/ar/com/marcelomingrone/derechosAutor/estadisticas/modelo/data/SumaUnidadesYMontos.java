@@ -1,7 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -44,15 +43,13 @@ public class SumaUnidadesYMontos implements Serializable {
 	
 	private String rightName;
 	
-	private BigDecimal copyRightShares;
+	private Long cantidadUnidades;
 	
-	private Long unidades;
+	private Double montoPercibido;
 	
-	private Long externalCode;
+	private Integer trimestre;
 	
-	private Double currencyFactor;
-	
-	private BigDecimal localCurrency;
+	private Integer anio;
 
 	public Long getId() {
 		return id;
@@ -158,44 +155,20 @@ public class SumaUnidadesYMontos implements Serializable {
 		this.rightName = rightName;
 	}
 
-	public BigDecimal getCopyRightShares() {
-		return copyRightShares;
+	public Double getMontoPercibido() {
+		return montoPercibido;
 	}
-
-	public void setCopyRightShares(BigDecimal copyRightShares) {
-		this.copyRightShares = copyRightShares;
+	
+	public void setMontoPercibido(Double montoPercibido) {
+		this.montoPercibido = montoPercibido;
 	}
-
-	public Long getUnidades() {
-		return unidades;
+	
+	public Long getCantidadUnidades() {
+		return cantidadUnidades;
 	}
-
-	public void setUnidades(Long unidades) {
-		this.unidades = unidades;
-	}
-
-	public Long getExternalCode() {
-		return externalCode;
-	}
-
-	public void setExternalCode(Long externalCode) {
-		this.externalCode = externalCode;
-	}
-
-	public Double getCurrencyFactor() {
-		return currencyFactor;
-	}
-
-	public void setCurrencyFactor(Double currencyFactor) {
-		this.currencyFactor = currencyFactor;
-	}
-
-	public BigDecimal getLocalCurrency() {
-		return localCurrency;
-	}
-
-	public void setLocalCurrency(BigDecimal localCurrency) {
-		this.localCurrency = localCurrency;
+	
+	public void setCantidadUnidades(Long cantidadUnidades) {
+		this.cantidadUnidades = cantidadUnidades;
 	}
 
 	@Override
@@ -221,6 +194,22 @@ public class SumaUnidadesYMontos implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public Integer getTrimestre() {
+		return trimestre;
+	}
+
+	public void setTrimestre(Integer trimestre) {
+		this.trimestre = trimestre;
+	}
+
+	public Integer getAnio() {
+		return anio;
+	}
+
+	public void setAnio(Integer anio) {
+		this.anio = anio;
 	}
 
 	

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.ManyToOne;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
+
 public class RankingCancion extends Ranking {
 	
 	private static final long serialVersionUID = 1910321784680554029L;
@@ -45,7 +47,7 @@ public class RankingCancion extends Ranking {
 		List<String> campos = new LinkedList<>();
 		campos.add(this.cancion.getNombre());
 		campos.add(String.valueOf(getCantidadUnidades()));
-		campos.add("$ " + getMontoPercibido());
+		campos.add("$ " + Utils.formatear(getMontoPercibido()));
 		
 		return campos;
 	}
