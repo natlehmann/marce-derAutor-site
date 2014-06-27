@@ -80,21 +80,24 @@ public abstract class RankingDao extends EntidadDao<Ranking> {
 		Session session = getSessionFactory().getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT COUNT(DISTINCT dc.idAutor) FROM SumaUnidadesYMontos dc ");
+		buffer.append("select count(1) from ( ");
+		buffer.append("select 1 as item from VIEW_UnitsAndAmounts ");
 		
-		buffer.append("WHERE dc.companyId = :companyId ");
+		buffer.append("WHERE companyId = :companyId ");
 		
-		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, idPais, filtro));
+		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
 		
-		buffer.append("GROUP BY dc.idAutor ");		
+		buffer.append("GROUP BY idAutor ");	
 		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
 		
-		Query query = session.createQuery(buffer.toString());
+		buffer.append(") as tmp");
+		
+		Query query = session.createSQLQuery(buffer.toString());
 		
 		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
 		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-		
-		Long resultado = (Long) query.uniqueResult();
+
+		Integer resultado = (Integer) query.uniqueResult();
 		
 		return resultado != null ? resultado : 0;
 	}

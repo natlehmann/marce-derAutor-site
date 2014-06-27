@@ -1,3 +1,5 @@
+No se puede paginar el listado de artistas mas ejecutados o cobrados
+
 refactoring DaoUtils getWhereClauseExt
 
 
