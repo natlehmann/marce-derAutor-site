@@ -14,8 +14,8 @@ SELECT     	ROW_NUMBER() OVER(ORDER BY Works.WorksID) AS id,
             Sources_All.UniqueName AS nombreFuente, 
             Rights.RightName AS rightName, 
 --            CopyRight.CopyRightShare AS copyRightShares,
---            SUM(OniDetail.UnitsCollected) AS unidades,
---            SourcesExternalCodes.ExternalCode AS externalCode,
+--            SUM(RNKDetails.Units) AS unidades,
+--            CurrenciesConvertion.Factor AS externalCode,
 --            Receipt.CurrencyFactor AS currencyFactor, 
 --            SUM(CollectionDetails.AmmountReceived) AS localCurrency,
             DATEPART(yyyy,Invoice.InvoiceDate) AS anio,
@@ -26,8 +26,8 @@ SELECT     	ROW_NUMBER() OVER(ORDER BY Works.WorksID) AS id,
 			  ELSE 4 
 		  	END as trimestre,
 		  	CASE 
-			  	WHEN SUM(OniDetail.UnitsCollected) is not null AND SourcesExternalCodes.ExternalCode is not null 
-			  		THEN SUM(OniDetail.UnitsCollected) * SourcesExternalCodes.ExternalCode * (CopyRight.CopyRightShare/100) 
+			  	WHEN SUM(RNKDetails.Units) is not null AND CurrenciesConvertion.Factor is not null 
+			  		THEN SUM(RNKDetails.Units) * CurrenciesConvertion.Factor * (CopyRight.CopyRightShare/100) 
 			  	ELSE 0
 		  	END AS cantidadUnidades,
 		  	Receipt.CurrencyFactor * SUM(CollectionDetails.AmmountReceived) * (CopyRight.CopyRightShare/100) AS montoPercibido
@@ -47,9 +47,9 @@ FROM        CollectionDetails INNER JOIN
             Receipt ON ReceiptInvoice.ReceiptID = Receipt.ReceiptID INNER JOIN
             Countries ON CollectionDetails.CountriesID_Ammounts = Countries.CountriesID LEFT JOIN
             UsageWork ON UsageWork.WorksID = Works.WorksID LEFT JOIN
-            OniDetailGroup ON OniDetailGroup.UsageWorkID = UsageWork.UsageWorkID LEFT JOIN
-            OniDetail ON OniDetail.OniDetailGroupID = OniDetailGroup.OniDetailGroupID LEFT JOIN
-			SourcesExternalCodes ON Sources_All.SourcesID = SourcesExternalCodes.SourcesID
+            RNKDetails ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID LEFT JOIN
+			Currencies ON Currencies.CountriesID = Countries.CountriesID LEFT JOIN
+			CurrenciesConvertion ON CurrenciesConvertion.CurrenciesID_From = Currencies.CurrenciesID
 
 GROUP BY 	Works.WorksID,
 			Works.WorkName, 
@@ -65,6 +65,6 @@ GROUP BY 	Works.WorksID,
             Receipt.CompaniesID, 
             Countries.CountryName,
             Countries.CountriesID,
-            SourcesExternalCodes.ExternalCode
+            CurrenciesConvertion.Factor
 
 HAVING      (OwnersSocieties.AuthorSocietiesID = 59);

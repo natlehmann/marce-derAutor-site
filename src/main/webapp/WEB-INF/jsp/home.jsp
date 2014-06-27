@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/jsp/includes/header.jsp" />
@@ -107,7 +108,9 @@ google.load("visualization", "1", {packages:["corechart"]});
 					    	<c:url value="/canciones/${dato.autor.id}" var="verCanciones" />
 					    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
 					    </td>
-					    <td class="right">${dato.montoPercibido}</td>
+					    <td class="right">
+					    	<fmt:formatNumber value="${dato.montoPercibido}" maxFractionDigits="2"/>
+					    </td>
 					  </tr>
 			  		</c:forEach>
 			  </tbody>

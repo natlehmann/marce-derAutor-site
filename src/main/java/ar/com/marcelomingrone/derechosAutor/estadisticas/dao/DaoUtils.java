@@ -100,6 +100,30 @@ public class DaoUtils {
 	}
 	
 	
+	public static String getWhereClauseExt2(Integer trimestre, Integer anio, Long idPais, String filtro) {
+		
+		StringBuffer buffer = new StringBuffer("");
+		
+		if (trimestre != null) {
+			buffer.append("AND trimestre = :trimestre ");
+		}
+		
+		if (anio != null) {
+			buffer.append("AND anio = :anio ");
+		}
+		
+		if (idPais != null) {
+			buffer.append("AND idPais = :idPais ");
+		}
+		
+		if (!StringUtils.isEmpty(filtro)) {
+			buffer.append("AND nombreAutor like :filtro ");
+		}
+		
+		return buffer.toString();
+	}
+	
+	
 	public static String getWhereClauseSQL(Integer trimestre, Integer anio, Long idPais) {
 		return getWhereClause(trimestre, anio, idPais, null, null, true, true);
 	}
@@ -181,5 +205,53 @@ public class DaoUtils {
 		String valorPais = StringUtils.isEmpty(idPais) ? "null" : String.valueOf(idPais);
 		
 		return valorPais + " as pais_id, " + valorTrimestre + " as trimestre, " + valorAnio + " as anio, ";
+	}
+	
+	public static String getSelectClauseOrNull(Integer trimestre, Integer anio, Long idPais) {
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		if (trimestre != null) {
+			buffer.append("trimestre, ");
+			
+		} else {
+			buffer.append("null as trimestre, ");
+		}
+		
+		if (anio != null) {
+			buffer.append("anio, ");
+			
+		} else {
+			buffer.append("null as anio, ");
+		}
+		
+		if (idPais != null) {
+			buffer.append("idPais, ");
+			
+		} else {
+			buffer.append("null as idPais, ");
+		}
+		
+		return buffer.toString();
+	}
+
+	public static String getGroupByClause(Integer trimestre, Integer anio,
+			Long idPais) {
+		
+		StringBuffer buffer = new StringBuffer();
+		
+		if (trimestre != null) {
+			buffer.append(", trimestre ");
+		}
+		
+		if (anio != null) {
+			buffer.append(", anio ");
+		}
+		
+		if (idPais != null) {
+			buffer.append(", idPais ");
+		}
+		
+		return buffer.toString();
 	}
 }
