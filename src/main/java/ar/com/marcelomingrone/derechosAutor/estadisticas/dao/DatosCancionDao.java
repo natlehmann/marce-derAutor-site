@@ -20,8 +20,8 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 @Repository
 public class DatosCancionDao {
@@ -73,7 +73,7 @@ public class DatosCancionDao {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"select DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais(idPais,nombrePais) "
+				"select DISTINCT new " + Pais.class.getName() + "(idPais,nombrePais) "
 				+ "FROM SumarizacionMontos ORDER BY nombrePais ASC").list();
 	}
 	
@@ -83,7 +83,7 @@ public class DatosCancionDao {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"select DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor(dc.idAutor, dc.nombreAutor) "
+				"select DISTINCT new " + Autor.class.getName() + "(dc.idAutor, dc.nombreAutor) "
 				+ "from SumarizacionMontos dc "
 				+ "WHERE dc.companyId = :companyId AND dc.nombreAutor LIKE :nombreAutor order by dc.nombreAutor asc")
 				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
@@ -99,7 +99,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion( ")
+		buffer.append("SELECT new ").append(RankingCancion.class.getName()).append("( ")
 			.append("dc.idCancion, dc.nombreCancion, dc.idAutor, dc.nombreAutor, ")
 			.append("SUM(dc.cantidadUnidades), SUM(dc.montoPercibido)) ")
 			.append("FROM SumaUnidadesYMontos dc ")
@@ -151,7 +151,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente(");
+		buffer.append("SELECT DISTINCT new ").append(Fuente.class.getName()).append("(");
 		buffer.append("dc.idFuente,dc.nombreFuente) from SumarizacionMontos dc ");
 		
 		if (idPais != null) {
@@ -172,7 +172,7 @@ public class DatosCancionDao {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"SELECT DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho(dc.rightName) "
+				"SELECT DISTINCT new " + Derecho.class.getName() + "(dc.rightName) "
 				+ "from SumarizacionMontos dc "
 				+ "WHERE dc.idFuente = :fuente ORDER BY dc.rightName")
 				.setParameter("fuente", fuente.getId()).list();
@@ -208,7 +208,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
+		buffer.append("SELECT new ").append(MontoTotal.class.getName()).append("(")
 			.append("dc.anio, SUM(dc.montoPercibido)) ")
 			.append("FROM SumarizacionMontos dc ");
 		
@@ -289,7 +289,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
+		buffer.append("SELECT new ").append(MontoTotal.class.getName()).append("(")
 			.append(anio).append(", dc.trimestre, SUM(dc.montoPercibido)) ")
 			.append("FROM SumarizacionMontos dc ");
 		
@@ -371,7 +371,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
+		buffer.append("SELECT new ").append(MontoTotal.class.getName()).append("(")
 			.append(anio).append(", ")
 			.append(trimestre).append(", dc.idPais, dc.nombrePais, SUM(dc.montoPercibido)) ")
 			.append("FROM SumarizacionMontos dc ");
@@ -504,7 +504,7 @@ public class DatosCancionDao {
 			Integer anio, boolean excluirSACM) {
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho(")
+		buffer.append("SELECT new ").append(MontoPorDerecho.class.getName()).append("(")
 			.append("dc.idFuente, dc.nombreFuente, dc.rightName, dc.trimestre, SUM(dc.montoPercibido)) ")
 			.append("FROM SumarizacionMontos dc ");
 		

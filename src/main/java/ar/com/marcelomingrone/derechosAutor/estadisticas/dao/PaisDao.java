@@ -4,13 +4,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 @Repository
-public class PaisDao extends EntidadDao<Pais> {
+public class PaisDao extends EntidadExternaDao<Pais> {
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFactoryExterno;
 	
 	public PaisDao() {
 		super(Pais.class, "nombre");
@@ -18,7 +18,7 @@ public class PaisDao extends EntidadDao<Pais> {
 
 	@Override
 	protected SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return sessionFactoryExterno;
 	}
 
 }

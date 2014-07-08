@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 public class ProcesarRankingsMasEjecutados implements Tasklet {
 	

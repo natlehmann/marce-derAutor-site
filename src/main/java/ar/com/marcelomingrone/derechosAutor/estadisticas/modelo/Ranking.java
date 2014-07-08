@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 @MappedSuperclass
 public class Ranking extends Entidad {

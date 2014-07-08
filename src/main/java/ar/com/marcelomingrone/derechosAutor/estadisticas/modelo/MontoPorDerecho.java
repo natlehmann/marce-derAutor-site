@@ -2,6 +2,8 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.io.Serializable;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+
 public class MontoPorDerecho implements Serializable {
 	
 	private static final long serialVersionUID = -525761249398115112L;

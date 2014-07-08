@@ -5,6 +5,8 @@ import java.util.Comparator;
 
 import javax.persistence.Transient;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+
 public class MontoTotal implements Serializable{
 	
 	private static final long serialVersionUID = 404715572876004689L;

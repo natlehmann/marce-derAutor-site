@@ -4,6 +4,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+
 @Entity
 public class DatosCancion extends Entidad {
 	

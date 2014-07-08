@@ -27,7 +27,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasC
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.FechaDestacada;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.CeldaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.dto.ColumnaGrafico.TipoColumna;

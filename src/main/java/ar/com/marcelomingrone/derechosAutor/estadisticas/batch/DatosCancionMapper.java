@@ -14,7 +14,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Cancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 public class DatosCancionMapper implements FieldSetMapper<DatosCancion> {
 	
