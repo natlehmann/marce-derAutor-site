@@ -109,7 +109,7 @@ google.load("visualization", "1", {packages:["corechart"]});
 					    	<a href='${verCanciones}'>${dato.autor.nombre}</a>
 					    </td>
 					    <td class="right">
-					    	<fmt:formatNumber value="${dato.montoPercibido}" maxFractionDigits="2"/>
+					    	<fmt:formatNumber value="${dato.montoPercibido}" maxFractionDigits="2" minFractionDigits="2"/>
 					    </td>
 					  </tr>
 			  		</c:forEach>

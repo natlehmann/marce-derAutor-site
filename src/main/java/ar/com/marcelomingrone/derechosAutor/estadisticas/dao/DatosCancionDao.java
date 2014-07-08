@@ -45,7 +45,7 @@ public class DatosCancionDao {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"SELECT DISTINCT anio from SumaUnidadesYMontos ORDER BY anio desc")
+				"SELECT DISTINCT anio from SumarizacionMontos ORDER BY anio desc")
 				.list();
 	}
 	
@@ -56,7 +56,7 @@ public class DatosCancionDao {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		Integer ultimoAnio = (Integer) session.createQuery(
-				"SELECT MAX(anio) FROM SumaUnidadesYMontos").uniqueResult();
+				"SELECT MAX(anio) FROM SumarizacionMontos").uniqueResult();
 		
 		if (ultimoAnio != null) {
 			anios.add(ultimoAnio);
@@ -74,7 +74,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
 				"select DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Pais(idPais,nombrePais) "
-				+ "FROM SumaUnidadesYMontos ORDER BY nombrePais ASC").list();
+				+ "FROM SumarizacionMontos ORDER BY nombrePais ASC").list();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -84,7 +84,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
 				"select DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor(dc.idAutor, dc.nombreAutor) "
-				+ "from SumaUnidadesYMontos dc "
+				+ "from SumarizacionMontos dc "
 				+ "WHERE dc.companyId = :companyId AND dc.nombreAutor LIKE :nombreAutor order by dc.nombreAutor asc")
 				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
 				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
@@ -152,7 +152,7 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente(");
-		buffer.append("dc.idFuente,dc.nombreFuente) from SumaUnidadesYMontos dc ");
+		buffer.append("dc.idFuente,dc.nombreFuente) from SumarizacionMontos dc ");
 		
 		if (idPais != null) {
 			buffer.append("WHERE dc.idPais = :idPais ");
@@ -173,7 +173,7 @@ public class DatosCancionDao {
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
 				"SELECT DISTINCT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho(dc.rightName) "
-				+ "from SumaUnidadesYMontos dc "
+				+ "from SumarizacionMontos dc "
 				+ "WHERE dc.idFuente = :fuente ORDER BY dc.rightName")
 				.setParameter("fuente", fuente.getId()).list();
 	}
@@ -210,7 +210,7 @@ public class DatosCancionDao {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
 			.append("dc.anio, SUM(dc.montoPercibido)) ")
-			.append("FROM SumaUnidadesYMontos dc ");
+			.append("FROM SumarizacionMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -291,7 +291,7 @@ public class DatosCancionDao {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
 			.append(anio).append(", dc.trimestre, SUM(dc.montoPercibido)) ")
-			.append("FROM SumaUnidadesYMontos dc ");
+			.append("FROM SumarizacionMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -374,7 +374,7 @@ public class DatosCancionDao {
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal(")
 			.append(anio).append(", ")
 			.append(trimestre).append(", dc.idPais, dc.nombrePais, SUM(dc.montoPercibido)) ")
-			.append("FROM SumaUnidadesYMontos dc ");
+			.append("FROM SumarizacionMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");
@@ -506,7 +506,7 @@ public class DatosCancionDao {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho(")
 			.append("dc.idFuente, dc.nombreFuente, dc.rightName, dc.trimestre, SUM(dc.montoPercibido)) ")
-			.append("FROM SumaUnidadesYMontos dc ");
+			.append("FROM SumarizacionMontos dc ");
 		
 		if (excluirSACM) {
 			buffer.append("WHERE dc.companyId != :companyId ");

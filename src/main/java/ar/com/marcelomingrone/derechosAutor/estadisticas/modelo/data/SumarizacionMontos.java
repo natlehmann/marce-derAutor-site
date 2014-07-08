@@ -1,17 +1,14 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="VIEW_UnitsAndAmounts")
-public class SumaUnidadesYMontos implements Serializable {
+@Table(name="VIEW_MoneyAmounts")
+public class SumarizacionMontos implements Serializable {
 	
 	private static final long serialVersionUID = 8787451139716411316L;
 
@@ -23,11 +20,6 @@ public class SumaUnidadesYMontos implements Serializable {
 	private Long idPais;
 	
 	private String nombrePais;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fecha;
-	
-	private int formatId;
 	
 	private Long idCancion;
 	
@@ -42,8 +34,6 @@ public class SumaUnidadesYMontos implements Serializable {
 	private String nombreFuente;
 	
 	private String rightName;
-	
-	private Long cantidadUnidades;
 	
 	private Double montoPercibido;
 	
@@ -81,22 +71,6 @@ public class SumaUnidadesYMontos implements Serializable {
 
 	public void setNombrePais(String nombrePais) {
 		this.nombrePais = nombrePais;
-	}
-
-	public Date getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
-
-	public int getFormatId() {
-		return formatId;
-	}
-
-	public void setFormatId(int formatId) {
-		this.formatId = formatId;
 	}
 
 	public Long getIdCancion() {
@@ -163,14 +137,6 @@ public class SumaUnidadesYMontos implements Serializable {
 		this.montoPercibido = montoPercibido;
 	}
 	
-	public Long getCantidadUnidades() {
-		return cantidadUnidades;
-	}
-	
-	public void setCantidadUnidades(Long cantidadUnidades) {
-		this.cantidadUnidades = cantidadUnidades;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -187,7 +153,7 @@ public class SumaUnidadesYMontos implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SumaUnidadesYMontos other = (SumaUnidadesYMontos) obj;
+		SumarizacionMontos other = (SumarizacionMontos) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

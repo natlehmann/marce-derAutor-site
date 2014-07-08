@@ -2,16 +2,22 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasCobrados;
 
 @Repository
-public class RankingArtistasMasCobradosDao extends RankingDao {
+public class RankingArtistasMasCobradosDao extends EntidadDao<RankingArtistasMasCobrados> {
 	
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
@@ -21,65 +27,53 @@ public class RankingArtistasMasCobradosDao extends RankingDao {
 	}
 	
 	
-//	@Transactional(value="transactionManager")
-//	public void borrarTodo() {
-//		
-//		Session session = sessionFactory.getCurrentSession();		
-//		session.createSQLQuery("drop table RankingArtistasMasCobrados").executeUpdate();
-//		
-//		session.createSQLQuery("create table RankingArtistasMasCobrados("
-//				+ "id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-//				+ "ranking BIGINT,pais_id BIGINT,trimestre int,"
-//				+ "anio int,autor_id BIGINT NULL,"
-//				+ "cantidadUnidades BIGINT default 0,montoPercibido DECIMAL(10,2) default 0,"
-//				+ "FOREIGN KEY (pais_id) REFERENCES Pais(id),"
-//				+ "FOREIGN KEY (autor_id) REFERENCES Autor(id))ENGINE=InnoDB;").executeUpdate();
-//	}
-//
-//
-//
-//	@Transactional(value="transactionManager")
-//	public void importarDatosCanciones(Long idPais, Integer anio, Integer trimestre) {
-//		
-//		Session session = sessionFactory.getCurrentSession();
-//		
-//		StringBuffer queryStr = new StringBuffer();
-//		queryStr.append("INSERT INTO RankingArtistasMasCobrados(")
-//			.append("ranking, pais_id, trimestre, anio, autor_id, cantidadUnidades, montoPercibido) ")
-//			.append("SELECT (@rank\\:=@rank+1) as ranking, pais_id, trimestre, anio, ")
-//			.append("autor_id, cantidadUnidades, montoPercibido ")
-//			.append("FROM ( SELECT ")
-//			
-//			.append(DaoUtils.getSelectClause(trimestre, anio, idPais))
-//			
-//			.append("dc.autor_id, SUM(dc.cantidadUnidades) as cantidadUnidades, ")
-//			.append("SUM(dc.montoPercibido) as montoPercibido ")
-//			.append("FROM DatosCancion dc ")
-//			.append("WHERE dc.companyId = :companyId ")
-//			
-//			.append(DaoUtils.getWhereClauseSQL(trimestre, anio, idPais))
-//			
-//			.append("GROUP BY dc.autor_id ")
-//			.append("ORDER BY montoPercibido desc, dc.autor_id asc ) as tmp ")
-//			.append("CROSS JOIN (SELECT @rank\\:=0) b");
-//
-//		Query query = session.createSQLQuery(queryStr.toString());
-//		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-//		
-//		DaoUtils.setearParametros(query, idPais, anio, trimestre, null);
-//		
-//		query.executeUpdate();
-//		
-//	}
 	
-	
+	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
-	public List<Ranking> getAutoresMasCobrados(Long idPais, Integer anio,
+	public List<Ranking> getAutoresMasCobrados(
+			Long idPais, Integer anio,
 			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
 		
-		return super.getAutoresMasCobradosOEjecutados(
-				idPais, anio, trimestre, primerResultado, cantidadResultados, 
-				filtro, "montoPercibido");
+		Session session = getSessionFactory().getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("SELECT ");
+		
+		buffer.append(DaoUtils.getSelectClauseOrNull(trimestre, anio, idPais));
+		
+		buffer.append("ROW_NUMBER() OVER(ORDER BY SUM(montoPercibido) desc) AS ranking, ");
+		buffer.append("idAutor, nombreAutor, ");
+		buffer.append("0 as cantidadUnidades, ");//////////////////////////////////////////////////
+		buffer.append("SUM(montoPercibido) as montoPercibido ");
+		buffer.append("FROM VIEW_MoneyAmounts ");
+		
+		buffer.append("WHERE companyId = :companyId ");
+		
+		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
+		
+		buffer.append("GROUP BY idAutor, nombreAutor ");		
+		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
+		
+		buffer.append("ORDER BY montoPercibido desc, nombreAutor asc");
+
+		Query query = session.createSQLQuery(buffer.toString())
+				.addScalar("trimestre")
+				.addScalar("anio")
+				.addScalar("idPais", LongType.INSTANCE)
+				.addScalar("ranking", LongType.INSTANCE)
+				.addScalar("idAutor", LongType.INSTANCE)
+				.addScalar("nombreAutor")
+				.addScalar("cantidadUnidades", LongType.INSTANCE)
+				.addScalar("montoPercibido", DoubleType.INSTANCE)
+				.setResultTransformer(Transformers.aliasToBean(Ranking.class));
+		
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
+		
+		query.setFirstResult(primerResultado);
+		query.setMaxResults(cantidadResultados);
+		
+		return query.list();
 	}
 
 	
@@ -87,8 +81,29 @@ public class RankingArtistasMasCobradosDao extends RankingDao {
 	public long getCantidadAutoresMasCobrados(Long idPais, Integer anio, 
 			Integer trimestre, String filtro) {
 		
-		return getCantidadAutoresMasEjecutados(
-				idPais, anio, trimestre, filtro, "montoPercibido");
+		Session session = getSessionFactory().getCurrentSession();
+		
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("select count(1) from ( ");
+		buffer.append("select 1 as item from VIEW_MoneyAmounts ");
+		
+		buffer.append("WHERE companyId = :companyId ");
+		
+		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
+		
+		buffer.append("GROUP BY idAutor ");	
+		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
+		
+		buffer.append(") as tmp");
+		
+		Query query = session.createSQLQuery(buffer.toString());
+		
+		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
+
+		Integer resultado = (Integer) query.uniqueResult();
+		
+		return resultado != null ? resultado : 0;
 	}
 
 
