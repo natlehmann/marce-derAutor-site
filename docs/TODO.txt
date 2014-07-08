@@ -1,13 +1,11 @@
-No se puede paginar el listado de artistas mas ejecutados o cobrados
+A los listados de mas ejecutados y mas cobrados les falta completar una columna a cada uno. Ver si se
+hace en memoria. Ver si conviene usar un SP para paginar.
+
+No se puede paginar el listado de artistas mas ejecutados o cobrados - probablemente hay que hacer Cancion
+y AUtor entidades externas
 
 refactoring DaoUtils getWhereClauseExt
 
-
-Agregar un UNION a la vista o reemplazarla por datos fijos para verificar que todo funcione.
-
-No funciona el grafico de la home cuando se fijan los tres combos
-
-Sacar formatId
 
 CACHE!!!!!!!!
 
