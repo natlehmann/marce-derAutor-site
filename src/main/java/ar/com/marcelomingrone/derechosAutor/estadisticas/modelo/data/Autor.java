@@ -1,21 +1,39 @@
-package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
+package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
+@Table(name="Performers")
 public class Autor implements Serializable {
 	
 	private static final long serialVersionUID = 1427453454082466290L;
 
 	@Id
+	@Column(name="PerformersID")
 	private Long id;
 
-	@Column(nullable=false)
+	@Column(nullable=false, name="PerformerName", insertable=false, updatable=false)
 	private String nombre;
+	
+	@Column(name="Responsible", insertable=false, updatable=false)
+	private String responsable;
+	
+	@Column(name="ConformationDate", insertable=false, updatable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaConformacion;
+	
+	@Column(name="DisolutionDate", insertable=false, updatable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaDisolucion;
+	
 	
 	public Autor() {}
 	
@@ -44,6 +62,30 @@ public class Autor implements Serializable {
 		this.id = id;
 	}
 	
+
+	public String getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(String responsable) {
+		this.responsable = responsable;
+	}
+
+	public Date getFechaConformacion() {
+		return fechaConformacion;
+	}
+
+	public void setFechaConformacion(Date fechaConformacion) {
+		this.fechaConformacion = fechaConformacion;
+	}
+
+	public Date getFechaDisolucion() {
+		return fechaDisolucion;
+	}
+
+	public void setFechaDisolucion(Date fechaDisolucion) {
+		this.fechaDisolucion = fechaDisolucion;
+	}
 
 	@Override
 	public int hashCode() {

@@ -1,3 +1,7 @@
+IF EXISTS(select * FROM sys.views where name = 'VIEW_MoneyAmounts') 
+	DROP VIEW VIEW_MoneyAmounts
+GO
+
 CREATE VIEW VIEW_MoneyAmounts AS
 
 	SELECT     	ROW_NUMBER() OVER(ORDER BY Works.WorksID) AS id,
@@ -50,9 +54,13 @@ CREATE VIEW VIEW_MoneyAmounts AS
 	              Invoice.InvoiceDate, 
 	              Receipt.CompaniesID
 	                      
-	HAVING      (OwnersSocieties.AuthorSocietiesID = 59);
+	HAVING      (OwnersSocieties.AuthorSocietiesID = 59)
+GO
 	
-	
+
+IF EXISTS(select * FROM sys.views where name = 'VIEW_Units') 
+	DROP VIEW VIEW_Units
+GO
 	
 CREATE VIEW VIEW_Units AS
 
@@ -101,4 +109,5 @@ CREATE VIEW VIEW_Units AS
 	              RNKHeaders.EndDate,
 	              CurrenciesConvertion.Factor
                       
-	HAVING      (OwnersSocieties.AuthorSocietiesID = 59) AND (Sources.SourcesID_Parent = 9);
+	HAVING      (OwnersSocieties.AuthorSocietiesID = 59) AND (Sources.SourcesID_Parent = 9)
+GO

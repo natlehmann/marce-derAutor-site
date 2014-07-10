@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
@@ -21,6 +20,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 @Repository

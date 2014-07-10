@@ -1,4 +1,4 @@
-package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
+package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import javax.persistence.Entity;
 

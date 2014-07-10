@@ -17,8 +17,10 @@ public class EstadoDeTareas extends Entidad {
 	
 	private static final long serialVersionUID = -7748233282423382225L;
 
-	@ManyToOne
-	private Autor autor;
+	@Column(name="autor_id")
+	private Long idAutor;
+	
+	private String nombreAutor;
 	
 	@NotNull @Size(max=255) @NotBlank
 	private String asunto;
@@ -41,13 +43,21 @@ public class EstadoDeTareas extends Entidad {
 	@Column(length=512)
 	@NotNull @Size(max=512) @NotBlank
 	private String comentario;
-
-	public Autor getAutor() {
-		return autor;
+	
+	public Long getIdAutor() {
+		return idAutor;
 	}
-
-	public void setAutor(Autor autor) {
-		this.autor = autor;
+	
+	public void setIdAutor(Long idAutor) {
+		this.idAutor = idAutor;
+	}
+	
+	public String getNombreAutor() {
+		return nombreAutor;
+	}
+	
+	public void setNombreAutor(String nombreAutor) {
+		this.nombreAutor = nombreAutor;
 	}
 
 	public String getAsunto() {

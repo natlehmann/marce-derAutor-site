@@ -36,9 +36,9 @@
 		</div>
 		
 		<div class="campo">
-			<form:label path="autor.id">Artista</form:label>
-			<form:errors path="autor.id" cssClass="error"/>
-			<form:hidden path="autor.id" id="autorId"/>
+			<form:label path="idAutor">Artista</form:label>
+			<form:errors path="idAutor" cssClass="error"/>
+			<form:hidden path="idAutor" id="autorId"/>
 			<input type="text" id="autorAutocomplete" name="nombreAutor" value="${nombreAutor}"
 				oninput="limpiarSeleccionAutor()" />
 		</div>

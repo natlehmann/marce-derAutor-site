@@ -1,3 +1,5 @@
+Terminar ABM EstadodeTareas - no funciona busqueda de Autor - ver de cargar todo en cache y busquedas en memoria
+
 A los listados de mas ejecutados y mas cobrados les falta completar una columna a cada uno. Ver si se
 hace en memoria. Ver si conviene usar un SP para paginar.
 
@@ -15,8 +17,7 @@ Eliminar DatosCancion y a todas las entidades externas sacarles las anotaciones
 
 profiler para ver que queries tardan mas ?
 
-
-
+Tag antes de cambios
 
 
 ----------------------------------------------------------------------------------------

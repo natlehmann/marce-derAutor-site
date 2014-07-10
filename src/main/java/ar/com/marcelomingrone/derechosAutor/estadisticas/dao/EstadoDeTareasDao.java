@@ -38,7 +38,7 @@ public class EstadoDeTareasDao extends EntidadDao<EstadoDeTareas> {
 		queryStr.append("SELECT e FROM EstadoDeTareas e WHERE 1=1 ");
 		
 		if (idAutor != null) {
-			queryStr.append("AND e.autor.id = :idAutor ");
+			queryStr.append("AND e.idAutor = :idAutor ");
 		}
 		
 		if (idFuente != null) {

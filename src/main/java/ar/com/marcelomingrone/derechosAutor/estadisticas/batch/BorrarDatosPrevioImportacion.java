@@ -25,8 +25,8 @@ public class BorrarDatosPrevioImportacion implements Tasklet {
 			ChunkContext chunkContext) throws Exception {
 		
 //		datosCancionDao.borrarTodo();
-		rankingArtistasMasEjecutadosDao.borrarTodo();
-		rankingArtistasMasCobradosDao.borrarTodo();
+//		rankingArtistasMasEjecutadosDao.borrarTodo();
+//		rankingArtistasMasCobradosDao.borrarTodo();
 		
 		return RepeatStatus.FINISHED;
 	}

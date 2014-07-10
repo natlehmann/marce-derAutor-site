@@ -6,7 +6,9 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Ranking;
 
 public class RankingCancion extends Ranking {
 	

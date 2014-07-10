@@ -18,9 +18,9 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Param
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 
 @Controller
 public class CancionController {

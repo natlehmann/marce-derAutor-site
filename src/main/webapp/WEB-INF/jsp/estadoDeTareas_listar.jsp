@@ -153,7 +153,7 @@
 							<td class="fecha">
 								<fmt:formatDate value="${estadoDeTareas.fecha}" pattern="dd/MM/yyyy"/>
 							</td>
-							<td class="autor">${estadoDeTareas.autor.nombre}</td>
+							<td class="autor">${estadoDeTareas.nombreAutor}</td>
 							<td class="asunto">${estadoDeTareas.asunto}</td>
 							<td class="fuente">${estadoDeTareas.fuente.nombre}</td>
 							<td class="estado">${estadoDeTareas.estado}</td>

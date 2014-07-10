@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.EstadoDeTareasDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas;
@@ -37,6 +38,9 @@ public class EstadoDeTareasController {
 	
 	@Autowired
 	private FuenteDao fuenteDao;
+	
+	@Autowired
+	private AutorDao autorDao;
 	
 	
 	@InitBinder
@@ -64,6 +68,12 @@ public class EstadoDeTareasController {
 		
 		List<EstadoDeTareas> listado = estadoDeTareasDao.filtrar(
 				idAutor, idFuente, asunto, estado, prioridad);
+		
+		for (EstadoDeTareas estadoTarea : listado) {
+			if (estadoTarea.getIdAutor() != null && estadoTarea.getNombreAutor() == null) {
+				estadoTarea.setNombreAutor(autorDao.buscar(estadoTarea.getIdAutor()).getNombre());
+			}
+		}
 		
 		model.addAttribute("listado", listado);
 		
@@ -103,8 +113,8 @@ public class EstadoDeTareasController {
 		model.addAttribute("estados", Estado.values());
 		model.addAttribute("prioridades", Prioridad.values());
 		
-		if (estadoDeTareas.getAutor() != null && model.get("nombreAutor") == null) {
-			model.addAttribute("nombreAutor", estadoDeTareas.getAutor().getNombre());
+		if (estadoDeTareas.getIdAutor() != null && model.get("nombreAutor") == null) {
+			model.addAttribute("nombreAutor", autorDao.buscar(estadoDeTareas.getIdAutor()).getNombre());
 		}
 		
 		model.addAttribute("estadoDeTareas", estadoDeTareas);
@@ -121,9 +131,9 @@ public class EstadoDeTareasController {
 		if (!result.hasErrors()) {
 			
 			try {
-				if (estadoDeTareas.getAutor() != null && StringUtils.isEmpty(estadoDeTareas.getAutor().getId())) {
-					estadoDeTareas.setAutor(null);
-				}
+//				if (estadoDeTareas.getAutor() != null && StringUtils.isEmpty(estadoDeTareas.getAutor().getId())) {
+//					estadoDeTareas.setAutor(null);
+//				}
 				
 				if (estadoDeTareas.getFuente() != null && StringUtils.isEmpty(estadoDeTareas.getFuente().getId())) {
 					estadoDeTareas.setFuente(null);

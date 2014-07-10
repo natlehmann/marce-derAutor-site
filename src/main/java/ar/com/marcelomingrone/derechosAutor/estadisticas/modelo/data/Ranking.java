@@ -1,4 +1,4 @@
-package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
+package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Entidad;
 
 @MappedSuperclass
 public class Ranking extends Entidad {

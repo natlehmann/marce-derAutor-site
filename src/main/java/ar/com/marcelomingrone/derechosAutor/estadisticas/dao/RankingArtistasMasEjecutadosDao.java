@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingArtistasMasEjecutados;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Ranking;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingArtistasMasEjecutados;
 
 @Repository
-public class RankingArtistasMasEjecutadosDao extends EntidadDao<RankingArtistasMasEjecutados> {
+public class RankingArtistasMasEjecutadosDao extends EntidadExternaDao<RankingArtistasMasEjecutados> {
 	
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
