@@ -1,19 +1,14 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
-@Entity
 public class DatosCancion extends Entidad {
 	
 	private static final long serialVersionUID = 918845849093099784L;
 
 	private Long companyId;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
 	private Pais pais;
 	
 	private int trimestre;
@@ -22,16 +17,12 @@ public class DatosCancion extends Entidad {
 	
 	private int formatId;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
 	private Autor autor;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
 	private Cancion cancion;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
 	private Fuente fuente;
 	
-	@ManyToOne(cascade=CascadeType.MERGE)
 	private Derecho derecho;
 	
 	private long cantidadUnidades;

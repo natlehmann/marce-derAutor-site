@@ -4,13 +4,13 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Cancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
 
 @Repository
-public class CancionDao extends EntidadDao<Cancion> {
+public class CancionDao extends EntidadExternaDao<Cancion> {
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFactoryExterno;
 	
 	public CancionDao() {
 		super(Cancion.class);
@@ -18,7 +18,7 @@ public class CancionDao extends EntidadDao<Cancion> {
 
 	@Override
 	protected SessionFactory getSessionFactory() {
-		return sessionFactory;
+		return sessionFactoryExterno;
 	}
 
 }
