@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
@@ -33,6 +34,9 @@ public class AutorController {
 	
 	@Autowired
 	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
+	
+	@Autowired
+	private AutorDao autorDao;
 	
 
 	@RequestMapping("/autoresMasEjecutados")
@@ -154,7 +158,7 @@ public class AutorController {
 	@ResponseBody
 	public List<Autor> buscarAutorPorNombre(@RequestParam("autor")String nombreAutor) {
 		
-		return datosCancionDao.getAutoresLikeNombre(nombreAutor);
+		return autorDao.getAutoresLikeNombre(nombreAutor);
 		
 	}
 	

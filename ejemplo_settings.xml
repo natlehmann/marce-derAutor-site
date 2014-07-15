@@ -19,10 +19,16 @@
 				<db.schema></db.schema>
 				<db.user></db.user>
 				<db.password></db.password>
+				
 				<db.host.ext></db.host.ext>
 				<db.schema.ext></db.schema.ext>
 				<db.user.ext></db.user.ext>
 				<db.password.ext></db.password.ext>
+				<db.driverClass.ext>com.microsoft.sqlserver.jdbc.SQLServerDriver</db.driverClass.ext>
+				<db.port.ext>1433</db.port.ext>
+				<db.dialect.ext>org.hibernate.dialect.SQLServer2008Dialect</db.dialect.ext>
+				<db.protocol.ext>sqlserver</db.protocol.ext>
+				
 				<smtp.hostname></smtp.hostname>
 				<smtp.username></smtp.username>
 				<smtp.password></smtp.password>

@@ -93,8 +93,8 @@
 	
 	<!--  REEMPLAZAR POR MSSQL SERVER -->
 	<bean id="dataSourceExterno" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://${db.host.ext}:1433;DatabaseName=${db.schema.ext}" />
+		<property name="driverClassName" value="${db.driverClass.ext}" />
+		<property name="url" value="jdbc:${db.protocol.ext}://${db.host.ext}:${db.port.ext}${db.schema.ext}" />
 		<property name="username" value="${db.user.ext}" />
 		<property name="password" value="${db.password.ext}" />
 	</bean>
@@ -108,7 +108,7 @@
 		</property>
 		<property name="hibernateProperties">
 			<value>
-				hibernate.dialect=org.hibernate.dialect.SQLServer2008Dialect
+				hibernate.dialect=${db.dialect.ext}
 				hibernate.show_sql=true
 			</value>
 		</property>

@@ -20,7 +20,6 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 @Repository
@@ -77,19 +76,6 @@ public class DatosCancionDao {
 				+ "FROM SumarizacionMontos ORDER BY nombrePais ASC").list();
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManagerExterno")
-	public List<Autor> getAutoresLikeNombre(String nombreAutor) {
-		
-		Session session = sessionFactoryExterno.getCurrentSession();
-		return session.createQuery(
-				"select DISTINCT new " + Autor.class.getName() + "(dc.idAutor, dc.nombreAutor) "
-				+ "from SumarizacionMontos dc "
-				+ "WHERE dc.companyId = :companyId AND dc.nombreAutor LIKE :nombreAutor order by dc.nombreAutor asc")
-				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
-				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
 	public List<RankingCancion> getCanciones(Long idPais,

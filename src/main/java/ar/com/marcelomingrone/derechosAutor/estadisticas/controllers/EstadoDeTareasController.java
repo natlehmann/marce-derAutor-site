@@ -27,6 +27,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas.Estado;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas.Prioridad;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 
 @Controller
 public class EstadoDeTareasController {
@@ -71,7 +72,11 @@ public class EstadoDeTareasController {
 		
 		for (EstadoDeTareas estadoTarea : listado) {
 			if (estadoTarea.getIdAutor() != null && estadoTarea.getNombreAutor() == null) {
-				estadoTarea.setNombreAutor(autorDao.buscar(estadoTarea.getIdAutor()).getNombre());
+				
+				Autor autor = autorDao.buscar(estadoTarea.getIdAutor());
+				if (autor != null) {
+					estadoTarea.setNombreAutor(autor.getNombre());
+				}
 			}
 		}
 		
@@ -114,7 +119,11 @@ public class EstadoDeTareasController {
 		model.addAttribute("prioridades", Prioridad.values());
 		
 		if (estadoDeTareas.getIdAutor() != null && model.get("nombreAutor") == null) {
-			model.addAttribute("nombreAutor", autorDao.buscar(estadoDeTareas.getIdAutor()).getNombre());
+			
+			Autor autor = autorDao.buscar(estadoDeTareas.getIdAutor());
+			if (autor != null) {
+				model.addAttribute("nombreAutor", autor.getNombre());
+			}
 		}
 		
 		model.addAttribute("estadoDeTareas", estadoDeTareas);

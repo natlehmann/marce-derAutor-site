@@ -89,7 +89,8 @@ CREATE VIEW VIEW_Units AS
               CopyRight ON Works.WorksID = CopyRight.WorksID INNER JOIN
               Owners ON CopyRight.OwnersID = Owners.OwnersID INNER JOIN
               OwnersSocieties ON Owners.OwnersID = OwnersSocieties.OwnersID INNER JOIN
-              Owners_All ON Owners.OwnersID = Owners_All.OwnersID ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID INNER JOIN
+              Owners_All ON Owners.OwnersID = Owners_All.OwnersID 
+              ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID INNER JOIN
               RNKHeaders ON RNKDetails.RNKHeadersID = RNKHeaders.RNKHeadersID INNER JOIN
               Countries INNER JOIN
               Sources ON Countries.CountriesID = Sources.CountriesID ON RNKHeaders.SourcesID = Sources.SourcesID ON 
@@ -110,4 +111,28 @@ CREATE VIEW VIEW_Units AS
 	              CurrenciesConvertion.Factor
                       
 	HAVING      (OwnersSocieties.AuthorSocietiesID = 59) AND (Sources.SourcesID_Parent = 9)
+GO
+
+
+
+IF EXISTS(select * FROM sys.views where name = 'VIEW_AuthorsIds') 
+	DROP VIEW VIEW_AuthorsIds
+GO
+
+CREATE VIEW VIEW_AuthorsIds AS
+
+	SELECT 	  CopyRight.OwnersID 
+	FROM	  CollectionDetails INNER JOIN
+	          CollectionHeaders ON CollectionDetails.CollectionHeadersID = CollectionHeaders.CollectionHeadersID INNER JOIN
+	          CollectionDetailsDistinct ON CollectionDetails.CollectionDetailsDistinctID = CollectionDetailsDistinct.CollectionDetailsDistinctID INNER JOIN
+	          Works ON CollectionDetailsDistinct.WorksID = Works.WorksID INNER JOIN
+	          CopyRight ON Works.WorksID = CopyRight.WorksID
+	UNION
+	
+	SELECT 	  CopyRight.OwnersID
+	FROM 	  RNKDetails INNER JOIN
+              Works INNER JOIN
+              UsageWork ON Works.WorksID = UsageWork.WorksID INNER JOIN
+              CopyRight ON Works.WorksID = CopyRight.WorksID
+              ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID
 GO
