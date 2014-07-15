@@ -39,7 +39,7 @@
 			<div class="campo">
 				<h2>Buscar por artista</h2>
 				
-				<div class="dropdown">
+				<div class="dropdown-no-img">
 					<input type="hidden" id="autorId" name="autor" value="${filtro_autor}"/>
 					<input type="text" id="autorAutocomplete" name="nombreAutor" value="${nombreAutor}"
 						oninput="limpiarSeleccionAutor()" class="dropdown-select"/>
@@ -49,7 +49,7 @@
 			<div class="campo">
 				<h2>Buscar por asunto</h2>
 				
-				<div class="dropdown">
+				<div class="dropdown-no-img">
 					<input type="text" name="asunto" value="${filtro_asunto}" class="dropdown-select"/>
 				</div>
 			</div>

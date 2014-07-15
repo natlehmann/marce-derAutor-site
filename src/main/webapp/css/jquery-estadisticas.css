@@ -171,3 +171,10 @@
 	padding-top: 0px;
 	padding-bottom: 0px;
 }
+
+
+#mingrone input[type='text'].ui-autocomplete-loading {
+    background: url("../images/spinner.gif");
+    background-repeat: no-repeat;
+    background-position: right;
+}
