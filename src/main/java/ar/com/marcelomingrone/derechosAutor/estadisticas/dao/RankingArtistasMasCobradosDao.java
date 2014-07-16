@@ -36,44 +36,72 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 		
 		Session session = getSessionFactory().getCurrentSession();
 		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT ");
+//		StringBuffer buffer = new StringBuffer();
+//		buffer.append("SELECT ");
+//		
+//		buffer.append(DaoUtils.getSelectClauseOrNull(trimestre, anio, idPais));
+//		
+//		buffer.append("ROW_NUMBER() OVER(ORDER BY SUM(montoPercibido) desc) AS ranking, ");
+//		buffer.append("idAutor, nombreAutor, ");
+//		buffer.append("0 as cantidadUnidades, ");//////////////////////////////////////////////////
+//		buffer.append("SUM(montoPercibido) as montoPercibido ");
+//		buffer.append("FROM VIEW_MoneyAmounts ");
+//		
+//		buffer.append("WHERE companyId = :companyId ");
+//		
+//		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
+//		
+//		buffer.append("GROUP BY idAutor, nombreAutor ");		
+//		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
+//		
+//		buffer.append("ORDER BY montoPercibido desc, nombreAutor asc");
+//
+//		Query query = session.createSQLQuery(buffer.toString())
+//				.addScalar("trimestre")
+//				.addScalar("anio")
+//				.addScalar("idPais", LongType.INSTANCE)
+//				.addScalar("ranking", LongType.INSTANCE)
+//				.addScalar("idAutor", LongType.INSTANCE)
+//				.addScalar("nombreAutor")
+//				.addScalar("cantidadUnidades", LongType.INSTANCE)
+//				.addScalar("montoPercibido", DoubleType.INSTANCE)
+//				.setResultTransformer(Transformers.aliasToBean(Ranking.class));
+//		
+//		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+//		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
+//		
+//		query.setFirstResult(primerResultado);
+//		query.setMaxResults(cantidadResultados);
+//		
+//		return query.list();
 		
-		buffer.append(DaoUtils.getSelectClauseOrNull(trimestre, anio, idPais));
 		
-		buffer.append("ROW_NUMBER() OVER(ORDER BY SUM(montoPercibido) desc) AS ranking, ");
-		buffer.append("idAutor, nombreAutor, ");
-		buffer.append("0 as cantidadUnidades, ");//////////////////////////////////////////////////
-		buffer.append("SUM(montoPercibido) as montoPercibido ");
-		buffer.append("FROM VIEW_MoneyAmounts ");
-		
-		buffer.append("WHERE companyId = :companyId ");
-		
-		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
-		
-		buffer.append("GROUP BY idAutor, nombreAutor ");		
-		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
-		
-		buffer.append("ORDER BY montoPercibido desc, nombreAutor asc");
-
-		Query query = session.createSQLQuery(buffer.toString())
+		Query query = session.createSQLQuery(
+				"exec sp_amountsRanking :companyId, :idPais, :anio, :trimestre, :filtro, :inicioPaginacion, :finPaginacion")
 				.addScalar("trimestre")
 				.addScalar("anio")
 				.addScalar("idPais", LongType.INSTANCE)
+				.addScalar("id", LongType.INSTANCE)
 				.addScalar("ranking", LongType.INSTANCE)
 				.addScalar("idAutor", LongType.INSTANCE)
 				.addScalar("nombreAutor")
 				.addScalar("cantidadUnidades", LongType.INSTANCE)
 				.addScalar("montoPercibido", DoubleType.INSTANCE)
-				.setResultTransformer(Transformers.aliasToBean(Ranking.class));
+				.setResultTransformer(Transformers.aliasToBean(Ranking.class))
+				
+				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
+				.setParameter("idPais", idPais)
+				.setParameter("anio", anio)
+				.setParameter("trimestre", trimestre)
+				.setParameter("filtro", filtro)
+				.setParameter("inicioPaginacion", primerResultado + 1)
+				.setParameter("finPaginacion", primerResultado + cantidadResultados);
 		
-		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
+		List<Ranking> resultado = query.list();
 		
-		query.setFirstResult(primerResultado);
-		query.setMaxResults(cantidadResultados);
+		System.out.println("------------------------------------------------------- " + resultado);
 		
-		return query.list();
+		return resultado;
 	}
 
 	
@@ -83,26 +111,41 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 		
 		Session session = getSessionFactory().getCurrentSession();
 		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(1) from ( ");
-		buffer.append("select 1 as item from VIEW_MoneyAmounts ");
+//		StringBuffer buffer = new StringBuffer();
+//		buffer.append("select count(1) from ( ");
+//		buffer.append("select 1 as item from VIEW_MoneyAmounts ");
+//		
+//		buffer.append("WHERE companyId = :companyId ");
+//		
+//		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
+//		
+//		buffer.append("GROUP BY idAutor ");	
+//		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
+//		
+//		buffer.append(") as tmp");
+//		
+//		Query query = session.createSQLQuery(buffer.toString());
+//		
+//		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
+//		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
+//
+//		Integer resultado = (Integer) query.uniqueResult();
+//		
+//		return resultado != null ? resultado : 0;
 		
-		buffer.append("WHERE companyId = :companyId ");
 		
-		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
 		
-		buffer.append("GROUP BY idAutor ");	
-		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
+		Query query = session.createSQLQuery(
+				"exec sp_amountsRankingCount :companyId, :idPais, :anio, :trimestre, :filtro")
+				.addScalar("cantidad", LongType.INSTANCE)
+				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
+				.setParameter("idPais", idPais)
+				.setParameter("anio", anio)
+				.setParameter("trimestre", trimestre)
+				.setParameter("filtro", filtro);
 		
-		buffer.append(") as tmp");
-		
-		Query query = session.createSQLQuery(buffer.toString());
-		
-		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-
-		Integer resultado = (Integer) query.uniqueResult();
-		
+		Long resultado = (Long) query.uniqueResult();
+System.out.println("ESTA ES ALA CANTIDAD ---------------------------------------- " + resultado);		
 		return resultado != null ? resultado : 0;
 	}
 

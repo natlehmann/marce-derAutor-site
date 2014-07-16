@@ -1,6 +1,8 @@
-Terminar ABM EstadodeTareas - no funciona busqueda de Autor - ver de cargar todo en cache y busquedas en memoria
+Terminar ABM EstadodeTareas - falta externalizar Fuente
 
 Pasar Fuente a entidad externa
+
+Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
 A los listados de mas ejecutados y mas cobrados les falta completar una columna a cada uno. Ver si se
 hace en memoria. Ver si conviene usar un SP para paginar.

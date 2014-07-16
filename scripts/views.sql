@@ -136,3 +136,17 @@ CREATE VIEW VIEW_AuthorsIds AS
               CopyRight ON Works.WorksID = CopyRight.WorksID
               ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID
 GO
+
+
+
+IF EXISTS(select * FROM sys.views where name = 'VIEW_Years') 
+	DROP VIEW VIEW_Years
+GO
+
+CREATE VIEW VIEW_Years AS
+
+	SELECT    DISTINCT DATEPART(yyyy,Invoice.InvoiceDate) AS anio
+	FROM      Invoice 
+	WHERE 	  DATEPART(yyyy,Invoice.InvoiceDate) >= (select DATEPART(yyyy,getdate()) - 3)
+	ORDER BY  Invoice.InvoiceDate desc
+GO
