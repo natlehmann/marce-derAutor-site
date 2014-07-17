@@ -139,6 +139,101 @@ GO
 
 
 
+CREATE PROCEDURE sp_amountsRankingForAuthors
+    /* Input Parameters */
+	@companyId int,
+    @idPais int,
+    @anio int,
+    @trimestre int,
+    @idsAutores varchar(2000)
+    
+AS
+    Set NoCount ON
+    /* Variable Declaration */
+    Declare @SQLQuery AS NVarchar(4000)
+    Declare @ParamDefinition AS NVarchar(2000) 
+    
+    Declare @inicio as int
+    Declare @fin as int
+    
+    /* Build the Transact-SQL String with the input parameters */ 
+    Set @SQLQuery = 'SELECT CopyRight.OwnersID AS idAutor, '
+    				+ 'SUM(Receipt.CurrencyFactor * CollectionDetails.AmmountReceived * (CopyRight.CopyRightShare/100)) AS montoPercibido '
+    				+ 'FROM      CollectionDetails INNER JOIN
+	          CollectionHeaders ON CollectionDetails.CollectionHeadersID = CollectionHeaders.CollectionHeadersID INNER JOIN
+	          CollectionDetailsDistinct ON CollectionDetails.CollectionDetailsDistinctID = CollectionDetailsDistinct.CollectionDetailsDistinctID INNER JOIN
+	          Works ON CollectionDetailsDistinct.WorksID = Works.WorksID INNER JOIN
+	          CopyRight ON Works.WorksID = CopyRight.WorksID INNER JOIN
+	          Owners ON CopyRight.OwnersID = Owners.OwnersID INNER JOIN
+	          OwnersSocieties ON Owners.OwnersID = OwnersSocieties.OwnersID INNER JOIN
+	          Owners_All ON Owners.OwnersID = Owners_All.OwnersID INNER JOIN
+	          Invoice ON CollectionHeaders.InvoiceID = Invoice.InvoiceID INNER JOIN
+	          ReceiptInvoice ON Invoice.InvoiceID = ReceiptInvoice.InvoiceID INNER JOIN
+	          Receipt ON ReceiptInvoice.ReceiptID = Receipt.ReceiptID INNER JOIN
+	          Countries ON CollectionDetails.CountriesID_Ammounts = Countries.CountriesID
+	                      
+	GROUP BY 	  CopyRight.OwnersID, 
+				  Owners_All.UniqueName, 
+				  OwnersSocieties.AuthorSocietiesID, 
+	              Receipt.CompaniesID'
+    				
+   If @idPais Is Not Null 
+         Set @SQLQuery = @SQLQuery + ',Countries.CountriesID'
+         
+   If @anio Is Not Null
+         Set @SQLQuery = @SQLQuery + ',DATEPART(yyyy,Invoice.InvoiceDate)'
+         
+   If @trimestre Is Not Null
+         Set @SQLQuery = @SQLQuery + ',DATEPART(mm,Invoice.InvoiceDate)'
+         
+   
+   Set @SQLQuery = @SQLQuery + ' HAVING OwnersSocieties.AuthorSocietiesID = 59 
+								 AND Receipt.CompaniesID=@companyId 
+								 AND CopyRight.OwnersID IN (' + @idsAutores + ') '
+
+   If @idPais Is Not Null 
+         Set @SQLQuery = @SQLQuery + 'AND Countries.CountriesID = @idPais '
+         
+   If @anio Is Not Null 
+         Set @SQLQuery = @SQLQuery + 'AND DATEPART(yyyy,Invoice.InvoiceDate) = @anio '
+         
+   If @trimestre Is Not Null 
+   BEGIN
+   		 Set @inicio = (@trimestre - 1) * 3 + 1
+   		 Set @fin = @inicio + 2
+         Set @SQLQuery = @SQLQuery + 'AND DATEPART(mm,Invoice.InvoiceDate) BETWEEN @inicio AND @fin '
+   END
+    
+    /* Specify Parameter Format for all input parameters included 
+     in the stmt */
+    Set @ParamDefinition =  '@companyId int,
+						    @idPais int,
+						    @anio int,
+						    @trimestre int,
+							@inicio int,
+							@fin int'
+    /* Execute the Transact-SQL String with all parameter value's 
+       Using sp_executesql Command */
+    Execute sp_Executesql     
+    			@SQLQuery, 
+                @ParamDefinition, 
+                @companyId, 
+                @idPais,
+                @anio, 
+                @trimestre, 
+                @inicio,
+                @fin
+                
+    If @@ERROR <> 0 GoTo ErrorHandler
+    Set NoCount OFF
+    Return(0)
+  
+ErrorHandler:
+    Return(@@ERROR)
+GO
+
+
+
 CREATE PROCEDURE sp_amountsRankingCount
     /* Input Parameters */
 	@companyId int,

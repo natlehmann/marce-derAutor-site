@@ -6,11 +6,7 @@ Pasar Fuente a entidad externa
 
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
-A los listados de mas ejecutados y mas cobrados les falta completar una columna a cada uno. Ver si se
-hace en memoria. Ver si conviene usar un SP para paginar.
-
-No se puede paginar el listado de artistas mas ejecutados o cobrados - probablemente hay que hacer Cancion
-y AUtor entidades externas
+Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inicial del artista
 
 refactoring DaoUtils getWhereClauseExt
 

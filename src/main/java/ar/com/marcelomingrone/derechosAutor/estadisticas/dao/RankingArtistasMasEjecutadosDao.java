@@ -1,6 +1,9 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -21,6 +24,9 @@ public class RankingArtistasMasEjecutadosDao extends EntidadExternaDao<RankingAr
 	
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
+	
+	@Autowired
+	private RankingPorAutorDao rankingPorAutorDao;
 	
 	public RankingArtistasMasEjecutadosDao() {
 		super(RankingArtistasMasEjecutados.class);
@@ -56,6 +62,33 @@ public class RankingArtistasMasEjecutadosDao extends EntidadExternaDao<RankingAr
 				.setParameter("finPaginacion", primerResultado + cantidadResultados);
 		
 		List<Ranking> resultado = query.list();
+		
+		if (!resultado.isEmpty()) {
+			
+			List<Long> idsAutores = new LinkedList<>();
+			
+			for (Ranking ranking : resultado) {				
+				idsAutores.add(ranking.getAutor().getId());
+			}	
+			
+			List<Ranking> montos = rankingPorAutorDao.getMontosPorAutor(
+					idPais, anio, trimestre, idsAutores);
+			
+			Map<Long, Ranking> montosPorAutor = new HashMap<Long, Ranking>();
+			
+			for (Ranking ranking : montos) {
+				montosPorAutor.put(ranking.getAutor().getId(), ranking);
+			}
+			
+			for (Ranking unResultado : resultado) {
+				
+				Ranking monto = montosPorAutor.get(unResultado.getAutor().getId());
+				if (monto != null) {
+					
+					unResultado.setMontoPercibido(monto.getMontoPercibido());
+				}
+			}
+		}
 		
 		return resultado;
 	}
