@@ -11,25 +11,16 @@ Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inici
 refactoring DaoUtils getWhereClauseExt
 
 
-CACHE!!!!!!!!
-
-Meter cache en JS de busqueda por autor (Canciones y  Estado de Tareas)
+Ver si configuramos ehcache
 
 Eliminar DatosCancion y a todas las entidades externas sacarles las anotaciones
 
 profiler para ver que queries tardan mas ?
 
-Tag antes de cambios
+Tag antes de cambios y nueva version 1.1
 
 
 ----------------------------------------------------------------------------------------
-
-- Verificar que los ids de Cancion, Autor, Pais, Fuente no cambien. Si cambian hay que borrar todas estas
-tablas al comenzar la importación.
-
-- Que pasa si se inicia el batch dos veces? 
-
-- Boton para frenar el proceso de importacion
 
 - Ancho columnas de los datatables
 
@@ -42,8 +33,6 @@ Administracion de newsletter :
 
 
 - parent right ??????
-
-- Probar si funciona tracking en gmail una vez que tengamos nic.ar
 
 - ESTA REDIRIGIENDO A /derechosAutor/.... VER DE SACAR ESO  (poner en contexto ROOT?)
 
