@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.datatable').dataTable( {
+    var listado = $('.datatable').dataTable( {
         "bProcessing": true,
         "bServerSide": true,
         "sAjaxSource": $("#contexto").val() + "autoresMasEjecutados_ajax",
@@ -15,6 +15,12 @@ $(document).ready(function() {
                       {"sWidth" : "40%"},
                       { "sClass": "right", "sWidth" : "25%" },
                       { "sClass": "right", "sWidth" : "25%" }
-                    ]
+                    ],
+        "iDisplayLength": 10,
+        "aLengthMenu": [[10], [10]]
     } );
+    
+    setTimeout(function (){
+    	listado.fnFilterOnEnter();
+    }, 3000);
 } );

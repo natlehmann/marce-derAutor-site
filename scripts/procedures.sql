@@ -74,8 +74,11 @@ AS
    If @idPais Is Not Null 
          Set @SQLQuery = @SQLQuery + ',Countries.CountriesID'
          
-   If @anio Is Not Null or @trimestre Is Not Null
-         Set @SQLQuery = @SQLQuery + ',Invoice.InvoiceDate'
+   If @anio Is Not Null
+         Set @SQLQuery = @SQLQuery + ',DATEPART(yyyy,Invoice.InvoiceDate)'
+         
+   If @trimestre Is Not Null
+         Set @SQLQuery = @SQLQuery + ',DATEPART(mm,Invoice.InvoiceDate)'
          
    
    Set @SQLQuery = @SQLQuery + ' HAVING OwnersSocieties.AuthorSocietiesID = 59 AND Receipt.CompaniesID=@companyId '

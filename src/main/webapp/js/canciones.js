@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.datatable').dataTable( {
+    var listado = $('.datatable').dataTable( {
         "bProcessing": true,
         "bServerSide": true,
         "sAjaxSource": $("#contexto").val() + "canciones_ajax",
@@ -14,8 +14,14 @@ $(document).ready(function() {
                       {"sWidth" : "60%"},
                       { "sClass": "right", "sWidth" : "15%" },
                       { "sClass": "right", "sWidth" : "15%" }
-                    ]
+                    ],
+        "iDisplayLength": 10,
+        "aLengthMenu": [[10], [10]]
     } );
+    
+    setTimeout(function (){
+    	listado.fnFilterOnEnter();
+    }, 3000);
     
     $( "#autorAutocomplete" ).autocomplete({
     	 source: function( request, response ) {
