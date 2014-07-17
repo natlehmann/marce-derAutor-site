@@ -183,6 +183,16 @@
 		      		<property name="name" value="rankingMasCobradosCount" />
 		      </bean>
 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="rankingMasEjecutados" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="rankingMasEjecutadosCount" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="ejecucionesPorAutor" />
+		      </bean>
+		      
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 		      		<property name="name" value="paises" />
 		      </bean>
 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">

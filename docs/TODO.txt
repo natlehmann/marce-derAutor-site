@@ -1,6 +1,6 @@
 Terminar ABM EstadodeTareas - falta externalizar Fuente
 
-No funciona paginar con filtro. Hacer que haya que apretar boton para buscar o minimo de 3 caracteres
+Boton para limpiar cache (@CacheEviction)
 
 Pasar Fuente a entidad externa
 

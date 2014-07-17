@@ -1,6 +1,9 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,6 +26,9 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
 	
+	@Autowired
+	private RankingPorAutorDao rankingPorAutorDao;
+	
 	public RankingArtistasMasCobradosDao() {
 		super(RankingArtistasMasCobrados.class);
 	}
@@ -36,47 +42,7 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 			Long idPais, Integer anio,
 			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
 		
-		Session session = getSessionFactory().getCurrentSession();
-		
-//		StringBuffer buffer = new StringBuffer();
-//		buffer.append("SELECT ");
-//		
-//		buffer.append(DaoUtils.getSelectClauseOrNull(trimestre, anio, idPais));
-//		
-//		buffer.append("ROW_NUMBER() OVER(ORDER BY SUM(montoPercibido) desc) AS ranking, ");
-//		buffer.append("idAutor, nombreAutor, ");
-//		buffer.append("0 as cantidadUnidades, ");//////////////////////////////////////////////////
-//		buffer.append("SUM(montoPercibido) as montoPercibido ");
-//		buffer.append("FROM VIEW_MoneyAmounts ");
-//		
-//		buffer.append("WHERE companyId = :companyId ");
-//		
-//		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
-//		
-//		buffer.append("GROUP BY idAutor, nombreAutor ");		
-//		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
-//		
-//		buffer.append("ORDER BY montoPercibido desc, nombreAutor asc");
-//
-//		Query query = session.createSQLQuery(buffer.toString())
-//				.addScalar("trimestre")
-//				.addScalar("anio")
-//				.addScalar("idPais", LongType.INSTANCE)
-//				.addScalar("ranking", LongType.INSTANCE)
-//				.addScalar("idAutor", LongType.INSTANCE)
-//				.addScalar("nombreAutor")
-//				.addScalar("cantidadUnidades", LongType.INSTANCE)
-//				.addScalar("montoPercibido", DoubleType.INSTANCE)
-//				.setResultTransformer(Transformers.aliasToBean(Ranking.class));
-//		
-//		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-//		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-//		
-//		query.setFirstResult(primerResultado);
-//		query.setMaxResults(cantidadResultados);
-//		
-//		return query.list();
-		
+		Session session = getSessionFactory().getCurrentSession();		
 		
 		Query query = session.createSQLQuery(
 				"exec sp_amountsRanking :companyId, :idPais, :anio, :trimestre, :filtro, :inicioPaginacion, :finPaginacion")
@@ -101,7 +67,32 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 		
 		List<Ranking> resultado = query.list();
 		
-		System.out.println("------------------------------------------------------- " + resultado);
+		if (!resultado.isEmpty()) {
+			
+			List<Long> idsAutores = new LinkedList<>();
+			
+			for (Ranking ranking : resultado) {				
+				idsAutores.add(ranking.getAutor().getId());
+			}	
+			
+			List<Ranking> cantidades = rankingPorAutorDao.getEjecucionesPorAutor(
+					idPais, anio, trimestre, idsAutores);
+			
+			Map<Long, Ranking> cantidadesPorAutor = new HashMap<Long, Ranking>();
+			
+			for (Ranking ranking : cantidades) {
+				cantidadesPorAutor.put(ranking.getAutor().getId(), ranking);
+			}
+			
+			for (Ranking unResultado : resultado) {
+				
+				Ranking cantidad = cantidadesPorAutor.get(unResultado.getAutor().getId());
+				if (cantidad != null) {
+					
+					unResultado.setCantidadUnidades(cantidad.getCantidadUnidades());
+				}
+			}
+		}
 		
 		return resultado;
 	}
@@ -114,30 +105,6 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 		
 		Session session = getSessionFactory().getCurrentSession();
 		
-//		StringBuffer buffer = new StringBuffer();
-//		buffer.append("select count(1) from ( ");
-//		buffer.append("select 1 as item from VIEW_MoneyAmounts ");
-//		
-//		buffer.append("WHERE companyId = :companyId ");
-//		
-//		buffer.append(DaoUtils.getWhereClauseExt2(trimestre, anio, idPais, filtro));
-//		
-//		buffer.append("GROUP BY idAutor ");	
-//		buffer.append(DaoUtils.getGroupByClause(trimestre, anio, idPais));
-//		
-//		buffer.append(") as tmp");
-//		
-//		Query query = session.createSQLQuery(buffer.toString());
-//		
-//		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-//		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro);
-//
-//		Integer resultado = (Integer) query.uniqueResult();
-//		
-//		return resultado != null ? resultado : 0;
-		
-		
-		
 		Query query = session.createSQLQuery(
 				"exec sp_amountsRankingCount :companyId, :idPais, :anio, :trimestre, :filtro")
 				.addScalar("cantidad", LongType.INSTANCE)
@@ -148,7 +115,7 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 				.setParameter("filtro", filtro);
 		
 		Long resultado = (Long) query.uniqueResult();
-System.out.println("ESTA ES ALA CANTIDAD ---------------------------------------- " + resultado);		
+
 		return resultado != null ? resultado : 0;
 	}
 
