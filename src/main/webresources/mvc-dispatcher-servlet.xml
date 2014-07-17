@@ -1,17 +1,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:batch="http://www.springframework.org/schema/batch"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xmlns:jdbc="http://www.springframework.org/schema/jdbc"  
+	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
     http://www.springframework.org/schema/batch  http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
     http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task-3.2.xsd
-    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+    http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<mvc:annotation-driven>
 	    <mvc:message-converters>
@@ -91,7 +95,6 @@
 	
 	
 	
-	<!--  REEMPLAZAR POR MSSQL SERVER -->
 	<bean id="dataSourceExterno" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${db.driverClass.ext}" />
 		<property name="url" value="jdbc:${db.protocol.ext}://${db.host.ext}:${db.port.ext}${db.schema.ext}" />
@@ -164,6 +167,70 @@
 		  <property name="maxPoolSize" value="10" />
 		  <property name="queueCapacity" value="25" />
 	</bean>
+	
+	
+	<!-- Cache -->
+	
+	<cache:annotation-driven cache-manager="cacheManager" />
+	
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		  <property name="caches">
+		    <set>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="rankingMasCobrados" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="rankingMasCobradosCount" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="paises" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="fuentes" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="derechos" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="anios" />
+		      </bean>
+		      
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosSACMPorAnio" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosOtrosPorAnio" />
+		      </bean>
+		      
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosSACMPorTrimestre" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosOtrosPorTrimestre" />
+		      </bean>
+		      
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosSACMPorPais" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosOtrosPorPais" />
+		      </bean>
+		      
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="montosPorFuente" />
+		      </bean>
+		    </set>
+		  </property>
+	</bean>
+	
+<!-- 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhcacheCacheManager"> -->
+<!-- 		<property name="cache-manager" value="ehcache" /> -->
+<!-- 	</bean>  -->
+ 
+<!-- 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" > -->
+<!-- 		<property name="config-location" value="ehcache.xml" /> -->
+<!-- 	</bean> -->
+
 	
 	
 	<!-- Batch jobs -->

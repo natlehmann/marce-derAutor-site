@@ -9,6 +9,7 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.DoubleType;
 import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("rankingMasCobrados")
 	public List<Ranking> getAutoresMasCobrados(
 			Long idPais, Integer anio,
 			Integer trimestre, int primerResultado, int cantidadResultados, String filtro) {
@@ -106,6 +108,7 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 
 	
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("rankingMasCobradosCount")
 	public long getCantidadAutoresMasCobrados(Long idPais, Integer anio, 
 			Integer trimestre, String filtro) {
 		

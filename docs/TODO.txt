@@ -1,5 +1,8 @@
 Terminar ABM EstadodeTareas - falta externalizar Fuente
 
+Ranking mas cobrados -> buscar "al" -> ver que se repiten nombres
+No funciona paginar con filtro. Hacer que haya que apretar boton para buscar
+
 Pasar Fuente a entidad externa
 
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)

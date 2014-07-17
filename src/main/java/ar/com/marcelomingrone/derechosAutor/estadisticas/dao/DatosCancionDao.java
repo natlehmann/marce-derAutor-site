@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ public class DatosCancionDao {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("anios")
 	public List<Integer> getAnios() {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
@@ -49,6 +51,7 @@ public class DatosCancionDao {
 	}
 	
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("anios")
 	public List<Integer> getUltimosTresAnios() {
 		
 		List<Integer> anios = new LinkedList<>();
@@ -68,6 +71,7 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("paises")
 	public List<Pais> getPaises() {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
@@ -132,6 +136,7 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("fuentes")
 	public List<Fuente> getFuentes(Long idPais) {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
@@ -154,6 +159,7 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("derechos")
 	public List<Derecho> getDerechosPorFuente(Fuente fuente) {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
@@ -171,6 +177,7 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosSACMPorAnio")
 	public List<MontoTotal> getMontosTotalesSACMPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, false);
 	}
@@ -182,6 +189,7 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosOtrosPorAnio")
 	public List<MontoTotal> getMontosTotalesOtrosPorAnio(Pais pais, Integer trimestre) {
 		return getMontosTotalesPorAnio(pais, trimestre, true);
 	}
@@ -242,6 +250,7 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosSACMPorTrimestre")
 	public List<MontoTotal> getMontosTotalesSACMPorTrimestre(Integer anio, Pais pais) {
 		
 		if (anio == null) {
@@ -258,6 +267,7 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosOtrosPorTrimestre")
 	public List<MontoTotal> getMontosTotalesOtrosPorTrimestre(Integer anio, Pais pais) {
 		
 		if (anio == null) {
@@ -318,6 +328,7 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosSACMPorPais")
 	public List<MontoTotal> getMontosTotalesSACMPorPais(Integer anio,
 			Integer trimestre, Pais pais) {
 		
@@ -337,6 +348,7 @@ public class DatosCancionDao {
 	 * @return
 	 */
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosOtrosPorPais")
 	public List<MontoTotal> getMontosTotalesOtrosPorPais(Integer anio,
 			Integer trimestre, Pais pais) {
 		
@@ -399,6 +411,7 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("montosPorFuente")
 	public List<MontoTotalPorFuente> getTotalesPorFuente(Long idPais, Integer anio) {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
