@@ -1,6 +1,7 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -153,5 +154,14 @@ public class Autor implements Serializable {
 	@Override
 	public String toString() {
 		return this.nombre + " (id:" + this.id + ")";
+	}
+	
+	public static class ComparadorPorNombre implements Comparator<Autor> {
+
+		@Override
+		public int compare(Autor autor1, Autor autor2) {
+			return autor1.getNombre().compareTo(autor2.getNombre());
+		}
+		
 	}
 }

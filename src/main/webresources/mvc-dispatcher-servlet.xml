@@ -207,6 +207,9 @@
 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 		      		<property name="name" value="anios" />
 		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="autores" />
+		      </bean>
 		      
 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 		      		<property name="name" value="canciones" />

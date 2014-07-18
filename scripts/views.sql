@@ -114,39 +114,3 @@ CREATE VIEW VIEW_Units AS
 GO
 
 
-
-IF EXISTS(select * FROM sys.views where name = 'VIEW_AuthorsIds') 
-	DROP VIEW VIEW_AuthorsIds
-GO
-
-CREATE VIEW VIEW_AuthorsIds AS
-
-	SELECT 	  CopyRight.OwnersID 
-	FROM	  CollectionDetails INNER JOIN
-	          CollectionHeaders ON CollectionDetails.CollectionHeadersID = CollectionHeaders.CollectionHeadersID INNER JOIN
-	          CollectionDetailsDistinct ON CollectionDetails.CollectionDetailsDistinctID = CollectionDetailsDistinct.CollectionDetailsDistinctID INNER JOIN
-	          Works ON CollectionDetailsDistinct.WorksID = Works.WorksID INNER JOIN
-	          CopyRight ON Works.WorksID = CopyRight.WorksID
-	UNION
-	
-	SELECT 	  CopyRight.OwnersID
-	FROM 	  RNKDetails INNER JOIN
-              Works INNER JOIN
-              UsageWork ON Works.WorksID = UsageWork.WorksID INNER JOIN
-              CopyRight ON Works.WorksID = CopyRight.WorksID
-              ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID
-GO
-
-
-
-IF EXISTS(select * FROM sys.views where name = 'VIEW_Years') 
-	DROP VIEW VIEW_Years
-GO
-
-CREATE VIEW VIEW_Years AS
-
-	SELECT    DISTINCT DATEPART(yyyy,Invoice.InvoiceDate) AS anio
-	FROM      Invoice 
-	WHERE 	  DATEPART(yyyy,Invoice.InvoiceDate) >= (select DATEPART(yyyy,getdate()) - 3)
-	ORDER BY  Invoice.InvoiceDate desc
-GO

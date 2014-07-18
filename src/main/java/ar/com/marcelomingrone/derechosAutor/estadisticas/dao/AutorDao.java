@@ -1,5 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,10 +9,12 @@ import java.util.Map;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor.ComparadorPorNombre;
 
 @Repository
 public class AutorDao extends EntidadExternaDao<Autor> {
@@ -32,11 +35,19 @@ public class AutorDao extends EntidadExternaDao<Autor> {
 		this.autores = new LinkedHashMap<>();
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
-		List<Autor> autoresEncontrados = session.createQuery(
-				"SELECT a FROM Autor a WHERE a.id IN ("
-				+ "SELECT b.idAutor from AutorRelevante b)").list();
+		
+		List<Autor> resultado = session.createQuery(
+				"select DISTINCT new " + Autor.class.getName() + "(idAutor,nombreAutor) "
+				+ "FROM SumarizacionMontos").list();
 
-		for (Autor autor : autoresEncontrados) {
+		
+		resultado.addAll( session.createQuery(
+				"select DISTINCT new " + Autor.class.getName() + "(idAutor,nombreAutor) "
+				+ "FROM SumarizacionUnidades").list() );
+		
+		Collections.sort(resultado, new ComparadorPorNombre());
+
+		for (Autor autor : resultado) {
 			this.autores.put(autor.getId(), autor);
 		}
 	}
@@ -68,6 +79,7 @@ public class AutorDao extends EntidadExternaDao<Autor> {
 	
 	
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("autores")
 	public List<Autor> getAutoresLikeNombre(String nombreAutor) {
 		
 		if (this.autores == null) {
@@ -83,14 +95,7 @@ public class AutorDao extends EntidadExternaDao<Autor> {
 		}
 		
 		return autoresFiltrados;
-		
-//		Session session = sessionFactoryExterno.getCurrentSession();
-//		return session.createQuery(
-//				"select DISTINCT new " + Autor.class.getName() + "(dc.idAutor, dc.nombreAutor) "
-//				+ "from SumarizacionMontos dc "
-//				+ "WHERE dc.companyId = :companyId AND dc.nombreAutor LIKE :nombreAutor order by dc.nombreAutor asc")
-//				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
-//				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
+
 	}
 
 
