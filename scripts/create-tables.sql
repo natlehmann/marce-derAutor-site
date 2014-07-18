@@ -165,7 +165,7 @@ create table ReglamentoDeDistribucion(
 	descripcion varchar(512) not null,
 	fuente_id BIGINT NOT NULL,
 	derecho_nombre varchar(255) NOT NULL,
-	FOREIGN KEY (fuente_id) REFERENCES Fuente(id),
+	nombreFuente varchar(255),
 	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
 )  ENGINE=InnoDB;
 

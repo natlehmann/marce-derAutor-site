@@ -13,3 +13,16 @@ create table EstadoDeTareas(
 	nombreAutor varchar(255),
 	nombreFuente varchar(255)
 )  ENGINE=InnoDB;
+
+
+drop table ReglamentoDeDistribucion;
+
+create table ReglamentoDeDistribucion(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	fecha datetime not null,
+	descripcion varchar(512) not null,
+	fuente_id BIGINT NOT NULL,
+	derecho_nombre varchar(255) NOT NULL,
+	nombreFuente varchar(255),
+	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
+)  ENGINE=InnoDB;

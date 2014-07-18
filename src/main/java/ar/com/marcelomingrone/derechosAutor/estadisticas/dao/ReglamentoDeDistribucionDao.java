@@ -38,7 +38,7 @@ public class ReglamentoDeDistribucionDao extends EntidadDao<ReglamentoDeDistribu
 		buffer.append("SELECT r FROM ReglamentoDeDistribucion r ");
 		
 		if (!StringUtils.isEmpty(filtro)) {
-			buffer.append("WHERE r.fuente.nombre = :filtro ");
+			buffer.append("WHERE r.nombreFuente = :filtro ");
 		}
 		
 		if (!StringUtils.isEmpty(campoOrdenamiento)) {
@@ -69,7 +69,7 @@ public class ReglamentoDeDistribucionDao extends EntidadDao<ReglamentoDeDistribu
 		buffer.append("SELECT COUNT(r) FROM ReglamentoDeDistribucion r ");
 		
 		if (!StringUtils.isEmpty(filtro)) {
-			buffer.append("WHERE r.fuente.nombre = :filtro ");
+			buffer.append("WHERE r.nombreFuente = :filtro ");
 		}
 		
 		Query query = session.createQuery(buffer.toString());

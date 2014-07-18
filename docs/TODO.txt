@@ -2,11 +2,9 @@ Mejorar "estadisticas" (link desde grafico)
 
 Aparece mensaje "NO data available..." en los listados de la home
 
-Terminar ABM EstadodeTareas - falta externalizar Fuente
-
 Boton para limpiar cache (@CacheEviction)
 
-Pasar Fuente a entidad externa
+Pasar Derecho a entidad externa
 
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 

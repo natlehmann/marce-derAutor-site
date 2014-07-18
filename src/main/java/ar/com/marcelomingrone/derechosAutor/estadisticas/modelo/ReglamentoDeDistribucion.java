@@ -15,16 +15,16 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
-
 @Entity
 public class ReglamentoDeDistribucion extends Entidad {
 	
 	private static final long serialVersionUID = 4129794852798181760L;
 
 	@NotNull
-	@ManyToOne(optional=false)
-	private Fuente fuente;
+	@Column(name="fuente_id")
+	private Long idFuente;
+	
+	private String nombreFuente;
 	
 	@NotNull
 	@ManyToOne(optional=false)
@@ -38,12 +38,20 @@ public class ReglamentoDeDistribucion extends Entidad {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fecha;
 
-	public Fuente getFuente() {
-		return fuente;
+	public Long getIdFuente() {
+		return idFuente;
 	}
-
-	public void setFuente(Fuente fuente) {
-		this.fuente = fuente;
+	
+	public void setIdFuente(Long idFuente) {
+		this.idFuente = idFuente;
+	}
+	
+	public String getNombreFuente() {
+		return nombreFuente;
+	}
+	
+	public void setNombreFuente(String nombreFuente) {
+		this.nombreFuente = nombreFuente;
 	}
 
 	public Derecho getDerecho() {

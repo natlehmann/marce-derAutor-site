@@ -31,6 +31,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FuenteDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.ReglamentoDeDistribucionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReglamentoDeDistribucion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 
 @Controller
 public class ReglamentoDeDistribucionController {
@@ -57,7 +58,7 @@ public class ReglamentoDeDistribucionController {
 	@RequestMapping("/reglamentoDeDistribucion")
 	public String listar(ModelMap model, HttpSession session) {
 		
-		model.addAttribute("fuentes", fuenteDao.getTodos());
+		model.addAttribute("fuentes", fuenteDao.getFuentesEnUso());
 		session.setAttribute(SessionParam.FUENTE.toString(), null);
 		
 		return "reglamentoDeDistribucion_listar";
@@ -112,7 +113,7 @@ public class ReglamentoDeDistribucionController {
 
 	private String prepararFormulario(ReglamentoDeDistribucion reglamento, ModelMap model) {
 		
-		model.addAttribute("fuentes", fuenteDao.getTodos());
+		model.addAttribute("fuentes", fuenteDao.getFuentesEnUso());
 		model.addAttribute("derechos", derechoDao.getTodos());
 		
 		model.addAttribute("reglamentoDeDistribucion", reglamento);
@@ -126,6 +127,13 @@ public class ReglamentoDeDistribucionController {
 		if (!result.hasErrors()) {
 			
 			try {
+				if (reglamento.getIdFuente() != null) {
+					Fuente fuente = fuenteDao.buscar(reglamento.getIdFuente());
+					if (fuente != null) {
+						reglamento.setNombreFuente(fuente.getNombre());
+					}
+				}
+				
 				reglamentoDeDistribucionDao.guardar(reglamento);
 				model.addAttribute("msg", "El reglamento de distribución se ha guardado con éxito.");
 				
