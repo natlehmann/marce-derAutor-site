@@ -8,12 +8,15 @@ Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
 Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inicial del artista
 
+En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion
+
 refactoring DaoUtils getWhereClauseExt
 
 
 Ver si configuramos ehcache
+Ver si se puede agilizar la respuesta cuando la saca de cache. Por que tarda tanto?
 
-Eliminar DatosCancion y a todas las entidades externas sacarles las anotaciones
+Eliminar DatosCancion 
 
 profiler para ver que queries tardan mas ?
 

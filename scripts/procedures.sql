@@ -884,3 +884,103 @@ AS
 ErrorHandler:
     Return(@@ERROR)
 GO
+
+
+
+CREATE PROCEDURE sp_unitsByWork
+    /* Input Parameters */
+    @idPais int,
+    @anio int,
+    @trimestre int,
+    @idAutor int,
+    @idsCanciones varchar(5000)
+        
+AS
+    Set NoCount ON
+    /* Variable Declaration */
+    Declare @SQLQuery AS NVarchar(4000)
+    Declare @ParamDefinition AS NVarchar(2000) 
+    
+    Declare @inicio as int
+    Declare @fin as int
+    
+    /* Build the Transact-SQL String with the input parameters */ 
+    Set @SQLQuery = 'SELECT Works.WorksID as idCancion,
+					 ROUND( SUM(RNKDetails.Units * CurrenciesConvertion.Factor * (CopyRight.CopyRightShare/100)), 0) AS cantidadUnidades '
+    				+ 'FROM      CurrenciesConvertion INNER JOIN
+              Currencies ON CurrenciesConvertion.CurrenciesID_From = Currencies.CurrenciesID INNER JOIN
+              RNKDetails INNER JOIN
+              Works INNER JOIN
+              UsageWork ON Works.WorksID = UsageWork.WorksID INNER JOIN
+              CopyRight ON Works.WorksID = CopyRight.WorksID INNER JOIN
+              Owners ON CopyRight.OwnersID = Owners.OwnersID INNER JOIN
+              OwnersSocieties ON Owners.OwnersID = OwnersSocieties.OwnersID INNER JOIN
+              Owners_All ON Owners.OwnersID = Owners_All.OwnersID 
+              ON RNKDetails.UsageWorkID = UsageWork.UsageWorkID INNER JOIN
+              RNKHeaders ON RNKDetails.RNKHeadersID = RNKHeaders.RNKHeadersID INNER JOIN
+              Countries INNER JOIN
+              Sources ON Countries.CountriesID = Sources.CountriesID ON RNKHeaders.SourcesID = Sources.SourcesID ON 
+              Currencies.CountriesID = Sources.CountriesID 
+	                      
+	GROUP BY 	  Works.WorksID,
+				  CopyRight.OwnersID, 
+				  OwnersSocieties.AuthorSocietiesID, 
+				  Sources.SourcesID_Parent'
+    				
+   If @idPais Is Not Null 
+         Set @SQLQuery = @SQLQuery + ',Countries.CountriesID'
+         
+   If @anio Is Not Null
+         Set @SQLQuery = @SQLQuery + ',DATEPART(yyyy,RNKHeaders.EndDate)'
+         
+   If @trimestre Is Not Null
+         Set @SQLQuery = @SQLQuery + ',DATEPART(mm,RNKHeaders.EndDate)'
+         
+   
+   Set @SQLQuery = @SQLQuery + ' HAVING OwnersSocieties.AuthorSocietiesID = 59 
+								 AND Sources.SourcesID_Parent = 9 
+								 AND CopyRight.OwnersID = @idAutor
+								 AND Works.WorksID IN (' + @idsCanciones + ') '
+
+   If @idPais Is Not Null 
+         Set @SQLQuery = @SQLQuery + 'AND Countries.CountriesID = @idPais '
+         
+   If @anio Is Not Null 
+         Set @SQLQuery = @SQLQuery + 'AND DATEPART(yyyy,RNKHeaders.EndDate) = @anio '
+         
+   If @trimestre Is Not Null 
+   BEGIN
+   		 Set @inicio = (@trimestre - 1) * 3 + 1
+   		 Set @fin = @inicio + 2
+         Set @SQLQuery = @SQLQuery + 'AND DATEPART(mm,RNKHeaders.EndDate) BETWEEN @inicio AND @fin '
+   END
+    
+    
+    
+    /* Specify Parameter Format for all input parameters included 
+     in the stmt */
+    Set @ParamDefinition =  '@idPais int,
+						    @anio int,
+						    @trimestre int,
+							@idAutor int,
+							@inicio int,
+							@fin int'
+    /* Execute the Transact-SQL String with all parameter value's 
+       Using sp_executesql Command */
+    Execute sp_Executesql     
+    			@SQLQuery, 
+                @ParamDefinition, 
+                @idPais,
+                @anio, 
+                @trimestre, 
+                @idAutor,
+                @inicio,
+                @fin
+                
+    If @@ERROR <> 0 GoTo ErrorHandler
+    Set NoCount OFF
+    Return(0)
+  
+ErrorHandler:
+    Return(@@ERROR)
+GO

@@ -1,9 +1,11 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -115,6 +117,61 @@ public class DatosCancionDao {
 				.setParameter("filtro", filtro)
 				.setParameter("inicioPaginacion", inicio + 1)
 				.setParameter("finPaginacion", inicio + cantidadResultados);
+		
+		List<RankingCancion> resultado = query.list();
+		
+		
+		if (!resultado.isEmpty()) {
+			
+			List<Long> idsCanciones = new LinkedList<>();
+			
+			for (RankingCancion ranking : resultado) {				
+				idsCanciones.add(ranking.getCancion().getId());
+			}	
+			
+			List<RankingCancion> cantidades = getEjecucionesPorCancion(
+					idPais, anio, trimestre, idAutor, idsCanciones);
+			
+			Map<Long, RankingCancion> cantidadesPorCancion = new HashMap<Long, RankingCancion>();
+			
+			for (RankingCancion ranking : cantidades) {
+				cantidadesPorCancion.put(ranking.getCancion().getId(), ranking);
+			}
+			
+			for (RankingCancion unResultado : resultado) {
+				
+				RankingCancion cantidad = cantidadesPorCancion.get(unResultado.getCancion().getId());
+				if (cantidad != null) {
+					
+					unResultado.setCantidadUnidades(cantidad.getCantidadUnidades());
+				}
+			}
+		}
+		
+		return resultado;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManagerExterno")
+	private List<RankingCancion> getEjecucionesPorCancion(Long idPais,
+			Integer anio, Integer trimestre, Long idAutor,
+			List<Long> idsCanciones) {
+		
+		Session session = sessionFactoryExterno.getCurrentSession();
+		
+		String ids = idsCanciones.toString().replace("[", "").replace("]", "");
+		
+		Query query = session.createSQLQuery(
+				"exec sp_unitsByWork :idPais, :anio, :trimestre, :idAutor, :idsCanciones")
+				.addScalar("idCancion", LongType.INSTANCE)
+				.addScalar("cantidadUnidades", LongType.INSTANCE)
+				.setResultTransformer(Transformers.aliasToBean(RankingCancion.class))
+				
+				.setParameter("idPais", idPais)
+				.setParameter("anio", anio)
+				.setParameter("trimestre", trimestre)
+				.setParameter("idAutor", idAutor)
+				.setParameter("idsCanciones", ids);
 		
 		List<RankingCancion> resultado = query.list();
 		
