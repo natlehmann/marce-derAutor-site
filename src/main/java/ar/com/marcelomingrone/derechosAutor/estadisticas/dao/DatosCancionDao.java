@@ -8,6 +8,9 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DoubleType;
+import org.hibernate.type.LongType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -20,8 +23,8 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
 
 @Repository
 public class DatosCancionDao {
@@ -82,55 +85,62 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("canciones")
 	public List<RankingCancion> getCanciones(Long idPais,
 			Integer anio, Integer trimestre, Long idAutor, int inicio,
 			int cantidadResultados, String filtro) {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT new ").append(RankingCancion.class.getName()).append("( ")
-			.append("dc.idCancion, dc.nombreCancion, dc.idAutor, dc.nombreAutor, ")
-			.append("SUM(dc.cantidadUnidades), SUM(dc.montoPercibido)) ")
-			.append("FROM SumaUnidadesYMontos dc ")
-			.append("WHERE dc.companyId = :companyId ");
+		Query query = session.createSQLQuery(
+				"exec sp_amountsByWorkRanking :companyId, :idPais, :anio, :trimestre, :idAutor, :filtro, :inicioPaginacion, :finPaginacion")
+				.addScalar("trimestre")
+				.addScalar("anio")
+				.addScalar("idPais", LongType.INSTANCE)
+				.addScalar("id", LongType.INSTANCE)
+				.addScalar("ranking", LongType.INSTANCE)
+				.addScalar("idAutor", LongType.INSTANCE)
+				.addScalar("nombreAutor")
+				.addScalar("idCancion", LongType.INSTANCE)
+				.addScalar("nombreCancion")
+				.addScalar("cantidadUnidades", LongType.INSTANCE)
+				.addScalar("montoPercibido", DoubleType.INSTANCE)
+				.setResultTransformer(Transformers.aliasToBean(RankingCancion.class))
+				
+				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
+				.setParameter("idPais", idPais)
+				.setParameter("anio", anio)
+				.setParameter("trimestre", trimestre)
+				.setParameter("idAutor", idAutor)
+				.setParameter("filtro", filtro)
+				.setParameter("inicioPaginacion", inicio + 1)
+				.setParameter("finPaginacion", inicio + cantidadResultados);
 		
-		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, idPais, filtro, idAutor));
+		List<RankingCancion> resultado = query.list();
 		
-		buffer.append("GROUP BY dc.idCancion, dc.nombreCancion, dc.idAutor, dc.nombreAutor ")
-			.append("ORDER BY dc.nombreCancion asc");
-		
-		Query query = session.createQuery(buffer.toString());
-		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-		
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro, idAutor);
-		
-		query.setFirstResult(inicio);
-		query.setMaxResults(cantidadResultados);
-		
-		return query.list();
+		return resultado;
 	}
 
 	@Transactional(value="transactionManagerExterno")
+	@Cacheable("cancionesCount")
 	public long getCantidadCanciones(Long idPais,
 			Integer anio, Integer trimestre, Long idAutor, String filtro) {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("select count(DISTINCT dc.idCancion) FROM SumaUnidadesYMontos dc ");
-		buffer.append("WHERE dc.companyId = :companyId ");
-		
-		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, idPais, filtro, idAutor));
-		
-		Query query = session.createQuery(buffer.toString());
-		query.setParameter("companyId", Configuracion.SACM_COMPANY_ID);
-		
-		DaoUtils.setearParametros(query, idPais, anio, trimestre, filtro, idAutor);
+		Query query = session.createSQLQuery(
+				"exec sp_amountsByWorkRankingCount :companyId, :idPais, :anio, :trimestre, :idAutor, :filtro")
+				.addScalar("cantidad", LongType.INSTANCE)
+				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
+				.setParameter("idPais", idPais)
+				.setParameter("anio", anio)
+				.setParameter("trimestre", trimestre)
+				.setParameter("idAutor", idAutor)
+				.setParameter("filtro", filtro);
 		
 		Long resultado = (Long) query.uniqueResult();
-		
-		return resultado != null ? resultado.longValue() : 0;
+
+		return resultado != null ? resultado : 0;
 	}
 	
 	

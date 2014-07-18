@@ -1,4 +1,4 @@
-package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
+package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,9 +6,6 @@ import java.util.List;
 import javax.persistence.ManyToOne;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Ranking;
 
 public class RankingCancion extends Ranking {
 	
@@ -53,6 +50,20 @@ public class RankingCancion extends Ranking {
 		campos.add("$ " + Utils.formatear(getMontoPercibido()));
 		
 		return campos;
+	}
+	
+	public void setIdCancion(Long idCancion) {
+		if (this.cancion == null) {
+			this.cancion = new Cancion();
+		}
+		this.cancion.setId(idCancion);
+	}
+	
+	public void setNombreCancion(String nombreCancion) {
+		if (this.cancion == null) {
+			this.cancion = new Cancion();
+		}
+		this.cancion.setNombre(nombreCancion);
 	}
 
 }

@@ -209,6 +209,13 @@
 		      </bean>
 		      
 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="canciones" />
+		      </bean>
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+		      		<property name="name" value="cancionesCount" />
+		      </bean>
+		      
+		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
 		      		<property name="name" value="montosSACMPorAnio" />
 		      </bean>
 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">

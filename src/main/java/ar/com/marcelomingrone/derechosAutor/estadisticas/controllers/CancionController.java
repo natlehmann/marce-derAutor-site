@@ -19,8 +19,8 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Sessi
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.RankingCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
 
 @Controller
 public class CancionController {
