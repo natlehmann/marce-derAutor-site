@@ -2,6 +2,7 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 public class DatosCancion extends Entidad {

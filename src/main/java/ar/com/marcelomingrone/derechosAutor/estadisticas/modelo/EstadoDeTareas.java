@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -25,8 +24,10 @@ public class EstadoDeTareas extends Entidad {
 	@NotNull @Size(max=255) @NotBlank
 	private String asunto;
 	
-	@ManyToOne
-	private Fuente fuente;
+	@Column(name="fuente_id")
+	private Long idFuente;
+	
+	private String nombreFuente;
 	
 	private String estado;
 	
@@ -68,12 +69,20 @@ public class EstadoDeTareas extends Entidad {
 		this.asunto = asunto;
 	}
 
-	public Fuente getFuente() {
-		return fuente;
+	public Long getIdFuente() {
+		return idFuente;
 	}
-
-	public void setFuente(Fuente fuente) {
-		this.fuente = fuente;
+	
+	public void setIdFuente(Long idFuente) {
+		this.idFuente = idFuente;
+	}
+	
+	public String getNombreFuente() {
+		return nombreFuente;
+	}
+	
+	public void setNombreFuente(String nombreFuente) {
+		this.nombreFuente = nombreFuente;
 	}
 
 	public String getEstado() {

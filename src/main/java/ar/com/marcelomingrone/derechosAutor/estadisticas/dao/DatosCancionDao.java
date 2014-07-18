@@ -20,11 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
 

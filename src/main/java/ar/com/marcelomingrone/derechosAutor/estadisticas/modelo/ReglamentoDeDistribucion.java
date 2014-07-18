@@ -15,6 +15,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
+
 @Entity
 public class ReglamentoDeDistribucion extends Entidad {
 	

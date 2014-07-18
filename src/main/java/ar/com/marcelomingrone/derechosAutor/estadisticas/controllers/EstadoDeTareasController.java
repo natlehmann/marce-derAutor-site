@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -28,6 +27,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas.Estado;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.EstadoDeTareas.Prioridad;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 
 @Controller
 public class EstadoDeTareasController {
@@ -78,6 +78,14 @@ public class EstadoDeTareasController {
 					estadoTarea.setNombreAutor(autor.getNombre());
 				}
 			}
+			
+			if (estadoTarea.getIdFuente() != null && estadoTarea.getNombreFuente() == null) {
+				
+				Fuente fuente = fuenteDao.buscar(estadoTarea.getIdFuente());
+				if (fuente != null) {
+					estadoTarea.setNombreFuente(fuente.getNombre());
+				}
+			}
 		}
 		
 		model.addAttribute("listado", listado);
@@ -89,7 +97,7 @@ public class EstadoDeTareasController {
 		model.addAttribute("filtro_prioridad", prioridad);
 		model.addAttribute("nombreAutor", nombreAutor);
 		
-		model.addAttribute("fuentes", fuenteDao.getTodos());
+		model.addAttribute("fuentes", fuenteDao.getFuentesEnUso());
 		model.addAttribute("estados", Estado.values());
 		model.addAttribute("prioridades", Prioridad.values());
 		
@@ -114,7 +122,7 @@ public class EstadoDeTareasController {
 
 	private String prepararFormulario(EstadoDeTareas estadoDeTareas, ModelMap model) {
 		
-		model.addAttribute("fuentes", fuenteDao.getTodos());
+		model.addAttribute("fuentes", fuenteDao.getFuentesEnUso());
 		model.addAttribute("estados", Estado.values());
 		model.addAttribute("prioridades", Prioridad.values());
 		
@@ -143,9 +151,16 @@ public class EstadoDeTareasController {
 //				if (estadoDeTareas.getAutor() != null && StringUtils.isEmpty(estadoDeTareas.getAutor().getId())) {
 //					estadoDeTareas.setAutor(null);
 //				}
+//				
+//				if (estadoDeTareas.getFuente() != null && StringUtils.isEmpty(estadoDeTareas.getFuente().getId())) {
+//					estadoDeTareas.setFuente(null);
+//				}
 				
-				if (estadoDeTareas.getFuente() != null && StringUtils.isEmpty(estadoDeTareas.getFuente().getId())) {
-					estadoDeTareas.setFuente(null);
+				if (estadoDeTareas.getIdFuente() != null) {
+					Fuente fuente = fuenteDao.buscar(estadoDeTareas.getIdFuente());
+					if (fuente != null) {
+						estadoDeTareas.setNombreFuente(fuente.getNombre());
+					}
 				}
 				
 				estadoDeTareasDao.guardar(estadoDeTareas);

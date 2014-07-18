@@ -42,7 +42,7 @@ public class EstadoDeTareasDao extends EntidadDao<EstadoDeTareas> {
 		}
 		
 		if (idFuente != null) {
-			queryStr.append("AND e.fuente.id = :idFuente ");
+			queryStr.append("AND e.idFuente = :idFuente ");
 		}
 		
 		if (!StringUtils.isEmpty(asunto)) {

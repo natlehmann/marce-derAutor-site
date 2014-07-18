@@ -50,9 +50,9 @@
 		</div>
 		
 		<div class="campo">
-			<form:label path="fuente.id">Fuente</form:label>
-			<form:errors path="fuente.id" cssClass="error"/>
-			<form:select path="fuente.id">
+			<form:label path="idFuente">Fuente</form:label>
+			<form:errors path="idFuente" cssClass="error"/>
+			<form:select path="idFuente">
 				<form:option value="">Ninguna</form:option>
 				<form:options items="${fuentes}" itemLabel="nombre" itemValue="id"/>
 			</form:select>

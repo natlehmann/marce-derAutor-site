@@ -3,6 +3,8 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 import java.util.LinkedList;
 import java.util.List;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
+
 public class MontoTotalPorFuente {
 	
 	private Fuente fuente;

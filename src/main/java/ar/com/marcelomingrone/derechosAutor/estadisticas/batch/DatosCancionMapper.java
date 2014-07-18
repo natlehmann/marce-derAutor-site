@@ -11,9 +11,9 @@ import org.springframework.validation.BindException;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
 public class DatosCancionMapper implements FieldSetMapper<DatosCancion> {

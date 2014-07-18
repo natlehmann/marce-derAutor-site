@@ -155,7 +155,8 @@ create table EstadoDeTareas(
 	fecha datetime,
 	descripcion varchar(1024) NOT NULL,
 	comentario varchar(512) NOT NULL,
-	nombreAutor varchar(255)
+	nombreAutor varchar(255),
+	nombreFuente varchar(255)
 )  ENGINE=InnoDB;
 
 create table ReglamentoDeDistribucion(

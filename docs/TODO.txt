@@ -1,3 +1,7 @@
+Mejorar "estadisticas" (link desde grafico)
+
+Aparece mensaje "NO data available..." en los listados de la home
+
 Terminar ABM EstadodeTareas - falta externalizar Fuente
 
 Boton para limpiar cache (@CacheEviction)
@@ -8,7 +12,8 @@ Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
 Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inicial del artista
 
-En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion
+En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion (pasa con cualquier filtro
+aplicado tambien)
 
 refactoring DaoUtils getWhereClauseExt
 

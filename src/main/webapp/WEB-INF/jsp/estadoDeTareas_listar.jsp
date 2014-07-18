@@ -155,7 +155,7 @@
 							</td>
 							<td class="autor">${estadoDeTareas.nombreAutor}</td>
 							<td class="asunto">${estadoDeTareas.asunto}</td>
-							<td class="fuente">${estadoDeTareas.fuente.nombre}</td>
+							<td class="fuente">${estadoDeTareas.nombreFuente}</td>
 							<td class="estado">${estadoDeTareas.estado}</td>
 							<td class="prioridad">${estadoDeTareas.prioridad}</td>
 							
