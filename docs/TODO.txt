@@ -4,7 +4,8 @@ Aparece mensaje "NO data available..." en los listados de la home
 
 Boton para limpiar cache (@CacheEviction)
 
-Pasar Derecho a entidad externa
+En el grafico el año maximo es 2011, esta bien?
+
 
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
@@ -14,6 +15,8 @@ En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion 
 aplicado tambien)
 
 refactoring DaoUtils getWhereClauseExt
+
+Borrar las tablas que no se usan
 
 
 Ver si configuramos ehcache

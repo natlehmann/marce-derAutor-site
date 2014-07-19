@@ -2,6 +2,7 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.io.Serializable;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.DerechoExterno;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
@@ -11,7 +12,7 @@ public class MontoPorDerecho implements Serializable {
 
 	private Fuente fuente;
 	
-	private Derecho derecho;
+	private DerechoExterno derecho;
 	
 	private Integer trimestre;
 	
@@ -21,7 +22,7 @@ public class MontoPorDerecho implements Serializable {
 	
 	private Double monto;
 
-	public MontoPorDerecho(Fuente fuente, Derecho derecho, Integer trimestre,
+	public MontoPorDerecho(Fuente fuente, DerechoExterno derecho, Integer trimestre,
 			Double monto) {
 		super();
 		this.fuente = fuente;
@@ -35,7 +36,7 @@ public class MontoPorDerecho implements Serializable {
 		
 		Fuente fuente = new Fuente(idFuente, nombreFuente);
 		this.setFuente(fuente);
-		Derecho derecho = new Derecho(nombreDerecho);
+		DerechoExterno derecho = new DerechoExterno(nombreDerecho);
 		this.setDerecho(derecho);
 		this.trimestre = trimestre;
 		this.monto = monto;
@@ -49,11 +50,11 @@ public class MontoPorDerecho implements Serializable {
 		this.fuente = fuente;
 	}
 
-	public Derecho getDerecho() {
+	public DerechoExterno getDerecho() {
 		return derecho;
 	}
 
-	public void setDerecho(Derecho derecho) {
+	public void setDerecho(DerechoExterno derecho) {
 		this.derecho = derecho;
 	}
 

@@ -40,11 +40,9 @@ public class FuenteDao extends EntidadExternaDao<Fuente> {
 		fuentes = new LinkedHashMap<>();
 		
 		List<Fuente> enUso = datosCancionDao.getFuentes(null);
-System.out.println("-------------------------------- " + enUso);
 		Collections.sort(enUso, new ComparadorPorNombre());
 		
 		for (Fuente fuente : enUso) {
-System.out.println("GUARDANDO FUENTE " + fuente);			
 			this.fuentes.put(fuente.getId(), fuente);
 		}
 	}

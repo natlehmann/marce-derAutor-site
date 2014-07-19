@@ -25,7 +25,7 @@ create table Usuario_Rol(
 	FOREIGN KEY (rol_id) REFERENCES Rol(id)
 )  ENGINE=InnoDB;
 
-create table Derecho(
+create table DerechoEditable(
 	nombre varchar(255) not null PRIMARY KEY,
 	modificable bit default 0
 )  ENGINE=InnoDB;

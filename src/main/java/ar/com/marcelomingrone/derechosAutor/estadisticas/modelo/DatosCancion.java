@@ -2,6 +2,7 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Cancion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.DerechoExterno;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
@@ -25,7 +26,7 @@ public class DatosCancion extends Entidad {
 	
 	private Fuente fuente;
 	
-	private Derecho derecho;
+	private DerechoExterno derecho;
 	
 	private long cantidadUnidades;
 	
@@ -111,11 +112,11 @@ public class DatosCancion extends Entidad {
 		this.montoPercibido = montoPercibido;
 	}
 	
-	public void setDerecho(Derecho derecho) {
+	public void setDerecho(DerechoExterno derecho) {
 		this.derecho = derecho;
 	}
 	
-	public Derecho getDerecho() {
+	public DerechoExterno getDerecho() {
 		return derecho;
 	}
 	

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -27,8 +26,8 @@ public class ReglamentoDeDistribucion extends Entidad {
 	private String nombreFuente;
 	
 	@NotNull
-	@ManyToOne(optional=false)
-	private Derecho derecho;
+	@Column(name="derecho_nombre")
+	private String nombreDerecho;
 	
 	@NotNull @Size(max=512) @NotBlank
 	@Column(length=512, nullable=false)
@@ -54,12 +53,12 @@ public class ReglamentoDeDistribucion extends Entidad {
 		this.nombreFuente = nombreFuente;
 	}
 
-	public Derecho getDerecho() {
-		return derecho;
+	public String getNombreDerecho() {
+		return nombreDerecho;
 	}
-
-	public void setDerecho(Derecho derecho) {
-		this.derecho = derecho;
+	
+	public void setNombreDerecho(String nombreDerecho) {
+		this.nombreDerecho = nombreDerecho;
 	}
 
 	@Override
@@ -101,7 +100,7 @@ public class ReglamentoDeDistribucion extends Entidad {
 	public List<String> getCamposAsList() {
 		
 		List<String> resultado = new LinkedList<>();
-		resultado.add(this.derecho.getNombre());
+		resultado.add(this.nombreDerecho);
 		resultado.add(this.getDescripcionCorta());
 		resultado.add(format.format(this.fecha));
 		

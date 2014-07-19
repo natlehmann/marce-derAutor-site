@@ -35,9 +35,9 @@
 		</div>
 		
 		<div class="campo">
-			<form:label path="derecho.nombre">Derecho</form:label>
-			<form:errors path="derecho.nombre" cssClass="error"/>
-			<form:select path="derecho.nombre">
+			<form:label path="nombreDerecho">Derecho</form:label>
+			<form:errors path="nombreDerecho" cssClass="error"/>
+			<form:select path="nombreDerecho">
 				<form:options items="${derechos}" itemLabel="nombre" itemValue="nombre"/>
 			</form:select>
 		</div>

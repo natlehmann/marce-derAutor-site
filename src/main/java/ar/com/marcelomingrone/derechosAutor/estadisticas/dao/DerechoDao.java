@@ -1,101 +1,84 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import java.util.Collections;
 import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DerechoEditable;
 
 @Repository
 public class DerechoDao {
 	
 	@Autowired
-	private SessionFactory sessionFactory;
+	private DerechoEditableDao derechoEditableDao;
+	
+	@Autowired
+	private DerechoExternoDao derechoExternoDao;
 
-	@Transactional(value="transactionManager")
-	@SuppressWarnings("unchecked")
+	@Cacheable("derechos")
 	public List<Derecho> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
 			String filtro) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		List<Derecho> derechos = derechoEditableDao.getTodosFiltrado(filtro);
+		derechos.addAll(derechoExternoDao.getTodosFiltrado(filtro));
 		
-		StringBuffer queryStr = new StringBuffer("SELECT d FROM Derecho d ");
+		Collections.sort(derechos);
 		
-		if ( !StringUtils.isEmpty(filtro) ) {
-			queryStr.append("WHERE d.nombre LIKE :filtro ");
+		int indiceInicial = inicio * cantidadResultados;
+		int indiceFinal = indiceInicial + cantidadResultados;
+		
+		if (derechos.size() < indiceFinal) {
+			indiceFinal = derechos.size();
 		}
 		
-		queryStr.append("ORDER BY d.nombre");
-		
-		Query query = session.createQuery(queryStr.toString());
-		
-		if ( !StringUtils.isEmpty(filtro) ) {
-			query.setParameter("filtro", "%" + filtro + "%");
-		}
-		
-		query.setFirstResult(inicio);
-		query.setMaxResults(cantidadResultados);
-		
-		return query.list();
+		return derechos.subList(indiceInicial, indiceFinal);
 		
 	}
 
-	@Transactional(value="transactionManager")
 	public long getCantidadResultados(String filtro) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		
-		StringBuffer queryStr = new StringBuffer("SELECT COUNT(d) FROM Derecho d ");
-		
-		if ( !StringUtils.isEmpty(filtro) ) {
-			queryStr.append("WHERE d.nombre LIKE :filtro ");
-		}
-		
-		Query query = session.createQuery(queryStr.toString());
-		
-		if ( !StringUtils.isEmpty(filtro) ) {
-			query.setParameter("filtro", "%" + filtro + "%");
-		}
-		
-		Long resultado = (Long) query.uniqueResult();
-		
-		return resultado != null ? resultado.longValue() : 0;
+		return getTodosPaginadoFiltrado(0, 100000, filtro).size();
 	}
 
-	@Transactional(value="transactionManager")
+	
 	public Derecho buscar(String nombre) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		return (Derecho) session.get(Derecho.class, nombre);
+		Derecho derecho = derechoEditableDao.buscar(nombre);
+		if (derecho == null) {
+			derecho = derechoExternoDao.buscar(nombre);
+		}
+		
+		return derecho;
 	}
 
-	@Transactional(value="transactionManager")
-	public void guardar(Derecho derecho) {
+
+	public void guardar(DerechoEditable derecho) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		session.saveOrUpdate(derecho);
+		Derecho existente = derechoExternoDao.buscar(derecho.getNombre());
+		if (existente != null) {
+			throw new IllegalArgumentException("El nombre del derecho ya existe.");
+		}
 		
+		derechoEditableDao.guardar(derecho);
 	}
 
-	@Transactional(value="transactionManager")
-	public void eliminar(Derecho derecho) {
+	public void eliminar(DerechoEditable derecho) {
 		
-		Session session = sessionFactory.getCurrentSession();
-		session.delete(derecho);		
+		derechoEditableDao.eliminar(derecho);		
 	}
 
-	@Transactional(value="transactionManager")
-	@SuppressWarnings("unchecked")
 	public List<Derecho> getTodos() {
 		
-		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("FROM Derecho d ORDER BY d.nombre").list();
+		List<Derecho> derechos = derechoEditableDao.getTodos();
+		derechos.addAll(derechoExternoDao.getDerechosEnUso());
+		
+		Collections.sort(derechos);
+		
+		return derechos;
 	}
 
 }

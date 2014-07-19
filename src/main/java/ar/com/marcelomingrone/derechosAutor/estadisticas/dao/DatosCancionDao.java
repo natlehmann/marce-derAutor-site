@@ -19,11 +19,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorFuente;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.DerechoExterno;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
@@ -226,12 +226,12 @@ public class DatosCancionDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManagerExterno")
-	@Cacheable("derechos")
-	public List<Derecho> getDerechosPorFuente(Fuente fuente) {
+	@Cacheable("derechosExternos")
+	public List<DerechoExterno> getDerechosPorFuente(Fuente fuente) {
 		
 		Session session = sessionFactoryExterno.getCurrentSession();
 		return session.createQuery(
-				"SELECT DISTINCT new " + Derecho.class.getName() + "(dc.rightName) "
+				"SELECT DISTINCT new " + DerechoExterno.class.getName() + "(dc.rightName) "
 				+ "from SumarizacionMontos dc "
 				+ "WHERE dc.idFuente = :fuente ORDER BY dc.rightName")
 				.setParameter("fuente", fuente.getId()).list();
@@ -507,8 +507,8 @@ public class DatosCancionDao {
 			montoTotalPorFuente.setFuente(fuente);
 			resultado.add(montoTotalPorFuente);
 			
-			List<Derecho> derechos = getDerechosPorFuente(fuente);
-			for (Derecho derecho : derechos) {
+			List<DerechoExterno> derechos = getDerechosPorFuente(fuente);
+			for (DerechoExterno derecho : derechos) {
 				
 				MontoTotalPorDerecho montoTotalPorDerecho = new MontoTotalPorDerecho();
 				montoTotalPorDerecho.setDerecho(derecho);
@@ -537,7 +537,7 @@ public class DatosCancionDao {
 	}
 
 	private MontoPorDerecho buscarPorFuenteDerechoYTrimestre(
-			List<MontoPorDerecho> montos, Fuente fuente, Derecho derecho,
+			List<MontoPorDerecho> montos, Fuente fuente, DerechoExterno derecho,
 			int trimestre) {
 		
 		MontoPorDerecho resultado = null;

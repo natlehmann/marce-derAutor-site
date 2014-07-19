@@ -26,3 +26,11 @@ create table ReglamentoDeDistribucion(
 	nombreFuente varchar(255),
 	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
 )  ENGINE=InnoDB;
+
+
+drop table Derecho;
+
+create table DerechoEditable(
+	nombre varchar(255) not null PRIMARY KEY,
+	modificable bit default 0
+)  ENGINE=InnoDB;

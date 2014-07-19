@@ -22,6 +22,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Param
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DerechoDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DerechoEditable;
 
 @Controller
 @RequestMapping("/admin/derecho")
@@ -72,7 +73,7 @@ public class DerechoController {
 	@RequestMapping("/crear")
 	public String crear(ModelMap model) {
 		
-		Derecho derecho = new Derecho();
+		Derecho derecho = new DerechoEditable();
 		return prepararFormulario(derecho, model);
 	}
 
@@ -83,13 +84,12 @@ public class DerechoController {
 	}
 	
 	@RequestMapping(value="/aceptarEdicion", method={RequestMethod.POST})
-	public String aceptarEdicion(@Valid Derecho derecho, 
+	public String aceptarEdicion(@Valid DerechoEditable derecho, 
 			BindingResult result, ModelMap model){
 		
 		if (!result.hasErrors()) {
 			
 			try {
-				derecho.setModificable(true);
 				derecho.setNombre(derecho.getNombre().toUpperCase());
 				
 				derechoDao.guardar(derecho);
@@ -118,7 +118,7 @@ public class DerechoController {
 				model.addAttribute("msg", "No se puede eliminar el derecho porque está vinculado a datos importados.");
 				
 			} else {
-				derechoDao.eliminar(derecho);
+				derechoDao.eliminar((DerechoEditable) derecho);
 				model.addAttribute("msg", "El derecho se ha eliminado con éxito.");
 			}
 			
