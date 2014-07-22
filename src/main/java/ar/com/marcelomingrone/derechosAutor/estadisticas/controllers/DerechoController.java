@@ -118,8 +118,14 @@ public class DerechoController {
 				model.addAttribute("msg", "No se puede eliminar el derecho porque está vinculado a datos importados.");
 				
 			} else {
-				derechoDao.eliminar((DerechoEditable) derecho);
-				model.addAttribute("msg", "El derecho se ha eliminado con éxito.");
+				
+				try {
+					derechoDao.eliminar((DerechoEditable) derecho);
+					model.addAttribute("msg", "El derecho se ha eliminado con éxito.");
+					
+				} catch(IllegalArgumentException e){
+					model.addAttribute("msg", e.getMessage());
+				}
 			}
 			
 		} catch (Exception e) {

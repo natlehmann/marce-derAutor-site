@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DerechoEditable;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReglamentoDeDistribucion;
 
 @Repository
 public class DerechoDao {
@@ -19,6 +20,9 @@ public class DerechoDao {
 	
 	@Autowired
 	private DerechoExternoDao derechoExternoDao;
+	
+	@Autowired
+	private ReglamentoDeDistribucionDao reglamentoDeDistribucionDao;
 
 	@Cacheable("derechos")
 	public List<Derecho> getTodosPaginadoFiltrado(int inicio, int cantidadResultados,
@@ -70,6 +74,13 @@ public class DerechoDao {
 
 	@CacheEvict(value="derechos", allEntries=true)
 	public void eliminar(DerechoEditable derecho) {
+		
+		List<ReglamentoDeDistribucion> reglamentos = reglamentoDeDistribucionDao.buscarDerecho(derecho);
+		if (!reglamentos.isEmpty()) {
+			throw new IllegalArgumentException(
+					"El derecho no se puede eliminar por estar vinculado a Reglamentos de Distribución. "
+					+ "Elimine primero el reglamento de distribución asociado.");
+		}
 		
 		derechoEditableDao.eliminar(derecho);		
 	}

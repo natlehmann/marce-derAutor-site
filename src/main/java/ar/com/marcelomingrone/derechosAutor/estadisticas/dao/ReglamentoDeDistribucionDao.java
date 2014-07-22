@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.ReglamentoDeDistribucion;
 
 @Repository
@@ -81,6 +82,17 @@ public class ReglamentoDeDistribucionDao extends EntidadDao<ReglamentoDeDistribu
 		Long resultado = (Long) query.uniqueResult();
 		
 		return resultado != null ? resultado.longValue() : 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManager")
+	public List<ReglamentoDeDistribucion> buscarDerecho(Derecho derecho) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		
+		return session.createQuery(
+				"SELECT r from ReglamentoDeDistribucion r WHERE r.nombreDerecho = :nombre")
+				.setParameter("nombre", derecho.getNombre()).list();
 	}
 
 }
