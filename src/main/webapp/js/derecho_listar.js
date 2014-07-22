@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('.datatable').dataTable( {
+    var listado = $('.datatable').dataTable( {
         "bProcessing": true,
         "bServerSide": true,
         "sAjaxSource": $("#contexto").val() + "admin/derecho/listar_ajax",
@@ -10,4 +10,9 @@ $(document).ready(function() {
             "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
         }
     } );
+    
+    setTimeout(function (){
+    	listado.fnFilterOnEnter();
+    }, 3000);
+    
 } );

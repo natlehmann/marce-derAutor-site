@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,6 +30,7 @@ public class DerechoEditable implements Serializable, Derecho {
 	}
 
 	@Override
+	@Transient
 	public List<String> getCamposAsList() {
 		
 		List<String> resultado = new LinkedList<>();
@@ -39,11 +41,13 @@ public class DerechoEditable implements Serializable, Derecho {
 	}
 
 	@Override
+	@Transient
 	public boolean isModificable() {
 		return true;
 	}
 
 	@Override
+	@Transient
 	public String getLinksModificarEliminar() {
 		
 		return "<a href='#' onclick=\"confirmarEliminar('" + this.nombre 

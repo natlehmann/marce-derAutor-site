@@ -1,3 +1,8 @@
+No dejar eliminar un derecho si existe un Reglamento de Distribucion asociado.
+
+
+CHEQUEAR GRAFICO DE LA HOME Y PAGINA ESTADISTICAS
+
 Mejorar "estadisticas" (link desde grafico)
 
 Aparece mensaje "NO data available..." en los listados de la home

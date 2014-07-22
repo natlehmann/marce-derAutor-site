@@ -42,6 +42,7 @@ public class DerechoExternoDao {
 		return this.derechos;
 	}
 	
+	@Transactional(value="transactionManagerExterno")
 	public List<DerechoExterno> getTodosFiltrado(String filtro) {
 		
 		if (this.derechos == null) {

@@ -23,14 +23,13 @@ create table ReglamentoDeDistribucion(
 	descripcion varchar(512) not null,
 	fuente_id BIGINT NOT NULL,
 	derecho_nombre varchar(255) NOT NULL,
-	nombreFuente varchar(255),
-	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
+	nombreFuente varchar(255)
 )  ENGINE=InnoDB;
 
+drop table DatosCancion;
 
 drop table Derecho;
 
 create table DerechoEditable(
-	nombre varchar(255) not null PRIMARY KEY,
-	modificable bit default 0
+	nombre varchar(255) not null PRIMARY KEY
 )  ENGINE=InnoDB;

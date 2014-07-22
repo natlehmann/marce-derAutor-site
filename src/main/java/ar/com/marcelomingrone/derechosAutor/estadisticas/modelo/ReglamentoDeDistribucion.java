@@ -83,7 +83,7 @@ public class ReglamentoDeDistribucion extends Entidad {
 		
 		switch (indice) {
 		case 0:
-			return "derecho.nombre";
+			return "nombreDerecho";
 			
 		case 1:
 			return "descripcion";
@@ -92,7 +92,7 @@ public class ReglamentoDeDistribucion extends Entidad {
 			return "fecha";
 		}
 		
-		return "fuente.nombre";
+		return "nombreFuente";
 	}
 	
 	@Override

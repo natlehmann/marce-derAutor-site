@@ -25,7 +25,7 @@ public class DerechoEditableDao {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		StringBuffer queryStr = new StringBuffer("SELECT d FROM Derecho d ");
+		StringBuffer queryStr = new StringBuffer("SELECT d FROM DerechoEditable d ");
 		
 		if ( !StringUtils.isEmpty(filtro) ) {
 			queryStr.append("WHERE d.nombre LIKE :filtro ");
@@ -48,7 +48,7 @@ public class DerechoEditableDao {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
-		StringBuffer queryStr = new StringBuffer("SELECT COUNT(d) FROM Derecho d ");
+		StringBuffer queryStr = new StringBuffer("SELECT COUNT(d) FROM DerechoEditable d ");
 		
 		if ( !StringUtils.isEmpty(filtro) ) {
 			queryStr.append("WHERE d.nombre LIKE :filtro ");
@@ -92,7 +92,7 @@ public class DerechoEditableDao {
 	public List<Derecho> getTodos() {
 		
 		Session session = sessionFactory.getCurrentSession();
-		return session.createQuery("FROM Derecho d ORDER BY d.nombre").list();
+		return session.createQuery("FROM DerechoEditable d ORDER BY d.nombre").list();
 	}
 
 }

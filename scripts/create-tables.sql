@@ -26,8 +26,7 @@ create table Usuario_Rol(
 )  ENGINE=InnoDB;
 
 create table DerechoEditable(
-	nombre varchar(255) not null PRIMARY KEY,
-	modificable bit default 0
+	nombre varchar(255) not null PRIMARY KEY
 )  ENGINE=InnoDB;
 
 create table Autor(
@@ -74,8 +73,7 @@ create table DatosCancion(
 	FOREIGN KEY (pais_id) REFERENCES Pais(id),
 	FOREIGN KEY (autor_id) REFERENCES Autor(id),
 	FOREIGN KEY (cancion_id) REFERENCES Cancion(id),
-	FOREIGN KEY (fuente_id) REFERENCES Fuente(id),
-	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
+	FOREIGN KEY (fuente_id) REFERENCES Fuente(id)
 )  ENGINE=InnoDB;
 
 
@@ -165,8 +163,7 @@ create table ReglamentoDeDistribucion(
 	descripcion varchar(512) not null,
 	fuente_id BIGINT NOT NULL,
 	derecho_nombre varchar(255) NOT NULL,
-	nombreFuente varchar(255),
-	FOREIGN KEY (derecho_nombre) REFERENCES Derecho(nombre)
+	nombreFuente varchar(255)
 )  ENGINE=InnoDB;
 
 create table Newsletter(

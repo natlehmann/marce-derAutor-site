@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
@@ -28,17 +29,17 @@ public class DerechoDao {
 		
 		Collections.sort(derechos);
 		
-		int indiceInicial = inicio * cantidadResultados;
-		int indiceFinal = indiceInicial + cantidadResultados;
+		int indiceFinal = inicio + cantidadResultados;
 		
 		if (derechos.size() < indiceFinal) {
 			indiceFinal = derechos.size();
 		}
-		
-		return derechos.subList(indiceInicial, indiceFinal);
+
+		return derechos.subList(inicio, indiceFinal);
 		
 	}
 
+	@Cacheable("derechos")
 	public long getCantidadResultados(String filtro) {
 		
 		return getTodosPaginadoFiltrado(0, 100000, filtro).size();
@@ -56,6 +57,7 @@ public class DerechoDao {
 	}
 
 
+	@CacheEvict(value="derechos", allEntries=true)
 	public void guardar(DerechoEditable derecho) {
 		
 		Derecho existente = derechoExternoDao.buscar(derecho.getNombre());
@@ -66,11 +68,13 @@ public class DerechoDao {
 		derechoEditableDao.guardar(derecho);
 	}
 
+	@CacheEvict(value="derechos", allEntries=true)
 	public void eliminar(DerechoEditable derecho) {
 		
 		derechoEditableDao.eliminar(derecho);		
 	}
 
+	@Cacheable("derechos")
 	public List<Derecho> getTodos() {
 		
 		List<Derecho> derechos = derechoEditableDao.getTodos();
