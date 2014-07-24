@@ -6,7 +6,10 @@ $(document).ready(function() {
 		"bFilter" : false,
 		"bSort" : false,
 		"bInfo" : false,
-		"bAutoWidth" : false
+		"bAutoWidth" : false,
+		"oLanguage": {
+            "sUrl": $("#contexto").val() + "js/datatables_ES.txt"
+        }
 	});
 
 	var fechas = $("#calendar_dates").val().replace("[","").replace("]","").split(',');
