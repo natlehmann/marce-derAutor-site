@@ -70,7 +70,7 @@ public class DatosCancionDao {
 			anios.add(ultimoAnio - 1);
 			anios.add(ultimoAnio - 2);
 		}
-		
+
 		return anios;
 	}
 	
@@ -289,13 +289,12 @@ public class DatosCancionDao {
 		DaoUtils.setearParametros(query, (pais != null) ? pais.getId() : null, null, trimestre, null);
 		
 		List<MontoTotal> montos = query.list();
-		
+
 		List<Integer> anios = getUltimosTresAnios();
 		for (Integer anio : anios) {
-			
+
 			MontoTotal nuevoMonto = new MontoTotal(anio, 0.0);
 			if (!montos.contains(nuevoMonto)) {
-				
 				montos.add(nuevoMonto);
 			}
 		}
@@ -303,7 +302,7 @@ public class DatosCancionDao {
 		Collections.sort(montos, new MontoTotal.ComparadorPorAnio());
 		
 		if (montos.size() > 3) {
-			montos = montos.subList(0, 3);
+			montos = montos.subList(montos.size() - 3, montos.size());
 		}
 		
 		return montos;

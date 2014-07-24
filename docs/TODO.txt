@@ -1,10 +1,8 @@
-Mejorar "estadisticas" (link desde grafico)
-
 Aparece mensaje "NO data available..." en los listados de la home
 
 Boton para limpiar cache (@CacheEviction)
 
-En el grafico el año maximo es 2011, esta bien?
+En el grafico el año maximo es 2011, esta bien? NO
 
 
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
