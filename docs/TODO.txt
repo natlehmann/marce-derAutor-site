@@ -1,6 +1,3 @@
-Boton para limpiar cache (@CacheEviction)
-
-
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
 Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inicial del artista

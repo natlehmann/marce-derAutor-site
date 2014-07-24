@@ -8,6 +8,9 @@
 
 <jsp:include page="/WEB-INF/jsp/includes/admin_menu.jsp" />
 
+<c:if test="${msg != null}">
+	<div class="msg">${msg}</div>
+</c:if>
 
 Por favor seleccione una opción del menu.
 
