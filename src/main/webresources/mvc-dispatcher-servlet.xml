@@ -173,89 +173,90 @@
 	
 	<cache:annotation-driven cache-manager="cacheManager" />
 	
-	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
-		  <property name="caches">
-		    <set>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="rankingMasCobrados" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="rankingMasCobradosCount" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosPorAutor" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="rankingMasEjecutados" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="rankingMasEjecutadosCount" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="ejecucionesPorAutor" />
-		      </bean>
+<!-- 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager"> -->
+<!-- 		  <property name="caches"> -->
+<!-- 		    <set> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="rankingMasCobrados" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="rankingMasCobradosCount" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosPorAutor" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="rankingMasEjecutados" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="rankingMasEjecutadosCount" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="ejecucionesPorAutor" /> -->
+<!-- 		      </bean> -->
 		      
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="paises" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="fuentes" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="derechos" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="derechosExternos" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="anios" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="autores" />
-		      </bean>
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="paises" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="fuentes" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="derechos" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="derechosExternos" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="anios" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="autores" /> -->
+<!-- 		      </bean> -->
 		      
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="canciones" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="cancionesCount" />
-		      </bean>
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="canciones" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="cancionesCount" /> -->
+<!-- 		      </bean> -->
 		      
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosSACMPorAnio" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosOtrosPorAnio" />
-		      </bean>
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosSACMPorAnio" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosOtrosPorAnio" /> -->
+<!-- 		      </bean> -->
 		      
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosSACMPorTrimestre" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosOtrosPorTrimestre" />
-		      </bean>
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosSACMPorTrimestre" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosOtrosPorTrimestre" /> -->
+<!-- 		      </bean> -->
 		      
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosSACMPorPais" />
-		      </bean>
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosOtrosPorPais" />
-		      </bean>
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosSACMPorPais" /> -->
+<!-- 		      </bean> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosOtrosPorPais" /> -->
+<!-- 		      </bean> -->
 		      
-		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
-		      		<property name="name" value="montosPorFuente" />
-		      </bean>
-		    </set>
-		  </property>
-	</bean>
-	
-<!-- 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhcacheCacheManager"> -->
-<!-- 		<property name="cache-manager" value="ehcache" /> -->
-<!-- 	</bean>  -->
- 
-<!-- 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" > -->
-<!-- 		<property name="config-location" value="ehcache.xml" /> -->
+<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
+<!-- 		      		<property name="name" value="montosPorFuente" /> -->
+<!-- 		      </bean> -->
+<!-- 		    </set> -->
+<!-- 		  </property> -->
 <!-- 	</bean> -->
+	
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcache" />
+	</bean> 
+ 
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" >
+		<property name="configLocation" value="WEB-INF/classes/ehcache.xml" />
+		<property name="shared" value="true" />
+	</bean>
 
 	
 	
