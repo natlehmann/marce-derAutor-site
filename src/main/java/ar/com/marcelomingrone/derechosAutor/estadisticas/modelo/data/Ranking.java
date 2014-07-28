@@ -3,27 +3,21 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Entidad;
 
-@MappedSuperclass
 public class Ranking extends Entidad {
 	
 	private static final long serialVersionUID = -1334219960075941782L;
 
 	private Long ranking;
 	
-	@ManyToOne
 	private Pais pais;
 	
 	private Integer trimestre;
 	
 	private Integer anio;
 	
-	@ManyToOne
 	private Autor autor;
 	
 	private Long cantidadUnidades;

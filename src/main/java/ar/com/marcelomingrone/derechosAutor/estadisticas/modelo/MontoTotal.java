@@ -49,6 +49,10 @@ public class MontoTotal implements Serializable{
 	}
 
 
+	public MontoTotal(Double monto) {
+		this.monto = monto;
+	}
+
 	public Pais getPais() {
 		return pais;
 	}

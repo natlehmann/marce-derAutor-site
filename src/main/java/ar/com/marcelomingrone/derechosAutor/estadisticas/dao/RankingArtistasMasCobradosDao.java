@@ -18,21 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Ranking;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingArtistasMasCobrados;
 
 @Repository
-public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArtistasMasCobrados> {
+public class RankingArtistasMasCobradosDao {
 	
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
 	
 	@Autowired
 	private RankingPorAutorDao rankingPorAutorDao;
-	
-	public RankingArtistasMasCobradosDao() {
-		super(RankingArtistasMasCobrados.class);
-	}
-	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -120,7 +114,6 @@ public class RankingArtistasMasCobradosDao extends EntidadExternaDao<RankingArti
 	}
 
 
-	@Override
 	protected SessionFactory getSessionFactory() {
 		return sessionFactoryExterno;
 	}

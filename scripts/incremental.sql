@@ -33,3 +33,12 @@ drop table Derecho;
 create table DerechoEditable(
 	nombre varchar(255) not null PRIMARY KEY
 )  ENGINE=InnoDB;
+
+drop table DatosCancion;
+drop table RankingArtistasMasEjecutados;
+drop table RankingArtistasMasCobrados;
+drop table RankingCancion;
+drop table Fuente;
+drop table Autor;
+drop table Cancion;
+drop table Pais;

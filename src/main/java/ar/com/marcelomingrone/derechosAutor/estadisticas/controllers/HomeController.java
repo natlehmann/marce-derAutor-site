@@ -224,7 +224,7 @@ public class HomeController {
 		for (int i = 0; i < montosSACM.size(); i++) {
 			
 			MontoTotal montoSACM = montosSACM.get(i);
-			MontoTotal otroMonto = otrosMontos.get(i);
+			MontoTotal otroMonto = (otrosMontos.size() > i) ? otrosMontos.get(i) : new MontoTotal(0.0);
 			
 			double total = montoSACM.getMonto() + otroMonto.getMonto();
 			

@@ -3,8 +3,6 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.ManyToOne;
-
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
 
 public class RankingCancion extends Ranking {
@@ -30,7 +28,6 @@ public class RankingCancion extends Ranking {
 	}
 	
 	
-	@ManyToOne
 	private Cancion cancion;
 	
 	public Cancion getCancion() {

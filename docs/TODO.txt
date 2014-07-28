@@ -1,11 +1,11 @@
+En home, si se busca solo por 2013 los listados duplican resultados.
+
 Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
 
 Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inicial del artista
 
 En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion (pasa con cualquier filtro
 aplicado tambien)
-
-Borrar las tablas que no se usan
 
 Ver si se puede agilizar la respuesta cuando la saca de cache. Por que tarda tanto?
 
