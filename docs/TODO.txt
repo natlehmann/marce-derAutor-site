@@ -9,8 +9,6 @@ Ver si se puede agilizar la respuesta cuando la saca de cache. Por que tarda tan
 
 profiler para ver que queries tardan mas ?
 
-Tag antes de cambios y nueva version 1.1
-
 
 ----------------------------------------------------------------------------------------
 
