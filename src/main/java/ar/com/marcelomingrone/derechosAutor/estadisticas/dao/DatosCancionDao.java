@@ -280,7 +280,7 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClauseExt(trimestre, null, (pais != null) ? pais.getId() : null, null))			
+		buffer.append(DaoUtils.getWhereClause(trimestre, null, (pais != null) ? pais.getId() : null, null))			
 			.append("GROUP BY dc.anio");
 		
 		Query query = session.createQuery(buffer.toString());
@@ -362,7 +362,7 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClauseExt(null, anio, (pais != null) ? pais.getId() : null, null))			
+		buffer.append(DaoUtils.getWhereClause(null, anio, (pais != null) ? pais.getId() : null, null))			
 			.append("GROUP BY dc.trimestre");
 		
 		Query query = session.createQuery(buffer.toString());
@@ -447,7 +447,7 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClauseExt(trimestre, anio, (pais != null) ? pais.getId() : null, null))			
+		buffer.append(DaoUtils.getWhereClause(trimestre, anio, (pais != null) ? pais.getId() : null, null))			
 			.append("GROUP BY dc.idPais, dc.nombrePais ");
 		
 		Query query = session.createQuery(buffer.toString());
@@ -580,7 +580,7 @@ public class DatosCancionDao {
 			buffer.append("WHERE dc.companyId = :companyId ");
 		}
 			
-		buffer.append(DaoUtils.getWhereClauseExt(null, anio, idPais, null))			
+		buffer.append(DaoUtils.getWhereClause(null, anio, idPais, null))			
 			.append("GROUP BY dc.idFuente, dc.nombreFuente, dc.rightName, dc.trimestre ")
 			.append("ORDER BY dc.idFuente, dc.rightName");
 		

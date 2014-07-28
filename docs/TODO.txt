@@ -5,12 +5,8 @@ Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inici
 En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion (pasa con cualquier filtro
 aplicado tambien)
 
-refactoring DaoUtils getWhereClauseExt
-
 Borrar las tablas que no se usan
 
-
-Ver si configuramos ehcache
 Ver si se puede agilizar la respuesta cuando la saca de cache. Por que tarda tanto?
 
 Eliminar DatosCancion 
