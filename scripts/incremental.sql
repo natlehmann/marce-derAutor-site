@@ -14,6 +14,11 @@ create table EstadoDeTareas(
 	nombreFuente varchar(255)
 )  ENGINE=InnoDB;
 
+INSERT INTO EstadoDeTareas (id, asunto, autor_id, fuente_id, estado, prioridad, fecha, descripcion, 
+comentario) VALUES
+(5, 'Ajuste TV', NULL, NULL, 'ABIERTO', 'ALTA', '2014-01-22 00:00:00', 'HASTA EL 31/01 TENEMOS TIEMPO DE CERRAR EL AJUSTE DE TV CANAL 4 Y CABLE', 'LE PASAMOS LA NEGOCIACION A R CANTORAL.'),
+(6, 'RECLAMO TV', NULL, 84, 'ABIERTO', 'ALTA', '2014-01-23 00:00:00', 'LA SOC TIENE UNA FORMA ARBITRARIA DE DISTRIBUIR EL 50% DE LO RECAUDADO POR TV.', '23/01. CONFERENCIA CON EL EQUIPO DE OPERACIONES.');
+
 
 drop table ReglamentoDeDistribucion;
 
@@ -34,7 +39,6 @@ create table DerechoEditable(
 	nombre varchar(255) not null PRIMARY KEY
 )  ENGINE=InnoDB;
 
-drop table DatosCancion;
 drop table RankingArtistasMasEjecutados;
 drop table RankingArtistasMasCobrados;
 drop table RankingCancion;
