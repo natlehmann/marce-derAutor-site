@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.Params;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.AutorDao;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExternoDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
@@ -26,7 +26,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCanc
 public class CancionController {
 	
 	@Autowired
-	private DatosCancionDao datosCancionDao;
+	private DatosCancionExternoDao datosCancionDao;
 	
 	@Autowired
 	private AutorDao autorDao;

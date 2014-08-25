@@ -21,7 +21,7 @@ public class FuenteDao extends EntidadExternaDao<Fuente> {
 	private SessionFactory sessionFactoryExterno;
 	
 	@Autowired
-	private DatosCancionDao datosCancionDao;
+	private DatosCancionExternoDao datosCancionDao;
 	
 	private Map<Long, Fuente> fuentes;
 	

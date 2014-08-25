@@ -29,14 +29,14 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
 
 @Repository
-public class DatosCancionDao {
+public class DatosCancionExternoDao {
 	
 	@Autowired
 	private SessionFactory sessionFactoryExterno;
 	
-	public DatosCancionDao() {}
+	public DatosCancionExternoDao() {}
 	
-	public DatosCancionDao(SessionFactory sessionFactory) {
+	public DatosCancionExternoDao(SessionFactory sessionFactory) {
 		this.sessionFactoryExterno = sessionFactory;
 	}
 	

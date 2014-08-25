@@ -6,13 +6,13 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExternoDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 
 public class BorrarDatosPrevioImportacion implements Tasklet {
 	
-	private DatosCancionDao datosCancionDao;
+	private DatosCancionExternoDao datosCancionDao;
 	
 	@Autowired
 	private RankingArtistasMasEjecutadosDao rankingArtistasMasEjecutadosDao;
@@ -31,7 +31,7 @@ public class BorrarDatosPrevioImportacion implements Tasklet {
 		return RepeatStatus.FINISHED;
 	}
 	
-	public void setDatosCancionDao(DatosCancionDao datosCancionDao) {
+	public void setDatosCancionDao(DatosCancionExternoDao datosCancionDao) {
 		this.datosCancionDao = datosCancionDao;
 	}
 

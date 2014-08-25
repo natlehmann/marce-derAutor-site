@@ -10,7 +10,7 @@ import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExternoDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 
@@ -22,7 +22,7 @@ public class ProcesarRankingsMasCobrados implements Tasklet {
 	private RankingArtistasMasCobradosDao rankingArtistasMasCobradosDao;
 	
 	@Autowired
-	private DatosCancionDao datosCancionDao;
+	private DatosCancionExternoDao datosCancionDao;
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution,
