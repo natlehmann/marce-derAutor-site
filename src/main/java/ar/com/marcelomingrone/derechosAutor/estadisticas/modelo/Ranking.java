@@ -20,8 +20,6 @@ public class Ranking extends Entidad {
 	@Column(name="pais_id")
 	private Long idPais;
 	
-	private String nombrePais;
-	
 	private Integer trimestre;
 	
 	private Integer anio;
@@ -126,14 +124,6 @@ public class Ranking extends Entidad {
 		return nombreAutor;
 	}
 	
-	public void setNombrePais(String nombrePais) {
-		this.nombrePais = nombrePais;
-	}
-	
-	public String getNombrePais() {
-		return nombrePais;
-	}
-	
 	public Autor getAutor() {
 		
 		Autor autor = null;
@@ -148,7 +138,7 @@ public class Ranking extends Entidad {
 		
 		Pais pais = null;
 		if (this.idPais != null) {
-			pais = new Pais(this.idPais, this.nombrePais);
+			pais = new Pais(this.idPais);
 		}
 		
 		return pais;
