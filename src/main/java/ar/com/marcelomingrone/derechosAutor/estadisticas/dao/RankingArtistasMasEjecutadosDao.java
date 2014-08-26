@@ -16,7 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Ranking;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 
 @Repository
 public class RankingArtistasMasEjecutadosDao {

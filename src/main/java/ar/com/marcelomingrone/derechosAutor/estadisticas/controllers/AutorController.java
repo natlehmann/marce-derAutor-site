@@ -20,8 +20,8 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExterno
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DataTablesResponse;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Ranking;
 
 @Controller
 public class AutorController {

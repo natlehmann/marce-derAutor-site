@@ -1,24 +1,35 @@
-package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
+package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Entidad;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Autor;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+
+@MappedSuperclass
 public class Ranking extends Entidad {
 	
 	private static final long serialVersionUID = -1334219960075941782L;
 
 	private Long ranking;
 	
-	private Pais pais;
+	@Column(name="pais_id")
+	private Long idPais;
+	
+	private String nombrePais;
 	
 	private Integer trimestre;
 	
 	private Integer anio;
 	
-	private Autor autor;
+	@Column(name="autor_id")
+	private Long idAutor;
+	
+	private String nombreAutor;
 	
 	private Long cantidadUnidades;
 	
@@ -30,9 +41,10 @@ public class Ranking extends Entidad {
 			Long idAutor, String nombreAutor, Long cantidadUnidades, Double montoPercibido) {
 		this.trimestre = trimestre;
 		this.anio = anio;
-		this.pais = new Pais(idPais);
+		this.idPais = idPais;
 		this.ranking = ranking;
-		this.autor = new Autor(idAutor, nombreAutor);
+		this.idAutor = idAutor;
+		this.nombreAutor = nombreAutor;
 		this.cantidadUnidades = cantidadUnidades;
 		this.montoPercibido = montoPercibido;
 	}
@@ -44,14 +56,6 @@ public class Ranking extends Entidad {
 
 	public void setRanking(Long ranking) {
 		this.ranking = ranking;
-	}
-
-	public Pais getPais() {
-		return pais;
-	}
-
-	public void setPais(Pais pais) {
-		this.pais = pais;
 	}
 
 	public Integer getTrimestre() {
@@ -68,14 +72,6 @@ public class Ranking extends Entidad {
 
 	public void setAnio(Integer anio) {
 		this.anio = anio;
-	}
-
-	public Autor getAutor() {
-		return autor;
-	}
-
-	public void setAutor(Autor autor) {
-		this.autor = autor;
 	}
 
 	public Long getCantidadUnidades() {
@@ -99,35 +95,62 @@ public class Ranking extends Entidad {
 		
 		List<String> campos = new LinkedList<>();
 		campos.add(this.ranking + ". ");
-		campos.add("<a href='#' onclick='irAbsoluto(\"canciones/" + this.autor.getId() + "\")'>" + this.autor.getNombre() + "</a>");
+		campos.add("<a href='#' onclick='irAbsoluto(\"canciones/" + this.idAutor + "\")'>" + this.nombreAutor + "</a>");
 		campos.add(String.valueOf(cantidadUnidades));
 		campos.add("$ " + Utils.formatear(this.montoPercibido));
 		
 		return campos;
 	}
 	
-	public void setIdPais(Long idPais) {
-		if (this.pais == null) {
-			this.pais = new Pais();
-		}
-		
-		this.pais.setId(idPais);
+	public void setIdAutor(Long idAutor) {
+		this.idAutor = idAutor;
 	}
 	
-
-	public void setIdAutor(Long idAutor) {
-		if (this.autor == null) {
-			this.autor = new Autor();
-		}
-		
-		this.autor.setId(idAutor);
+	public Long getIdAutor() {
+		return idAutor;
+	}
+	
+	public void setIdPais(Long idPais) {
+		this.idPais = idPais;
+	}
+	
+	public Long getIdPais() {
+		return idPais;
 	}
 	
 	public void setNombreAutor(String nombreAutor) {
-		if (this.autor == null) {
-			this.autor = new Autor();
+		this.nombreAutor = nombreAutor;
+	}
+	
+	public String getNombreAutor() {
+		return nombreAutor;
+	}
+	
+	public void setNombrePais(String nombrePais) {
+		this.nombrePais = nombrePais;
+	}
+	
+	public String getNombrePais() {
+		return nombrePais;
+	}
+	
+	public Autor getAutor() {
+		
+		Autor autor = null;
+		if (this.idAutor != null) {
+			autor = new Autor(this.idAutor, this.nombreAutor);
 		}
 		
-		this.autor.setNombre(nombreAutor);
+		return autor;
+	}
+	
+	public Pais getPais() {
+		
+		Pais pais = null;
+		if (this.idPais != null) {
+			pais = new Pais(this.idPais, this.nombrePais);
+		}
+		
+		return pais;
 	}
 }

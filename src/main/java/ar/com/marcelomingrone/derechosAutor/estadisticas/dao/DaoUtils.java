@@ -74,4 +74,10 @@ public class DaoUtils {
 		setearParametros(query, idPais, anio, trimestre, filtro);
 	}
 
+	public static String getWhereClause(Integer trimestre, Integer anio,
+			Long idPais, String filtro, Long idAutor) {
+		
+		return getWhereClause(trimestre, anio, idPais, filtro, idAutor, false, false);
+	}
+
 }

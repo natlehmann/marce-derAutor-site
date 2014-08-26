@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Ranking;
 
 public class RankingCancion extends Ranking {
 	
@@ -19,9 +20,8 @@ public class RankingCancion extends Ranking {
 		this.cancion.setId(idCancion);
 		this.cancion.setNombre(nombreCancion);
 		
-		this.setAutor(new Autor());
-		this.getAutor().setId(idAutor);
-		this.getAutor().setNombre(nombreAutor);
+		this.setIdAutor(idAutor);
+		this.setNombreAutor(nombreAutor);
 		
 		this.setCantidadUnidades(cantidadUnidades);
 		this.setMontoPercibido(monto);
