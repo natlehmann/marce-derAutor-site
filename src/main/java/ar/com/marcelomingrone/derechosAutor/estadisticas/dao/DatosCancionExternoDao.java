@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DatosCancion;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoPorDerecho;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotal;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
@@ -590,5 +591,72 @@ public class DatosCancionExternoDao {
 		DaoUtils.setearParametros(query, idPais, anio, null, null);
 		
 		return query;
+	}
+	
+	@Transactional(value="transactionManagerExterno")
+	public List<DatosCancion> getSumarizacionMontos(int inicio, int cantidadResultados) {
+		
+		return getSumarizacion("sp_MoneyAmounts", inicio, cantidadResultados);
+	}
+	
+	@Transactional(value="transactionManagerExterno")
+	public List<DatosCancion> getSumarizacionUnidades(int inicio, int cantidadResultados) {
+		
+		return getSumarizacion("sp_Units", inicio, cantidadResultados);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManagerExterno")
+	private List<DatosCancion> getSumarizacion(String storedProcedure, int inicio, int cantidadResultados) {
+		
+		Session session = sessionFactoryExterno.getCurrentSession();
+		
+		Query query = session.createSQLQuery(
+				"exec " + storedProcedure + " :inicioPaginacion, :finPaginacion")
+				.addScalar("id", LongType.INSTANCE)
+				.addScalar("companyId", LongType.INSTANCE)
+				.addScalar("idPais", LongType.INSTANCE)
+				.addScalar("nombrePais")
+				.addScalar("anio")
+				.addScalar("trimestre")
+				.addScalar("idCancion", LongType.INSTANCE)
+				.addScalar("nombreCancion")
+				.addScalar("idAutor", LongType.INSTANCE)
+				.addScalar("nombreAutor")
+				.addScalar("idFuente", LongType.INSTANCE)
+				.addScalar("nombreFuente")
+				.addScalar("nombreDerechoExterno")
+				.addScalar("montoPercibido", DoubleType.INSTANCE)
+				.addScalar("cantidadUnidades", LongType.INSTANCE)
+				.setResultTransformer(Transformers.aliasToBean(DatosCancion.class))
+				
+				.setParameter("inicioPaginacion", inicio + 1)
+				.setParameter("finPaginacion", inicio + cantidadResultados);
+		
+		List<DatosCancion> resultado = query.list();
+		
+		return resultado;
+	}
+
+	@Transactional(value="transactionManagerExterno")
+	public long getCantidadSumarizacionMontos() {
+		
+		Session session = sessionFactoryExterno.getCurrentSession();
+		
+		Long resultado = (Long) session.createQuery(
+				"SELECT COUNT(a) FROM SumarizacionMontos a").uniqueResult();
+		
+		return resultado != null ? resultado.longValue() : 0;
+	}
+
+	@Transactional(value="transactionManagerExterno")
+	public long getCantidadSumarizacionUnidades() {
+		
+		Session session = sessionFactoryExterno.getCurrentSession();
+		
+		Long resultado = (Long) session.createQuery(
+				"SELECT COUNT(a) FROM SumarizacionUnidades a").uniqueResult();
+		
+		return resultado != null ? resultado.longValue() : 0;
 	}
 }

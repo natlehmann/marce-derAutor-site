@@ -44,6 +44,16 @@ public class DatosCancionDao {
 	}
 	
 	@Transactional(value="transactionManager")
+	public void guardar(List<DatosCancion> datos) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		for(DatosCancion dato : datos) {
+			
+			session.merge(dato);
+		}
+	}
+	
+	@Transactional(value="transactionManager")
 	public void borrarTodo() {
 		
 		Session session = sessionFactory.getCurrentSession();		

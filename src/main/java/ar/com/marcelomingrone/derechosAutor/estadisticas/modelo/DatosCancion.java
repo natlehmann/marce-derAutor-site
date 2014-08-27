@@ -40,6 +40,34 @@ public class DatosCancion extends Entidad {
 	private long cantidadUnidades;
 	
 	private double montoPercibido;
+	
+	public DatosCancion() {}
+	
+	
+
+	public DatosCancion(Long companyId, Long idPais, String nombrePais,
+			int trimestre, int anio, Long idAutor, String nombreAutor,
+			Long idCancion, String nombreCancion, Long idFuente,
+			String nombreFuente, String nombreDerechoExterno,
+			long cantidadUnidades, double montoPercibido) {
+		super();
+		this.companyId = companyId;
+		this.idPais = idPais;
+		this.nombrePais = nombrePais;
+		this.trimestre = trimestre;
+		this.anio = anio;
+		this.idAutor = idAutor;
+		this.nombreAutor = nombreAutor;
+		this.idCancion = idCancion;
+		this.nombreCancion = nombreCancion;
+		this.idFuente = idFuente;
+		this.nombreFuente = nombreFuente;
+		this.nombreDerechoExterno = nombreDerechoExterno;
+		this.cantidadUnidades = cantidadUnidades;
+		this.montoPercibido = montoPercibido;
+	}
+
+
 
 	public Long getCompanyId() {
 		return companyId;

@@ -1,9 +1,17 @@
-Volver a aconvertir RankingArtistasMasEjecutados y CObrados en entidades locales y recuperar sus daos
 
 Proceso que importe todos los datos a DatosCancion y luego convierta a Rankings...
 Paginar la importacion a DatosCancion
 
+Cambiar implemtacion de RankingCanciones
+Tener en cuenta que puede haber repetidos en DatosCancion (registro con monto != 0 y cantidad = 0 y al reves)
+
 Decidir que metodos se sacan del externo y cuales del local
+
+Implementar la comparacion de cantidad de registros para saber si el proceso se ejecuta o no
+
+Cambiar todos los metodos que van contra SumarizacionMontos y SumarizacionUnidades
+
+Revisar caches
 
 -------------------------------------------------------
 
