@@ -1,6 +1,5 @@
+poner limite de tiempo a los SPs
 
-Proceso que importe todos los datos a DatosCancion y luego convierta a Rankings...
-Paginar la importacion a DatosCancion
 
 Cambiar implemtacion de RankingCanciones
 Tener en cuenta que puede haber repetidos en DatosCancion (registro con monto != 0 y cantidad = 0 y al reves)

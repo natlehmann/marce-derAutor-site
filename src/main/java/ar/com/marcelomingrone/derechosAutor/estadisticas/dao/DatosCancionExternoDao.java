@@ -613,7 +613,6 @@ public class DatosCancionExternoDao {
 		
 		Query query = session.createSQLQuery(
 				"exec " + storedProcedure + " :inicioPaginacion, :finPaginacion")
-				.addScalar("id", LongType.INSTANCE)
 				.addScalar("companyId", LongType.INSTANCE)
 				.addScalar("idPais", LongType.INSTANCE)
 				.addScalar("nombrePais")

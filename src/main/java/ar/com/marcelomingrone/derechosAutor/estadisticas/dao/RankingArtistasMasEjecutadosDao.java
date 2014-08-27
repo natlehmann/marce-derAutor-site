@@ -59,7 +59,7 @@ public class RankingArtistasMasEjecutadosDao extends RankingDao {
 			.append("dc.autor_id, dc.nombreAutor, SUM(dc.cantidadUnidades) as cantidadUnidades, ")
 			.append("SUM(dc.montoPercibido) as montoPercibido ")
 			.append("FROM DatosCancion dc ")
-			.append("WHERE dc.companyId = :companyId ")
+			.append("WHERE (dc.companyId = :companyId OR dc.companyId is null) ")
 			
 			.append(DaoUtils.getWhereClauseSQL(trimestre, anio, idPais))
 			

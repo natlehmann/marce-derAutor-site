@@ -173,82 +173,6 @@
 	
 	<cache:annotation-driven cache-manager="cacheManager" />
 	
-<!-- 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager"> -->
-<!-- 		  <property name="caches"> -->
-<!-- 		    <set> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="rankingMasCobrados" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="rankingMasCobradosCount" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosPorAutor" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="rankingMasEjecutados" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="rankingMasEjecutadosCount" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="ejecucionesPorAutor" /> -->
-<!-- 		      </bean> -->
-		      
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="paises" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="fuentes" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="derechos" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="derechosExternos" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="anios" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="autores" /> -->
-<!-- 		      </bean> -->
-		      
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="canciones" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="cancionesCount" /> -->
-<!-- 		      </bean> -->
-		      
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosSACMPorAnio" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosOtrosPorAnio" /> -->
-<!-- 		      </bean> -->
-		      
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosSACMPorTrimestre" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosOtrosPorTrimestre" /> -->
-<!-- 		      </bean> -->
-		      
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosSACMPorPais" /> -->
-<!-- 		      </bean> -->
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosOtrosPorPais" /> -->
-<!-- 		      </bean> -->
-		      
-<!-- 		      <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"> -->
-<!-- 		      		<property name="name" value="montosPorFuente" /> -->
-<!-- 		      </bean> -->
-<!-- 		    </set> -->
-<!-- 		  </property> -->
-<!-- 	</bean> -->
-	
 	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
 		<property name="cacheManager" ref="ehcache" />
 	</bean> 
@@ -262,8 +186,6 @@
 	
 	<!-- Batch jobs -->
 	
-	<!--  
-
 	<jdbc:initialize-database data-source="dataSource">
 		<jdbc:script location="classpath:org/springframework/batch/core/schema-drop-mysql.sql" />
 		<jdbc:script location="classpath:org/springframework/batch/core/schema-mysql.sql" />
@@ -284,29 +206,29 @@
 		<property name="taskExecutor" ref="pooledExecutor" />
 	</bean>
 
-	<bean id="datosCancionDao"
-		class="ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao">
-		<beans:property name="sessionFactory" ref="sessionFactory" />	
-	</bean>
-
 	<batch:job id="importacionJob">
-		<batch:step id="inicializarHistorial" next="borrarDatosAnteriores">
-			<batch:tasklet>
-				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.InicializarHistorial" scope="step">
-				</bean>
-			</batch:tasklet>
-		</batch:step>
-		<batch:step id="borrarDatosAnteriores" next="importarNuevosDatos">
+<!-- 		<batch:step id="inicializarHistorial" next="borrarDatosAnteriores"> -->
+<!-- 			<batch:tasklet> -->
+<!-- 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.InicializarHistorial" scope="step"> -->
+<!-- 				</bean> -->
+<!-- 			</batch:tasklet> -->
+<!-- 		</batch:step> -->
+		<batch:step id="borrarDatosAnteriores" next="importarSumarizacionMontos">
 			<batch:tasklet>
 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.BorrarDatosPrevioImportacion">
-					<beans:property name="datosCancionDao" ref="datosCancionDao" />	
 				</bean>
 			</batch:tasklet>
 		</batch:step>
-		<batch:step id="importarNuevosDatos" next="procesarRankingsMasEjecutados">
+		<batch:step id="importarSumarizacionMontos" next="importarSumarizacionUnidades">
 			<batch:tasklet>
-				<batch:chunk reader="cvsFileItemReader" writer="mysqlItemWriter" commit-interval="100">
-				</batch:chunk>
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.ProcesarSumarizacionMontos" scope="step">
+				</bean>
+			</batch:tasklet>
+		</batch:step>
+		<batch:step id="importarSumarizacionUnidades" next="procesarRankingsMasEjecutados">
+			<batch:tasklet>
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.ProcesarSumarizacionUnidades" scope="step">
+				</bean>
 			</batch:tasklet>
 		</batch:step>
 		<batch:step id="procesarRankingsMasEjecutados" next="procesarRankingsMasCobrados">
@@ -315,48 +237,20 @@
 				</bean>
 			</batch:tasklet>
 		</batch:step>
-		<batch:step id="procesarRankingsMasCobrados" next="cerrarHistorial">
+<!-- 		<batch:step id="procesarRankingsMasCobrados" next="cerrarHistorial"> -->
+		<batch:step id="procesarRankingsMasCobrados">
 			<batch:tasklet>
 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.ProcesarRankingsMasCobrados" scope="step">
 				</bean>
 			</batch:tasklet>
 		</batch:step>
-		<batch:step id="cerrarHistorial">
-			<batch:tasklet>
-				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.CerrarHistorial" scope="step">
-				</bean>
-			</batch:tasklet>
-		</batch:step>
+<!-- 		<batch:step id="cerrarHistorial"> -->
+<!-- 			<batch:tasklet> -->
+<!-- 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.CerrarHistorial" scope="step"> -->
+<!-- 				</bean> -->
+<!-- 			</batch:tasklet> -->
+<!-- 		</batch:step> -->
 	</batch:job>
-
-
-	<bean id="cvsFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
-
-		<property name="resource" value="file://${importacion.home}/#{jobParameters['nombreArchivo']}" />
-
-		<property name="lineMapper">
-			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-				<property name="lineTokenizer">
-					<bean
-						class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-						<property name="names"
-							value="companyId,idPais,nombrePais,fecha,formatId,idCancion,nombreCancion,idAutor,nombreAutor,idFuente,nombreFuente,rightName,copyRightShares,unidades,externalCode,currencyFactor,localCurrency" />
-					</bean>
-				</property>
-				<property name="fieldSetMapper">
-					<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.DatosCancionMapper" />
-				</property>
-			</bean>
-		</property>
-
-	</bean>
-
-
-	<bean id="mysqlItemWriter" class="org.springframework.batch.item.adapter.ItemWriterAdapter">
-	    <property name="targetObject" ref="datosCancionDao" />
-	    <property name="targetMethod" value="guardar" />
-	</bean>
 	
-	-->
 	
 </beans>

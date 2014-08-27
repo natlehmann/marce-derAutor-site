@@ -12,6 +12,7 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasE
 
 public class BorrarDatosPrevioImportacion implements Tasklet {
 	
+	@Autowired
 	private DatosCancionDao datosCancionDao;
 	
 	@Autowired

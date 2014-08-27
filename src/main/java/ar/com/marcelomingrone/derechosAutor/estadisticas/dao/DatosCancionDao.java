@@ -8,6 +8,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Configuracion;
@@ -23,8 +25,10 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.RankingCancion;
 
+@Repository
 public class DatosCancionDao {
 	
+	@Autowired
 	private SessionFactory sessionFactory;
 	
 	public DatosCancionDao() {}
