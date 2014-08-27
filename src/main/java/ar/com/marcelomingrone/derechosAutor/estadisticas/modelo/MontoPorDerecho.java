@@ -22,10 +22,10 @@ public class MontoPorDerecho implements Serializable {
 	
 	private Double monto;
 
-	public MontoPorDerecho(Fuente fuente, String nombreDerechoExterno, Integer trimestre,
+	public MontoPorDerecho(Long idFuente, String nombreDerechoExterno, Integer trimestre,
 			Double monto) {
 		super();
-		this.fuente = fuente;
+		this.fuente = new Fuente(idFuente);
 		this.derecho = new DerechoExterno(nombreDerechoExterno);
 		this.trimestre = trimestre;
 		this.monto = monto;

@@ -68,6 +68,10 @@ public class Fuente implements Serializable {
 		this.nombre = nombre;
 	}
 
+	public Fuente(Long idFuente) {
+		this.id = idFuente;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

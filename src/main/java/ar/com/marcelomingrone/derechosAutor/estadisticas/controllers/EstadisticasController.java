@@ -43,7 +43,7 @@ public class EstadisticasController {
 		session.setAttribute(SessionParam.ANIO.toString(), anio);
 		
 		model.addAttribute("totalesPorFuente", datosCancionDao.getTotalesPorFuente(idPais, anio));
-		model.addAttribute("nombrePais", idPais != null ? paisDao.buscar(idPais).getNombre() : null);
+		model.addAttribute("nombrePais", idPais != null ? paisDao.buscarNombrePais(idPais) : null);
 		
 		return "estadisticas";
 		

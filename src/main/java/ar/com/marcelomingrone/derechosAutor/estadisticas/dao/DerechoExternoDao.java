@@ -1,8 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -10,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.DerechoExterno;
 
@@ -18,21 +15,21 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.DerechoExte
 public class DerechoExternoDao {
 	
 	@Autowired
-	private SessionFactory sessionFactoryExterno;
+	private SessionFactory sessionFactory;
 	
 	private List<DerechoExterno> derechos;
 	
-	@Transactional(value="transactionManagerExterno")
+	@Transactional(value="transactionManager")
 	@SuppressWarnings("unchecked")
 	private void init() {
 		
-		Session session = sessionFactoryExterno.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		this.derechos = session.createQuery(
-				"SELECT DISTINCT new " + DerechoExterno.class.getName() + "(dc.rightName) "
-				+ "from SumarizacionMontos dc ORDER BY dc.rightName").list();
+				"SELECT DISTINCT new " + DerechoExterno.class.getName() + "(dc.nombreDerechoExterno) "
+				+ "from DatosCancion dc ORDER BY dc.nombreDerechoExterno").list();
 	}
 	
-	@Transactional(value="transactionManagerExterno")
+	@Transactional(value="transactionManager")
 	public List<DerechoExterno> getDerechosEnUso() {
 		
 		if (this.derechos == null) {
@@ -42,30 +39,20 @@ public class DerechoExternoDao {
 		return this.derechos;
 	}
 	
-	@Transactional(value="transactionManagerExterno")
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManager")
 	public List<DerechoExterno> getTodosFiltrado(String filtro) {
 		
-		if (this.derechos == null) {
-			this.init();
-		}
-		
-		List<DerechoExterno> resultado = new LinkedList<>();
-		if (!StringUtils.isEmpty(filtro)) {
-			
-			for (DerechoExterno derecho : this.derechos) {
-				if (derecho.getNombre().toUpperCase().contains(filtro.toUpperCase())) {
-					resultado.add(derecho);
-				}
-			}
-			
-		} else {
-			resultado.addAll(this.derechos);
-		}
-		
-		return resultado;
+		Session session = sessionFactory.getCurrentSession();
+		return session.createQuery(
+				"SELECT DISTINCT new " + DerechoExterno.class.getName() + "(dc.nombreDerechoExterno) "
+				+ "from DatosCancion dc WHERE dc.nombreDerechoExterno LIKE :filtro "
+				+ "ORDER BY dc.nombreDerechoExterno")
+				.setParameter("filtro", "%" + filtro + "%")
+				.list();
 	}
 
-	@Transactional(value="transactionManagerExterno")
+	@Transactional(value="transactionManager")
 	public DerechoExterno buscar(String nombre) {
 		
 		if (this.derechos == null) {
@@ -82,26 +69,8 @@ public class DerechoExternoDao {
 			}
 		}
 		
-		if (derecho == null) {
-			Session session = sessionFactoryExterno.getCurrentSession();
-			derecho = (DerechoExterno) session.get(DerechoExterno.class, nombre);
-			
-			if (derecho != null) {
-				this.derechos.add(derecho);
-				Collections.sort(this.derechos);
-			}
-		}
-		
 		return derecho;
 		
-	}
-
-	@Transactional(value="transactionManagerExterno")
-	@SuppressWarnings("unchecked")
-	public List<DerechoExterno> getTodos() {
-		
-		Session session = sessionFactoryExterno.getCurrentSession();
-		return session.createQuery("FROM DerechoExterno d ORDER BY d.nombre").list();
 	}
 
 }

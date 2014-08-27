@@ -9,7 +9,7 @@ public class MontoTotalPorFuente {
 	
 	private Fuente fuente;
 	
-	private List<MontoTotalPorDerecho> montosPorDerecho;
+	private List<MontoTotalPorDerecho> montosPorDerecho = new LinkedList<>();
 
 	public Fuente getFuente() {
 		return fuente;

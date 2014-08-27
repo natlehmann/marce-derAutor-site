@@ -15,26 +15,17 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Fuente.ComparadorPorNombre;
 
 @Repository
-public class FuenteDao extends EntidadExternaDao<Fuente> {
+public class FuenteDao {
 
 	@Autowired
-	private SessionFactory sessionFactoryExterno;
+	private SessionFactory sessionFactory;
 	
 	@Autowired
 	private DatosCancionDao datosCancionDao;
 	
 	private Map<Long, Fuente> fuentes;
 	
-	public FuenteDao() {
-		super(Fuente.class, "nombre");
-	}
-
-	@Override
-	protected SessionFactory getSessionFactory() {
-		return sessionFactoryExterno;
-	}
-	
-	@Transactional(value="transactionManagerExterno")
+	@Transactional(value="transactionManager")
 	private void init() {
 		
 		fuentes = new LinkedHashMap<>();
@@ -47,8 +38,7 @@ public class FuenteDao extends EntidadExternaDao<Fuente> {
 		}
 	}
 	
-	@Override
-	@Transactional(value="transactionManagerExterno")
+	@Transactional(value="transactionManager")
 	public Fuente buscar(Long id) {
 		
 		if (this.fuentes == null) {
@@ -56,18 +46,10 @@ public class FuenteDao extends EntidadExternaDao<Fuente> {
 		}
 		
 		Fuente fuente = this.fuentes.get(id);
-		if (fuente == null) {
-			
-			fuente = super.buscar(id);
-			if (fuente != null) {
-				this.fuentes.put(id, fuente);
-			}
-		}
-		
 		return fuente;
 	}
 	
-	@Transactional(value="transactionManagerExterno")
+	@Transactional(value="transactionManager")
 	public List<Fuente> getFuentesEnUso() {
 		
 		if (this.fuentes == null) {

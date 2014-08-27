@@ -116,18 +116,6 @@ public class DatosCancionDao {
 				"select DISTINCT new " + Pais.class.getName() 
 				+ "(idPais,nombrePais) from DatosCancion dc order by dc.nombrePais asc").list();
 	}
-	
-//	@SuppressWarnings("unchecked")
-//	@Transactional(value="transactionManager")
-//	public List<Autor> getAutoresLikeNombre(String nombreAutor) {
-//		
-//		Session session = sessionFactory.getCurrentSession();
-//		return session.createQuery(
-//				"select DISTINCT new " + Autor.class.getName() + "(idAutor, nombreAutor) from DatosCancion dc "
-//				+ "WHERE dc.companyId = :companyId AND dc.nombreAutor LIKE :nombreAutor order by dc.nombreAutor asc")
-//				.setParameter("companyId", Configuracion.SACM_COMPANY_ID)
-//				.setParameter("nombreAutor", "%" + nombreAutor + "%").list();
-//	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
@@ -193,11 +181,12 @@ public class DatosCancionDao {
 		Session session = sessionFactory.getCurrentSession();
 		
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("SELECT DISTINCT new " + Fuente.class.getName() 
-				+ "(dc.idFuente, dc.nombreFuente) from DatosCancion dc ");
+		buffer.append("SELECT DISTINCT new ").append(Fuente.class.getName())
+				.append("(dc.idFuente, dc.nombreFuente) from DatosCancion dc ")
+				.append("WHERE dc.idFuente is not null ");
 		
 		if (idPais != null) {
-			buffer.append("WHERE dc.idPais = :idPais ");
+			buffer.append("AND dc.idPais = :idPais ");
 		}
 		
 		buffer.append("ORDER BY dc.idFuente");
@@ -473,7 +462,6 @@ public class DatosCancionDao {
 		List<MontoPorDerecho> montosOtros = query.list();
 		
 		List<Fuente> fuentes = getFuentes(idPais);
-		
 		return procesarTotalesPorFuente(montosSACM, montosOtros, fuentes);
 			
 	}
@@ -554,7 +542,7 @@ public class DatosCancionDao {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT new " + MontoPorDerecho.class.getName() + "(")
-			.append("dc.idFuente, dc.nombreDerechoExterno, dc.trimestre, SUM(dc.montoPercibido)) ")
+			.append("dc.idFuente, dc.nombreFuente, dc.nombreDerechoExterno, dc.trimestre, SUM(dc.montoPercibido)) ")
 			.append("FROM DatosCancion dc ");
 		
 		if (excluirSACM) {

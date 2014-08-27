@@ -1,24 +1,25 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.dao;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.Pais;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public class PaisDao extends EntidadExternaDao<Pais> {
+public class PaisDao {
 
 	@Autowired
-	private SessionFactory sessionFactoryExterno;
+	private SessionFactory sessionFactory;
 	
-	public PaisDao() {
-		super(Pais.class, "nombre");
-	}
 
-	@Override
-	protected SessionFactory getSessionFactory() {
-		return sessionFactoryExterno;
+	@Transactional(value="transactionManager")
+	public String buscarNombrePais(Long idPais) {
+
+		Session session = sessionFactory.getCurrentSession();
+		return (String) session.createQuery(
+				"SELECT dc.nombrePais FROM DatosCancion dc WHERE dc.idPais = :idPais GROUP BY dc.idPais")
+				.setParameter("idPais", idPais).uniqueResult();
 	}
 
 }
