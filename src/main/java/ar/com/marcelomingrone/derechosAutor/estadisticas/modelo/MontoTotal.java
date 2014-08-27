@@ -36,21 +36,27 @@ public class MontoTotal implements Serializable{
 		this.trimestre = trimestre;
 	}
 	
-	public MontoTotal(Integer anio, Integer trimestre, Pais pais, Double monto) {
+	public MontoTotal(Integer anio, Integer trimestre, Long idPais, Double monto) {
 		this.clave = Clave.PAIS;
 		this.anio = anio;
 		this.monto = monto;
 		this.trimestre = trimestre;
-		this.pais = pais;
+		this.pais = new Pais(idPais);
 	}
 	
 	public MontoTotal(Integer anio, Integer trimestre, Long idPais, String nombrePais, Double monto) {
-		this(anio, trimestre, new Pais(idPais, nombrePais), monto);
+		this(anio, trimestre, idPais, monto);
+		this.pais.setNombre(nombrePais);
 	}
 
 
 	public MontoTotal(Double monto) {
 		this.monto = monto;
+	}
+
+	public MontoTotal(Integer anio, Integer trimestre, Pais pais, double monto) {
+		this(anio, trimestre, pais.getId(), monto);
+		this.getPais().setNombre(pais.getNombre());
 	}
 
 	public Pais getPais() {

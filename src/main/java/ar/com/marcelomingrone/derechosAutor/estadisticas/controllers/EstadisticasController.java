@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExternoDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.PaisDao;
 
 @Controller
 public class EstadisticasController {
 	
 	@Autowired
-	private DatosCancionExternoDao datosCancionDao;
+	private DatosCancionDao datosCancionDao;
 	
 	@Autowired
 	private PaisDao paisDao;

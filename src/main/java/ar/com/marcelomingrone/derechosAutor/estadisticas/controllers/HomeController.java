@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.controllers.Utils.SessionParam;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExternoDao;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.FechaDestacadaDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasCobradosDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.RankingArtistasMasEjecutadosDao;
@@ -44,7 +44,7 @@ public class HomeController {
 	private static Log log = LogFactory.getLog(HomeController.class);
 	
 	@Autowired
-	private DatosCancionExternoDao datosCancionDao;
+	private DatosCancionDao datosCancionDao;
 	
 	@Autowired
 	private FechaDestacadaDao fechaDestacadaDao;
