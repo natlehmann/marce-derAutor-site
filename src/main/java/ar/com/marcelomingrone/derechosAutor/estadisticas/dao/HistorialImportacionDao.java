@@ -24,29 +24,16 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 
 
 	@Transactional(value="transactionManager")
-	public long getPromedioDuracionEstimadaPara1Kb() {
-		
-		Session session = sessionFactory.getCurrentSession();
-		Double promedio = (Double) session.createQuery(
-				"SELECT AVG(h.duracionEstimada1024bytes) "
-				+ "FROM HistorialImportacion h")
-				.uniqueResult();
-		
-		return (promedio != null) ? promedio.longValue() : 0;
-	}
-
-	@Transactional(value="transactionManager")
-	public HistorialImportacion buscarPorNombreYFecha(String nombre,
-			Date inicioEjecucion) {
+	public HistorialImportacion buscarPorFecha(Date inicioEjecucion) {
 		
 		Session session = sessionFactory.getCurrentSession();
 		
 		@SuppressWarnings("unchecked")
 		List<HistorialImportacion> resultados = session.createQuery(
-				"select h from HistorialImportacion h where h.nombreArchivo = :nombreArchivo "
-				+ "and h.inicio = :inicio order by h.inicio desc")
-				.setParameter("nombreArchivo", nombre)
-				.setParameter("inicio", inicioEjecucion).list();
+				"select h from HistorialImportacion h where h.inicio = :inicio order by h.inicio desc")
+				.setParameter("inicio", inicioEjecucion)
+				.setMaxResults(1)
+				.list();
 		
 		if (resultados.isEmpty()) {
 			return null;
@@ -74,7 +61,7 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 			
 			Session session = sessionFactory.getCurrentSession();
 			
-			String query = "from HistorialImportacion where nombreArchivo like :filtro";
+			String query = "from HistorialImportacion where (estado like :filtro OR resultadoEjecucion like :filtro)";
 			
 			if ( !StringUtils.isEmpty(campoOrdenamiento) ) {
 				query += " order by " + campoOrdenamiento + " " + direccionOrdenamiento;
@@ -99,12 +86,31 @@ public class HistorialImportacionDao extends EntidadDao<HistorialImportacion> {
 			
 			Session session = sessionFactory.getCurrentSession();
 			
-			String query = "select count(e) from HistorialImportacion e where e.nombreArchivo like :filtro";
+			String query = "select count(e) from HistorialImportacion e where (e.estado like :filtro OR e.resultadoEjecucion like :filtro)";
 			
 			Long resultado = (Long) session.createQuery(query)
 					.setParameter("filtro", "%" + filtro + "%").uniqueResult();
 			
 			return resultado != null ? resultado.longValue() : 0;
 		}
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManager")
+	public HistorialImportacion buscarHistorialPrevio(Date inicioEjecucion) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		List<HistorialImportacion> resultados = session.createQuery(
+				"SELECT h FROM HistorialImportacion h WHERE h.inicio < :fecha ORDER BY h.inicio DESC")
+				.setParameter("fecha", inicioEjecucion)
+				.setMaxResults(1)
+				.list();
+		
+		if (!resultados.isEmpty()) {
+			return resultados.get(0);
+		}
+		
+		return null;
 	}
 }

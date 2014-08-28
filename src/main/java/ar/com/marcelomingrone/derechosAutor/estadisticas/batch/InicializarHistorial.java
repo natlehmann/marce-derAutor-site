@@ -9,45 +9,49 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.DatosCancionExternoDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.dao.HistorialImportacionDao;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImportacion;
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImportacion.Estado;
 
 public class InicializarHistorial implements Tasklet {
-	
-	private long tamanioArchivo;
-	
-	private String nombreArchivo;
 	
 	private Date inicioEjecucion;
 	
 	@Autowired
 	private HistorialImportacionDao historialImportacionDao;
+	
+	@Autowired
+	private DatosCancionExternoDao datosCancionExternoDao;
 
 	@Override
 	public RepeatStatus execute(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		
 		HistorialImportacion historial = new HistorialImportacion();
-		historial.setNombreArchivo(nombreArchivo);
 		historial.setInicio(inicioEjecucion);
-		historial.setTamanioArchivo(tamanioArchivo);
 		
-		long duracion1024bytes = historialImportacionDao.getPromedioDuracionEstimadaPara1Kb();
-		historial.setDuracionEstimada(historial.getTamanioArchivo() * duracion1024bytes / 1024);
+		long cantidadRegistros = datosCancionExternoDao.getCantidadSumarizacionMontos();
+		historial.setCantidadRegistrosMontos(cantidadRegistros);
+		
+		cantidadRegistros = datosCancionExternoDao.getCantidadSumarizacionUnidades();
+		historial.setCantidadRegistrosEjecuciones(cantidadRegistros);
+		
+		HistorialImportacion anterior = historialImportacionDao.buscarHistorialPrevio(inicioEjecucion);
+		
+		if ( anterior != null 
+				&& anterior.getCantidadRegistrosEjecuciones().equals(historial.getCantidadRegistrosEjecuciones()) 
+				&& anterior.getCantidadRegistrosMontos().equals(historial.getCantidadRegistrosMontos())) {
+			
+			historial.setEstado(Estado.NO_EJECUTADO.toString());
+			
+		} else {
+			historial.setEstado(Estado.EJECUTADO.toString());
+		}
 		
 		historialImportacionDao.guardar(historial);
 		
 		return RepeatStatus.FINISHED;
-	}
-	
-	@Value("#{jobParameters['tamanioArchivo']}")
-	public void setTamanioArchivo(final long tamanioArchivo) {
-		this.tamanioArchivo = tamanioArchivo;
-	}
-	
-	@Value("#{jobParameters['nombreArchivo']}")
-	public void setNombreArchivo(String nombreArchivo) {
-		this.nombreArchivo = nombreArchivo;
 	}
 	
 	@Value("#{jobParameters['fechaEjecucion']}")

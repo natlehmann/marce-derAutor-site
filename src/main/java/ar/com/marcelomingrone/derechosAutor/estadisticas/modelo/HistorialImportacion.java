@@ -8,37 +8,24 @@ import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.servicios.ConversionUtils;
-
 @Entity
 public class HistorialImportacion extends Entidad {
 
 	private static final long serialVersionUID = 3481949363439096457L;
 	
-	private String nombreArchivo;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date inicio;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fin;
 	
-	/**
-	 * en milisegundos
-	 */
-	private Long duracion;
+	private Long cantidadRegistrosMontos;
 	
-	/**
-	 * en bytes
-	 */
-	private Long tamanioArchivo;
+	private Long cantidadRegistrosEjecuciones;
 	
-	/**
-	 * en milisegundos
-	 */
-	private Long duracionEstimada1024bytes;
+	private String estado;
 	
-	private Long duracionEstimada;
+	private String resultadoEjecucion;
 
 	public Date getInicio() {
 		return inicio;
@@ -56,63 +43,58 @@ public class HistorialImportacion extends Entidad {
 		this.fin = fin;
 	}
 
-	public Long getDuracion() {
-		return duracion;
+	public Long getCantidadRegistrosMontos() {
+		return cantidadRegistrosMontos;
 	}
 
-	public void setDuracion(Long duracion) {
-		this.duracion = duracion;
+	public void setCantidadRegistrosMontos(Long cantidadRegistrosMontos) {
+		this.cantidadRegistrosMontos = cantidadRegistrosMontos;
 	}
 
-	public Long getTamanioArchivo() {
-		return tamanioArchivo;
+	public Long getCantidadRegistrosEjecuciones() {
+		return cantidadRegistrosEjecuciones;
 	}
 
-	public void setTamanioArchivo(Long tamanioArchivo) {
-		this.tamanioArchivo = tamanioArchivo;
+	public void setCantidadRegistrosEjecuciones(Long cantidadRegistrosEjecuciones) {
+		this.cantidadRegistrosEjecuciones = cantidadRegistrosEjecuciones;
 	}
 
-	public Long getDuracionEstimada1024bytes() {
-		return duracionEstimada1024bytes;
+	public String getEstado() {
+		return estado;
 	}
 
-	public void setDuracionEstimada1024bytes(Long duracionEstimada1024bytes) {
-		this.duracionEstimada1024bytes = duracionEstimada1024bytes;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
-	
-	public Long getDuracionEstimada() {
-		return duracionEstimada;
+
+	public String getResultadoEjecucion() {
+		return resultadoEjecucion;
 	}
-	
-	public void setDuracionEstimada(Long duracionEstimada) {
-		this.duracionEstimada = duracionEstimada;
-	}
-	
-	public String getNombreArchivo() {
-		return nombreArchivo;
-	}
-	
-	public void setNombreArchivo(String nombreArchivo) {
-		this.nombreArchivo = nombreArchivo;
+
+	public void setResultadoEjecucion(String resultadoEjecucion) {
+		this.resultadoEjecucion = resultadoEjecucion;
 	}
 
 	public static String getCampoOrdenamiento(int indice) {
 		
 		switch (indice) {
 		case 0:
-			return "nombreArchivo";
-			
-		case 1:
 			return "inicio";
 			
-		case 2:
+		case 1:
 			return "fin";
 			
+		case 2:
+			return "cantidadRegistrosMontos";
+			
 		case 3:
-			return "duracion";
+			return "cantidadRegistrosEjecuciones";
 			
 		case 4:
-			return "tamanioArchivo";
+			return "estado";
+			
+		case 5:
+			return "resultadoEjecucion";
 
 		default:
 			return null;
@@ -124,12 +106,20 @@ public class HistorialImportacion extends Entidad {
 		
 		List<String> resultado = new LinkedList<>();
 		
-		resultado.add(this.nombreArchivo);
 		resultado.add(inicio != null ? datetimeFormat.format(inicio) : "");
 		resultado.add(fin != null ? datetimeFormat.format(fin) : "");
-		resultado.add(duracion != null ? ConversionUtils.convertirATexto(this.duracion) : "");
-		resultado.add(tamanioArchivo != null ? ConversionUtils.humanReadableByteCount(this.tamanioArchivo) : "");
+		resultado.add(cantidadRegistrosMontos != null ? String.valueOf(cantidadRegistrosMontos) : "");
+		resultado.add(cantidadRegistrosEjecuciones != null ? String.valueOf(cantidadRegistrosEjecuciones) : "");
+		resultado.add(estado);
+		resultado.add(resultadoEjecucion);
 		
 		return resultado;
+	}
+	
+	
+	public static enum Estado {
+		
+		EJECUTADO,
+		NO_EJECUTADO;
 	}
 }

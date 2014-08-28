@@ -14,8 +14,6 @@ import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.HistorialImporta
 
 public class CerrarHistorial implements Tasklet {
 	
-	private String nombreArchivo;
-	
 	private Date inicioEjecucion;
 	
 	@Autowired
@@ -25,22 +23,14 @@ public class CerrarHistorial implements Tasklet {
 	public RepeatStatus execute(StepContribution contribution,
 			ChunkContext chunkContext) throws Exception {
 		
-		HistorialImportacion historial = historialImportacionDao.buscarPorNombreYFecha(
-				nombreArchivo, inicioEjecucion);
+		HistorialImportacion historial = historialImportacionDao.buscarPorFecha(inicioEjecucion);
 		
 		historial.setFin(new Date());
-		historial.setDuracion(historial.getFin().getTime() - historial.getInicio().getTime());
-		historial.setDuracionEstimada1024bytes(
-				1024 * historial.getDuracion() / historial.getTamanioArchivo());
+		historial.setResultadoEjecucion("OK");
 		
 		historialImportacionDao.guardar(historial);
 		
 		return RepeatStatus.FINISHED;
-	}
-	
-	@Value("#{jobParameters['nombreArchivo']}")
-	public void setNombreArchivo(String nombreArchivo) {
-		this.nombreArchivo = nombreArchivo;
 	}
 	
 	@Value("#{jobParameters['fechaEjecucion']}")

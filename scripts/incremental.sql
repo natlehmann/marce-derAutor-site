@@ -39,3 +39,15 @@ create table RankingArtistasMasCobrados(
 	cantidadUnidades BIGINT default 0,
 	montoPercibido DECIMAL(10,2) default 0
 )  ENGINE=InnoDB;
+
+drop table HistorialImportacion;
+
+create table HistorialImportacion(
+	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	inicio datetime,
+	fin datetime,
+	cantidadRegistrosMontos BIGINT,	
+	cantidadRegistrosEjecuciones BIGINT,
+	estado varchar(255),
+	resultadoEjecucion varchar(255)
+)  ENGINE=InnoDB;

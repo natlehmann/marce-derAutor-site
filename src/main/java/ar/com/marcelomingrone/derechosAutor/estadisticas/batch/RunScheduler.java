@@ -29,8 +29,8 @@ public class RunScheduler {
 
 		try {
 
-			String dateParam = new Date().toString();
-			JobParameters param = new JobParametersBuilder().addString("fechaEjecucion",
+			Date dateParam = new Date();
+			JobParameters param = new JobParametersBuilder().addDate("fechaEjecucion",
 					dateParam).toJobParameters();
 
 			log.info("Iniciando ejecución de importador de datos - " + dateParam);

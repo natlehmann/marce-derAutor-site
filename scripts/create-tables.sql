@@ -36,13 +36,12 @@ create table FuenteAuditada(
 
 create table HistorialImportacion(
 	id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombreArchivo varchar(255),
 	inicio datetime,
 	fin datetime,
-	duracion BIGINT,	
-	tamanioArchivo BIGINT,
-	duracionEstimada1024bytes BIGINT,
-	duracionEstimada BIGINT
+	cantidadRegistrosMontos BIGINT,	
+	cantidadRegistrosEjecuciones BIGINT,
+	estado varchar(255),
+	resultadoEjecucion varchar(255)
 )  ENGINE=InnoDB;
 
 create table FechaDestacada(

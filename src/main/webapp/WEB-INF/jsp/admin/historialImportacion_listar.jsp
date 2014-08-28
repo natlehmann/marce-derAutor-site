@@ -31,11 +31,12 @@
 		<table class="datatable">
 			<thead>
 				<tr>
-					<th>Nombre del archivo</th>
 					<th>Inicio</th>
 					<th>Fin</th>
-					<th>Duración del proceso</th>
-					<th>Tamaño del archivo</th>
+					<th>Cantidad de registros importación de montos</th>
+					<th>Cantidad de registros importación de unidades</th>
+					<th>Estado</th>
+					<th>Resultado ejecución</th>
 				</tr>
 			</thead>
 			<tbody>

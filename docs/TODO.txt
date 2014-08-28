@@ -1,9 +1,5 @@
 poner limite de tiempo a los SPs
 
-armar scheduler - se esta ejecutando dos veces
-
-Implementar la comparacion de cantidad de registros para saber si el proceso se ejecuta o no
-
 Revisar caches
 
 -------------------------------------------------------

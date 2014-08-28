@@ -207,15 +207,15 @@
 	</bean>
 
 	<batch:job id="importacionJob">
-<!-- 		<batch:step id="inicializarHistorial" next="borrarDatosAnteriores"> -->
-<!-- 			<batch:tasklet> -->
-<!-- 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.InicializarHistorial" scope="step"> -->
-<!-- 				</bean> -->
-<!-- 			</batch:tasklet> -->
-<!-- 		</batch:step> -->
+		<batch:step id="inicializarHistorial" next="borrarDatosAnteriores">
+			<batch:tasklet>
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.InicializarHistorial" scope="step">
+				</bean>
+			</batch:tasklet>
+		</batch:step>
 		<batch:step id="borrarDatosAnteriores" next="importarSumarizacionMontos">
 			<batch:tasklet>
-				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.BorrarDatosPrevioImportacion">
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.BorrarDatosPrevioImportacion" scope="step">
 				</bean>
 			</batch:tasklet>
 		</batch:step>
@@ -237,19 +237,18 @@
 				</bean>
 			</batch:tasklet>
 		</batch:step>
-<!-- 		<batch:step id="procesarRankingsMasCobrados" next="cerrarHistorial"> -->
-		<batch:step id="procesarRankingsMasCobrados">
+		<batch:step id="procesarRankingsMasCobrados" next="cerrarHistorial">
 			<batch:tasklet>
 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.ProcesarRankingsMasCobrados" scope="step">
 				</bean>
 			</batch:tasklet>
 		</batch:step>
-<!-- 		<batch:step id="cerrarHistorial"> -->
-<!-- 			<batch:tasklet> -->
-<!-- 				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.CerrarHistorial" scope="step"> -->
-<!-- 				</bean> -->
-<!-- 			</batch:tasklet> -->
-<!-- 		</batch:step> -->
+		<batch:step id="cerrarHistorial">
+			<batch:tasklet>
+				<bean class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.CerrarHistorial" scope="step">
+				</bean>
+			</batch:tasklet>
+		</batch:step>
 	</batch:job>
 	
 	<bean id="runScheduler"
