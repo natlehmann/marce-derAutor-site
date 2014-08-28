@@ -2,10 +2,6 @@ poner limite de tiempo a los SPs
 
 derechos padre
 
--------------------------------------------------------
-
-profiler para ver que queries tardan mas ?
-
 
 ----------------------------------------------------------------------------------------
 
