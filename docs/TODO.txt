@@ -1,29 +1,12 @@
 poner limite de tiempo a los SPs
 
-
-Cambiar implemtacion de RankingCanciones
-Tener en cuenta que puede haber repetidos en DatosCancion (registro con monto != 0 y cantidad = 0 y al reves)
-
-Decidir que metodos se sacan del externo y cuales del local
+armar scheduler - se esta ejecutando dos veces
 
 Implementar la comparacion de cantidad de registros para saber si el proceso se ejecuta o no
-
-Cambiar todos los metodos que van contra SumarizacionMontos y SumarizacionUnidades
 
 Revisar caches
 
 -------------------------------------------------------
-
-
-
-Limite de tiempo para todas las queries y views (3 AÑOS ---> VALIDAR)
-
-Al filtrar por autor en mas ejecutados y mas cobrados se pierde el ranking inicial del artista
-
-En el listado de canciones, si tiene cantidad pero no monto, no trae la cancion (pasa con cualquier filtro
-aplicado tambien)
-
-Ver si se puede agilizar la respuesta cuando la saca de cache. Por que tarda tanto?
 
 profiler para ver que queries tardan mas ?
 

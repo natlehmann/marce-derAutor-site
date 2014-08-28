@@ -252,5 +252,11 @@
 <!-- 		</batch:step> -->
 	</batch:job>
 	
+	<bean id="runScheduler"
+		class="ar.com.marcelomingrone.derechosAutor.estadisticas.batch.RunScheduler"/>
+	
+	<task:scheduled-tasks>
+		<task:scheduled ref="runScheduler" method="run" cron="0 0 3 * * *" />
+	</task:scheduled-tasks>
 	
 </beans>
