@@ -1,6 +1,6 @@
 poner limite de tiempo a los SPs
 
-Revisar caches
+derechos padre
 
 -------------------------------------------------------
 
