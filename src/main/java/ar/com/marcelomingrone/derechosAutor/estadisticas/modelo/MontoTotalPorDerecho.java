@@ -25,6 +25,12 @@ public class MontoTotalPorDerecho implements Serializable {
 	private double cuartoTrimestreSACM;
 	
 	private double cuartoTrimestreOtros;
+	
+	public MontoTotalPorDerecho() {}
+	
+	public MontoTotalPorDerecho(DerechoExterno derecho) {
+		this.derecho = derecho;
+	}
 
 	public DerechoExterno getDerecho() {
 		return derecho;

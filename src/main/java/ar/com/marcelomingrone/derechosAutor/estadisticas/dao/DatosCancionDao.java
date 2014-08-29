@@ -31,6 +31,9 @@ public class DatosCancionDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	@Autowired
+	private DerechoExternoDao derechoDao;
+	
 	public DatosCancionDao() {}
 	
 	public DatosCancionDao(SessionFactory sessionFactory) {
@@ -463,8 +466,21 @@ public class DatosCancionDao {
 		List<MontoPorDerecho> montosOtros = query.list();
 		
 		List<Fuente> fuentes = getFuentes(idPais);
-		return procesarTotalesPorFuente(montosSACM, montosOtros, fuentes);
+		List<MontoTotalPorFuente> montos = procesarTotalesPorFuente(montosSACM, montosOtros, fuentes);
+		
+		ordenarDerechos(montos);
+		
+		return montos;
 			
+	}
+
+	private void ordenarDerechos(List<MontoTotalPorFuente> montos) {
+		
+		for (MontoTotalPorFuente monto : montos) {
+			
+			monto.setMontosPorDerecho(derechoDao.ordenarDerechos(monto.getMontosPorDerecho()));
+		}
+		
 	}
 
 	private List<MontoTotalPorFuente> procesarTotalesPorFuente(

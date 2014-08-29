@@ -1,6 +1,7 @@
 poner limite de tiempo a los SPs
 
-derechos padre
+derechos padre: EN DATOS CANCION NO HAY NINGUN REGISTRO PARA EL DERECHO PADRE DE TODOS -> NO SE ARMA 
+EL ARBOL. Ver como obtenemos el derecho de la DB externa.
 
 
 ----------------------------------------------------------------------------------------
