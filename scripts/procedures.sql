@@ -1014,6 +1014,8 @@ AS
 		            Sources_All.SourcesID AS idFuente,
 		            Sources_All.UniqueName AS nombreFuente, 
 		            Rights.RightName AS nombreDerechoExterno, 
+		            Rights.RightsID AS idDerechoExterno,
+		            Rights.RightsID_Parent AS idDerechoPadre,
 		            Receipt.CurrencyFactor * SUM(CollectionDetails.AmmountReceived) * (CopyRight.CopyRightShare/100) AS montoPercibido,
 		            0 AS cantidadUnidades
 		
@@ -1043,6 +1045,8 @@ AS
 					  Sources_All.SourcesID,
 		              Sources_All.UniqueName, 
 		              Rights.RightName, 
+		              Rights.RightsID,
+		              Rights.RightsID_Parent,
 		              Receipt.CurrencyFactor, 
 		              Invoice.InvoiceDate, 
 		              Receipt.CompaniesID
@@ -1088,7 +1092,9 @@ AS
 		            Owners_All.UniqueName AS nombreAutor, 
 		            null AS idFuente,
 		            null AS nombreFuente,
-		            Rights.RightName AS nombreDerechoExterno, 
+		            Rights.RightName AS nombreDerechoExterno,
+		            Rights.RightsID AS idDerechoExterno,
+		            Rights.RightsID_Parent AS idDerechoPadre,
 		            0 AS montoPercibido,
 		            ROUND( SUM(RNKDetails.Units) * CurrenciesConvertion.Factor * (CopyRight.CopyRightShare/100), 0)  AS cantidadUnidades
 	
@@ -1117,6 +1123,8 @@ AS
 					  CopyRight.CopyRightShare, 
 					  OwnersSocieties.AuthorSocietiesID,  
 		              Rights.RightName,
+		              Rights.RightsID,
+		              Rights.RightsID_Parent,
 		              Sources.SourcesID_Parent,
 		              RNKHeaders.EndDate,
 		              CurrenciesConvertion.Factor

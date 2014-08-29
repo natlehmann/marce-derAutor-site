@@ -37,9 +37,14 @@ public class DatosCancion extends Entidad {
 	@Column(name="derecho_nombre")
 	private String nombreDerechoExterno;
 	
+	private Long idDerechoExterno;
+	
+	private Long idDerechoPadre;
+	
 	private long cantidadUnidades;
 	
 	private double montoPercibido;
+	
 	
 	public DatosCancion() {}
 	
@@ -179,6 +184,22 @@ public class DatosCancion extends Entidad {
 	
 	public void setNombreDerechoExterno(String nombreDerechoExterno) {
 		this.nombreDerechoExterno = nombreDerechoExterno;
+	}
+
+	public Long getIdDerechoExterno() {
+		return idDerechoExterno;
+	}
+
+	public void setIdDerechoExterno(Long idDerechoExterno) {
+		this.idDerechoExterno = idDerechoExterno;
+	}
+
+	public Long getIdDerechoPadre() {
+		return idDerechoPadre;
+	}
+
+	public void setIdDerechoPadre(Long idDerechoPadre) {
+		this.idDerechoPadre = idDerechoPadre;
 	}
 	
 
