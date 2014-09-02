@@ -27,8 +27,6 @@ public class DerechoExternoReplicaDao {
 	
 	private List<DerechoExterno> derechos;
 	
-	private List<DerechoExternoReplica> derechosReplicados;
-	
 	@Transactional(value="transactionManager")
 	@SuppressWarnings("unchecked")
 	private void init() {
@@ -112,23 +110,21 @@ public class DerechoExternoReplicaDao {
 
 	private Map<String, DerechoExternoReplica> getDerechosOrdenadosJerarquicamente() {
 		
-		if (this.derechosReplicados == null) {
 		
-			this.derechosReplicados = buscarDerechosPadre();
+		List<DerechoExternoReplica> derechosReplicados = buscarDerechosPadre();
 			
-			if (this.derechosReplicados.isEmpty()){
-				// si no se tiene la copia local, se trae de la base externa
-				List<DerechoExterno> derechosExternos = derechoExternoDao.getTodos();
-				guardar(derechosExternos);				
-				
-				this.derechosReplicados = buscarDerechosPadre();
-			}
+		if (derechosReplicados.isEmpty()){
+			// si no se tiene la copia local, se trae de la base externa
+			List<DerechoExterno> derechosExternos = derechoExternoDao.getTodos();
+			guardar(derechosExternos);				
+			
+			derechosReplicados = buscarDerechosPadre();
 		}
 			
 		Map<String, DerechoExternoReplica> derechosOrdenados = new LinkedHashMap<>();
 		int nivel = 1;
 			
-		completarArbol(this.derechosReplicados, derechosOrdenados, nivel);
+		completarArbol(derechosReplicados, derechosOrdenados, nivel);
 		
 		return derechosOrdenados;
 	}
@@ -168,26 +164,9 @@ public class DerechoExternoReplicaDao {
 		List<DerechoExternoReplica> derechos = session.createQuery(
 				"SELECT d FROM DerechoExternoReplica d WHERE d.padre is null").list();
 		
-		for (DerechoExternoReplica derecho : derechos) {
-			if (derecho.getHijos() != null && derecho.getHijos().size() > 0) {
-				inicializarHijos(derecho);
-			}
-		}
-		
 		return derechos;
 	}
-	
 
-	@Transactional(value="transactionManager")
-	private void inicializarHijos(DerechoExternoReplica derecho) {
-		
-		for (DerechoExternoReplica hijo : derecho.getHijos()) {
-			if (hijo.getHijos() != null && hijo.getHijos().size() > 0) {
-				inicializarHijos(hijo);
-			}
-		}
-		
-	}
 
 	void completarArbol(List<DerechoExternoReplica> nodos,
 			Map<String, DerechoExternoReplica> arbol, int nivel) {
