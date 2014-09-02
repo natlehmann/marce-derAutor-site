@@ -32,7 +32,7 @@ public class DatosCancionDao {
 	private SessionFactory sessionFactory;
 	
 	@Autowired
-	private DerechoExternoDao derechoDao;
+	private DerechoExternoReplicaDao derechoDao;
 	
 	public DatosCancionDao() {}
 	
@@ -177,12 +177,16 @@ public class DatosCancionDao {
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	@Transactional(value="transactionManager")
 	@Cacheable("fuentes")
 	public List<Fuente> getFuentes(Long idPais) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();		
+		return getFuentes(idPais, session);
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Fuente> getFuentes(Long idPais, Session session) {
 		
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("SELECT DISTINCT new ").append(Fuente.class.getName())
@@ -202,11 +206,9 @@ public class DatosCancionDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
 	@Cacheable("derechosExternos")
-	public List<DerechoExterno> getDerechosPorFuente(Fuente fuente) {
+	private List<DerechoExterno> getDerechosPorFuente(Fuente fuente, Session session) {
 		
-		Session session = sessionFactory.getCurrentSession();
 		return session.createQuery(
 				"SELECT DISTINCT new " + DerechoExterno.class.getName() 
 				+ "(dc.nombreDerechoExterno) from DatosCancion dc WHERE dc.idFuente = :fuente ORDER BY dc.nombreDerechoExterno")
@@ -452,12 +454,21 @@ public class DatosCancionDao {
 	}
 
 	
-	@SuppressWarnings("unchecked")
-	@Transactional(value="transactionManager")
-	@Cacheable("montosPorFuente")
+//	@Cacheable("montosPorFuente")
 	public List<MontoTotalPorFuente> getTotalesPorFuente(Long idPais, Integer anio) {
 		
-		Session session = sessionFactory.getCurrentSession();
+		List<MontoTotalPorFuente> montos = obtenerMontos(idPais, anio);		
+		ordenarDerechos(montos);
+
+		return montos;
+			
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(value="transactionManager")
+	private List<MontoTotalPorFuente> obtenerMontos(Long idPais, Integer anio) {
+		
+		Session session = sessionFactory.openSession();
 		
 		Query query = getQueryTotalesPorFuenteSACM(session, idPais, anio);
 		List<MontoPorDerecho> montosSACM = query.list();
@@ -465,19 +476,14 @@ public class DatosCancionDao {
 		query = getQueryTotalesPorFuenteOtros(session, idPais, anio);
 		List<MontoPorDerecho> montosOtros = query.list();
 		
-		List<Fuente> fuentes = getFuentes(idPais);
-		List<MontoTotalPorFuente> montos = procesarTotalesPorFuente(montosSACM, montosOtros, fuentes);
-		
-		ordenarDerechos(montos);
-		
+		List<Fuente> fuentes = getFuentes(idPais, session);
+		List<MontoTotalPorFuente> montos = procesarTotalesPorFuente(montosSACM, montosOtros, fuentes, session);
 		return montos;
-			
 	}
 
 	private void ordenarDerechos(List<MontoTotalPorFuente> montos) {
 		
 		for (MontoTotalPorFuente monto : montos) {
-			
 			monto.setMontosPorDerecho(derechoDao.ordenarDerechos(monto.getMontosPorDerecho()));
 		}
 		
@@ -485,7 +491,7 @@ public class DatosCancionDao {
 
 	private List<MontoTotalPorFuente> procesarTotalesPorFuente(
 			List<MontoPorDerecho> montosSACM,
-			List<MontoPorDerecho> montosOtros, List<Fuente> fuentes) {
+			List<MontoPorDerecho> montosOtros, List<Fuente> fuentes, Session session) {
 		
 		List<MontoTotalPorFuente> resultado = new LinkedList<>();
 		
@@ -495,7 +501,7 @@ public class DatosCancionDao {
 			montoTotalPorFuente.setFuente(fuente);
 			resultado.add(montoTotalPorFuente);
 			
-			List<DerechoExterno> derechos = getDerechosPorFuente(fuente);
+			List<DerechoExterno> derechos = getDerechosPorFuente(fuente, session);
 			for (DerechoExterno derecho : derechos) {
 				
 				MontoTotalPorDerecho montoTotalPorDerecho = new MontoTotalPorDerecho();

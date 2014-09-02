@@ -52,52 +52,73 @@
 				
 					<c:forEach items="${totalPorFuente.montosPorDerecho}" var="totalPorDerecho">
 						<tr class="sacm">
-							<td>${totalPorDerecho.derecho.nombre}</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2"
-									value="${totalPorDerecho.primerTrimestreSACM}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.segundoTrimestreSACM}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.tercerTrimestreSACM}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.cuartoTrimestreSACM}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.totalSACM}"/>
-							</td>
+							
+							<c:choose>
+								<c:when test="${totalPorDerecho.mostrarValores}">
+								
+									<td class="nivel${totalPorDerecho.nivel}">${totalPorDerecho.derecho.nombre}</td>
+									
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2"
+											value="${totalPorDerecho.primerTrimestreSACM}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.segundoTrimestreSACM}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.tercerTrimestreSACM}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.cuartoTrimestreSACM}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.totalSACM}"/>
+									</td>
+								</c:when>
+								
+								<c:otherwise>
+									<td colspan="6" class="nivel${totalPorDerecho.nivel}">
+										${totalPorDerecho.derecho.nombre}
+									</td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 						
-						<tr class="otros">
-							<td><br/></td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.primerTrimestreOtros}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.segundoTrimestreOtros}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.tercerTrimestreOtros}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.cuartoTrimestreOtros}"/>
-							</td>
-							<td class="right">
-								<fmt:formatNumber maxFractionDigits="2" 
-									value="${totalPorDerecho.totalOtros}"/>
-							</td>
-						</tr>
+						<c:choose>
+							<c:when test="${totalPorDerecho.mostrarValores}">
+							
+								<tr class="otros">
+									<td><br/></td>
+								
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.primerTrimestreOtros}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.segundoTrimestreOtros}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.tercerTrimestreOtros}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.cuartoTrimestreOtros}"/>
+									</td>
+									<td class="right">
+										<fmt:formatNumber maxFractionDigits="2" 
+											value="${totalPorDerecho.totalOtros}"/>
+									</td>
+								</tr>
+									
+								</c:when>
+								
+							</c:choose>
 					</c:forEach>
 				</tbody>
 				

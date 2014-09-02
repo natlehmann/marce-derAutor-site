@@ -2,13 +2,11 @@ package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo;
 
 import java.io.Serializable;
 
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data.DerechoExterno;
-
 public class MontoTotalPorDerecho implements Serializable {
 	
 	private static final long serialVersionUID = -1682367537803211852L;
 
-	private DerechoExterno derecho;
+	private Derecho derecho;
 	
 	private double primerTrimestreSACM;
 	
@@ -26,17 +24,26 @@ public class MontoTotalPorDerecho implements Serializable {
 	
 	private double cuartoTrimestreOtros;
 	
+	private int nivel;
+	
+	private boolean mostrarValores = true;
+	
 	public MontoTotalPorDerecho() {}
 	
-	public MontoTotalPorDerecho(DerechoExterno derecho) {
+	public MontoTotalPorDerecho(Derecho derecho) {
 		this.derecho = derecho;
 	}
 
-	public DerechoExterno getDerecho() {
+	public MontoTotalPorDerecho(Derecho derecho, boolean mostrarValores) {
+		this.derecho = derecho;
+		this.mostrarValores = mostrarValores;
+	}
+
+	public Derecho getDerecho() {
 		return derecho;
 	}
 
-	public void setDerecho(DerechoExterno derecho) {
+	public void setDerecho(Derecho derecho) {
 		this.derecho = derecho;
 	}
 
@@ -150,6 +157,22 @@ public class MontoTotalPorDerecho implements Serializable {
 				break;
 		}
 		
+	}
+
+	public void setNivel(int nivel) {
+		this.nivel = nivel;		
+	}
+	
+	public int getNivel() {
+		return nivel;
+	}
+	
+	public boolean isMostrarValores() {
+		return mostrarValores;
+	}
+	
+	public void setMostrarValores(boolean mostrarValores) {
+		this.mostrarValores = mostrarValores;
 	}
 
 }

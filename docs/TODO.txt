@@ -1,7 +1,6 @@
 poner limite de tiempo a los SPs
 
-derechos padre: EN DATOS CANCION NO HAY NINGUN REGISTRO PARA EL DERECHO PADRE DE TODOS -> NO SE ARMA 
-EL ARBOL. Ver como obtenemos el derecho de la DB externa.
+estadisticas: no parece estar funcionando bien cuando se aplican filtros (se repiten resultados)
 
 
 ----------------------------------------------------------------------------------------
@@ -11,8 +10,6 @@ EL ARBOL. Ver como obtenemos el derecho de la DB externa.
 - Busqueda (anio, trimestre, pais) por ajax 
 
 - Poner boton limpiar en busqueda de estado de tareas
-
-- parent right ??????
 
 - ESTA REDIRIGIENDO A /derechosAutor/.... VER DE SACAR ESO  (poner en contexto ROOT?)
 

@@ -5,24 +5,25 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.DerechoExternoReplica;
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 
-public class DerechoExternoTest {
+public class DerechoExternoReplicaTest {
 	
-	private DerechoExterno derecho;
+	private DerechoExternoReplica derecho;
 	
 	@Before
 	public void init() {
 		
-		this.derecho = new DerechoExterno("A");
-		this.derecho.addHijo(new DerechoExterno("B"));
-		this.derecho.addHijo(new DerechoExterno("C"));
-		this.derecho.addHijo(new DerechoExterno("D"));
+		this.derecho = new DerechoExternoReplica("A");
+		this.derecho.addHijo(new DerechoExternoReplica("B"));
+		this.derecho.addHijo(new DerechoExternoReplica("C"));
+		this.derecho.addHijo(new DerechoExternoReplica("D"));
 		
-		this.derecho.getHijos().get(0).addHijo(new DerechoExterno("E"));
-		this.derecho.getHijos().get(0).addHijo(new DerechoExterno("F"));
+		this.derecho.getHijos().get(0).addHijo(new DerechoExternoReplica("E"));
+		this.derecho.getHijos().get(0).addHijo(new DerechoExternoReplica("F"));
 		
-		this.derecho.getHijos().get(2).addHijo(new DerechoExterno("G"));
+		this.derecho.getHijos().get(2).addHijo(new DerechoExternoReplica("G"));
 	}
 
 	@Test

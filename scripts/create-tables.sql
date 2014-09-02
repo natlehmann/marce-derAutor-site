@@ -169,3 +169,10 @@ create table RankingArtistasMasCobrados(
 	cantidadUnidades BIGINT default 0,
 	montoPercibido DECIMAL(10,2) default 0
 )  ENGINE=InnoDB;
+
+create table DerechoExternoReplica(
+	id BIGINT NOT NULL PRIMARY KEY,
+	nombre varchar(255),
+	padre_id BIGINT NULL,
+	FOREIGN KEY (padre_id) REFERENCES DerechoExternoReplica(id)
+)  ENGINE=InnoDB;

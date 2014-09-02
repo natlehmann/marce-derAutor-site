@@ -19,7 +19,7 @@ public class DerechoDao {
 	private DerechoEditableDao derechoEditableDao;
 	
 	@Autowired
-	private DerechoExternoDao derechoExternoDao;
+	private DerechoExternoReplicaDao derechoExternoDao;
 	
 	@Autowired
 	private ReglamentoDeDistribucionDao reglamentoDeDistribucionDao;

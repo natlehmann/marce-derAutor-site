@@ -1,7 +1,6 @@
 package ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.data;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.Derecho;
-import ar.com.marcelomingrone.derechosAutor.estadisticas.modelo.MontoTotalPorDerecho;
 
 @Entity
 @Table(name="Rights")
@@ -38,18 +36,6 @@ public class DerechoExterno implements Serializable, Derecho {
 	
 	@Column(name="IncomeTypeCode", updatable=false, insertable=false)
 	private String codigoTipoIngreso;
-	
-	@Transient
-	private List<DerechoExterno> hijos;
-	
-	@Transient
-	private DerechoExterno padre;
-	
-	@Transient
-	private int nivel;
-	
-	@Transient
-	private MontoTotalPorDerecho montoPorDerecho;
 	
 	
 	public DerechoExterno(){}
@@ -168,70 +154,5 @@ public class DerechoExterno implements Serializable, Derecho {
 	public String getLinksModificarEliminar() {
 		return "";
 	}
-
-	public List<DerechoExterno> getHijos() {
-		return hijos;
-	}
 	
-	public void setHijos(List<DerechoExterno> hijos) {
-		this.hijos = hijos;
-	}
-	
-	public DerechoExterno getPadre() {
-		return padre;
-	}
-	
-	public void setPadre(DerechoExterno padre) {
-		this.padre = padre;
-	}
-	
-	public void addHijo(DerechoExterno hijo) {
-		if (this.hijos == null) {
-			this.hijos = new LinkedList<>();
-		}
-		this.hijos.add(hijo);
-	}
-	
-	public int getNivel() {
-		return nivel;
-	}
-	
-	public void setNivel(int nivel) {
-		this.nivel = nivel;
-	}
-	
-	public void setMontoPorDerecho(MontoTotalPorDerecho montoPorDerecho) {
-		this.montoPorDerecho = montoPorDerecho;
-	}
-	
-	public MontoTotalPorDerecho getMontoPorDerecho() {
-		if (this.montoPorDerecho != null) {
-			return this.montoPorDerecho;
-		}
-		
-		return new MontoTotalPorDerecho(this);
-	}
-
-	public boolean tieneMonto() {
-		
-		if (this.montoPorDerecho != null) {
-			return true;
-			
-		} else {
-			
-			boolean hijoConMonto = false;
-			
-			if (this.hijos != null) {
-				Iterator<DerechoExterno> it = this.hijos.iterator();
-				while (it.hasNext() && !hijoConMonto) {
-					
-					DerechoExterno hijo = it.next();
-					hijoConMonto = hijo.tieneMonto();
-				}
-			}
-			
-			return hijoConMonto;
-		}
-	}
-
 }
