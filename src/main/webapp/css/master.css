@@ -911,7 +911,10 @@ a.ver-usuarios-link {
 
 .Grid tr.otros td {
 	color: #888;
-    border-bottom:thin solid #efeeee;
+}
+
+.Grid tr.sacm td {
+    border-top:thin solid #efeeee;
 }
 
 .Grid tr.subtotal td {
@@ -925,6 +928,23 @@ a.ver-usuarios-link {
 
 .Grid tr.sacm td:first-child {
 	color: #333333;
+}
+
+.Grid tr.sacm td.nivel1 {
+	display: none;
+}
+
+.Grid table tbody tr.sacm td.nivel2 {
+	font-size: 10px;
+	color: gray;
+	padding-left: 5px;
+	background-color: #eee;
+} 
+
+.Grid table tbody tr.sacm td.nivel3 {
+	color: gray;
+	padding-left: 5px;
+	font-weight: normal;
 }
 
 .referencias {

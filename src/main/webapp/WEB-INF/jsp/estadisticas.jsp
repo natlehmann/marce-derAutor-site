@@ -92,7 +92,7 @@
 							<c:when test="${totalPorDerecho.mostrarValores}">
 							
 								<tr class="otros">
-									<td><br/></td>
+									<td class="nivel${totalPorDerecho.nivel}"><br/></td>
 								
 									<td class="right">
 										<fmt:formatNumber maxFractionDigits="2" 
