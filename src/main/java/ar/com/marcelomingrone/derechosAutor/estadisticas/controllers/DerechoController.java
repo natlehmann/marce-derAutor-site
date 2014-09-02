@@ -95,6 +95,9 @@ public class DerechoController {
 				derechoDao.guardar(derecho);
 				model.addAttribute("msg", "El derecho se ha guardado con éxito.");
 				
+			} catch (IllegalArgumentException e) {
+				model.addAttribute("msg", e.getMessage());
+				
 			} catch (Exception e) {
 				log.error("Se produjo un error guardando el derecho.", e);
 				model.addAttribute("msg", "Se produjo un error guardando el derecho. "
