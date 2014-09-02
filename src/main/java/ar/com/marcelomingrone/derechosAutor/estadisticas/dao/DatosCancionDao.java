@@ -72,7 +72,6 @@ public class DatosCancionDao {
 				+ "anio int not null,autor_id BIGINT NULL,nombreAutor varchar(255) null,"
 				+ "cancion_id BIGINT NULL,nombreCancion varchar(255) null,fuente_id BIGINT NULL,"
 				+ "nombreFuente varchar(255) null,derecho_nombre varchar(255) NULL,"
-				+ "idDerechoExterno BIGINT null,idDerechoPadre BIGINT null,"
 				+ "cantidadUnidades BIGINT default 0,montoPercibido DECIMAL(10,2) default 0"
 				+ ")ENGINE=InnoDB;").executeUpdate();
 	}

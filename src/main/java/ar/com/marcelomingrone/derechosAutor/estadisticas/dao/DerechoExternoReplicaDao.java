@@ -34,7 +34,7 @@ public class DerechoExternoReplicaDao {
 		Session session = sessionFactory.getCurrentSession();
 		this.derechos = session.createQuery(
 				"SELECT DISTINCT new " + DerechoExterno.class.getName() 
-				+ "(dc.nombreDerechoExterno, dc.idDerechoExterno, dc.idDerechoPadre) "
+				+ "(dc.nombreDerechoExterno) "
 				+ "from DatosCancion dc ORDER BY dc.nombreDerechoExterno").list();
 	}
 	

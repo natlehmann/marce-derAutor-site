@@ -1,10 +1,3 @@
-alter table DatosCancion
-add idDerechoExterno BIGINT null;
-
-alter table DatosCancion
-add idDerechoPadre BIGINT null;
-
-
 create table DerechoExternoReplica(
 	id BIGINT NOT NULL PRIMARY KEY,
 	nombre varchar(255),

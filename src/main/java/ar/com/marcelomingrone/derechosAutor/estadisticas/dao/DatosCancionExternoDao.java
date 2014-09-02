@@ -610,8 +610,6 @@ public class DatosCancionExternoDao {
 				.addScalar("idFuente", LongType.INSTANCE)
 				.addScalar("nombreFuente")
 				.addScalar("nombreDerechoExterno")
-				.addScalar("idDerechoExterno", LongType.INSTANCE)
-				.addScalar("idDerechoPadre", LongType.INSTANCE)
 				.addScalar("montoPercibido", DoubleType.INSTANCE)
 				.addScalar("cantidadUnidades", LongType.INSTANCE)
 				.setResultTransformer(Transformers.aliasToBean(DatosCancion.class))
