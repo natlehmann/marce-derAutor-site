@@ -141,7 +141,7 @@ create table DatosCancion(
 	nombreFuente varchar(255) null,
 	derecho_nombre varchar(255) NULL,
 	cantidadUnidades BIGINT default 0,
-	montoPercibido DECIMAL(10,2) default 0
+	montoPercibido double default 0
 )  ENGINE=InnoDB;
 
 create table RankingArtistasMasEjecutados(
